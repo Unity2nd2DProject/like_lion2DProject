@@ -1,9 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-public class DadController : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
-    private string TAG = "[DadController]";
+    private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
 
     private Rigidbody2D rb;
