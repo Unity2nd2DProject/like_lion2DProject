@@ -5,6 +5,8 @@ public class UIController : MonoBehaviour
     private string TAG = "[UIController]";
     private UserInputManager inputManager;
 
+    
+
     private void OnEnable()
     {
         inputManager = UserInputManager.Instance;
@@ -19,8 +21,8 @@ public class UIController : MonoBehaviour
     {
         if (inputManager.inputActions.UI.ESC.WasPressedThisFrame())
         {
-            Debug.Log($"{TAG} ESCInput IsPressed. Playing 인풋으로 전환");
-            GameManager.Instance.SetGameState(TAG, GameState.PLAYING);
+            Debug.Log($"{TAG} ESCInput IsPressed");
+            //GameManager.Instance.SetGameState(TAG, GameState.PLAYING);
         }
     }
 
