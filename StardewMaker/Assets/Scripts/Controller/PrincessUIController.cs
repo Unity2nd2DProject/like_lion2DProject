@@ -1,11 +1,12 @@
+using TMPro;
 using UnityEngine;
 
-public class UIController : MonoBehaviour
+public class PrincessUIController : MonoBehaviour
 {
-    private string TAG = "[UIController]";
+    private string TAG = "[PrincessUIController]";
     private UserInputManager inputManager;
 
-    
+    [SerializeField] public TMP_Text dialogText;
 
     private void OnEnable()
     {
