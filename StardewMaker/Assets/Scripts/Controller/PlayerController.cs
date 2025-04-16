@@ -45,7 +45,17 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.Space.WasPressedThisFrame())
         {
-
+            foreach (var crop in CropManager.Instance.crops) // Test
+            {
+                if (crop.IsHarvestable())
+                {
+                    crop.Harvest();
+                }
+                else
+                {
+                    crop.Water();
+                }
+            }
         }
     }
 
@@ -66,11 +76,11 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    void XInput()
+    private void XInput()
     {
         if (inputManager.inputActions.Player.X.WasPressedThisFrame())
         {
-
+            CropManager.Instance.NextDay(); // Test
         }
         if (inputManager.inputActions.Player.X.IsPressed())
         {

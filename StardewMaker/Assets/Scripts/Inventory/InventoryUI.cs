@@ -1,9 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
     public Inventory inventory;
     public InventorySlotUI[] slotUIs;
+    public TextMeshProUGUI money;
 
     private void Update()
     {
