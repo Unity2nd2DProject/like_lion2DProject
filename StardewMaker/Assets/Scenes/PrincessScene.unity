@@ -721,7 +721,7 @@ GameObject:
   - component: {fileID: 348498687}
   - component: {fileID: 348498686}
   m_Layer: 5
-  m_Name: ChooseBox
+  m_Name: OptionPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1070,7 +1070,7 @@ GameObject:
   - component: {fileID: 575451357}
   - component: {fileID: 575451356}
   m_Layer: 5
-  m_Name: NextButton
+  m_Name: NextDialogButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1506,12 +1506,12 @@ GameObject:
   - component: {fileID: 943511211}
   - component: {fileID: 943511210}
   m_Layer: 5
-  m_Name: Dialog
+  m_Name: DialogPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &943511209
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1888,9 +1888,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogText: {fileID: 1726218953}
-  nextBtn: {fileID: 575451354}
+  dialogPanel: {fileID: 943511208}
+  nextDialogBtn: {fileID: 575451354}
   princessImage: {fileID: 175610725}
-  chooseBox: {fileID: 348498684}
+  optionPanel: {fileID: 348498684}
 --- !u!1 &1160997891
 GameObject:
   m_ObjectHideFlags: 0

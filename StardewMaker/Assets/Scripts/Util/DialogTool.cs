@@ -5,7 +5,19 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
 
-public enum DialogueType
+public enum DialogDataType
+{
+    TYPE,
+    NAME,
+    EMOTION,
+    NEXT_ID,
+    OPTION_ID_LIST,
+    EXT1,
+    KOREAN,
+    ENGLISH
+}
+
+public enum DialogType
 {
     NORMAL,
     CHOICE,
@@ -24,35 +36,28 @@ public enum EmotionType
     NONE
 }
 
-public enum DialougeDataType
-{
-    TYPE,
-    NAME,
-    EMOTION,
-    NEXT_ID,
-    OPTION_ID_LIST,
-    EXT1,
-    KOREAN,
-    ENGLISH
-}
-
-public class Dialogue
+public class Dialog
 {
     public int id;
-    public DialogueType type;
+    public DialogType type;
     public string name;
     public EmotionType emotion;
     public int nextId;
-    public List<string> optionIdList;
+    public List<int> optionIdList;
     public string ext1;
     public string korean;
     public string english;
+
+    public string GetText()
+    {
+        // todo 언어 설정한 뒤 그 언어로 반환
+        return korean;
+    }
 }
 
-
-public static class ConversationTool
+public static class DialogTool
 {
-    private static string TAG = "[ConversationTool]";
+    private static string TAG = "[DialogTool]";
     private static string type = "Type";
     private static string name = "Name";
     private static string emotion = "Emotion";
@@ -63,8 +68,7 @@ public static class ConversationTool
     private static string english = "English";
     public static List<string> dialogDataList = new() { type, name, emotion, nextId, optionIdList, ext1, korean, english };
 
-    // public static Dictionary<string, Dictionary<string, string>> dic = new();
-    public static Dictionary<int, Dialogue> dic = new();
+    public static Dictionary<int, Dialog> dic = new();
 
     public static void CsvRead(string fileName)
     {
@@ -76,40 +80,45 @@ public static class ConversationTool
             for (int i = 0; i < langs.Length; i++) // 딕셔너리에 저장.
             {
                 // Debug.Log($"{TAG} langs.Length {langs[i]}");
-                if (langs[i].Contains(type)) dialogDataIndexDic.Add((int)DialougeDataType.TYPE, i);
-                else if (langs[i].Contains(name)) dialogDataIndexDic.Add((int)DialougeDataType.NAME, i);
-                else if (langs[i].Contains(emotion)) dialogDataIndexDic.Add((int)DialougeDataType.EMOTION, i);
-                else if (langs[i].Contains(nextId)) dialogDataIndexDic.Add((int)DialougeDataType.NEXT_ID, i);
-                else if (langs[i].Contains(optionIdList)) dialogDataIndexDic.Add((int)DialougeDataType.OPTION_ID_LIST, i);
-                else if (langs[i].Contains(ext1)) dialogDataIndexDic.Add((int)DialougeDataType.EXT1, i);
-                else if (langs[i].Contains(SystemLanguage.Korean.ToString())) dialogDataIndexDic.Add((int)DialougeDataType.KOREAN, i);
-                else if (langs[i].Contains(SystemLanguage.English.ToString())) dialogDataIndexDic.Add((int)DialougeDataType.ENGLISH, i);
+                if (langs[i].Contains(type)) dialogDataIndexDic.Add((int)DialogDataType.TYPE, i);
+                else if (langs[i].Contains(name)) dialogDataIndexDic.Add((int)DialogDataType.NAME, i);
+                else if (langs[i].Contains(emotion)) dialogDataIndexDic.Add((int)DialogDataType.EMOTION, i);
+                else if (langs[i].Contains(nextId)) dialogDataIndexDic.Add((int)DialogDataType.NEXT_ID, i);
+                else if (langs[i].Contains(optionIdList)) dialogDataIndexDic.Add((int)DialogDataType.OPTION_ID_LIST, i);
+                else if (langs[i].Contains(ext1)) dialogDataIndexDic.Add((int)DialogDataType.EXT1, i);
+                else if (langs[i].Contains(SystemLanguage.Korean.ToString())) dialogDataIndexDic.Add((int)DialogDataType.KOREAN, i);
+                else if (langs[i].Contains(SystemLanguage.English.ToString())) dialogDataIndexDic.Add((int)DialogDataType.ENGLISH, i);
             }
 
             int lineNum = 2;
             string line;
             while ((line = sr.ReadLine()) != null)
             {
-                string[] parts = ParseCsvLine(line);
+                string[] rows = ParseCsvLine(line); // 한 줄을 읽어서 string 배열에 넣음
 
-                string ty = parts[dialogDataIndexDic[(int)DialougeDataType.TYPE]];
-                string em = parts[dialogDataIndexDic[(int)DialougeDataType.EMOTION]];
-                string nId = parts[dialogDataIndexDic[(int)DialougeDataType.NEXT_ID]];
+                string ty = rows[dialogDataIndexDic[(int)DialogDataType.TYPE]];
+                string em = rows[dialogDataIndexDic[(int)DialogDataType.EMOTION]];
+                string nId = rows[dialogDataIndexDic[(int)DialogDataType.NEXT_ID]];
+                string opList = rows[dialogDataIndexDic[(int)DialogDataType.OPTION_ID_LIST]];
 
-                // Debug.Log($"{TAG} lineNum {lineNum}");
-                Dialogue dialogue = new()
+                Dialog dialog = new()
                 {
                     id = lineNum,
-                    type = Enum.TryParse(ty, out DialogueType a) ? a : DialogueType.NONE,
-                    name = parts[dialogDataIndexDic[(int)DialougeDataType.NAME]],
+                    type = Enum.TryParse(ty, out DialogType a) ? a : DialogType.NONE,
+                    name = rows[dialogDataIndexDic[(int)DialogDataType.NAME]],
                     emotion = Enum.TryParse(em, out EmotionType b) ? b : EmotionType.NONE,
-                    nextId = int.TryParse(nId, out int c) ? c : -1,
-                    optionIdList = parts[dialogDataIndexDic[(int)DialougeDataType.OPTION_ID_LIST]].Split(',').ToList(),
-                    korean = parts[dialogDataIndexDic[(int)DialougeDataType.KOREAN]],
-                    english = parts[dialogDataIndexDic[(int)DialougeDataType.ENGLISH]],
+                    nextId = int.TryParse(nId, out int c) ? lineNum + c : -1,
+                    optionIdList = opList.Split(',').Select(s => int.TryParse(s.Trim(), out int result) ? lineNum + result : -1).ToList(),
+                    korean = rows[dialogDataIndexDic[(int)DialogDataType.KOREAN]],
+                    english = rows[dialogDataIndexDic[(int)DialogDataType.ENGLISH]],
                 };
 
-                dic[lineNum++] = dialogue;
+                // foreach (var i in dialogue.optionIdList)
+                // {
+                //     Debug.Log($"{TAG} dialogue.optionIdList {i}");
+                // }
+
+                dic[lineNum++] = dialog;
             }
         }
 
@@ -146,23 +155,4 @@ public static class ConversationTool
         return values.ToArray();
     }
 
-    public static string GetName(int key)
-    {
-        return dic[key].name;
-    }
-
-    public static EmotionType GetEmotion(int key)
-    {
-        return dic[key].emotion;
-    }
-
-    public static string GetKorean(int key)
-    {
-        return dic[key].korean;
-    }
-
-    public static string GetEnglish(int key)
-    {
-        return dic[key].english;
-    }
 }

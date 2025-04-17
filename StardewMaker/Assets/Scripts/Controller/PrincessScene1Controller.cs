@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,66 +8,31 @@ public class PrincessScene1Controller : MonoBehaviour
 
     private UserInputManager inputManager;
 
-    [SerializeField] public PrincessUIController princessUIController;
+    [SerializeField] public PrincessUIController princessUIController; // UI 변경용
 
-    private bool isNextBtnEnabled = false;
-    private bool isTextSkipEnabled = false;
-    private bool isSkipRequested = false;
+    private Dialog currentDialog; // 현재 대사
+    private int currentDialogId = 2; // 맨 첫 대사. dialogId는 2부터 시작
+    private int optionNum = 1; // 옵션 선택 저장
 
-    private int cntText = 2;
-    private int stateConversation = 0;
-
-    private int chooseNum = 1;
-
-    // private List<string> textList = new List<string> {
-    //     "안녕 아빠! 잘 잤어요?",
-    //     "콜록 콜록..",
-    //     "오늘도 기침이 멈추질 않네..",
-    //     "아빠는 오늘도 일하러 가야겠지.. 나는 아빠랑 더 있고싶은데.."
-    // };
-
-    // private List<string> textList1 = new List<string> {
-    //     "정말 나랑 있어주는거에요?",
-    //     "와! 기뻐라!!"
-    // };
-
-    // private List<string> textList2 = new List<string> {
-    //     "아빤 내가 싫은가보다..",
-    //     "흑흑.."
-    // };
-
-    // private List<List<string>> textlists = new() { };
+    private bool isNextDialogReady = false; // 다음 대사 가능한지 판별
+    private bool isTextSkipEnabled = false; // 대사 빨리 감기 가능한지 판별
+    private bool isSkipRequested = false; // 대사 빨리감기
 
     private void Awake()
     {
-        ConversationTool.CsvRead("Conversation/Conversation");
-
-        // textlists.Add(textList);
-        // textlists.Add(textList1);
-        // textlists.Add(textList2);
-
-        LangTest();
-    }
-
-    private void LangTest()
-    {
-        // test
-        // Debug.Log($"{TAG} name : {ConversationTool.GetName(2)}");
-        // Debug.Log($"{TAG} emotion : {ConversationTool.GetEmotion(2)}");
-        // Debug.Log($"{TAG} korean : {ConversationTool.GetKorean(2)}");
-        // Debug.Log($"{TAG} english : {ConversationTool.GetEnglish(2)}");
+        DialogTool.CsvRead("Dialog/Dialog"); // 대사 DB에서 가져 옴
     }
 
     private void OnEnable()
     {
-        inputManager = UserInputManager.Instance;
+        inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
     }
 
     private void Start()
     {
-        GameManager.Instance.SetGameState(TAG, GameState.UI);
+        GameManager.Instance.SetGameState(TAG, GameState.UI); // 입력을 UI모드로 변경
 
-        StartCoroutine(StartScene1());
+        StartCoroutine(StartScene1()); // 씬1 시작
     }
 
     private void Update()
@@ -87,18 +51,43 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         if (inputManager.inputActions.UI.Space.WasPressedThisFrame())
         {
-            if (isNextBtnEnabled)
+            if (isNextDialogReady) // 다음 대사가 준비되었다면
             {
-                switch (stateConversation)
+                bool isDialogEnd = false; // 다음 대사가 없는 경우
+                switch (currentDialog.type)
                 {
-                    case 0:
-                        StartCoroutine(StartConversation());
+                    case DialogType.NORMAL: // 일반적인 대사 진행
+                        currentDialogId = currentDialog.nextId; // 다음 대사 불러오기
+
+                        // 다음 대사가 없는 경우
+                        if (currentDialog.id == currentDialog.nextId) isDialogEnd = true;
                         break;
-                    case 1:
-                        Debug.Log($"{TAG} 선택지 고르기 {chooseNum}");
-                        StartCoroutine(StartConversation());
+
+                    case DialogType.CHOICE: // 선택 옵션이 있는 대사 진행
+
+                        // todo 옵션 선택해서 chooseNum 변경하기
+                        Dialog checkedOptionDialog = DialogTool.dic[currentDialog.optionIdList[optionNum]];
+                        currentDialogId = checkedOptionDialog.nextId;
+
+                        // 옵션 선택 후 다음 대사 없는 경우 대화 끝
+                        if (currentDialogId == DialogTool.dic[currentDialogId].nextId) isDialogEnd = true;
                         break;
+
+                    case DialogType.NONE: // 다음 대사가 없는 경우
+                        Debug.Log($"{TAG} 스페이스 눌러봤자 소용 없음");
+                        return;
                 }
+
+                if (isDialogEnd) // 다음 대사가 없는 경우
+                {
+                    Debug.Log($"{TAG} 대화 끝");
+                    currentDialog.type = DialogType.NONE;
+                    DisableDialogPanel();
+                    OptionPanelDisable();
+                    return;
+                }
+
+                StartCoroutine(StartConversation()); // 대사 출력
             }
         }
     }
@@ -119,46 +108,42 @@ public class PrincessScene1Controller : MonoBehaviour
         // todo 페이드인
         yield return new WaitForSeconds(1);
 
-
         // 대화 시작
         yield return StartConversation();
     }
 
     IEnumerator StartConversation()
     {
-        EnableDialog();
+        currentDialog = DialogTool.dic[currentDialogId]; // 현재 대사 가져옴
 
-        OnStartTextPrint();
+        EnableDialogPanel();
 
         ChangeEmotionImage();
 
-        Dialogue dialogue = ConversationTool.dic[cntText++];
-
-        int id = dialogue.id;
-        int nextId = dialogue.nextId;
-        string text = dialogue.korean;
-        cntText = id + dialogue.nextId;
-
-        // todo 대사 출력 시 효과음 내기
-        yield return TextTool.PrintTmpText(princessUIController.dialogText, text, () => isSkipRequested);
-
+        OnStartTextPrint(); // todo 대사 출력 시 효과음 내기
+        yield return TextTool.PrintTmpText(princessUIController.dialogText, currentDialog.GetText(), () => isSkipRequested);
         OnStopTextPrint();
-        if (nextId == -1)
-        {
-            stateConversation++;
-            ChooseOne();
-        }
+
+        if (currentDialog.type == DialogType.CHOICE) OptionPanelEnable();
     }
 
-    private void EnableDialog()
+    // dialog 화면 보이기
+    private void EnableDialogPanel()
     {
-        // todo 다이얼로그 박스 화면에 보이기
+        princessUIController.dialogPanel.SetActive(true);
     }
 
+    // dialog 화면 숨기기
+    private void DisableDialogPanel()
+    {
+        princessUIController.dialogPanel.SetActive(false);
+    }
+
+    // 감정 표현 변경하기
     private void ChangeEmotionImage()
     {
         Sprite newSprite;
-        switch (ConversationTool.GetEmotion(cntText))
+        switch (currentDialog.emotion)
         {
             case EmotionType.IDLE:
                 newSprite = Resources.Load<Sprite>("Images/CharacterIllust/Father-0001");
@@ -171,26 +156,34 @@ public class PrincessScene1Controller : MonoBehaviour
         }
     }
 
+    // 대사 출력 시작
     private void OnStartTextPrint()
     {
-        isNextBtnEnabled = false;
+        isNextDialogReady = false;
         isTextSkipEnabled = true;
-        princessUIController.nextBtn.SetActive(false);
+        princessUIController.nextDialogBtn.SetActive(false);
+        princessUIController.optionPanel.SetActive(false);
     }
 
+    // 대사 출력 끝
     private void OnStopTextPrint()
     {
-        isNextBtnEnabled = true;
+        isNextDialogReady = true;
         isTextSkipEnabled = false;
-        princessUIController.nextBtn.SetActive(true);
+        if (currentDialog.type != DialogType.CHOICE) // 옵션 선택 대사일 경우 NextDialogBtn 안나옴
+            princessUIController.nextDialogBtn.SetActive(true);
         isSkipRequested = false;
     }
 
-    private void ChooseOne()
+    // 선택 옵션 창 열기
+    private void OptionPanelEnable()
     {
-        princessUIController.nextBtn.SetActive(false);
-        princessUIController.chooseBox.SetActive(true);
-        cntText = 0;
+        princessUIController.optionPanel.SetActive(true);
     }
 
+    // 선택 옵션 창 닫기
+    private void OptionPanelDisable()
+    {
+        princessUIController.optionPanel.SetActive(false);
+    }
 }

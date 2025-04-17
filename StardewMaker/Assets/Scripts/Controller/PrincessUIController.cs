@@ -1,16 +1,16 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PrincessUIController : MonoBehaviour
 {
     private string TAG = "[PrincessUIController]";
     private UserInputManager inputManager;
 
+    [SerializeField] public GameObject dialogPanel;
     [SerializeField] public TMP_Text dialogText;
-    [SerializeField] public GameObject nextBtn;
+    [SerializeField] public GameObject nextDialogBtn;
+    [SerializeField] public GameObject optionPanel;
     [SerializeField] public GameObject princessImage;
-    [SerializeField] public GameObject chooseBox;
 
     private void OnEnable()
     {
