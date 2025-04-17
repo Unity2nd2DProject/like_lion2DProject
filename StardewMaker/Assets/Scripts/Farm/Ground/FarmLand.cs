@@ -16,7 +16,7 @@ public class FarmLand : MonoBehaviour
     private Vector2 position;
 
     private SpriteRenderer sr;
-    [SerializeField] private SpriteRenderer cropSr;
+    //[SerializeField] private SpriteRenderer cropSr;
 
     private void Awake()
     {
@@ -53,7 +53,6 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.crops.Add(_crop);
             crop = _crop;
-            cropSr.sprite = crop.currentStripte;
             Debug.Log($"Succed to plant {crop}! {position}");
             return true;
         }
@@ -69,8 +68,7 @@ public class FarmLand : MonoBehaviour
         {
             crop.Water();
             UpdateTileSprite();
-            //cropSr = crop.currentSprite;
-            //Debug.Log($"Succed to water {crop}! {position}");
+            Debug.Log($"Succed to water {crop}! {position}");
             return true;
         }
         else

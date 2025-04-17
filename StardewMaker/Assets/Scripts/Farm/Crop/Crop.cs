@@ -4,15 +4,13 @@ public class Crop : MonoBehaviour
 {
     public CropData cropData;
     private int currentGrowthStage = 0;
-    public Sprite currentStripte { get; private set; }
-    //public SpriteRenderer currentSprite { get; private set; }
+    public SpriteRenderer currentSprite;
 
     public bool isWatered = false;
 
     private void Awake()
     {
-        //currentSprite = GetComponent<SpriteRenderer>();
-        currentStripte = cropData.growthSprites[currentGrowthStage];
+        currentSprite = GetComponent<SpriteRenderer>();
     }
 
     private void Start()
@@ -42,8 +40,7 @@ public class Crop : MonoBehaviour
 
     private void UpdateGrowth()
     {
-        //currentSprite.sprite = cropData.growthSprites[currentGrowthStage];
-        currentStripte = cropData.growthSprites[currentGrowthStage];
+        currentSprite.sprite = cropData.growthSprites[currentGrowthStage];
         Debug.Log($"{cropData.name} is growed!");
     }
 
