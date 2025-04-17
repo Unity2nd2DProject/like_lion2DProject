@@ -7,6 +7,12 @@ public class InventorySlotUI : MonoBehaviour
     public Image icon;
     public TextMeshProUGUI quantityText;
 
+    //private void Awake()
+    //{
+    //    icon = GetComponentInChildren<Image>();
+    //    quantityText = GetComponentInChildren<TextMeshProUGUI>();
+    //}
+
     public void SetSlot(ItemData item, int quantity)
     {
         if (item != null)

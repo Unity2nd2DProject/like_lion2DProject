@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     private Vector2 moveInput, move;
-    public float moveSpeed = 5f; // 이동 속도
+    public float moveSpeed = 5f;
 
     void Awake()
     {
@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
         ESCInput();
         ZInput();
         XInput();
+        IInput();
     }
 
     private void FixedUpdate()
@@ -89,6 +90,21 @@ public class PlayerController : MonoBehaviour
         if (inputManager.inputActions.Player.X.WasReleasedThisFrame())
         {
             // Debug.Log($"{TAG} EnterInput WasReleasedThisFrame");
+        }
+    }
+
+    private void IInput()
+    {
+        if (inputManager.inputActions.Player.I.WasPressedThisFrame())
+        {
+            if (GameManager.Instance.isShowingInventory)
+            {
+                // enable inventory
+            }
+            else
+            {
+                // disenable inventory
+            }
         }
     }
 }

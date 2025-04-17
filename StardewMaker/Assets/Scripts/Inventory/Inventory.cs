@@ -5,8 +5,9 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
 
-    public int inventorySize = 50;
+    public int inventorySize = 25;
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public List<ItemData> starterItems = new List<ItemData>();
 
     private void Awake()
     {
@@ -15,10 +16,20 @@ public class Inventory : MonoBehaviour
             Instance = this;
         }
 
-        for (int i=0; i<inventorySize; i++)
+        InitInventory();
+    }
+
+    private void InitInventory()
+    {
+        for(int i = 0; i < inventorySize; i++)
         {
             slots.Add(new InventorySlot());
         }
+
+        //for(int i=0; i<starterItems.Count; i++) // Test
+        //{
+        //    AddItem(starterItems[i]);
+        //}
 
     }
 
