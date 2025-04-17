@@ -11,7 +11,10 @@ public class InventoryUI : MonoBehaviour
     public Inventory inventory;
     public InventorySlotUI[] slotUIs;
     public Button cancelButton;
+
     public TextMeshProUGUI money;
+
+    public int selectedSlotIndex = -1;
 
     private void Awake()
     {
@@ -22,6 +25,12 @@ public class InventoryUI : MonoBehaviour
 
         inventoryPanel.SetActive(false);
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
+
+        for (int i = 0; i < slotUIs.Length; i++)
+        {
+            slotUIs[i].SetSlotIndex(i);
+            slotUIs[i].interactionButton.gameObject.SetActive(false);
+        }
     }
 
     private void Update()
@@ -32,6 +41,16 @@ public class InventoryUI : MonoBehaviour
             {
                 var slot = inventory.slots[i];
                 slotUIs[i].SetSlot(slot.itemData, slot.quantity);
+
+                if (i == selectedSlotIndex)
+                {
+                    slotUIs[i].interactionButton.gameObject.SetActive(true);
+                }
+                else
+                {
+                    slotUIs[i].interactionButton.gameObject.SetActive(false);
+                }
+
             }
         }
     }
@@ -54,5 +73,14 @@ public class InventoryUI : MonoBehaviour
     public void HideInventory()
     {
         inventoryPanel.SetActive(false);
+    }
+
+    public ItemData GetSelectedItem()
+    {
+        if (selectedSlotIndex >= 0 && selectedSlotIndex < inventory.slots.Count)
+        {
+            return inventory.slots[selectedSlotIndex].itemData;
+        }
+        return null;
     }
 }

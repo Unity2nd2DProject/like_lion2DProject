@@ -6,6 +6,7 @@ enum PlayerInteraction
 {
     None,
     Pick,
+    Plant,
     Water,
     Harvest,
     Fish,
@@ -14,6 +15,8 @@ enum PlayerInteraction
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance;
+
     private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
 
@@ -28,6 +31,11 @@ public class PlayerController : MonoBehaviour
 
     void Awake()
     {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
@@ -67,17 +75,17 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.Space.WasPressedThisFrame())
         {
-            foreach (var crop in CropManager.Instance.crops) // Test
-            {
-                if (crop.IsHarvestable())
-                {
-                    crop.Harvest();
-                }
-                else
-                {
-                    crop.Water();
-                }
-            }
+            //foreach (var crop in CropManager.Instance.crops) // Test
+            //{
+            //    if (crop.IsHarvestable())
+            //    {
+            //        crop.Harvest();
+            //    }
+            //    else
+            //    {
+            //        crop.Water();
+            //    }
+            //}
         }
     }
 
@@ -154,32 +162,41 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void InteractCurrentTile(PlayerInteraction interaction)
+    public bool Plant(Crop crop)
     {
-        Vector2Int landPos = Vector2Int.RoundToInt(curPos);
+        return (InteractCurrentTile(PlayerInteraction.Plant, crop));
+    }
+
+    private bool InteractCurrentTile(PlayerInteraction interaction, Crop crop = null)
+    {
+        //Vector2Int landPos = Vector2Int.RoundToInt(curPos);
         Collider2D hit = Physics2D.OverlapCircle(curPos, 0.1f, whatIsLand);
 
         if (hit != null)
         {
-            LandData land = hit.GetComponent<LandData>();
+            FarmLand land = hit.GetComponent<FarmLand>();
             if (land != null)
             {
                 if (interaction == PlayerInteraction.Pick)
                 {
-                    Debug.Log($"Player dugged at {landPos}.");
-                    land.Pick();
+                    return (land.Pick());
                 }
                 else if (interaction == PlayerInteraction.Water)
                 {
-                    Debug.Log($"Player wattered at {landPos}.");
-                    land.Water();
+                    return (land.Water());
+                }
+                else if (interaction == PlayerInteraction.Plant)
+                {
+                    return (land.Plant(crop));
                 }
                 else if (interaction == PlayerInteraction.Harvest)
                 {
-                    
+
                 }
             }
         }
+
+        return false;
     }
 
 }
