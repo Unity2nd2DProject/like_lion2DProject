@@ -10,6 +10,7 @@ public class PrincessUIController : MonoBehaviour
     [SerializeField] public TMP_Text dialogText;
     [SerializeField] public GameObject nextBtn;
     [SerializeField] public GameObject princessImage;
+    [SerializeField] public GameObject chooseBox;
 
     private void OnEnable()
     {
