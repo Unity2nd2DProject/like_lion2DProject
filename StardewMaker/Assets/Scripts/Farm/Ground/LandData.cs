@@ -12,7 +12,6 @@ public class LandData : MonoBehaviour
     public LandState landState;
     public Sprite normalSprite;
     public Sprite fertileSprite;
-    public Sprite wateredSprite;
 
     private SpriteRenderer sr;
 
@@ -50,13 +49,14 @@ public class LandData : MonoBehaviour
         switch (landState)
         {
             case LandState.Normal:
-                sr.sprite = normalSprite;
+                sr.sprite = normalSprite; // 나중에 null로
                 break;
             case LandState.Fertile:
                 sr.sprite = fertileSprite;
                 break;
             case LandState.Watered:
-                sr.sprite = wateredSprite;
+                sr.sprite = fertileSprite;
+                sr.color = new Color(0.7f, 0.5f, 0.3f);
                 break;
         }
     }

@@ -1,18 +1,34 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+
+enum PlayerInteraction
+{
+    None,
+    Pick,
+    Water,
+    Harvest,
+    Fish,
+    GetWater
+}
 
 public class PlayerController : MonoBehaviour
 {
     private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
 
-    private Rigidbody2D rb;
+    public Animator anim { get; private set; }
+    public Rigidbody2D rb { get; private set; }
 
     private Vector2 moveInput, move;
     public float moveSpeed = 5f;
+    private Vector2 curPos;
+
+    public LayerMask whatIsLand;
 
     void Awake()
     {
+        anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
@@ -38,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
+        curPos = rb.position;
     }
 
     private void PlayerMoveInput()
@@ -117,7 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._1.WasPressedThisFrame())
         {
-
+            InteractCurrentTile(PlayerInteraction.Pick);
         }
     }
 
@@ -125,7 +142,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._2.WasPressedThisFrame())
         {
-
+            InteractCurrentTile(PlayerInteraction.Water);
         }
     }
 
@@ -133,7 +150,36 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._3.WasPressedThisFrame())
         {
-
+            InteractCurrentTile(PlayerInteraction.Harvest);
         }
     }
+
+    private void InteractCurrentTile(PlayerInteraction interaction)
+    {
+        Vector2Int landPos = Vector2Int.RoundToInt(curPos);
+        Collider2D hit = Physics2D.OverlapCircle(curPos, 0.1f, whatIsLand);
+
+        if (hit != null)
+        {
+            LandData land = hit.GetComponent<LandData>();
+            if (land != null)
+            {
+                if (interaction == PlayerInteraction.Pick)
+                {
+                    Debug.Log($"Player dugged at {landPos}.");
+                    land.Pick();
+                }
+                else if (interaction == PlayerInteraction.Water)
+                {
+                    Debug.Log($"Player wattered at {landPos}.");
+                    land.Water();
+                }
+                else if (interaction == PlayerInteraction.Harvest)
+                {
+                    
+                }
+            }
+        }
+    }
+
 }
