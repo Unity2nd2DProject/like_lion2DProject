@@ -26,10 +26,10 @@ public class Inventory : MonoBehaviour
             slots.Add(new InventorySlot());
         }
 
-        //for(int i=0; i<starterItems.Count; i++) // Test
-        //{
-        //    AddItem(starterItems[i]);
-        //}
+        for (int i = 0; i < starterItems.Count; i++) // Test
+        {
+            AddItem(starterItems[i]);
+        }
 
     }
 

@@ -29,6 +29,10 @@ public class PlayerController : MonoBehaviour
         ZInput();
         XInput();
         IInput();
+        NInput();
+        OneInput();
+        TwoInput();
+        ThreeInput();
     }
 
     private void FixedUpdate()
@@ -81,7 +85,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.X.WasPressedThisFrame())
         {
-            CropManager.Instance.NextDay(); // Test
+            CropManager.Instance.NextDay();
         }
         if (inputManager.inputActions.Player.X.IsPressed())
         {
@@ -98,6 +102,38 @@ public class PlayerController : MonoBehaviour
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
             InventoryUI.Instance.ToggleInventory();
+        }
+    }
+
+    private void NInput() // Text NextDay
+    {
+        if (inputManager.inputActions.Player.N.WasPressedThisFrame())
+        {
+            CropManager.Instance.NextDay();
+        }
+    }
+
+    private void OneInput() // Pick
+    {
+        if (inputManager.inputActions.Player._1.WasPressedThisFrame())
+        {
+
+        }
+    }
+
+    private void TwoInput() // Water
+    {
+        if (inputManager.inputActions.Player._2.WasPressedThisFrame())
+        {
+
+        }
+    }
+
+    private void ThreeInput() // Harvest
+    {
+        if (inputManager.inputActions.Player._3.WasPressedThisFrame())
+        {
+
         }
     }
 }

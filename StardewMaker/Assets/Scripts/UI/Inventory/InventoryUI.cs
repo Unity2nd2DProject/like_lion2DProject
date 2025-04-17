@@ -10,6 +10,7 @@ public class InventoryUI : MonoBehaviour
 
     public Inventory inventory;
     public InventorySlotUI[] slotUIs;
+    public Button cancelButton;
     public TextMeshProUGUI money;
 
     private void Awake()
@@ -20,6 +21,7 @@ public class InventoryUI : MonoBehaviour
         }
 
         inventoryPanel.SetActive(false);
+        cancelButton.onClick.AddListener(OnCancelButtonClicked);
     }
 
     private void Update()
@@ -32,6 +34,11 @@ public class InventoryUI : MonoBehaviour
                 slotUIs[i].SetSlot(slot.itemData, slot.quantity);
             }
         }
+    }
+
+    private void OnCancelButtonClicked()
+    {
+        ToggleInventory();
     }
 
     public void ToggleInventory()
