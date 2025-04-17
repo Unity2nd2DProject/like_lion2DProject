@@ -97,14 +97,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
-            if (GameManager.Instance.isShowingInventory)
-            {
-                // enable inventory
-            }
-            else
-            {
-                // disenable inventory
-            }
+            InventoryUI.Instance.ToggleInventory();
         }
     }
 }

@@ -16,7 +16,7 @@ public class GameManager : Singleton<GameManager>
     private GameState currentState;
     public static event Action<GameState> OnGameStateChanged;
 
-    public bool isShowingInventory = false;
+    public GameObject inventory;
 
     protected override void Awake()
     {

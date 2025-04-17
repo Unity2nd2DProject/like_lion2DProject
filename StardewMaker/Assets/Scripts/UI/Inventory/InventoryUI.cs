@@ -4,9 +4,23 @@ using TMPro;
 
 public class InventoryUI : MonoBehaviour
 {
+    public static InventoryUI Instance;
+
+    public GameObject inventoryPanel;
+
     public Inventory inventory;
     public InventorySlotUI[] slotUIs;
     public TextMeshProUGUI money;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+
+        inventoryPanel.SetActive(false);
+    }
 
     private void Update()
     {
@@ -18,5 +32,20 @@ public class InventoryUI : MonoBehaviour
                 slotUIs[i].SetSlot(slot.itemData, slot.quantity);
             }
         }
+    }
+
+    public void ToggleInventory()
+    {
+        inventoryPanel.SetActive(!inventoryPanel.activeSelf);
+    }
+
+    public void ShowInventory()
+    {
+        inventoryPanel.SetActive(true);
+    }
+
+    public void HideInventory()
+    {
+        inventoryPanel.SetActive(false);
     }
 }
