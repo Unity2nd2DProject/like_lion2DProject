@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PrincessUIController : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class PrincessUIController : MonoBehaviour
     private UserInputManager inputManager;
 
     [SerializeField] public TMP_Text dialogText;
+    [SerializeField] public GameObject nextBtn;
+    [SerializeField] public GameObject princessImage;
 
     private void OnEnable()
     {

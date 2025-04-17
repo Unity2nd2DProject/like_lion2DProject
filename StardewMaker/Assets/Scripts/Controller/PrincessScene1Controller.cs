@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PrincessScene1Controller : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class PrincessScene1Controller : MonoBehaviour
 
     [SerializeField] public PrincessUIController princessUIController;
 
-    private bool isEnterEnabled = false;
+    private bool isNextBtnEnabled = false;
     private bool isTextSkipEnabled = false;
     private bool isSkipRequested = false;
 
@@ -25,7 +26,19 @@ public class PrincessScene1Controller : MonoBehaviour
 
     private void Awake()
     {
-        
+        ConversationTool.CsvRead("Conversation/Conversation");
+
+        LangTest();
+    }
+
+    private void LangTest()
+    {
+        // test
+        Debug.Log($"{TAG} text : {textList[0]}");
+        Debug.Log($"{TAG} name : {ConversationTool.GetName(textList[0])}");
+        Debug.Log($"{TAG} emotion : {ConversationTool.GetEmotion(textList[0])}");
+        Debug.Log($"{TAG} korean : {ConversationTool.GetKorean(textList[0])}");
+        Debug.Log($"{TAG} english : {ConversationTool.GetEnglish(textList[0])}");
     }
 
     private void OnEnable()
@@ -50,9 +63,9 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         if (inputManager.inputActions.UI.Space.WasPressedThisFrame())
         {
-            if (isEnterEnabled)
+            if (isNextBtnEnabled)
             {
-                if(cntText >= textList.Count)
+                if (cntText >= textList.Count)
                 {
                     Debug.Log("대사 없음");
                 }
@@ -87,25 +100,43 @@ public class PrincessScene1Controller : MonoBehaviour
     IEnumerator StartConversation()
     {
         OnStartTextPrint();
-        // todo 표정 변화. 표정변화도 csv에 들어가야 할 듯
+
+        ChangeEmotionImage();
+
         // todo 대사 출력 시 효과음 내기
         yield return TextTool.PrintTmpText(princessUIController.dialogText, textList[cntText++], () => isSkipRequested);
-        
+
         OnStopTextPrint();
+    }
+
+    private void ChangeEmotionImage()
+    {
+        Sprite newSprite;
+        switch (ConversationTool.GetEmotion(textList[cntText]))
+        {
+            case (int)EmotionType.IDLE:
+                newSprite = Resources.Load<Sprite>("Images/CharacterIllust/Father-0001");
+                princessUIController.princessImage.GetComponent<Image>().sprite = newSprite;
+                break;
+            case (int)EmotionType.SAD:
+                newSprite = Resources.Load<Sprite>("Images/CharacterIllust/Daughter-0001");
+                princessUIController.princessImage.GetComponent<Image>().sprite = newSprite;
+                break;
+        }
     }
 
     private void OnStartTextPrint()
     {
-        // todo 화면에서 엔터 안 보이게
-        isEnterEnabled = false;
+        isNextBtnEnabled = false;
         isTextSkipEnabled = true;
+        princessUIController.nextBtn.SetActive(false);
     }
 
     private void OnStopTextPrint()
     {
-        // todo 화면에서 엔터 보이게
-        isEnterEnabled = true;
+        isNextBtnEnabled = true;
         isTextSkipEnabled = false;
+        princessUIController.nextBtn.SetActive(true);
         isSkipRequested = false;
     }
 
