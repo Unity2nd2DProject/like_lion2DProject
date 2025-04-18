@@ -31,7 +31,8 @@ public static class StatTypeExtensions
     }
 }
 
-public class Stat
+[CreateAssetMenu(menuName = "Stats/Stat", fileName = "New Stat")]
+public class Stat : ScriptableObject
 {
     public StatType statType;
     private float currentValue;
@@ -42,7 +43,11 @@ public class Stat
         get { return currentValue; }
         set
         {
-            OnValueChanged.Invoke(currentValue); // Notify the change
+            if (currentValue != value)
+            {
+                currentValue = value;
+                OnValueChanged?.Invoke(currentValue); // 값이 바뀌었을 때만 호출
+            }
         }
     }
     public float MaxValue
@@ -50,13 +55,13 @@ public class Stat
         get { return maxValue; }
     }
 
-    public Stat(StatType type, float max)
+    public void Initialize(StatType type, float max)
     {
         statType = type;
         maxValue = max;
         currentValue = max;
     }
-    public Stat(StatType type, float max, float current)
+    public void Initialize(StatType type, float max, float current)
     {
         statType = type;
         maxValue = max;
