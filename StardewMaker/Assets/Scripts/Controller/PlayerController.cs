@@ -75,17 +75,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.Space.WasPressedThisFrame())
         {
-            //foreach (var crop in CropManager.Instance.crops) // Test
-            //{
-            //    if (crop.IsHarvestable())
-            //    {
-            //        crop.Harvest();
-            //    }
-            //    else
-            //    {
-            //        crop.Water();
-            //    }
-            //}
+
         }
     }
 
@@ -134,7 +124,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
         {
-            CropManager.Instance.NextDay();
+            GameManager.Instance.NextDay();
         }
     }
 
@@ -142,7 +132,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._1.WasPressedThisFrame())
         {
-            InteractCurrentTile(PlayerInteraction.Pick);
+            InteractWithLand(PlayerInteraction.Pick);
         }
     }
 
@@ -150,7 +140,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._2.WasPressedThisFrame())
         {
-            InteractCurrentTile(PlayerInteraction.Water);
+            InteractWithLand(PlayerInteraction.Water);
         }
     }
 
@@ -158,16 +148,16 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player._3.WasPressedThisFrame())
         {
-            InteractCurrentTile(PlayerInteraction.Harvest);
+            InteractWithLand(PlayerInteraction.Harvest);
         }
     }
 
-    public bool Plant(Crop crop)
+    public bool Plant(CropData cropData)
     {
-        return (InteractCurrentTile(PlayerInteraction.Plant, crop));
+        return (InteractWithLand(PlayerInteraction.Plant, cropData));
     }
 
-    private bool InteractCurrentTile(PlayerInteraction interaction, Crop crop = null)
+    private bool InteractWithLand(PlayerInteraction interaction, CropData cropData = null)
     {
         //Vector2Int landPos = Vector2Int.RoundToInt(curPos);
         Collider2D hit = Physics2D.OverlapCircle(curPos, 0.1f, whatIsLand);
@@ -187,11 +177,11 @@ public class PlayerController : MonoBehaviour
                 }
                 else if (interaction == PlayerInteraction.Plant)
                 {
-                    return (land.Plant(crop));
+                    return (land.Plant(cropData));
                 }
                 else if (interaction == PlayerInteraction.Harvest)
                 {
-
+                    return (land.Harvest());
                 }
             }
         }

@@ -3,7 +3,7 @@ using UnityEngine;
 public enum ItemType
 {
     Seed,
-    Crop,
+    Ingredient,
     Food,
     Tool,
     Etc
@@ -16,5 +16,5 @@ public class ItemData : ScriptableObject
     public ItemType itemType;
     public Sprite icon;
     public bool isStackable; // Tool -> false
-    public Crop cropToGrow; // only Seed
+    public CropData cropToGrow; // only Seed
 }

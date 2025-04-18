@@ -69,7 +69,6 @@ public class InventorySlotUI : MonoBehaviour
                 InventoryUI.Instance.selectedSlotIndex = -1;
                 item = null;
             }
-
         }
     }
 

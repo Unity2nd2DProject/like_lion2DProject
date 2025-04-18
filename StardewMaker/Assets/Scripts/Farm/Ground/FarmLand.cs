@@ -11,24 +11,43 @@ public class FarmLand : MonoBehaviour
     public LandState landState;
     public Sprite normalSprite;
     public Sprite fertileSprite;
-    public Crop crop;
 
-    private Vector2 position;
+    private Vector2Int position; // connect with crop
 
     private SpriteRenderer sr;
-    //[SerializeField] private SpriteRenderer cropSr;
 
     private void Awake()
     {
         sr = GetComponent<SpriteRenderer>();
-        //cropSr = GetComponentInChildren<SpriteRenderer>();
 
-        position = transform.position;
-        UpdateTileSprite();
+        position = new Vector2Int(
+            Mathf.RoundToInt(transform.position.x),
+            Mathf.RoundToInt(transform.position.y)
+        );
+
+        //UpdateTileSprite();
+    }
+
+    public bool Plant(CropData cropData)
+    {
+        if (landState == LandState.Fertile)
+        {
+            CropManager.Instance.PlantCrop(position, cropData);
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     public bool Pick()
     {
+        if (CropManager.Instance.GetCropAt(position) != null)
+        {
+            return false;
+        }
+
         if (landState == LandState.Normal)
         {
             landState = LandState.Fertile;
@@ -47,13 +66,12 @@ public class FarmLand : MonoBehaviour
         }
     }
 
-    public bool Plant(Crop _crop)
+    public bool Water()
     {
-        if (crop == null && landState == LandState.Fertile)
+        if (CropManager.Instance.GetCropAt(position) != null)
         {
-            CropManager.Instance.crops.Add(_crop);
-            crop = _crop;
-            Debug.Log($"Succed to plant {crop}! {position}");
+            CropManager.Instance.WaterCrop(position);
+            UpdateTileSprite();
             return true;
         }
         else
@@ -62,19 +80,22 @@ public class FarmLand : MonoBehaviour
         }
     }
 
-    public bool Water()
+    public bool Harvest()
     {
-        if (crop != null && landState == LandState.Fertile)
+        if (CropManager.Instance.GetCropAt(position).IsHarvestable())
         {
-            crop.Water();
-            UpdateTileSprite();
-            Debug.Log($"Succed to water {crop}! {position}");
-            return true;
+            CropManager.Instance.HarvestCrop(position);
+            return true;    
         }
         else
         {
             return false;
         }
+    }
+
+    public bool Remvoe()
+    {
+        return true;
     }
 
     private void UpdateTileSprite()
@@ -85,7 +106,7 @@ public class FarmLand : MonoBehaviour
                 sr.sprite = normalSprite; // null
                 break;
             case LandState.Fertile:
-                if (crop != null && crop.isWatered)
+                if (CropManager.Instance.GetCropAt(position) != null && CropManager.Instance.GetCropAt(position).isWatered)
                 {
                     sr.sprite = fertileSprite;
                     sr.color = new Color(0.7f, 0.5f, 0.3f);
