@@ -1384,10 +1384,9 @@ GameObject:
   - component: {fileID: 555424798}
   - component: {fileID: 555424800}
   - component: {fileID: 555424799}
-  - component: {fileID: 555424802}
   - component: {fileID: 555424801}
   m_Layer: 5
-  m_Name: Inventory
+  m_Name: InventoryUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1465,7 +1464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryPanel: {fileID: 555424797}
-  inventory: {fileID: 555424802}
+  inventory: {fileID: 2075942884}
   slotUIs:
   - {fileID: 1942196703}
   - {fileID: 528419073}
@@ -1490,26 +1489,6 @@ MonoBehaviour:
   cancelButton: {fileID: 1273832646}
   money: {fileID: 0}
   selectedSlotIndex: -1
---- !u!114 &555424802
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 555424797}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58a661f2046f0f4e8902497cebeee55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventorySize: 20
-  starterItems:
-  - {fileID: 11400000, guid: 6671f9e4b7db49446ae8cd2d6f906e40, type: 2}
-  - {fileID: 11400000, guid: 3c1a0bd9c0f79cd42aca378613a00b2d, type: 2}
-  - {fileID: 11400000, guid: ffaf9c163c71dc243a00238013ebf75a, type: 2}
-  - {fileID: 11400000, guid: 60e1f7fbcca790446b9b6943ba0cb38a, type: 2}
-  - {fileID: 11400000, guid: bb709464886342147a954b93983101f1, type: 2}
-  - {fileID: 11400000, guid: e729817221285354b89e973f6914ff9b, type: 2}
 --- !u!1001 &566379126
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3635,7 +3614,7 @@ GameObject:
   - component: {fileID: 1736480861}
   - component: {fileID: 1736480860}
   m_Layer: 5
-  m_Name: Bag
+  m_Name: InventoryGrid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4320,6 +4299,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39dc740a9c0c19847bd739ee754e4240, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &2075942883
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2075942885}
+  - component: {fileID: 2075942884}
+  m_Layer: 0
+  m_Name: Inventory
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2075942884
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075942883}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d58a661f2046f0f4e8902497cebeee55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 25
+  starterItems:
+  - {fileID: 11400000, guid: bf3b70c0e4eaea8419545abad6b4e672, type: 2}
+--- !u!4 &2075942885
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2075942883}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 471.73077, y: 139.1499, z: -0.14134243}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!224 &2124981460 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 2943684950207389514, guid: f81731c0a938bf247bb9c04d075a3e58, type: 3}
@@ -4563,3 +4589,4 @@ SceneRoots:
   - {fileID: 1745639598}
   - {fileID: 1618287611}
   - {fileID: 1638409904}
+  - {fileID: 2075942885}

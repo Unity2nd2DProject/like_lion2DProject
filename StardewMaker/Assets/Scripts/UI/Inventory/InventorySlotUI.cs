@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : MonoBehaviour, IBeginDragHandler, IEDragHandler, IEndDragHandler, IDropHandler
 {
-    private ItemData item;
+    private ItemData itemData;
     public Image icon;
     public TextMeshProUGUI quantityText;
     public Button slotButton;
-    public Button interactionButton;
 
     private int slotIndex;
 
@@ -19,7 +19,6 @@ public class InventorySlotUI : MonoBehaviour
         //slotButton = GetComponentInChildren<Button>();
 
         slotButton.onClick.AddListener(OnSlotClicked);
-        interactionButton.onClick.AddListener(OnInteractionClicked);
     }
 
     public void SetSlotIndex(int index)
@@ -29,7 +28,7 @@ public class InventorySlotUI : MonoBehaviour
 
     public void SetSlot(ItemData _item, int quantity)
     {
-        item = _item;
+        itemData = _item;
         if (_item != null)
         {
             icon.enabled = true;
@@ -45,31 +44,10 @@ public class InventorySlotUI : MonoBehaviour
 
     private void OnSlotClicked()
     {
-        if (item != null)
+        if (itemData != null)
         {
-            interactionButton.gameObject.SetActive(true);
             InventoryUI.Instance.selectedSlotIndex = slotIndex;
-
-            if (item.itemType == ItemType.Seed)
-            {
-                interactionButton.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = "Plant";
-            }
-
             //Debug.Log($"SelectedSlotIndex : {InventoryUI.Instance.selectedSlotIndex}");
         }
     }
-
-    private void OnInteractionClicked()
-    {
-        if (item.itemType == ItemType.Seed)
-        {
-            if (PlayerController.Instance.Plant(item.cropToGrow))
-            {
-                Inventory.Instance.RemoveItem(item);
-                InventoryUI.Instance.selectedSlotIndex = -1;
-                item = null;
-            }
-        }
-    }
-
 }
