@@ -1,95 +1,76 @@
+using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : MonoBehaviour
+public class Inventory : Singleton<Inventory>
 {
-    public static Inventory Instance;
-
     public int inventorySize = 25;
     public List<InventorySlot> slots = new List<InventorySlot>();
-    public List<ItemData> starterItems = new List<ItemData>();
 
-    private void Awake()
+    public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
+
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
         InitInventory();
     }
 
     private void InitInventory()
     {
-        for(int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventorySize; i++)
         {
-            slots.Add(new InventorySlot());
+            slots.Add(new InventorySlot()); // 슬롯 초기화
         }
 
-        for (int i = 0; i < starterItems.Count; i++) // Test
+        // 테스트 용 아이템 추가
+        for (int i = 0; i < starterItems.Count; i++)
         {
-            AddItem(starterItems[i]);
+            AddItem(starterItems[i], 20);
         }
-
     }
 
-    public bool AddItem(ItemData item, int amount = 1)
+    public bool AddItem(ItemData newItem, int amount = 1)
     {
-        if (item.isStackable)
+        if (newItem.isStackable)
         {
-            foreach (var slot in slots)
+            foreach (var inventorySlot in slots)
             {
-                if (slot.itemData == item)
+                if (inventorySlot.itemData == newItem) // 같은 아이템이 있는 슬롯을 찾음
                 {
-                    slot.quantity += amount;
-                    Debug.Log($"{item.name} is added to inventory! (+{amount})");
-                    return true;
+                    inventorySlot.quantity += amount; // 수량 증가
+                    return true; // 아이템 추가 완료
                 }
             }
-
-            foreach (var slot in slots)
+            foreach (var inventorySlot in slots)
             {
-                if (slot.IsEmpty())
+                if (inventorySlot.IsEmpty()) // 비어있는 슬롯을 찾음
                 {
-                    slot.itemData = item;
-                    slot.quantity = amount;
-                    Debug.Log($"{item.name} is added to inventory! (+{amount})");
-                    return true;
+                    inventorySlot.itemData = newItem; // 아이템 할당
+                    inventorySlot.quantity = amount; // 수량 설정
+                    return true; // 아이템 추가 완료
                 }
-            }
+            }      
         }
         else
         {
-            foreach(var slot in slots)
+            foreach (var inventorySlot in slots)
             {
-                if (slot.IsEmpty())
+                if (inventorySlot.IsEmpty()) // 비어있는 슬롯을 찾음
                 {
-                    slot.itemData = item;
-                    slot.quantity = amount;
-                    Debug.Log($"{item.name}({amount}) is added to inventory!");
-                    return true;
+                    inventorySlot.itemData = newItem; // 아이템 할당
+                    inventorySlot.quantity = amount; // 수량 설정
+                    return true; // 아이템 추가 완료
                 }
-            }
+            }            
         }
-
-        Debug.Log("Inventory is full..");
-        return false;
+        return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 
     public void RemoveItem(ItemData item, int amount = 1)
     {
-        foreach (var slot in slots)
-        {
-            if (slot.itemData == item)
-            {
-                slot.quantity -= amount;
 
-                if (slot.quantity <= 0)
-                {
-                    slot.Clear();
-                    break;
-                }
-            }
-        }
     }
+
+
 }
