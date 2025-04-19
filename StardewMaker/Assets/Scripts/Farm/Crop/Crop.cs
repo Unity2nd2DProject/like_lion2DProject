@@ -4,17 +4,25 @@ public class Crop : MonoBehaviour
 {
     public CropData cropData;
     private int currentGrowthStage = 0;
-    private bool isWatered = false;
-    private SpriteRenderer currentSprite;
+    public bool isWatered = false;
 
-    private void Start()
+    private SpriteRenderer sr;
+
+    private void Awake()
     {
-        
+        sr = GetComponent<SpriteRenderer>();
+    }
+
+    public void Initialize(CropData data)
+    {
+        cropData = data;
+        UpdateGrowth();
     }
 
     public void Water()
     {
         isWatered = true;
+        Debug.Log($"💧 {cropData.name} get water!");
     }
 
     public void NextDay()
@@ -27,13 +35,12 @@ public class Crop : MonoBehaviour
                 UpdateGrowth();
             }
         }
-
         isWatered = false;
     }
 
     private void UpdateGrowth()
     {
-        currentSprite.sprite = cropData.growthSprites[currentGrowthStage];
+        sr.sprite = cropData.growthSprites[currentGrowthStage];
     }
 
     public bool IsHarvestable()

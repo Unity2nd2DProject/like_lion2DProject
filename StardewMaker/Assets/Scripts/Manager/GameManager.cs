@@ -16,9 +16,17 @@ public class GameManager : Singleton<GameManager>
     private GameState currentState;
     public static event Action<GameState> OnGameStateChanged;
 
+    public GameObject inventory;
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void NextDay()
+    {
+        Debug.Log("☀️ ============ NextDay.. ==============");
+        CropManager.Instance.NextDay();
     }
 
     public void SetGameState(string tag, GameState newState)

@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85aef20f0e4ee54b9fe8911ab13bb54, type: 3}
+  m_Name: Onion
+  m_EditorClassIdentifier: 
+  id: 1
+  cropName: Onion
+  growthSprites:
+  - {fileID: 4140360251420805661, guid: 823fdd89a59bfbc4b82c14735b75fe3e, type: 3}
+  - {fileID: -6528861001174237530, guid: 823fdd89a59bfbc4b82c14735b75fe3e, type: 3}
+  - {fileID: 2608608467829819039, guid: 823fdd89a59bfbc4b82c14735b75fe3e, type: 3}
+  maxGrowthStage: 2
+  harvestItem: {fileID: 11400000, guid: 70457a57c7134ed4581707567c2cd244, type: 2}

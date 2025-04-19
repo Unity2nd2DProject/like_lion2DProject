@@ -5,14 +5,30 @@ public class Inventory : MonoBehaviour
 {
     public static Inventory Instance;
 
-    public int inventorySize = 50;
+    public int inventorySize = 25;
     public List<InventorySlot> slots = new List<InventorySlot>();
+    public List<ItemData> starterItems = new List<ItemData>();
 
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
+        }
+
+        InitInventory();
+    }
+
+    private void InitInventory()
+    {
+        for(int i = 0; i < inventorySize; i++)
+        {
+            slots.Add(new InventorySlot());
+        }
+
+        for (int i = 0; i < starterItems.Count; i++) // Test
+        {
+            AddItem(starterItems[i]);
         }
 
     }
@@ -26,6 +42,18 @@ public class Inventory : MonoBehaviour
                 if (slot.itemData == item)
                 {
                     slot.quantity += amount;
+                    Debug.Log($"{item.name} is added to inventory! (+{amount})");
+                    return true;
+                }
+            }
+
+            foreach (var slot in slots)
+            {
+                if (slot.IsEmpty())
+                {
+                    slot.itemData = item;
+                    slot.quantity = amount;
+                    Debug.Log($"{item.name} is added to inventory! (+{amount})");
                     return true;
                 }
             }
@@ -38,6 +66,7 @@ public class Inventory : MonoBehaviour
                 {
                     slot.itemData = item;
                     slot.quantity = amount;
+                    Debug.Log($"{item.name}({amount}) is added to inventory!");
                     return true;
                 }
             }
