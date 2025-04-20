@@ -17,7 +17,7 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public void PlantCrop(Vector2Int gridPos, CropData cropData)
+    public void PlantCrop(Vector2Int gridPos, CropData cropData, bool _isWatered = false)
     {
         if (crops.ContainsKey(gridPos))
         {
@@ -28,7 +28,7 @@ public class CropManager : MonoBehaviour
         
         GameObject cropObj = Instantiate(cropPrefabs[cropData.id], worldPos, Quaternion.identity);
         Crop crop = cropObj.GetComponent<Crop>();
-        crop.Initialize(cropData);
+        crop.Initialize(cropData, _isWatered);
 
         crops.Add(gridPos, crop);
     }

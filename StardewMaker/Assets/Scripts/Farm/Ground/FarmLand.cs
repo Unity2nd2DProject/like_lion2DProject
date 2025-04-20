@@ -3,7 +3,8 @@ using UnityEngine;
 public enum LandState
 {
     Normal,
-    Fertile
+    Fertile,
+    Watered
 }
 
 public class FarmLand : MonoBehaviour
@@ -11,6 +12,7 @@ public class FarmLand : MonoBehaviour
     public LandState landState;
     public Sprite normalSprite;
     public Sprite fertileSprite;
+    public Sprite wateredSprite;
 
     private Vector2Int position; // connect with crop
 
@@ -30,9 +32,16 @@ public class FarmLand : MonoBehaviour
 
     public bool Plant(CropData cropData)
     {
-        if (landState == LandState.Fertile)
+        if (landState != LandState.Normal)
         {
-            CropManager.Instance.PlantCrop(position, cropData);
+            if (landState == LandState.Watered)
+            {
+                CropManager.Instance.PlantCrop(position, cropData, true);
+            }
+            else
+            {
+                CropManager.Instance.PlantCrop(position, cropData);
+            }
             return true;
         }
         else
@@ -54,22 +63,19 @@ public class FarmLand : MonoBehaviour
             UpdateTileSprite();
             return true;
         }
-        else if (landState == LandState.Fertile)
+        else
         {
             landState = LandState.Normal;
             UpdateTileSprite();
             return true;
         }
-        else
-        {
-            return false;
-        }
     }
 
     public bool Water()
     {
-        if (CropManager.Instance.GetCropAt(position) != null)
+        if (landState == LandState.Fertile)
         {
+            landState = LandState.Watered;
             CropManager.Instance.WaterCrop(position);
             UpdateTileSprite();
             return true;
@@ -85,6 +91,7 @@ public class FarmLand : MonoBehaviour
         if (CropManager.Instance.GetCropAt(position).IsHarvestable())
         {
             CropManager.Instance.HarvestCrop(position);
+            UpdateTileSprite();
             return true;    
         }
         else
@@ -98,24 +105,34 @@ public class FarmLand : MonoBehaviour
         return true;
     }
 
+    public void NextDay()
+    {
+        if (landState == LandState.Watered)
+        {
+            landState = LandState.Fertile;
+        }
+
+        UpdateTileSprite();
+    }
+
     private void UpdateTileSprite()
     {
         switch (landState)
         {
             case LandState.Normal:
-                sr.sprite = normalSprite; // null
+                sr.sprite = normalSprite;
                 break;
             case LandState.Fertile:
-                if (CropManager.Instance.GetCropAt(position) != null && CropManager.Instance.GetCropAt(position).isWatered)
-                {
-                    sr.sprite = fertileSprite;
-                    sr.color = new Color(0.7f, 0.5f, 0.3f);
-                }
-                else
-                {
-                    sr.sprite = fertileSprite;
-                }
+                sr.sprite = fertileSprite;
+                break;
+            case LandState.Watered:
+                sr.sprite = wateredSprite;
                 break;
         }
+    }
+
+    public Vector2Int GetPosition()
+    {
+        return position;
     }
 }

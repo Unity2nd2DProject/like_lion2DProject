@@ -61,15 +61,15 @@ public class InventorySlotUI : MonoBehaviour
 
     private void OnInteractionClicked()
     {
-        if (item.itemType == ItemType.Seed)
-        {
-            if (PlayerController.Instance.Plant(item.cropToGrow))
-            {
-                Inventory.Instance.RemoveItem(item);
-                InventoryUI.Instance.selectedSlotIndex = -1;
-                item = null;
-            }
-        }
+        //if (item.itemType == ItemType.Seed)
+        //{
+        //    if (PlayerController.Instance.Plant(item.cropToGrow))
+        //    {
+        //        Inventory.Instance.RemoveItem(item);
+        //        InventoryUI.Instance.selectedSlotIndex = -1;
+        //        item = null;
+        //    }
+        //}
     }
 
 }

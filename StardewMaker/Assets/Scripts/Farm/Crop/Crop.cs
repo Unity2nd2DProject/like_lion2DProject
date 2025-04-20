@@ -13,9 +13,10 @@ public class Crop : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
     }
 
-    public void Initialize(CropData data)
+    public void Initialize(CropData data, bool _isWatered = false)
     {
         cropData = data;
+        isWatered = _isWatered;
         UpdateGrowth();
     }
 
