@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2943684950207389514}
   - component: {fileID: 5215586528452170298}
   - component: {fileID: 5469990210363301116}
+  - component: {fileID: 2696223989408786312}
   m_Layer: 5
   m_Name: InventoryItem
   m_TagString: Untagged
@@ -63,6 +64,18 @@ MonoBehaviour:
   icon: {fileID: 2677500491875802048}
   quantityText: {fileID: 5966078434010855018}
   slotButton: {fileID: 3415022896898333935}
+--- !u!225 &2696223989408786312
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4959855240819225007}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5536808413441145885
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,10 +183,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 2943684950207389514}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 1, y: 0}
-  m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 200, y: 50}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 40, y: -40}
+  m_SizeDelta: {x: 80, y: 30}
   m_Pivot: {x: 1, y: 0}
 --- !u!222 &7487153603153502367
 CanvasRenderer:
@@ -238,7 +251,7 @@ MonoBehaviour:
   m_fontSizeMax: 72
   m_fontStyle: 0
   m_HorizontalAlignment: 4
-  m_VerticalAlignment: 512
+  m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -268,7 +281,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 159.99023, y: 18.684692, z: 0, w: 0}
+  m_margin: {x: 4.041687, y: 1.9599609, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0

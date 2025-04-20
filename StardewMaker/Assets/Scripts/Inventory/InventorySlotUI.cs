@@ -3,22 +3,22 @@ using UnityEngine.EventSystems;
 
 public class InventorySlotUI : MonoBehaviour, IDropHandler
 {
-    public InventoryItem item;
+    public GameObject item;
+    [HideInInspector]
+    public InventorySlot InventorySlot;
 
-    public void SetSlot(ItemData _item, int quantity)
+    public void SetSlot(InventorySlot inventorySlot)
     {
-        item.SetSlot(_item, quantity);
+        if (inventorySlot != null)
+        {
+            this.InventorySlot = inventorySlot;
+        }
+
+        item.GetComponent<InventoryItem>().SetSlot(InventorySlot.itemData, InventorySlot.quantity);
     }
 
     public void OnDrop(PointerEventData eventData)
     {
-        GameObject dropped = eventData.pointerDrag;
 
-        if (dropped != null)
-        {
-            // 부모를 현재 슬롯으로 변경
-            dropped.transform.SetParent(transform);
-            dropped.transform.localPosition = Vector3.zero;
-        }
     }
 }

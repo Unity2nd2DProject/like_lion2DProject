@@ -30,11 +30,11 @@ public class InventoryUI : Singleton<InventoryUI>
         UpdateInventoryUI();
     }
 
-    private void UpdateInventoryUI()
+    public void UpdateInventoryUI()
     {
         for (int i = 0; i < inventory.slots.Count; i++)
         {
-            inventorySlotUIs[i].SetSlot(inventory.slots[i].itemData, inventory.slots[i].quantity);
+            inventorySlotUIs[i].SetSlot(inventory.slots[i]);
         }
     }
 
