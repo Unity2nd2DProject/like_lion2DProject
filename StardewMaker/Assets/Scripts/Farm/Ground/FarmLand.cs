@@ -3,7 +3,8 @@ using UnityEngine;
 public enum LandState
 {
     Normal,
-    Fertile
+    Fertile,
+    Watered
 }
 
 public class FarmLand : MonoBehaviour
@@ -31,9 +32,16 @@ public class FarmLand : MonoBehaviour
 
     public bool Plant(CropData cropData)
     {
-        if (landState == LandState.Fertile)
+        if (landState != LandState.Normal)
         {
-            CropManager.Instance.PlantCrop(position, cropData);
+            if (landState == LandState.Watered)
+            {
+                CropManager.Instance.PlantCrop(position, cropData, true);
+            }
+            else
+            {
+                CropManager.Instance.PlantCrop(position, cropData);
+            }
             return true;
         }
         else
@@ -65,8 +73,9 @@ public class FarmLand : MonoBehaviour
 
     public bool Water()
     {
-        if (CropManager.Instance.GetCropAt(position) != null)
+        if (landState == LandState.Fertile)
         {
+            landState = LandState.Watered;
             CropManager.Instance.WaterCrop(position);
             UpdateTileSprite();
             return true;
@@ -98,6 +107,11 @@ public class FarmLand : MonoBehaviour
 
     public void NextDay()
     {
+        if (landState == LandState.Watered)
+        {
+            landState = LandState.Fertile;
+        }
+
         UpdateTileSprite();
     }
 
@@ -106,18 +120,19 @@ public class FarmLand : MonoBehaviour
         switch (landState)
         {
             case LandState.Normal:
-                sr.sprite = normalSprite; // null
+                sr.sprite = normalSprite;
                 break;
             case LandState.Fertile:
-                if (CropManager.Instance.GetCropAt(position) != null && CropManager.Instance.GetCropAt(position).isWatered)
-                {
-                    sr.sprite = wateredSprite;
-                }
-                else
-                {
-                    sr.sprite = fertileSprite;
-                }
+                sr.sprite = fertileSprite;
+                break;
+            case LandState.Watered:
+                sr.sprite = wateredSprite;
                 break;
         }
+    }
+
+    public Vector2Int GetPosition()
+    {
+        return position;
     }
 }

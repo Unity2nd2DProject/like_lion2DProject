@@ -23,8 +23,6 @@ public class FarmLandManager : MonoBehaviour
 
     public void GenerateFarmLands()
     {
-        Debug.Log("Generating farmlands...");
-
         for (int y=topLeft.y; y>=bottomRight.y; y--)
         {
             for(int x= topLeft.x; x<=bottomRight.x; x++)

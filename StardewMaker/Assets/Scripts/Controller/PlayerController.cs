@@ -1,16 +1,18 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
 enum PlayerInteraction
 {
-    None,
-    Pick,
-    Plant,
-    Water,
-    Harvest,
-    Fish,
-    GetWater
+    None, // null
+    Pick, // PickAxe
+    Plant, // null?
+    Water, // WateringCan
+    Harvest, // null?
+    Fish, // FishingRod
+    GetWater // WateringCan
 }
 
 public class PlayerController : MonoBehaviour
@@ -55,8 +57,7 @@ public class PlayerController : MonoBehaviour
         IInput();
         NInput();
         OneInput();
-        TwoInput();
-        ThreeInput();
+        MouseLeftInput();
     }
 
     private void FixedUpdate()
@@ -100,7 +101,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.X.WasPressedThisFrame())
         {
-            CropManager.Instance.NextDay();
+            
         }
         if (inputManager.inputActions.Player.X.IsPressed())
         {
@@ -120,7 +121,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void NInput() // Text NextDay
+    private void NInput() // NextDay (Test)
     {
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
         {
@@ -128,65 +129,78 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OneInput() // Pick
+    private void OneInput() // Change CurrentTool (Test)
     {
         if (inputManager.inputActions.Player._1.WasPressedThisFrame())
         {
-            InteractWithLand(PlayerInteraction.Pick);
+            CurrentToolManager.Instance.NextTool();
+            //Debug.Log($"Current Tool : {CurrentToolManager.Instance.currentTool.name}");
         }
     }
 
-    private void TwoInput() // Water
+
+    private void MouseLeftInput()
     {
-        if (inputManager.inputActions.Player._2.WasPressedThisFrame())
+        if (inputManager.inputActions.Player.MouseLeft.WasPressedThisFrame())
         {
-            InteractWithLand(PlayerInteraction.Water);
-        }
-    }
+            ItemData currentTool = CurrentToolManager.Instance.currentTool;
 
-    private void ThreeInput() // Harvest
-    {
-        if (inputManager.inputActions.Player._3.WasPressedThisFrame())
-        {
-            InteractWithLand(PlayerInteraction.Harvest);
-        }
-    }
+            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos, whatIsLand);
+            Collider2D[] playerHits = Physics2D.OverlapBoxAll(curPos, new Vector2(3f, 3f), 0f, whatIsLand);
 
-    public bool Plant(CropData cropData)
-    {
-        return (InteractWithLand(PlayerInteraction.Plant, cropData));
-    }
-
-    private bool InteractWithLand(PlayerInteraction interaction, CropData cropData = null)
-    {
-        //Vector2Int landPos = Vector2Int.RoundToInt(curPos);
-        Collider2D hit = Physics2D.OverlapCircle(curPos, 0.1f, whatIsLand);
-
-        if (hit != null)
-        {
-            FarmLand land = hit.GetComponent<FarmLand>();
-            if (land != null)
+            foreach (Collider2D hit in playerHits)
             {
-                if (interaction == PlayerInteraction.Pick)
+                if (hit == mouseHit)
                 {
-                    return (land.Pick());
-                }
-                else if (interaction == PlayerInteraction.Water)
-                {
-                    return (land.Water());
-                }
-                else if (interaction == PlayerInteraction.Plant)
-                {
-                    return (land.Plant(cropData));
-                }
-                else if (interaction == PlayerInteraction.Harvest)
-                {
-                    return (land.Harvest());
+                    FarmLand land = hit.GetComponent<FarmLand>();
+                    if (land != null)
+                    {
+                        if (currentTool == null)
+                        {
+                            var crop = CropManager.Instance.GetCropAt(land.GetPosition());
+
+                            if (crop == null)
+                            {
+                                if (land.landState == LandState.Fertile)
+                                {
+                                    //land.Plant(cropData);
+                                }
+                            }
+                            else
+                            {
+                                if (crop.IsHarvestable())
+                                {
+                                    land.Harvest();
+                                }
+                            }
+                        }
+                        else if (currentTool.name == "ToolHoe")
+                        {
+                            land.Pick();
+                        }
+                        else if (currentTool.name == "ToolWateringCan")
+                        {
+                            land.Water();
+                        }
+                        else if (currentTool.name == "ToolAxe")
+                        {
+
+                        }
+                        else if (currentTool.name == "ToolFishingRod")
+                        {
+
+                        }
+                    }
                 }
             }
         }
+    }
 
-        return false;
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(curPos, new Vector2(3f, 3f));
     }
 
 }
