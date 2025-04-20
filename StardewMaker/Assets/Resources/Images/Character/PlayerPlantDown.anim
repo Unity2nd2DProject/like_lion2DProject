@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerIdle
+  m_Name: PlayerPlantDown
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,7 +21,13 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 3390433575002291553, guid: 69e8f79600581f748aad812800cf6022, type: 3}
+      value: {fileID: -2313239212372680337, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - time: 0.2
+      value: {fileID: 6011416054161490881, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - time: 0.4
+      value: {fileID: -2370237820792167437, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - time: 0.6
+      value: {fileID: 5546997673530843582, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -44,13 +50,16 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 3390433575002291553, guid: 69e8f79600581f748aad812800cf6022, type: 3}
+    - {fileID: -2313239212372680337, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - {fileID: 6011416054161490881, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - {fileID: -2370237820792167437, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - {fileID: 5546997673530843582, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.2
+    m_StopTime: 0.8
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -69,4 +78,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.6
+    functionName: SeedFinishTrigger
+    data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
