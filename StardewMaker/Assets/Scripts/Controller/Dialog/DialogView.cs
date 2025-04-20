@@ -10,7 +10,8 @@ public class DialogView : MonoBehaviour
     [SerializeField] private GameObject dialogPanel;
     [SerializeField] public TMP_Text dialogText;
     [SerializeField] private GameObject nextDialogBtn;
-    [SerializeField] private GameObject optionPanel;
+    [SerializeField] public GameObject optionPanel;
+    [SerializeField] public GameObject optionButtonPrefab;
     [SerializeField] private GameObject characterImage;
 
 
@@ -36,5 +37,22 @@ public class DialogView : MonoBehaviour
     public void ChangeCharaterImage(Sprite sprite)
     {
         characterImage.GetComponent<Image>().sprite = sprite;
+    }
+
+    // 옵션 버튼 생성
+    public GameObject CreateOptionButton(string text)
+    {
+        GameObject go = Instantiate(optionButtonPrefab, optionPanel.transform);
+        go.GetComponentInChildren<TMP_Text>().text = text;
+        return go;
+    }
+
+    // 옵션 버튼 삭제
+    public void DeleteAllOptionButton()
+    {
+        foreach (Transform child in optionPanel.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

@@ -36,6 +36,13 @@ public enum EmotionType
     NONE
 }
 
+public enum ExtType
+{
+    EXIT,
+    SHOP,
+    NONE
+}
+
 public class Dialog
 {
     public int id;
@@ -44,7 +51,7 @@ public class Dialog
     public EmotionType emotion;
     public int nextId;
     public List<int> optionIdList;
-    public string ext1;
+    public ExtType ext1;
     public string korean;
     public string english;
 
@@ -72,7 +79,9 @@ public static class DialogTool
 
     public static void CsvRead(string fileName)
     {
-        TextAsset csvFile = Resources.Load<TextAsset>(fileName); using (StringReader sr = new StringReader(csvFile.text))
+        TextAsset csvFile = Resources.Load<TextAsset>(fileName);
+
+        using (StringReader sr = new StringReader(csvFile.text))
         {
             Dictionary<int, int> dialogDataIndexDic = new();
             string[] langs = sr.ReadLine().Split(","); // 언어들 받아오기 Key,Id,Emotion,Korean(ko),English(en)
@@ -100,6 +109,7 @@ public static class DialogTool
                 string em = rows[dialogDataIndexDic[(int)DialogDataType.EMOTION]];
                 string nId = rows[dialogDataIndexDic[(int)DialogDataType.NEXT_ID]];
                 string opList = rows[dialogDataIndexDic[(int)DialogDataType.OPTION_ID_LIST]];
+                string ex = rows[dialogDataIndexDic[(int)DialogDataType.EXT1]];
 
                 Dialog dialog = new()
                 {
@@ -108,7 +118,8 @@ public static class DialogTool
                     name = rows[dialogDataIndexDic[(int)DialogDataType.NAME]],
                     emotion = Enum.TryParse(em, out EmotionType b) ? b : EmotionType.NONE,
                     nextId = int.TryParse(nId, out int c) ? lineNum + c : -1,
-                    optionIdList = opList.Split(',').Select(s => int.TryParse(s.Trim(), out int result) ? lineNum + result : -1).ToList(),
+                    optionIdList = opList.Split(',').Select(s => int.TryParse(s.Trim(), out int d) ? lineNum + d : -1).ToList(),
+                    ext1 = Enum.TryParse(ex, out ExtType e) ? e : ExtType.NONE,
                     korean = rows[dialogDataIndexDic[(int)DialogDataType.KOREAN]],
                     english = rows[dialogDataIndexDic[(int)DialogDataType.ENGLISH]],
                 };
