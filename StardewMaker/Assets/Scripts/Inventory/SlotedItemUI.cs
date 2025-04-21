@@ -3,9 +3,10 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.EventSystems;
 using System;
+using UnityEditor.ShaderGraph.Internal;
 
 
-public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private ItemData itemData;
     public Image icon;
@@ -95,10 +96,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             return;
         }
 
-        InventorySlotUI targetSlot = dropTarget.GetComponentInParent<InventorySlotUI>();
+        SlotUI targetSlot = dropTarget.GetComponentInParent<SlotUI>();
         if (targetSlot != null)
         {
-            InventorySlotUI currentSlot = originalParent.GetComponent<InventorySlotUI>();
+            SlotUI currentSlot = originalParent.GetComponent<SlotUI>();
             SwapSlotData(currentSlot, targetSlot);
         }
         else
@@ -107,33 +108,71 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             ReturnToOriginalPosition();
         }
     }
-    private void SwapSlotData(InventorySlotUI currentSlot, InventorySlotUI targetSlot)
+    private void SwapSlotData(SlotUI currentSlot, SlotUI targetSlot)
     {
-        Inventory inventory = InventoryUI.Instance.inventory;
+        var inventory = InventoryUI.Instance.inventory;
+        var quickSlotManager = QuickSlotManager.Instance;
 
-        int currentIndex = InventoryUI.Instance.inventorySlotUIs.IndexOf(currentSlot);
-        int targetIndex = InventoryUI.Instance.inventorySlotUIs.IndexOf(targetSlot);
+        bool currentIsInventory = currentSlot is InventorySlotUI;
+        bool targetIsInventory = targetSlot is InventorySlotUI;
 
-        InventorySlot temp = inventory.slots[currentIndex];
-        inventory.slots[currentIndex] = inventory.slots[targetIndex];
-        inventory.slots[targetIndex] = temp;
+        bool currentIsQuick = currentSlot is QuickSlotSlotUI;
+        bool targetIsQuick = targetSlot is QuickSlotSlotUI;
 
-        // UI도 스왑
+        // Slot Index 가져오기
+        int currentIndex = currentIsInventory
+            ? InventoryUI.Instance.inventorySlotUIs.IndexOf((InventorySlotUI)currentSlot)
+            : QuickSlotUI.Instance.quickSlotSlotUIs.IndexOf((QuickSlotSlotUI)currentSlot);
+
+        int targetIndex = targetIsInventory
+            ? InventoryUI.Instance.inventorySlotUIs.IndexOf((InventorySlotUI)targetSlot)
+            : QuickSlotUI.Instance.quickSlotSlotUIs.IndexOf((QuickSlotSlotUI)targetSlot);
+
+        // 데이터 교환
+        if (currentIsInventory && targetIsInventory)
+        {
+            (inventory.slots[currentIndex], inventory.slots[targetIndex])
+                = (inventory.slots[targetIndex], inventory.slots[currentIndex]);
+        }
+        else if (currentIsQuick && targetIsQuick)
+        {
+            (quickSlotManager.slots[currentIndex], quickSlotManager.slots[targetIndex])
+                = (quickSlotManager.slots[targetIndex], quickSlotManager.slots[currentIndex]);
+        }
+        else if (currentIsInventory && targetIsQuick)
+        {
+            (inventory.slots[currentIndex], quickSlotManager.slots[targetIndex])
+                = (quickSlotManager.slots[targetIndex], inventory.slots[currentIndex]);
+        }
+        else if (currentIsQuick && targetIsInventory)
+        {
+            (quickSlotManager.slots[currentIndex], inventory.slots[targetIndex])
+                = (inventory.slots[targetIndex], quickSlotManager.slots[currentIndex]);
+        }
+
+        // UI 아이템 오브젝트 스왑
         GameObject currentItem = currentSlot.item;
         GameObject targetItem = targetSlot.item;
 
         currentSlot.item = targetItem;
         targetSlot.item = currentItem;
 
-        currentItem.transform.SetParent(targetSlot.transform);
-        currentItem.transform.localPosition = Vector3.zero;
+        if (currentItem != null)
+        {
+            currentItem.transform.SetParent(targetSlot.transform);
+            currentItem.transform.localPosition = Vector3.zero;
+        }
+        if (targetItem != null)
+        {
+            targetItem.transform.SetParent(currentSlot.transform);
+            targetItem.transform.localPosition = Vector3.zero;
+        }
 
-        targetItem.transform.SetParent(currentSlot.transform);
-        targetItem.transform.localPosition = Vector3.zero;
-
-
+        // UI 새로고침
         InventoryUI.Instance.UpdateInventoryUI();
+        QuickSlotUI.Instance.UpdateUI();
     }
+
 
     private void ReturnToOriginalPosition()
     {

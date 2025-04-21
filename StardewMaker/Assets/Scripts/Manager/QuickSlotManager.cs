@@ -1,16 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickSlotManager : MonoBehaviour
+public class QuickSlotManager : Singleton<QuickSlotManager>
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public int quickSlotSize = 10;
+    public List<ItemSlot> slots = new List<ItemSlot>();
+
+    public ItemSlot currentSelect;
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+
+        SetQuickSlot();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void SetQuickSlot()
     {
-        
+        for (int i = 0; i < quickSlotSize; i++)
+        {
+            slots.Add(new ItemSlot()); // 슬롯 초기화
+        }
     }
 }

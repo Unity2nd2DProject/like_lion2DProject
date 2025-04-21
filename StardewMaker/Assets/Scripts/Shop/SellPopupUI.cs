@@ -11,7 +11,7 @@ public class SellPopupUI : MonoBehaviour
     public Button increaseButton;
     public Button decreaseButton;
 
-    private InventorySlot currentSlot;
+    private ItemSlot currentSlot;
     private ShopManager shopManager;
     private ShopUIController shopUIController;
 
@@ -25,7 +25,7 @@ public class SellPopupUI : MonoBehaviour
         shopUIController = controller;
     }
 
-    public void Show(InventorySlot slot)
+    public void Show(ItemSlot slot)
     {
         currentSlot = slot;
         unitPrice = shopManager.GetSellPrice(slot.itemData);
