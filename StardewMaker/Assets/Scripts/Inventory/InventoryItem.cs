@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 
 
-public class InventoryItem : MonoBehaviour,IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
     private ItemData itemData;
     public Image icon;
@@ -82,11 +82,8 @@ public class InventoryItem : MonoBehaviour,IBeginDragHandler, IDragHandler, IEnd
         canvasGroup.blocksRaycasts = true; // 드래그 종료 후 다른 UI 요소와의 상호작용 활성화
         transform.SetParent(originalParent); // 원래 부모로 돌아감
 
-        Debug.Log("OnEndDrag 호출됨");
         if (itemData == null)
         {
-            Debug.Log("드래그 종료: itemData가 null입니다.");
-
             ReturnToOriginalPosition();
             return;
         }
@@ -94,31 +91,26 @@ public class InventoryItem : MonoBehaviour,IBeginDragHandler, IDragHandler, IEnd
 
         if (dropTarget == null)
         {
-            Debug.Log("드래그 종료: dropTarget이 null입니다.");
             ReturnToOriginalPosition();
             return;
         }
         Debug.Log($"드롭 대상 객체 이름: {dropTarget.name}");
 
         InventorySlotUI targetSlot = dropTarget.GetComponentInParent<InventorySlotUI>();
-        if(targetSlot != null)
+        if (targetSlot != null)
         {
-            Debug.Log("드롭 대상이 슬롯입니다. 스왑 시도합니다.");
             InventorySlotUI currentSlot = originalParent.GetComponent<InventorySlotUI>();
-
             SwapSlotData(currentSlot, targetSlot);
-
         }
         else
         {
             // 드래그 종료 시 슬롯이 아닌 곳에 놓인 경우 원래 위치로 돌아감
-            Debug.Log("드롭 대상이 슬롯이 아닙니다. 원위치로 복귀합니다.");
             ReturnToOriginalPosition();
         }
     }
     private void SwapSlotData(InventorySlotUI currentSlot, InventorySlotUI targetSlot)
     {
-        var inventory = InventoryUI.Instance.inventory;
+        Inventory inventory = InventoryUI.Instance.inventory;
 
         int currentIndex = InventoryUI.Instance.inventorySlotUIs.IndexOf(currentSlot);
         int targetIndex = InventoryUI.Instance.inventorySlotUIs.IndexOf(targetSlot);
@@ -127,8 +119,6 @@ public class InventoryItem : MonoBehaviour,IBeginDragHandler, IDragHandler, IEnd
         inventory.slots[currentIndex] = inventory.slots[targetIndex];
         inventory.slots[targetIndex] = temp;
 
-        Debug.Log($"[SwapSlotData] 인벤토리 슬롯 스왑: {currentIndex} <-> {targetIndex}");
-
         // UI도 스왑
         GameObject currentItem = currentSlot.item;
         GameObject targetItem = targetSlot.item;
@@ -136,19 +126,12 @@ public class InventoryItem : MonoBehaviour,IBeginDragHandler, IDragHandler, IEnd
         currentSlot.item = targetItem;
         targetSlot.item = currentItem;
 
-        if (currentItem != null)
-        {
-            currentItem.transform.SetParent(targetSlot.transform);
-            currentItem.transform.localPosition = Vector3.zero;
-            Debug.Log($"[SwapSlotData] {currentItem.name} → {targetSlot.name}");
-        }
+        currentItem.transform.SetParent(targetSlot.transform);
+        currentItem.transform.localPosition = Vector3.zero;
 
-        if (targetItem != null)
-        {
-            targetItem.transform.SetParent(currentSlot.transform);
-            targetItem.transform.localPosition = Vector3.zero;
-            Debug.Log($"[SwapSlotData] {targetItem.name} → {currentSlot.name}");
-        }
+        targetItem.transform.SetParent(currentSlot.transform);
+        targetItem.transform.localPosition = Vector3.zero;
+
 
         InventoryUI.Instance.UpdateInventoryUI();
     }
