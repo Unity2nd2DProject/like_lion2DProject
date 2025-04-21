@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: PlayerGetWaterLeft
+  m_Name: PlayerGetWaterRight
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,13 +21,11 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: -2694580463871689744, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+      value: {fileID: -5417223830103110709, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
     - time: 0.2
-      value: {fileID: 5824885847243671425, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+      value: {fileID: 6368192082097933773, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
     - time: 0.4
-      value: {fileID: 4164506242583432661, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
-    - time: 0.6
-      value: {fileID: -2694580463871689744, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+      value: {fileID: -8117064408714257271, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -50,16 +48,15 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: -2694580463871689744, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
-    - {fileID: 5824885847243671425, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
-    - {fileID: 4164506242583432661, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
-    - {fileID: -2694580463871689744, guid: 059097eb72aada44c9f1b3812b0988c1, type: 3}
+    - {fileID: -5417223830103110709, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
+    - {fileID: 6368192082097933773, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
+    - {fileID: -8117064408714257271, guid: 890d6836e045a784cb3b0b65accd9b44, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}
     m_AdditiveReferencePoseTime: 0
     m_StartTime: 0
-    m_StopTime: 0.8
+    m_StopTime: 0.6
     m_OrientationOffsetY: 0
     m_Level: 0
     m_CycleOffset: 0
@@ -79,7 +76,7 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
-  - time: 0.6
+  - time: 0.4
     functionName: GetWaterFinishTrigger
     data: 
     objectReferenceParameter: {fileID: 0}

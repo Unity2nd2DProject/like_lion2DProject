@@ -29,10 +29,13 @@ public class PlayerController : MonoBehaviour
     private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
     private Vector2 playerToMouse;
+    private Vector2 lastMove;
     public float moveSpeed = 5f;
     private Vector2 curPos;
 
     public LayerMask whatIsLand;
+    public LayerMask whatIsPond;
+    public LayerMask whatIsTree;
 
     void Awake()
     {
@@ -77,6 +80,11 @@ public class PlayerController : MonoBehaviour
         moveInput = UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>();
         move = moveInput;
 
+        if (move != Vector2.zero)
+        {
+            lastMove = move;
+        }
+
         SetMoveAnimation();
     }
 
@@ -85,6 +93,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Move", move != Vector2.zero);
         anim.SetFloat("InputX", move.x);
         anim.SetFloat("InputY", move.y);
+        anim.SetFloat("LastX", lastMove.x);
+        anim.SetFloat("LastY", lastMove.y);
     }
 
     private void SpaceInput()
