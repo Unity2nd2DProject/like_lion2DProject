@@ -11,8 +11,9 @@ public enum PlayerInteraction
     Plant, // null?
     Water, // WateringCan
     Harvest, // null?
-    Fish, // FishingRod
-    GetWater // WateringCan
+    Fish, // Fishing
+    GetWater, // WateringCanRod
+    Axe
 }
 
 public class PlayerController : MonoBehaviour
@@ -249,8 +250,19 @@ public class PlayerController : MonoBehaviour
                 anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Fish:
+                anim.SetBool("Fish", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.GetWater:
+                anim.SetBool("GetWater", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Axe:
+                anim.SetBool("Axe", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
         }
     }
