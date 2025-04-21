@@ -25,8 +25,9 @@ public class PlayerController : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
 
+    private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
-    private Vector2 lastMove;
+    private Vector2 playerToMouse;
     public float moveSpeed = 5f;
     private Vector2 curPos;
 
@@ -65,17 +66,15 @@ public class PlayerController : MonoBehaviour
     {
         rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
         curPos = rb.position;
+
+        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        playerToMouse = (mouseWorldPos - curPos).normalized;
     }
 
     private void PlayerMoveInput()
     {
         moveInput = UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>();
         move = moveInput;
-
-        if (move != Vector2.zero)
-        {
-            lastMove = move;
-        }
 
         SetMoveAnimation();
     }
@@ -157,7 +156,6 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.MouseLeft.WasPressedThisFrame())
         {
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos, whatIsLand);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f, whatIsLand);
 
@@ -232,23 +230,23 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerInteraction.Pick:
                 anim.SetBool("Pick", true);
-                anim.SetFloat("LastX", lastMove.x);
-                anim.SetFloat("LastY", lastMove.y);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Plant:
                 anim.SetBool("Plant", true);
-                anim.SetFloat("LastX", lastMove.x);
-                anim.SetFloat("LastY", lastMove.y);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Water:
                 anim.SetBool("Water", true);
-                anim.SetFloat("LastX", lastMove.x);
-                anim.SetFloat("LastY", lastMove.y);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Harvest:
                 anim.SetBool("Harvest", true);
-                anim.SetFloat("LastX", lastMove.x);
-                anim.SetFloat("LastY", lastMove.y);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Fish:
                 break;
