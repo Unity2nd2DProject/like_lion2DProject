@@ -94,7 +94,6 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             ReturnToOriginalPosition();
             return;
         }
-        Debug.Log($"드롭 대상 객체 이름: {dropTarget.name}");
 
         InventorySlotUI targetSlot = dropTarget.GetComponentInParent<InventorySlotUI>();
         if (targetSlot != null)

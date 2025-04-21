@@ -165,6 +165,7 @@ public class PlayerController : MonoBehaviour
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
+        // 현재 내가 장착하고 있는 아이템
         ItemData currentTool = CurrentToolManager.Instance.currentTool;
 
         foreach (Collider2D hit in playerHits)
