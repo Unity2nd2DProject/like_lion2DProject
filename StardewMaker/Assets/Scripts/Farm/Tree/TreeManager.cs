@@ -2,15 +2,22 @@ using UnityEngine;
 
 public class TreeManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static TreeManager Instance;
+    public Tree[] trees;
+
+    private void Awake()
     {
-        
+        if (Instance == null)
+        {
+            Instance = this;
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    public void NextDay()
     {
-        
+        foreach(var tree in trees)
+        {
+            tree.NexDay();
+        }
     }
 }
