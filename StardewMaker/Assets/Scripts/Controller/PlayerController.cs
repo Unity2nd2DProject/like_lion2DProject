@@ -252,7 +252,8 @@ public class PlayerController : MonoBehaviour
                     }
                     else if (currentTool.name == "ToolFishingRod")
                     {
-
+                        pond.Fish();
+                        SetInteractAnimation(PlayerInteraction.Fish);
                     }
                 }
 

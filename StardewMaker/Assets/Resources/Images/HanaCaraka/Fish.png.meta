@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -164,9 +164,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 31
-        width: 17
-        height: 17
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -186,9 +186,9 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 16
-        y: 31
-        width: 17
-        height: 17
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -207,9 +207,9 @@ TextureImporter:
       name: Fish_2
       rect:
         serializedVersion: 2
-        x: 16
-        y: 16
-        width: 17
+        x: 32
+        y: 32
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -229,9 +229,9 @@ TextureImporter:
       name: Fish_3
       rect:
         serializedVersion: 2
-        x: 31
+        x: 48
         y: 32
-        width: 18
+        width: 16
         height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
@@ -239,9 +239,9 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 6c687c81afb8d2ac0800000000000000
+      spriteID: 3af4d41e0c8be9b4dab71acd10bed260
       internalID: -3878289797822314810
       vertices: []
       indices: 
@@ -251,19 +251,19 @@ TextureImporter:
       name: Fish_4
       rect:
         serializedVersion: 2
-        x: 47
-        y: 31
-        width: 17
-        height: 17
+        x: 0
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 671965faf27e6e850800000000000000
+      spriteID: bd103f4ee4087414a9e09a06bb4f6e8b
       internalID: 6406061711972274550
       vertices: []
       indices: 
@@ -273,19 +273,19 @@ TextureImporter:
       name: Fish_5
       rect:
         serializedVersion: 2
-        x: 1
-        y: 17
-        width: 15
-        height: 14
+        x: 16
+        y: 16
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: c9abd663a01df7c00800000000000000
+      spriteID: 435db1c21ca221f469741918572eb503
       internalID: 900668292290427548
       vertices: []
       indices: 
@@ -295,19 +295,19 @@ TextureImporter:
       name: Fish_6
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 14
-        height: 14
+        x: 0
+        y: 0
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 877f461dfb8fb9fe0800000000000000
+      spriteID: 068712edacb9a2143ad06e712afae76a
       internalID: -1181076974519126152
       vertices: []
       indices: 
@@ -320,16 +320,16 @@ TextureImporter:
         x: 16
         y: 0
         width: 16
-        height: 15
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 08e723fee4c1bea60800000000000000
+      spriteID: dea0d638baa0dba48bb3d8e114dbf334
       internalID: 7704282712893456000
       vertices: []
       indices: 
@@ -339,7 +339,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 2b82ab8054a53084c8b3e93ce3dfed22
     internalID: 0
     vertices: []
     indices: 
