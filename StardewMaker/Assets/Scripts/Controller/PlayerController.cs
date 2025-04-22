@@ -58,7 +58,6 @@ public class PlayerController : MonoBehaviour
         XInput();
         IInput();
         NInput();
-        OneInput();
         MouseLeftInput();
     }
 
@@ -143,15 +142,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OneInput() // Change CurrentTool (Test)
-    {
-        if (inputManager.inputActions.Player._1.WasPressedThisFrame())
-        {
-            CurrentToolManager.Instance.NextTool();
-            //Debug.Log($"Current Tool : {CurrentToolManager.Instance.currentTool.name}");
-        }
-    }
-
     private void MouseLeftInput()
     {
         if (inputManager.inputActions.Player.MouseLeft.WasPressedThisFrame())
@@ -166,7 +156,7 @@ public class PlayerController : MonoBehaviour
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
         // 현재 내가 장착하고 있는 아이템
-        ItemData currentTool = CurrentToolManager.Instance.currentTool;
+        ItemData currentTool = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
 
         foreach (Collider2D hit in playerHits)
         {
@@ -177,6 +167,7 @@ public class PlayerController : MonoBehaviour
                 {
                     if (currentTool == null)
                     {
+                        return; // TODO: 해당 내용은 나중에 수정해야 함 씨앗심기 / 수확하기
                         var crop = CropManager.Instance.GetCropAt(land.GetPosition());
 
                         if (crop == null)
