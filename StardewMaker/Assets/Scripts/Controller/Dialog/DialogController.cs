@@ -11,6 +11,7 @@ public class DialogController : MonoBehaviour
     private DialogView dialogView; // UI 부분
 
     private Dialog currentDialog; // 현재 대사
+    private NPCDialog currentNPCDailog; // 현재 NPC 정보
     private int selectedOptionNum = 0; // 옵션 선택 저장
 
     private bool isNextDialogReady = false; // 다음 대사 가능한지 판별
@@ -27,12 +28,12 @@ public class DialogController : MonoBehaviour
     private void OnEnable()
     {
         inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
-        DialogTrigger.OnDialogRequested += StartDialog;
+        DialogTrigger.OnDialogRequested += InitDialog;
     }
 
     private void OnDisable()
     {
-        DialogTrigger.OnDialogRequested -= StartDialog;
+        DialogTrigger.OnDialogRequested -= InitDialog;
     }
 
     private void Update()
@@ -64,6 +65,8 @@ public class DialogController : MonoBehaviour
                     break;
 
                 case DialogType.CHOICE: // 선택 옵션이 있는 대사 진행
+                    dialogView.DeleteAllOptionButton(); // 옵션 리스트 삭제
+
                     Dialog checkedOptionDialog = DialogTool.dic[currentDialog.optionIdList[selectedOptionNum]];
                     currentDialogId = checkedOptionDialog.nextId; // 다음 대사 id 저장
 
@@ -91,6 +94,7 @@ public class DialogController : MonoBehaviour
                 isNextDialogReady = false;
                 dialogView.EnableDialogPanel(false);
                 dialogView.EnableOptionPanel(false);
+                dialogView.EnableNPCImage(false);
             }
             else
             {
@@ -112,24 +116,33 @@ public class DialogController : MonoBehaviour
         }
     }
 
+    // 다이얼로그 NPC 초기화
+    public void InitDialog(NPCDialog npcDialog)
+    {
+        dialogView.SetNPCDialog(npcDialog);
+        dialogView.EnableNPCImage(true);
+        StartDialog(npcDialog.dialogId);
+    }
+
+    // 대화 시작
     public void StartDialog(int dialogId) //, Sprite portrait)
     {
-        // todo portrait 사용할 방법
-
         if (isDialogEnd) // 대사가 끝나있는 상태일때만 실행 가능
         {
             isDialogEnd = false;
-            StartCoroutine(ConversationByDialogId(dialogId));
+            StartCoroutine(ConversationById(dialogId));
         }
     }
 
-    public IEnumerator ConversationByDialogId(int id)
+    public IEnumerator ConversationById(int id)
     {
         currentDialog = DialogTool.dic[id]; // id에 맞는 대사 가져옴
 
         dialogView.EnableDialogPanel(true);
 
-        // ChangeEmotionImage(); // todo 임시. 아직 교체 안함
+        ChangeEmotionImage(currentDialog.emotion);
+
+        ChangeCharacterName(currentDialog.name);
 
         OnStartTextPrint(); // todo 대사 출력 시 효과음 내기
         yield return TextTool.PrintTmpText(dialogView.dialogText, currentDialog.GetText(), () => isSkipRequested);
@@ -148,30 +161,24 @@ public class DialogController : MonoBehaviour
         }
     }
 
+    // 감정 표현 변경하기
+    private void ChangeEmotionImage(EmotionType emotionType)
+    {
+        dialogView.ChangeCharaterImage(emotionType);
+    }
+
+    // 해당 대사의 캐릭터 이름으로 변경
+    private void ChangeCharacterName(string name)
+    {
+        dialogView.SetCharacterName(name);
+    }
+
     // 옵션 클릭시 실행
     private void OnClickOption(int i)
     {
         // Debug.Log($"{TAG} OnClickOption {i}");
         selectedOptionNum = i;
-        dialogView.DeleteAllOptionButton();
         OnClickSpaceInput();
-    }
-
-    // 감정 표현 변경하기
-    private void ChangeEmotionImage()
-    {
-        Sprite newSprite;
-        switch (currentDialog.emotion)
-        {
-            case EmotionType.IDLE:
-                newSprite = Resources.Load<Sprite>("Images/CharacterIllust/Father-0001");
-                dialogView.ChangeCharaterImage(newSprite);
-                break;
-            case EmotionType.SAD:
-                newSprite = Resources.Load<Sprite>("Images/CharacterIllust/Daughter-0001");
-                dialogView.ChangeCharaterImage(newSprite);
-                break;
-        }
     }
 
     // 대사 출력 시작

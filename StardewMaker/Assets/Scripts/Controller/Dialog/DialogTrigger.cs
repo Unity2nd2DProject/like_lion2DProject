@@ -7,9 +7,9 @@ public class DialogTrigger : MonoBehaviour
 
     private UserInputManager inputManager;
 
-    public static event Action<int> OnDialogRequested;
+    public static event Action<NPCDialog> OnDialogRequested;
 
-    private NPC currentNPC;
+    private NPCDialog currentNPC;
 
     void OnEnable()
     {
@@ -20,7 +20,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (inputManager.inputActions.UI.C.WasPressedThisFrame() && currentNPC != null)
         {
-            OnDialogRequested?.Invoke(currentNPC.dialogId); //, currentNPC.GetPortrait());
+            OnDialogRequested?.Invoke(currentNPC); //, currentNPC.GetPortrait());
         }
     }
 
@@ -28,7 +28,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (other.CompareTag("NPC"))
         {
-            currentNPC = other.GetComponent<NPC>();
+            currentNPC = other.GetComponent<NPCDialog>();
             Debug.Log($"{TAG} NPC meet, NPC dialogId : {currentNPC.dialogId}");
         }
     }
