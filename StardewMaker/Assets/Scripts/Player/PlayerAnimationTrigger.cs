@@ -28,4 +28,20 @@ public class PlayerAnimationTrigger : MonoBehaviour
     {
         anim.SetBool("Harvest", false);
     }
+
+    private void FishFinishTrigger()
+    {
+        anim.SetBool("Fish", false);
+    }
+
+    private void AxeFinishTrigger()
+    {
+        anim.SetBool("Axe", false);
+    }
+
+    private void GetWaterFinishTrigger()
+    {
+        anim.SetBool("GetWater", false);
+    }
+
 }

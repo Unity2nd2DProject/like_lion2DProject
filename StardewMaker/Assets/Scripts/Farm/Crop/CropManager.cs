@@ -24,9 +24,8 @@ public class CropManager : MonoBehaviour
             return;
         }
 
-        Vector3 worldPos = new Vector3(gridPos.x, gridPos.y, 0);
-        
-        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], worldPos, Quaternion.identity);
+        //GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(gridPos.x, gridPos.y, 0), Quaternion.identity);
+        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(gridPos.x + 0.5f, gridPos.y + 0.5f, 0), Quaternion.identity);
         Crop crop = cropObj.GetComponent<Crop>();
         crop.Initialize(cropData, _isWatered);
 
