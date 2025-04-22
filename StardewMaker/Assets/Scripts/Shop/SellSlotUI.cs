@@ -10,11 +10,11 @@ public class SellSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     public TextMeshProUGUI quantityText;
 
     private ShopItemData itemData;
-    private InventorySlot slot;
+    private ItemSlot slot;
     private SellPopupUI popup;
     private ItemInfoPopupUI infoPopup;
 
-    public void SetSlot(InventorySlot slotData, SellPopupUI popupUI)
+    public void SetSlot(ItemSlot slotData, SellPopupUI popupUI)
     {
         slot = slotData;
         popup = popupUI;

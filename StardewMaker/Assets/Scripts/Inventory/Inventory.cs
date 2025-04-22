@@ -5,7 +5,7 @@ using UnityEngine;
 public class Inventory : Singleton<Inventory>
 {
     public int inventorySize = 25;
-    public List<InventorySlot> slots = new List<InventorySlot>();
+    public List<ItemSlot> slots = new List<ItemSlot>();
 
     public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
@@ -20,7 +20,7 @@ public class Inventory : Singleton<Inventory>
     {
         for (int i = 0; i < inventorySize; i++)
         {
-            slots.Add(new InventorySlot()); // 슬롯 초기화
+            slots.Add(new ItemSlot()); // 슬롯 초기화
         }
 
         // 테스트 용 아이템 추가

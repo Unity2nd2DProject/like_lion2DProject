@@ -16,8 +16,7 @@ public class CurrentToolManager : MonoBehaviour
         {
             Instance = this;
         }
-    }
-    
+    }    
     public void NextTool()
     {
         index++;

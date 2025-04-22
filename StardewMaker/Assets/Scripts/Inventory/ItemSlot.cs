@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlot
+public class ItemSlot
 {
     public ItemData itemData;
     public int quantity;
