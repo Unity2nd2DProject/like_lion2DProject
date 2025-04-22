@@ -1,24 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour, IDropHandler
+public class InventorySlotUI : SlotUI, IDropHandler
 {
-    public GameObject item;
-    [HideInInspector]
-    public InventorySlot InventorySlot;
-
-    public void SetSlot(InventorySlot inventorySlot)
+    private void Awake()
     {
-        if (inventorySlot != null)
-        {
-            this.InventorySlot = inventorySlot;
-        }
-
-        item.GetComponent<InventoryItem>().SetSlot(InventorySlot.itemData, InventorySlot.quantity);
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-
+        slotType = SlotType.Inventory;
     }
 }

@@ -34,7 +34,7 @@ public class InventoryUI : Singleton<InventoryUI>
     {
         for (int i = 0; i < inventory.slots.Count; i++)
         {
-            inventorySlotUIs[i].SetSlot(inventory.slots[i]);
+            inventorySlotUIs[i].UpdateSlot(inventory.slots[i]);
         }
     }
 
