@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class InventorySlot
 {
@@ -14,5 +15,5 @@ public class InventorySlot
     {
         itemData = null;
         quantity = 0;
-    }
+    }    
 }

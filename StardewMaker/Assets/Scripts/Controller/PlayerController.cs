@@ -4,15 +4,16 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-enum PlayerInteraction
+public enum PlayerInteraction
 {
     None, // null
     Pick, // PickAxe
     Plant, // null?
     Water, // WateringCan
     Harvest, // null?
-    Fish, // FishingRod
-    GetWater // WateringCan
+    Fish, // Fishing
+    GetWater, // WateringCanRod
+    Axe
 }
 
 public class PlayerController : MonoBehaviour
@@ -25,11 +26,16 @@ public class PlayerController : MonoBehaviour
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
 
+    private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
+    private Vector2 playerToMouse;
+    private Vector2 lastMove;
     public float moveSpeed = 5f;
     private Vector2 curPos;
 
     public LayerMask whatIsLand;
+    public LayerMask whatIsPond;
+    public LayerMask whatIsTree;
 
     void Awake()
     {
@@ -64,12 +70,31 @@ public class PlayerController : MonoBehaviour
     {
         rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
         curPos = rb.position;
+
+        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        playerToMouse = (mouseWorldPos - curPos).normalized;
     }
 
     private void PlayerMoveInput()
     {
         moveInput = UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>();
         move = moveInput;
+
+        if (move != Vector2.zero)
+        {
+            lastMove = move;
+        }
+
+        SetMoveAnimation();
+    }
+
+    private void SetMoveAnimation()
+    {
+        anim.SetBool("Move", move != Vector2.zero);
+        anim.SetFloat("InputX", move.x);
+        anim.SetFloat("InputY", move.y);
+        anim.SetFloat("LastX", lastMove.x);
+        anim.SetFloat("LastY", lastMove.y);
     }
 
     private void SpaceInput()
@@ -138,22 +163,29 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     private void MouseLeftInput()
     {
         if (inputManager.inputActions.Player.MouseLeft.WasPressedThisFrame())
         {
-            ItemData currentTool = CurrentToolManager.Instance.currentTool;
+            //Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos, whatIsLand);
+            //Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f, whatIsLand);
+            Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
+            Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            Vector2 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos, whatIsLand);
-            Collider2D[] playerHits = Physics2D.OverlapBoxAll(curPos, new Vector2(3f, 3f), 0f, whatIsLand);
+            InteractWithObject(mouseHit, playerHits);
+        }
+    }
 
-            foreach (Collider2D hit in playerHits)
+    private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
+    {
+        ItemData currentTool = CurrentToolManager.Instance.currentTool;
+
+        foreach (Collider2D hit in playerHits)
+        {
+            if (hit == mouseHit)
             {
-                if (hit == mouseHit)
+                if (hit.TryGetComponent(out FarmLand land))
                 {
-                    FarmLand land = hit.GetComponent<FarmLand>();
                     if (land != null)
                     {
                         if (currentTool == null)
@@ -165,6 +197,7 @@ public class PlayerController : MonoBehaviour
                                 if (land.landState == LandState.Fertile)
                                 {
                                     //land.Plant(cropData);
+                                    SetInteractAnimation(PlayerInteraction.Plant);
                                 }
                             }
                             else
@@ -172,35 +205,110 @@ public class PlayerController : MonoBehaviour
                                 if (crop.IsHarvestable())
                                 {
                                     land.Harvest();
+                                    SetInteractAnimation(PlayerInteraction.Harvest);
                                 }
                             }
                         }
                         else if (currentTool.name == "ToolHoe")
                         {
-                            land.Pick();
+                            if (land.Pick())
+                            {
+                                SetInteractAnimation(PlayerInteraction.Pick);
+                            }
                         }
                         else if (currentTool.name == "ToolWateringCan")
                         {
-                            land.Water();
-                        }
-                        else if (currentTool.name == "ToolAxe")
-                        {
-
-                        }
-                        else if (currentTool.name == "ToolFishingRod")
-                        {
-
+                            if (land.Water())
+                            {
+                                SetInteractAnimation(PlayerInteraction.Water);
+                            }
                         }
                     }
                 }
+                else if (hit.TryGetComponent(out Tree tree))
+                {
+                    if (currentTool == null)
+                    {
+                        return;
+                    }
+
+                    if (currentTool.name == "ToolAxe")
+                    {
+                        tree.Chop();
+                        SetInteractAnimation(PlayerInteraction.Axe);
+                    }
+                }
+                else if (hit.TryGetComponent(out Pond pond))
+                {
+                    if (currentTool == null)
+                    {
+                        return;
+                    }
+
+                    if (currentTool.name == "ToolWateringCan")
+                    {
+                        pond.GetWater();
+                        SetInteractAnimation(PlayerInteraction.GetWater); 
+                    }
+                    else if (currentTool.name == "ToolFishingRod")
+                    {
+
+                    }
+                }
+
+
             }
+        }
+    }
+
+    private void SetInteractAnimation(PlayerInteraction interaction)
+    {
+        switch (interaction)
+        {
+            case PlayerInteraction.None:
+                break;
+            case PlayerInteraction.Pick:
+                anim.SetBool("Pick", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Plant:
+                anim.SetBool("Plant", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Water:
+                anim.SetBool("Water", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Harvest:
+                anim.SetBool("Harvest", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Fish:
+                anim.SetBool("Fish", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.GetWater:
+                anim.SetBool("GetWater", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
+            case PlayerInteraction.Axe:
+                anim.SetBool("Axe", true);
+                anim.SetFloat("MouseX", playerToMouse.x);
+                anim.SetFloat("MouseY", playerToMouse.y);
+                break;
         }
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(curPos, new Vector2(3f, 3f));
+        Gizmos.DrawWireSphere(curPos, 1f);
     }
 
 }
