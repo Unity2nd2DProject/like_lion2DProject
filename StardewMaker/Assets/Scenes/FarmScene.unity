@@ -4369,7 +4369,6 @@ Transform:
   - {fileID: 618692395}
   - {fileID: 42847834}
   - {fileID: 2128418381}
-  - {fileID: 1263399164}
   - {fileID: 308781090}
   - {fileID: 1461917402}
   m_Father: {fileID: 0}
@@ -5327,57 +5326,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4959855240819225007, guid: f81731c0a938bf247bb9c04d075a3e58, type: 3}
   m_PrefabInstance: {fileID: 1230311437}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1263399163
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1263399164}
-  - component: {fileID: 1263399165}
-  m_Layer: 0
-  m_Name: CurrentToolManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &1263399164
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263399163}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 888009238}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1263399165
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1263399163}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4cc3f28893a80244cbc7ed1b06df6448, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tools:
-  - {fileID: 11400000, guid: 2d1dbaf408a7ee045980b9091c5cb17c, type: 2}
-  - {fileID: 11400000, guid: 3b1e19ff944d30e48bf9b6a0b263ffa8, type: 2}
-  - {fileID: 11400000, guid: 4a1f9c923fc71344f89ae8973faa4d78, type: 2}
-  - {fileID: 11400000, guid: b8f69550de451a54cadf8e6bc28911e2, type: 2}
-  currentTool: {fileID: 0}
-  defaultIcon: {fileID: 4735266453402850978, guid: fb57a40081b721545bc571c127af5f97, type: 3}
 --- !u!1 &1280653808
 GameObject:
   m_ObjectHideFlags: 0
@@ -9388,11 +9336,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 177504217486105229, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.09
+      value: 13.56
       objectReference: {fileID: 0}
     - target: {fileID: 177504217486105229, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 1.83
       objectReference: {fileID: 0}
     - target: {fileID: 177504217486105229, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
       propertyPath: m_LocalPosition.z
