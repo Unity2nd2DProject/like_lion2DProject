@@ -14,7 +14,7 @@ public class FarmLand : MonoBehaviour
     public Sprite fertileSprite;
     public Sprite wateredSprite;
 
-    private Vector2Int position; // connect with crop
+    private Vector2 position; // connect with crop
 
     private SpriteRenderer sr;
 
@@ -22,10 +22,12 @@ public class FarmLand : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
 
-        position = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        position = new Vector2(transform.position.x, transform.position.y);
+
+        //position = new Vector2Int(
+        //    Mathf.RoundToInt(transform.position.x),
+        //    Mathf.RoundToInt(transform.position.y)
+        //);
 
         //UpdateTileSprite();
     }
@@ -136,7 +138,7 @@ public class FarmLand : MonoBehaviour
         }
     }
 
-    public Vector2Int GetPosition()
+    public Vector2 GetPosition()
     {
         return position;
     }
