@@ -148,4 +148,29 @@ public class FarmLand : MonoBehaviour
     {
         return position;
     }
+
+    public bool CanPlant(ItemData itemData)
+    {
+        return landState != LandState.Normal &&
+               itemData != null &&
+               itemData.cropToGrow != null &&
+               CropManager.Instance.GetCropAt(position) == null;
+    }
+
+    public bool CanPick()
+    {
+        return CropManager.Instance.GetCropAt(position) == null;
+    }
+
+    public bool CanWater()
+    {
+        return landState == LandState.Fertile &&
+               Inventory.Instance.GetItem("물") != null;
+    }
+
+    public bool CanHarvest()
+    {
+        var crop = CropManager.Instance.GetCropAt(position);
+        return crop != null && crop.IsHarvestable();
+    }
 }
