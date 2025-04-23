@@ -22762,7 +22762,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0c54dddca751d4c41b6ba28ba5bc4faf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventory: {fileID: 1538921405}
+  inventory: {fileID: 0}
   shopManager: {fileID: 604816956}
   shopUIController: {fileID: 1490327435}
   itemInfoPopupUI: {fileID: 102154693}
@@ -23097,7 +23097,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopItems:
   - {fileID: 11400000, guid: 4e2858e7416a0da4abaff9735d2537ba, type: 2}
-  playerInventory: {fileID: 1538921405}
+  playerInventory: {fileID: 0}
   playerMoney: 1000
 --- !u!4 &604816958
 Transform:
@@ -38483,52 +38483,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Padding: {x: -8, y: -5, z: -8, w: -5}
   m_Softness: {x: 0, y: 0}
---- !u!1 &1538921404
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1538921406}
-  - component: {fileID: 1538921405}
-  m_Layer: 0
-  m_Name: Inventory
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1538921405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538921404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d58a661f2046f0f4e8902497cebeee55, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  inventorySize: 25
-  starterItems: []
---- !u!4 &1538921406
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1538921404}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.3869165, y: -4.030724, z: 0.03797449}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1576152589
 GameObject:
   m_ObjectHideFlags: 0
@@ -57354,6 +57308,5 @@ SceneRoots:
   - {fileID: 548276270}
   - {fileID: 1370578865}
   - {fileID: 1618287611}
-  - {fileID: 1538921406}
   - {fileID: 967831577}
   - {fileID: 989373489}

@@ -19,6 +19,11 @@ public class TransparentDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+
         if (collision.gameObject.GetComponent<PlayerController>())
         {
             if (sr)
@@ -34,6 +39,11 @@ public class TransparentDetection : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        if (!isActiveAndEnabled)
+        {
+            return;
+        }
+
         if (collision.gameObject.GetComponent<PlayerController>())
         {
             if (sr)
