@@ -14,7 +14,7 @@ public class FarmLand : MonoBehaviour
     public Sprite fertileSprite;
     public Sprite wateredSprite;
 
-    private Vector2Int position; // connect with crop
+    private Vector2 position; // connect with crop
 
     private SpriteRenderer sr;
 
@@ -22,26 +22,29 @@ public class FarmLand : MonoBehaviour
     {
         sr = GetComponent<SpriteRenderer>();
 
-        position = new Vector2Int(
-            Mathf.RoundToInt(transform.position.x),
-            Mathf.RoundToInt(transform.position.y)
-        );
+        position = new Vector2(transform.position.x, transform.position.y);
+
+        //position = new Vector2Int(
+        //    Mathf.RoundToInt(transform.position.x),
+        //    Mathf.RoundToInt(transform.position.y)
+        //);
 
         //UpdateTileSprite();
     }
 
-    public bool Plant(CropData cropData)
+    public bool Plant(ItemData itemData)
     {
         if (landState != LandState.Normal)
         {
             if (landState == LandState.Watered)
             {
-                CropManager.Instance.PlantCrop(position, cropData, true);
+                CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow, true);
             }
             else
             {
-                CropManager.Instance.PlantCrop(position, cropData);
+                CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow);
             }
+            Inventory.Instance.RemoveItem(itemData);
             return true;
         }
         else
@@ -73,10 +76,14 @@ public class FarmLand : MonoBehaviour
 
     public bool Water()
     {
-        if (landState == LandState.Fertile)
+        if (landState == LandState.Fertile && Inventory.Instance.GetItem("물") != null)
         {
             landState = LandState.Watered;
-            CropManager.Instance.WaterCrop(position);
+            if (CropManager.Instance.GetCropAt(position) != null)
+            {
+                CropManager.Instance.WaterCrop(position);
+            }
+            Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
             UpdateTileSprite();
             return true;
         }
@@ -131,7 +138,7 @@ public class FarmLand : MonoBehaviour
         }
     }
 
-    public Vector2Int GetPosition()
+    public Vector2 GetPosition()
     {
         return position;
     }

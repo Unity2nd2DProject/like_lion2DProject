@@ -8,7 +8,7 @@ public class Pond : MonoBehaviour
 
     public void GetWater()
     {
-        Inventory.Instance.AddItem(waterData, 1);
+        Inventory.Instance.AddItem(waterData, 10);
     }
 
     public void Fish()

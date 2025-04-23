@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
+    private Vector2 lastMove;
     private Vector2 playerToMouse;
     public float moveSpeed = 5f;
     private Vector2 curPos;
@@ -76,6 +77,11 @@ public class PlayerController : MonoBehaviour
         moveInput = UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>();
         move = moveInput;
 
+        if (move != Vector2.zero)
+        {
+            lastMove = move;
+        }
+
         SetMoveAnimation();
     }
 
@@ -84,6 +90,8 @@ public class PlayerController : MonoBehaviour
         anim.SetBool("Move", move != Vector2.zero);
         anim.SetFloat("InputX", move.x);
         anim.SetFloat("InputY", move.y);
+        anim.SetFloat("LastX", lastMove.x);
+        anim.SetFloat("LastY", lastMove.y);
     }
 
     private void SpaceInput()
@@ -156,147 +164,97 @@ public class PlayerController : MonoBehaviour
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        // 현재 내가 장착하고 있는 아이템
         ItemData currentItem = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
 
-        foreach (Collider2D hit in playerHits)
+        foreach(Collider2D hit in playerHits)
         {
             if (hit == mouseHit)
             {
-                if (hit.TryGetComponent(out FarmLand land))
+                Debug.Log($"hit Info : {hit.name}({hit.transform.position})");
+
+                hit.TryGetComponent(out FarmLand farmLand);
+                hit.TryGetComponent(out Tree tree);
+                hit.TryGetComponent(out Pond pond);
+
+                if (currentItem != null)
                 {
-                    if (land != null)
+                    switch (currentItem.itemType)
                     {
-                        if (currentItem == null)
-                        {
-                            var crop = CropManager.Instance.GetCropAt(land.GetPosition());
-
-                            if (crop.IsHarvestable())
+                        case ItemType.Seed:
+                            if (farmLand != null)
                             {
-                                land.Harvest();
-                                SetInteractAnimation(PlayerInteraction.Harvest);
-                            }
-                        }
-                        else if (currentItem.itemType != ItemType.Tool)
-                        {
-                            var crop = CropManager.Instance.GetCropAt(land.GetPosition());
+                                var crop = CropManager.Instance.GetCropAt(farmLand.GetPosition());
 
-                            if (crop == null)
-                            {
-                                if (land.landState == LandState.Fertile)
+                                if (crop == null && farmLand.landState != LandState.Normal)
                                 {
-                                    land.Plant(currentItem.cropToGrow);
+                                    farmLand.Plant(currentItem);
                                     SetInteractAnimation(PlayerInteraction.Plant);
                                 }
                             }
-                        }
-                        else if (currentItem.name == "ToolHoe")
-                        {
-                            if (land.Pick())
+                            break;
+                        case ItemType.Tool:
+                            if (currentItem.name == "ToolHoe")
                             {
-                                SetInteractAnimation(PlayerInteraction.Pick);
+                                if (farmLand != null)
+                                {
+                                    if (farmLand.Pick())
+                                    {
+                                        SetInteractAnimation(PlayerInteraction.Pick);
+                                    }
+                                }
                             }
-                        }
-                        else if (currentItem.name == "ToolWateringCan")
-                        {
-                            if (land.Water())
+                            else if (currentItem.name == "ToolWateringCan")
                             {
-                                SetInteractAnimation(PlayerInteraction.Water);
+                                if (farmLand != null)
+                                {
+                                    if (farmLand.Water())
+                                    {
+                                        SetInteractAnimation(PlayerInteraction.Water);
+                                    }
+                                }
+                                else if (pond != null)
+                                {
+                                    pond.GetWater();
+                                    SetInteractAnimation(PlayerInteraction.GetWater);
+                                }
                             }
-                        }
+                            else if (currentItem.name == "ToolAxe")
+                            {
+                                if (tree != null)
+                                {
+                                    tree.Chop();
+                                    SetInteractAnimation(PlayerInteraction.Axe);
+                                }
+                            }
+                            else if (currentItem.name == "ToolFishingRod")
+                            {
+                                if (pond != null)
+                                {
+                                    pond.Fish();
+                                    SetInteractAnimation(PlayerInteraction.Fish);
+                                }
+                            }
+                            else if (currentItem.name == "ToolGlove")
+                            {
+                                if (farmLand != null)
+                                {
+                                    var crop = CropManager.Instance.GetCropAt(farmLand.GetPosition());
+
+                                    if (crop != null && farmLand.Harvest())
+                                    {
+                                        SetInteractAnimation(PlayerInteraction.Harvest);
+                                    }
+                                }
+                            }
+                            break;
                     }
                 }
-                else if (hit.TryGetComponent(out Tree tree))
+                else
                 {
-                    if (currentItem == null)
-                    {
-                        return;
-                    }
 
-                    if (currentItem.name == "ToolAxe")
-                    {
-                        tree.Chop();
-                        SetInteractAnimation(PlayerInteraction.Axe);
-                    }
                 }
-                else if (hit.TryGetComponent(out Pond pond))
-                {
-                    if (currentItem == null)
-                    {
-                        return;
-                    }
-
-                    if (currentItem.name == "ToolWateringCan")
-                    {
-                        pond.GetWater();
-                        SetInteractAnimation(PlayerInteraction.GetWater);
-                    }
-                    else if (currentItem.name == "ToolFishingRod")
-                    {
-                        pond.Fish();
-                        SetInteractAnimation(PlayerInteraction.Fish);
-                    }
-                }
-
-
             }
         }
-
-        //foreach (Collider2D hit in playerHits)
-        //{
-        //    if (hit == mouseHit)
-        //    {
-        //        FarmLand land = hit.GetComponent<FarmLand>();
-        //        if (land != null)
-        //        {
-        //            if (currentTool == null)
-        //            {
-        //                return; // TODO: 해당 내용은 나중에 수정해야 함 씨앗심기 / 수확하기
-        //                var crop = CropManager.Instance.GetCropAt(land.GetPosition());
-
-        //                if (crop == null)
-        //                {
-        //                    if (land.landState == LandState.Fertile)
-        //                    {
-        //                        //land.Plant(cropData);
-        //                        SetInteractAnimation(PlayerInteraction.Plant);
-        //                    }
-        //                }
-        //                else
-        //                {
-        //                    if (crop.IsHarvestable())
-        //                    {
-        //                        land.Harvest();
-        //                        SetInteractAnimation(PlayerInteraction.Harvest);
-        //                    }
-        //                }
-        //            }
-        //            else if (currentTool.name == "ToolHoe")
-        //            {
-        //                if (land.Pick())
-        //                {
-        //                    SetInteractAnimation(PlayerInteraction.Pick);
-        //                }
-        //            }
-        //            else if (currentTool.name == "ToolWateringCan")
-        //            {
-        //                if (land.Water())
-        //                {
-        //                    SetInteractAnimation(PlayerInteraction.Water);
-        //                }
-        //            }
-        //            else if (currentTool.name == "ToolAxe")
-        //            {
-
-        //            }
-        //            else if (currentTool.name == "ToolFishingRod")
-        //            {
-        //                //pond.Fish();
-        //                SetInteractAnimation(PlayerInteraction.Fish);
-        //            }
-        //        }
-        //    }
-        //}
     }
 
     private void SetInteractAnimation(PlayerInteraction interaction)

@@ -7,7 +7,7 @@ public class CropManager : MonoBehaviour
     public static CropManager Instance;
 
     public GameObject[] cropPrefabs;
-    public Dictionary<Vector2Int, Crop> crops = new Dictionary<Vector2Int, Crop>();
+    public Dictionary<Vector2, Crop> crops = new Dictionary<Vector2, Crop>();
 
     private void Awake()
     {
@@ -17,22 +17,22 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public void PlantCrop(Vector2Int position, CropData cropData, bool _isWatered = false)
+    public void PlantCrop(Transform parentTtransform, Vector2 position, CropData cropData, bool _isWatered = false)
     {
         if (crops.ContainsKey(position))
         {
             return;
         }
 
-        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(position.x, position.y, 0), Quaternion.identity);
-        //GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(position.x + 0.5, position.y + 0.5f, 0), Quaternion.identity);
+        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], parentTtransform.position, Quaternion.identity, parentTtransform);
+
         Crop crop = cropObj.GetComponent<Crop>();
         crop.Initialize(cropData, _isWatered);
 
         crops.Add(position, crop);
     }
 
-    public void WaterCrop(Vector2Int gridPos)
+    public void WaterCrop(Vector2 gridPos)
     {
         if (crops.TryGetValue(gridPos, out Crop crop))
         {
@@ -40,7 +40,7 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public void HarvestCrop(Vector2Int gridPos)
+    public void HarvestCrop(Vector2 gridPos)
     {
         if (crops.TryGetValue(gridPos, out Crop crop))
         {
@@ -53,7 +53,7 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public void RemoveCrop(Vector2Int gridPos)
+    public void RemoveCrop(Vector2 gridPos)
     {
         if (crops.TryGetValue(gridPos, out Crop crop))
         {
@@ -70,13 +70,13 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public Crop GetCropAt(Vector2Int gridPos)
+    public Crop GetCropAt(Vector2 gridPos)
     {
         crops.TryGetValue(gridPos, out Crop crop);
         return crop;
     }
 
-    public Dictionary<Vector2Int, Crop> GetAllCrops()
+    public Dictionary<Vector2, Crop> GetAllCrops()
     {
         return crops;
     }

@@ -9,7 +9,7 @@ public class FarmLandManager : MonoBehaviour
     public Vector2Int topLeft;
     public Vector2Int bottomRight;
 
-    private Dictionary<Vector2Int, FarmLand> farmLands = new Dictionary<Vector2Int, FarmLand>();
+    private Dictionary<Vector2, FarmLand> farmLands = new Dictionary<Vector2, FarmLand>();
 
     private void Awake()
     {
@@ -34,11 +34,11 @@ public class FarmLandManager : MonoBehaviour
                     continue;
                 }
 
-                GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
-                //GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                //GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
+                GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
                 FarmLand farmLand = farmLandObj.GetComponent<FarmLand>();
 
-                farmLands.Add(pos, farmLand);
+                farmLands.Add(new Vector2(x + 0.5f, y + 0.5f), farmLand);
             }
         }
     }
