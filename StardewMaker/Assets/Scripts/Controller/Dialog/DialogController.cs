@@ -11,7 +11,6 @@ public class DialogController : MonoBehaviour
     private DialogView dialogView; // UI 부분
 
     private Dialog currentDialog; // 현재 대사
-    private NPCDialog currentNPCDailog; // 현재 NPC 정보
     private int selectedOptionNum = 0; // 옵션 선택 저장
 
     private bool isNextDialogReady = false; // 다음 대사 가능한지 판별
