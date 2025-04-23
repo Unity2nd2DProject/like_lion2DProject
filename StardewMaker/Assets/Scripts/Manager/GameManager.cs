@@ -18,6 +18,8 @@ public class GameManager : Singleton<GameManager>
 
     public GameObject inventory;
 
+    public string arrivalPointName { get; set; } // 씬 전환 시 캐릭터의 위치를 잡아주기 위함
+
     protected override void Awake()
     {
         base.Awake();
