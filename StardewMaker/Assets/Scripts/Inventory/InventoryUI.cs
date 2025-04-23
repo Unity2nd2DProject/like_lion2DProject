@@ -22,7 +22,6 @@ public class InventoryUI : Singleton<InventoryUI>
 
         this.gameObject.SetActive(false);
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
-        
     }
 
     private void OnEnable()
