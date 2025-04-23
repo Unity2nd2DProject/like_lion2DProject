@@ -1,25 +1,10 @@
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
+using UnityEngine.EventSystems;
 
-public class InventorySlotUI : MonoBehaviour
+public class InventorySlotUI : SlotUI, IDropHandler
 {
-    public Image icon;
-    public TextMeshProUGUI quantityText;
-
-    public void SetSlot(ItemData item, int quantity)
+    private void Awake()
     {
-        if (item != null)
-        {
-            icon.enabled = true;
-            icon.sprite = item.icon;
-            quantityText.text = item.isStackable ? quantity.ToString() : "";
-        }
-        else
-        {
-            icon.enabled = false;
-            quantityText.text = "";
-        }
+        slotType = SlotType.Inventory;
     }
-
 }

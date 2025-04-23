@@ -49,6 +49,42 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "I",
+                    "type": "Button",
+                    "id": "69ce50ef-62bf-460b-af51-a8de438055de",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "1",
+                    "type": "Button",
+                    "id": "fcd417ba-6b0a-4b76-a548-8acb95087b1d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "N",
+                    "type": "Button",
+                    "id": "440bfd31-f400-4e8b-ab2f-69b30ecaf9e9",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseLeft",
+                    "type": "Button",
+                    "id": "abd6d0d7-400b-4e14-ad34-33c551382652",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -192,6 +228,50 @@
                     "processors": "",
                     "groups": "",
                     "action": "X",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "3542cdf6-0d49-4e0e-81b6-8bd35f1e1015",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "I",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6ed24628-fdcc-4d20-ba6d-4b1011f7acd4",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "1",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "107a4c76-88a4-4250-8e0b-675a8e5e9acf",
+                    "path": "<Keyboard>/n",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "N",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d82afa5f-e2fb-4c93-b5a4-9e75ba58bbac",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseLeft",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

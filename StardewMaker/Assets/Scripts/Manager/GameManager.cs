@@ -16,9 +16,21 @@ public class GameManager : Singleton<GameManager>
     private GameState currentState;
     public static event Action<GameState> OnGameStateChanged;
 
+    public GameObject inventory;
+
+    public string arrivalPointName { get; set; } // 씬 전환 시 캐릭터의 위치를 잡아주기 위함
+
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void NextDay()
+    {
+        Debug.Log("☀️ ============ NextDay.. ==============");
+        CropManager.Instance.NextDay();
+        FarmLandManager.Instance.NextDay();
+        TreeManager.Instance.NextDay();
     }
 
     public void SetGameState(string tag, GameState newState)

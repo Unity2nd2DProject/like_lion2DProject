@@ -4,23 +4,26 @@ public class Crop : MonoBehaviour
 {
     public CropData cropData;
     private int currentGrowthStage = 0;
-    private bool isWatered = false;
-    private SpriteRenderer currentSprite;
+    public bool isWatered = false;
+
+    private SpriteRenderer sr;
 
     private void Awake()
     {
-        currentSprite = GetComponent<SpriteRenderer>();
+        sr = GetComponent<SpriteRenderer>();
     }
 
-    private void Start()
+    public void Initialize(CropData data, bool _isWatered = false)
     {
-        
+        cropData = data;
+        isWatered = _isWatered;
+        UpdateGrowth();
     }
 
     public void Water()
     {
         isWatered = true;
-        Debug.Log($"{cropData.name} is watered!");
+        Debug.Log($"💧 {cropData.name} get water!");
     }
 
     public void NextDay()
@@ -33,27 +36,12 @@ public class Crop : MonoBehaviour
                 UpdateGrowth();
             }
         }
-
         isWatered = false;
     }
 
     private void UpdateGrowth()
     {
-        currentSprite.sprite = cropData.growthSprites[currentGrowthStage];
-        Debug.Log($"{cropData.name} is growed!");
-    }
-
-    public void Harvest()
-    {
-        //if (cropData.harvestItem == null)
-        //{
-        //    Debug.Log($"{cropData.cropName} doesn't have ItemData..");
-        //    return;
-        //}
-        if (Inventory.Instance.AddItem(cropData.harvestItem, 1))
-        {
-            Destroy(gameObject);
-        }
+        sr.sprite = cropData.growthSprites[currentGrowthStage];
     }
 
     public bool IsHarvestable()

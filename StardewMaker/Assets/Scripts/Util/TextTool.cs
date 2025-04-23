@@ -4,7 +4,7 @@ using System.Text;
 using TMPro;
 using UnityEngine;
 
-public class TextTool : MonoBehaviour
+public class TextTool
 {
     private static string TAG = "[TextTool]";
 
@@ -16,13 +16,12 @@ public class TextTool : MonoBehaviour
 
     public static IEnumerator PrintTmpText(TMP_Text tmp, string text, Func<bool> skipCheck, float delay = delayWord)
     {
-        float d = delay;
         StringBuilder sb = new();
         for (int i = 0; i < text.Length; i++)
         {
             sb.Append(text[i]);
             tmp.text = sb.ToString();
-            if (skipCheck != null && skipCheck()) d = delayWordFast;
+            float d = skipCheck() ? delayWordFast : delay;
             yield return new WaitForSeconds(d);
         }
     }
