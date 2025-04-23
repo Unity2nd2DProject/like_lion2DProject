@@ -27,13 +27,13 @@ public enum DialogType
 
 public enum EmotionType
 {
+    NONE,
     IDLE,
-    SAD,
     HAPPY,
     ANGRY,
+    SAD,
     SLEEPY,
-    SEEK,
-    NONE
+    SEEK
 }
 
 public enum ExtType

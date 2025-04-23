@@ -13,6 +13,9 @@ public class DialogView : MonoBehaviour
     [SerializeField] public GameObject optionPanel;
     [SerializeField] public GameObject optionButtonPrefab;
     [SerializeField] private GameObject characterImage;
+    [SerializeField] public TMP_Text characterName;
+
+    private NPCDialog npcDialog;
 
 
     // dialog 화면
@@ -34,9 +37,25 @@ public class DialogView : MonoBehaviour
     }
 
     // 대사 캐릭터 이미지 교체
-    public void ChangeCharaterImage(Sprite sprite)
+    public void ChangeCharaterImage(EmotionType emotionType)
     {
-        characterImage.GetComponent<Image>().sprite = sprite;
+        Sprite newSprite = npcDialog.idleImg;
+        switch (emotionType)
+        {
+            case EmotionType.IDLE:
+                newSprite = npcDialog.idleImg;
+                break;
+            case EmotionType.HAPPY:
+                newSprite = npcDialog.happyImg;
+                break;
+            case EmotionType.ANGRY:
+                newSprite = npcDialog.angryImg;
+                break;
+            case EmotionType.SAD:
+                newSprite = npcDialog.sadImg;
+                break;
+        }
+        characterImage.GetComponent<Image>().sprite = newSprite;
     }
 
     // 옵션 버튼 생성
@@ -54,5 +73,23 @@ public class DialogView : MonoBehaviour
         {
             Destroy(child.gameObject);
         }
+    }
+
+    // NPC Dialog 설정(id, sprite)
+    public void SetNPCDialog(NPCDialog npcDialog)
+    {
+        this.npcDialog = npcDialog;
+    }
+
+    // NPC 이름 설정
+    public void SetCharacterName(string name)
+    {
+        characterName.text = name;
+    }
+
+    // NPD 얼굴 이미지 보이기
+    public void EnableNPCImage(bool sw)
+    {
+        characterImage.SetActive(sw);
     }
 }

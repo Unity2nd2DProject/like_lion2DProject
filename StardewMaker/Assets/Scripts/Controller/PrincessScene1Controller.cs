@@ -7,9 +7,14 @@ public class PrincessScene1Controller : MonoBehaviour
     private UserInputManager inputManager;
 
     [SerializeField] private DialogController dialogController;
+    private NPCDialog npcDialog;
 
     // todo initialDialogId는 DB에서 가져와야 함
-    private int initialDialogId = 2;
+
+    void Awake()
+    {
+        npcDialog = GetComponent<NPCDialog>();
+    }
 
     private void OnEnable()
     {
@@ -39,7 +44,7 @@ public class PrincessScene1Controller : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         // 대화 시작
-        dialogController.StartDialog(initialDialogId);
+        dialogController.InitDialog(npcDialog);
     }
 
 }
