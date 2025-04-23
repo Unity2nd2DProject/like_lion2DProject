@@ -19,7 +19,7 @@ public class TransparentDetection : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (!isActiveAndEnabled)
+        if (!gameObject.activeInHierarchy)
         {
             return;
         }
@@ -39,7 +39,7 @@ public class TransparentDetection : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (!isActiveAndEnabled)
+        if (!gameObject.activeInHierarchy)
         {
             return;
         }
@@ -55,7 +55,6 @@ public class TransparentDetection : MonoBehaviour
                 StartCoroutine(FadeRoutine(tm, fadeTime, tm.color.a, 1f));
             }
         }
-
     }
 
     private IEnumerator FadeRoutine(SpriteRenderer sr, float fadeTime, float startValue, float targetTransparency)

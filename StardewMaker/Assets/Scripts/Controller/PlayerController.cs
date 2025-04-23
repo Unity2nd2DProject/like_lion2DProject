@@ -266,38 +266,24 @@ public class PlayerController : MonoBehaviour
         {
             case PlayerInteraction.Pick:
                 anim.SetBool("Pick", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Plant:
                 anim.SetBool("Plant", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Water:
                 anim.SetBool("Water", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Harvest:
                 anim.SetBool("Harvest", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Fish:
                 anim.SetBool("Fish", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.GetWater:
                 anim.SetBool("GetWater", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Axe:
                 anim.SetBool("Axe", true);
-                //anim.SetFloat("MouseX", playerToMouse.x);
-                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
         }
 
