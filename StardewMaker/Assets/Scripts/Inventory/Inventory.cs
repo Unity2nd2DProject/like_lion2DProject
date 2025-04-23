@@ -67,10 +67,42 @@ public class Inventory : Singleton<Inventory>
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 
-    public void RemoveItem(ItemData item, int amount = 1)
+    public bool RemoveItem(ItemData item, int amount = 1)
     {
+        foreach (var slot in slots)
+        {
+            if (slot.itemData == item)
+            {
+                if (slot.quantity >= amount)
+                {
+                    slot.quantity -= amount;
 
+                    if (slot.quantity <= 0) // 수량이 0 이하가 되면 슬롯을 비움
+                    {
+                        slot.itemData = null;
+                        slot.quantity = 0;
+                    }
+
+                    Debug.Log($"{item} is removed!");
+                    return true; // 아이템 제거 성공
+                }
+            }
+        }
+
+        return false; // 아이템이 없거나 수량 부족
     }
 
+    public ItemData GetItem(string itemName)
+    {
+        foreach (var slot in slots)
+        {
+            if (!slot.IsEmpty() && slot.itemData.itemName == itemName)
+            {
+                return slot.itemData;
+            }
+        }
+
+        return null;
+    }
 
 }

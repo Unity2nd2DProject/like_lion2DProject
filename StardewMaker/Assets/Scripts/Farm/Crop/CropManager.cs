@@ -17,15 +17,15 @@ public class CropManager : MonoBehaviour
         }
     }
 
-    public void PlantCrop(Vector2Int position, CropData cropData, bool _isWatered = false)
+    public void PlantCrop(Transform parentTtransform, Vector2Int position, CropData cropData, bool _isWatered = false)
     {
         if (crops.ContainsKey(position))
         {
             return;
         }
 
-        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(position.x, position.y, 0), Quaternion.identity, transform);
-        //GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(position.x + 0.5f, position.y + 0.5f, 0), Quaternion.identity);
+        //GameObject cropObj = Instantiate(cropPrefabs[cropData.id], new Vector3(position.x, position.y, 0), Quaternion.identity, parentTtransform);
+        GameObject cropObj = Instantiate(cropPrefabs[cropData.id], parentTtransform.position, Quaternion.identity, parentTtransform);
         Crop crop = cropObj.GetComponent<Crop>();
         crop.Initialize(cropData, _isWatered);
 

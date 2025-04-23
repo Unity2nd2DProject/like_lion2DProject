@@ -14,8 +14,6 @@ public class QuickSlotUI : Singleton<QuickSlotUI>
     {
         base.Awake();
         quickSlotManager = QuickSlotManager.Instance;
-
-        //UpdateUI();
     }
 
     private void Start()
@@ -25,8 +23,6 @@ public class QuickSlotUI : Singleton<QuickSlotUI>
 
     public void UpdateUI()
     {
-        Debug.Log($"quickSlotSize : {quickSlotManager.quickSlotSize}");
-        Debug.Log($"quickSlotManager.slots.Count : {quickSlotManager.slots.Count}");
         for (int i = 0; i < quickSlotManager.quickSlotSize; i++)
         {
             quickSlotSlotUIs[i].UpdateSlot(quickSlotManager.slots[i]);

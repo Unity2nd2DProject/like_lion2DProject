@@ -34,8 +34,8 @@ public class FarmLandManager : MonoBehaviour
                     continue;
                 }
 
-                GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
-                //GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
+                //GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
+                GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
                 FarmLand farmLand = farmLandObj.GetComponent<FarmLand>();
 
                 farmLands.Add(pos, farmLand);
