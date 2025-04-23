@@ -7,14 +7,42 @@ using UnityEngine;
 
 public enum DialogDataType
 {
-    TYPE,
-    NAME,
-    EMOTION,
+    TYPE, // NORMAL
+    NAME, // 딸
+    SITUATION, // MORNING
+    CONDITION_TYPE, // 호감도
+    OPERATOR, // =
+    CONDITION_VALUE, // 3
+    EMOTION, // HAPPY
     NEXT_ID,
     OPTION_ID_LIST,
     EXT1,
     KOREAN,
     ENGLISH
+}
+
+public enum SpeakerNameType
+{
+    PRINCESS = 0000,
+    FATHER = 0001,
+    MERCHANT = 0002
+}
+
+public enum SituationType
+{
+    INTRO,
+    MORNING,
+    EVENING,
+    NONE
+}
+
+public enum ConditionType
+{
+    MOOD,
+    VITALITY,
+    HUNGER,
+    TRUST,
+    NONE
 }
 
 public enum DialogType
@@ -65,7 +93,7 @@ public class Dialog
 public static class DialogTool
 {
     private static string TAG = "[DialogTool]";
-    private static string type = "Type";
+    private static string type = "DialogType";
     private static string name = "Name";
     private static string emotion = "Emotion";
     private static string nextId = "NextId";
