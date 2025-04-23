@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
     public float moveSpeed = 5f;
     private Vector2 curPos;
 
-    public LayerMask whatIsLand;
+    private bool canMove = true;
 
     void Awake()
     {
@@ -53,6 +53,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+        {
+            return;
+        }
+
         PlayerMoveInput();
         SpaceInput();
         ESCInput();
@@ -259,44 +264,51 @@ public class PlayerController : MonoBehaviour
     {
         switch (interaction)
         {
-            case PlayerInteraction.None:
-                break;
             case PlayerInteraction.Pick:
                 anim.SetBool("Pick", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Plant:
                 anim.SetBool("Plant", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Water:
                 anim.SetBool("Water", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Harvest:
                 anim.SetBool("Harvest", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Fish:
                 anim.SetBool("Fish", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.GetWater:
                 anim.SetBool("GetWater", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Axe:
                 anim.SetBool("Axe", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
+                //anim.SetFloat("MouseX", playerToMouse.x);
+                //anim.SetFloat("MouseY", playerToMouse.y);
                 break;
         }
+
+        anim.SetFloat("MouseX", playerToMouse.x);
+        anim.SetFloat("MouseY", playerToMouse.y);
+        SetCanMove(false);
+    }
+
+    public void SetCanMove(bool _canMove)
+    {
+        canMove = _canMove;
     }
 
     private void OnDrawGizmos()
