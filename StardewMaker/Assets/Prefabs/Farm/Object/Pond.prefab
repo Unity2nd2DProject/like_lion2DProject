@@ -75,8 +75,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -915736819
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
   m_Color: {r: 0.3066038, g: 0.4099335, b: 1, a: 1}
@@ -101,6 +101,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab06fff90f1af8a45a639b1aa4a977fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterData: {fileID: 11400000, guid: 009ca434ddd01324bbbc2b3a09a11713, type: 2}
+  Fishes:
+  - {fileID: 11400000, guid: 880e2026f15a0a049b02376cccf15bfd, type: 2}
+  - {fileID: 11400000, guid: c4617ffc21bb75c4ca0feb19733ee1db, type: 2}
+  - {fileID: 11400000, guid: 44ca11d739a8136419f3f0b65ba0f893, type: 2}
+  - {fileID: 11400000, guid: d7afc8307ad46fe4b8b791283d36848f, type: 2}
+  - {fileID: 11400000, guid: 9494e9219e724494f9498e9863283c6e, type: 2}
+  - {fileID: 11400000, guid: a52f906aa0cfd2e43a104c36c2cd4609, type: 2}
 --- !u!70 &8104005597641639321
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

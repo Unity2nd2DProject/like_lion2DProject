@@ -28,6 +28,7 @@ public class Inventory : Singleton<Inventory>
         {
             AddItem(starterItems[i], 20);
         }
+        InventoryUI.Instance.UpdateInventoryUI();
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)
@@ -39,6 +40,7 @@ public class Inventory : Singleton<Inventory>
                 if (inventorySlot.itemData == newItem) // 같은 아이템이 있는 슬롯을 찾음
                 {
                     inventorySlot.quantity += amount; // 수량 증가
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -48,6 +50,7 @@ public class Inventory : Singleton<Inventory>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }      
@@ -60,6 +63,7 @@ public class Inventory : Singleton<Inventory>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }            
@@ -82,8 +86,7 @@ public class Inventory : Singleton<Inventory>
                         slot.itemData = null;
                         slot.quantity = 0;
                     }
-
-                    Debug.Log($"{item} is removed!");
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 제거 성공
                 }
             }

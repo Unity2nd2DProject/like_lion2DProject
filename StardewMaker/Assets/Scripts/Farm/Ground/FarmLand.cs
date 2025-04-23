@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public enum LandState
@@ -24,12 +25,7 @@ public class FarmLand : MonoBehaviour
 
         position = new Vector2(transform.position.x, transform.position.y);
 
-        //position = new Vector2Int(
-        //    Mathf.RoundToInt(transform.position.x),
-        //    Mathf.RoundToInt(transform.position.y)
-        //);
-
-        //UpdateTileSprite();
+        UpdateTileSprite();
     }
 
     public bool Plant(ItemData itemData)
@@ -44,7 +40,12 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow);
             }
-            Inventory.Instance.RemoveItem(itemData);
+
+            if (!Inventory.Instance.RemoveItem(itemData))
+            {
+                QuickSlotManager.Instance.RemoveItem(itemData);
+            }
+
             return true;
         }
         else
@@ -83,7 +84,12 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.WaterCrop(position);
             }
-            Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
+
+            if (!Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물")))
+            {
+                QuickSlotManager.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
+            }
+
             UpdateTileSprite();
             return true;
         }

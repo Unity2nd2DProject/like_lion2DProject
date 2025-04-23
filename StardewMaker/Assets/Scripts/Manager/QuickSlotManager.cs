@@ -65,4 +65,28 @@ public class QuickSlotManager : Singleton<QuickSlotManager>
         currentSelectedIndex = index;
         QuickSlotUI.Instance.UpdateSelectedSlot(); // UI 갱신
     }
+
+    public bool RemoveItem(ItemData item, int amount = 1)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.itemData == item)
+            {
+                if (slot.quantity >= amount)
+                {
+                    slot.quantity -= amount;
+
+                    if (slot.quantity <= 0)
+                    {
+                        slot.itemData = null;
+                        slot.quantity = 0;
+                    }
+                    QuickSlotUI.Instance.UpdateUI();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

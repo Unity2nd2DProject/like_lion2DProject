@@ -170,8 +170,6 @@ public class PlayerController : MonoBehaviour
         {
             if (hit == mouseHit)
             {
-                Debug.Log($"hit Info : {hit.name}({hit.transform.position})");
-
                 hit.TryGetComponent(out FarmLand farmLand);
                 hit.TryGetComponent(out Tree tree);
                 hit.TryGetComponent(out Pond pond);
