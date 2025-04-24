@@ -1,8 +1,18 @@
+using System;
 using UnityEngine;
 
 public class CookingUI : MonoBehaviour
 {
     public GameObject cookingPanel;
+
+    public GameObject recipeListParent; // content
+    public GameObject recipeBlockPrefab; 
+
+    internal void AddRecipe(Recipe recipe)
+    {
+        var recipeListBlock = Instantiate(recipeBlockPrefab, recipeListParent.transform);
+        // recipeListBlock.GetComponent<RecipeBlock>().SetRecipe(recipe);
+    }
     // 1. 리스트 생성, INSTATIATE
     // 2. 리스트 생성된 버튼에 onclicick 에 함수 추가...? 
 

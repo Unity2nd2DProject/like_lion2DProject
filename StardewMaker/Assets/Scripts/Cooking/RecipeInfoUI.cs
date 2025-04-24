@@ -31,7 +31,7 @@ public class RecipeInfoUI : MonoBehaviour
         // 요리 이름, 설명, 효과 업데이트
         dishNameText.text = recipe.recipeName;
         dishDescriptionText.text = recipe.recipeDescription;
-        dishEffectText.text = recipe.finishedDish.description;
+        // dishEffectText.text
     }
 
 }
