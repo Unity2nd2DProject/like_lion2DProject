@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,6 +8,10 @@ public class DialogController : MonoBehaviour
     private string TAG = "[DialogController]";
 
     private UserInputManager inputManager;
+
+    // 메뉴 열기, 상점 열기 등 이벤트 전달
+    public static event Action<bool> OnButtonPanelRequested;
+    public static event Action OnShopRequested;
 
     private DialogView dialogView; // UI 부분
 
@@ -54,13 +59,18 @@ public class DialogController : MonoBehaviour
         if (isNextDialogReady) // 다음 대사가 준비되었다면
         {
             int currentDialogId = 0;
+            ExtType extType = ExtType.NONE;
             switch (currentDialog.type)
             {
                 case DialogType.NORMAL: // 일반적인 대사 진행
                     currentDialogId = currentDialog.nextId; // 다음 대사 id 저장
 
                     // 다음 대사가 없는 경우 대화 끝
-                    if (currentDialog.id == currentDialog.nextId) isDialogEnd = true;
+                    if (currentDialog.id == currentDialog.nextId)
+                    {
+                        isDialogEnd = true;
+                        extType = currentDialog.ext1;
+                    }
                     break;
 
                 case DialogType.CHOICE: // 선택 옵션이 있는 대사 진행
@@ -73,16 +83,7 @@ public class DialogController : MonoBehaviour
                     if (currentDialogId == DialogTool.dic[currentDialogId].nextId)
                     {
                         isDialogEnd = true;
-                        // Debug.Log($"{TAG} isDialogEnd true, {checkedOptionDialog.ext1}");
-                        switch (checkedOptionDialog.ext1)
-                        {
-                            case ExtType.EXIT:
-                                Debug.Log($"{TAG} ExtType.EXIT");
-                                break;
-                            case ExtType.SHOP:
-                                Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
-                                break;
-                        }
+                        extType = checkedOptionDialog.ext1;
                     }
                     break;
             }
@@ -94,6 +95,18 @@ public class DialogController : MonoBehaviour
                 dialogView.EnableDialogPanel(false);
                 dialogView.EnableOptionPanel(false);
                 dialogView.EnableNPCImage(false);
+
+                switch (extType)
+                {
+                    case ExtType.ACT:
+                        Debug.Log($"{TAG} ExtType.ACT");
+                        OnButtonPanelRequested?.Invoke(true);
+                        break;
+                    case ExtType.SHOP:
+                        Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
+                        OnShopRequested?.Invoke();
+                        break;
+                }
             }
             else
             {
@@ -129,6 +142,7 @@ public class DialogController : MonoBehaviour
         if (isDialogEnd) // 대사가 끝나있는 상태일때만 실행 가능
         {
             isDialogEnd = false;
+            OnButtonPanelRequested?.Invoke(false);
             StartCoroutine(ConversationById(dialogId));
         }
     }

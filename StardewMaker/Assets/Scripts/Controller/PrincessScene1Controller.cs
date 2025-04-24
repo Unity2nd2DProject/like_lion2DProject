@@ -7,6 +7,7 @@ public class PrincessScene1Controller : MonoBehaviour
     private UserInputManager inputManager;
 
     [SerializeField] private DialogController dialogController;
+    [SerializeField] private GameObject buttonPanel;
     private NPCDialog npcDialog;
 
     // todo initialDialogId는 DB에서 가져와야 함
@@ -19,6 +20,7 @@ public class PrincessScene1Controller : MonoBehaviour
     private void OnEnable()
     {
         inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
+        DialogController.OnButtonPanelRequested += EnableButtonPanel;
     }
 
     private void Start()
@@ -31,6 +33,16 @@ public class PrincessScene1Controller : MonoBehaviour
     private void Update()
     {
         MoveInput();
+    }
+
+    void OnDisable()
+    {
+        DialogController.OnButtonPanelRequested -= EnableButtonPanel;
+    }
+
+    private void EnableButtonPanel(bool sw)
+    {
+        buttonPanel.SetActive(sw);
     }
 
     private void MoveInput()
