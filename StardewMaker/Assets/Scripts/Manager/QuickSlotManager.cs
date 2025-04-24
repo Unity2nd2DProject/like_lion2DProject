@@ -25,6 +25,12 @@ public class QuickSlotManager : Singleton<QuickSlotManager>
 
     private void GetMouseScroll()
     {
+        // 상점 UI가 켜져 있으면 스크롤 무시
+        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        {
+            return;
+        }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         int selectedIndex = currentSelectedIndex;
 
