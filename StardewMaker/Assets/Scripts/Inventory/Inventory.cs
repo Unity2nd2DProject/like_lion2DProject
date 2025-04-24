@@ -26,7 +26,7 @@ public class Inventory : Singleton<Inventory>
         // 테스트 용 아이템 추가
         for (int i = 0; i < starterItems.Count; i++)
         {
-            AddItem(starterItems[i], 20);
+            AddItem(starterItems[i], 4);
         }
         InventoryUI.Instance.UpdateInventoryUI();
     }

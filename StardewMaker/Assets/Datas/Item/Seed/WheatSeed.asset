@@ -10,10 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e43a0cce2f26ee43bf3358a97410e3d, type: 3}
-  m_Name: Carrot
+  m_Name: WheatSeed
   m_EditorClassIdentifier: 
-  itemName: "\uB2F9\uADFC"
-  itemType: 1
-  icon: {fileID: -5545814634070559206, guid: 2f2c98482c1270847a2304f946192acb, type: 3}
+  itemName: "\uBC00 \uC528\uC557"
+  itemType: 0
+  icon: {fileID: -5159836324319347859, guid: 514339654f672df4bbd67fbc89e4f5bd, type: 3}
+  itemDescription: "\uB2E4\uC591\uD55C \uC694\uB9AC\uC758 \uC7AC\uB8CC\uAC00 \uB418\uB294
+    \uBC00\uC744 \uD0A4\uC6B8 \uC218 \uC788\uB2E4."
   isStackable: 1
-  cropToGrow: {fileID: 0}
+  cropToGrow: {fileID: 11400000, guid: 8418d86b10c033f469d9e5b5649dae23, type: 2}

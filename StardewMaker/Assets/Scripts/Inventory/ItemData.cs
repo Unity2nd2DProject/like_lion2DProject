@@ -15,6 +15,7 @@ public class ItemData : ScriptableObject
     public string itemName;
     public ItemType itemType;
     public Sprite icon;
+    public string itemDescription;
     public bool isStackable; // Tool -> false
     public CropData cropToGrow; // only Seed
 }

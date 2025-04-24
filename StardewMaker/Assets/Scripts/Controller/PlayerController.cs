@@ -134,7 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.Z.WasPressedThisFrame())
         {
-            GameManager.Instance.changeScene("Connect1"); // 테스트용
+            //GameManager.Instance.changeScene("Connect1"); // 테스트용
         }
     }
 

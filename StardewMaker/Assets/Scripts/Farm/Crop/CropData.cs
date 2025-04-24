@@ -7,5 +7,6 @@ public class CropData : ScriptableObject
     public string cropName;
     public Sprite[] growthSprites;
     public int maxGrowthStage;
+    public int harvestNum;
     public ItemData harvestItem;
 }
