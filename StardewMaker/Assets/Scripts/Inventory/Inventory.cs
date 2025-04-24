@@ -12,6 +12,7 @@ public class Inventory : Singleton<Inventory>
     protected override void Awake()
     {
         base.Awake();
+        Debug.Log("Inventory Initialized");
 
         InitInventory();
     }
