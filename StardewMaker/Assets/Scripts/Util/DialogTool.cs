@@ -34,6 +34,12 @@ public enum DialogType
     MULTI,
 }
 
+public enum MultiOptionIdType
+{
+    FIRST,
+    SECOND
+}
+
 public enum NameType
 {
     NONE,
@@ -84,7 +90,7 @@ public class Dialog
 {
     public int id;
     public DialogType type;
-    public string name;
+    public NameType nameType;
     public SituationType situationType;
     public ConditionType conditionType;
     public string conditionOperator;
@@ -96,40 +102,81 @@ public class Dialog
     public ConditionType targetType;
     public string targetOperator;
     public int targetValue;
-    public string korean;
+    public List<string> korean;
     public string english;
 
-    public bool IsConditionMet(int value)
+    public bool IsConditionMetNotUse(int value)
     {
         switch (conditionOperator)
         {
             case "<":
-                return conditionValue < value;
+                return value < conditionValue;
             case "<=":
-                return conditionValue <= value;
+                return value <= conditionValue;
             case "==":
-                return conditionValue == value;
+                return value == conditionValue;
             case ">=":
-                return conditionValue >= value;
+                return value >= conditionValue;
             case ">":
-                return conditionValue > value;
+                return value > conditionValue;
             case "!=":
-                return conditionValue != value;
+                return value != conditionValue;
             default:
                 return false;
+        }
+    }
+
+    public bool IsConditionMet(Dictionary<ConditionType, int> dic)
+    {
+        switch (conditionOperator)
+        {
+            case "<":
+                return dic[conditionType] < conditionValue;
+            case "<=":
+                return dic[conditionType] <= conditionValue;
+            case "==":
+                return dic[conditionType] == conditionValue;
+            case ">=":
+                return dic[conditionType] >= conditionValue;
+            case ">":
+                return dic[conditionType] > conditionValue;
+            case "!=":
+                return dic[conditionType] != conditionValue;
+            default:
+                return false;
+        }
+    }
+
+    public string GetName()
+    {
+        // todo 언어 설정한 뒤 그 언어로 반환
+        switch (nameType)
+        {
+            case NameType.PRINCESS:
+                return "딸";
+            case NameType.MERCHANT:
+                return "상인";
+            case NameType.SYSTEM:
+                return "시스템";
+            default:
+                return "무명";
         }
     }
 
     public string GetText()
     {
         // todo 언어 설정한 뒤 그 언어로 반환
-        return korean;
+        return korean[UnityEngine.Random.Range(0, korean.Count)];
     }
 }
 
 public static class DialogTool
 {
     private static string TAG = "[DialogTool]";
+
+    public static Dictionary<int, Dialog> dialogDic = new();
+    public static Dictionary<DialogType, List<Dialog>> princessByDialogTypeDic = new();
+
     private static readonly Dictionary<DialogDataType, string> dialogFieldNames = new()
     {
         { DialogDataType.TYPE, "DialogType" },
@@ -149,7 +196,47 @@ public static class DialogTool
         { DialogDataType.ENGLISH, "English" }
     };
 
-    public static Dictionary<int, Dialog> dic = new();
+    public static void Init()
+    {
+        CsvRead("Dialog/Dialog");
+        SetPrincessDialogTypeDic();
+    }
+
+    public static void SetPrincessDialogTypeDic()
+    {
+        foreach (var dialog in dialogDic.Values)
+        {
+            if (dialog.nameType == NameType.PRINCESS)
+            {
+                if (!princessByDialogTypeDic.ContainsKey(dialog.type))
+                {
+                    princessByDialogTypeDic[dialog.type] = new List<Dialog>();
+                }
+                princessByDialogTypeDic[dialog.type].Add(dialog);
+            }
+        }
+    }
+
+    public static List<Dialog> GetDialogListByCondition(ConditionType conditionType, Dictionary<ConditionType, int> conditionTypeValueDic)
+    {
+        List<Dialog> dialogByConditionList = princessByDialogTypeDic[DialogType.CONDITION];
+        List<Dialog> dialogList = new();
+        foreach (var dialog in dialogByConditionList)
+        {
+            if (dialog.conditionType == conditionType && dialog.IsConditionMet(conditionTypeValueDic))
+            {
+                // Debug.Log($"{TAG} id {dialog.id}");
+                dialogList.Add(dialog);
+            }
+        }
+        return dialogList;
+    }
+
+    public static bool HasConditionType(Dialog dialog, ConditionType conditionType)
+    {
+        if (dialog.conditionType == conditionType) return true;
+        else return false;
+    }
 
     public static void CsvRead(string fileName)
     {
@@ -186,11 +273,11 @@ public static class DialogTool
                 string targetTypeStr = rows[dialogDataIndexDic[DialogDataType.TARGET_TYPE]];
                 string targetOperatorStr = rows[dialogDataIndexDic[DialogDataType.TARGET_OPERATOR]];
                 string targetValueStr = rows[dialogDataIndexDic[DialogDataType.TARGET_VALUE]];
-                string korean = rows[dialogDataIndexDic[DialogDataType.KOREAN]];
+                List<string> korean = rows[dialogDataIndexDic[DialogDataType.KOREAN]].Split("§").ToList();
                 string english = rows[dialogDataIndexDic[DialogDataType.ENGLISH]];
 
                 DialogType type = Enum.TryParse(typeStr, out DialogType a) ? a : DialogType.NONE;
-                string name = ChangeToKoreanName(Enum.TryParse(nameStr, out NameType b) ? b : NameType.NONE);
+                NameType nameType = Enum.TryParse(nameStr, out NameType b) ? b : NameType.NONE;
                 SituationType situationType = Enum.TryParse(situationStr, out SituationType c) ? c : SituationType.NONE;
                 ConditionType conditionType = Enum.TryParse(conditionTypeStr, out ConditionType d) ? d : ConditionType.NONE;
                 string conditionOperator = conditionOperatorStr == "`==" ? "==" : conditionOperatorStr;
@@ -207,7 +294,7 @@ public static class DialogTool
                 {
                     id = lineNum,
                     type = type,
-                    name = name,
+                    nameType = nameType,
                     situationType = situationType,
                     conditionType = conditionType,
                     conditionOperator = conditionOperator,
@@ -223,7 +310,7 @@ public static class DialogTool
                     english = english
                 };
 
-                dic[lineNum++] = dialog;
+                dialogDic[lineNum++] = dialog;
             }
         }
 
@@ -237,7 +324,6 @@ public static class DialogTool
         //     // Debug.Log($"id: {dialog.id}, type: {dialog.type}, Name: {dialog.name}, Korean: {dialog.korean}");
         // }
     }
-
 
     public static string[] ParseCsvLine(string line) // CSV 파싱
     {
@@ -259,20 +345,5 @@ public static class DialogTool
         }
 
         return values.ToArray();
-    }
-
-    public static string ChangeToKoreanName(NameType nameType)
-    {
-        switch (nameType)
-        {
-            case NameType.PRINCESS:
-                return "딸";
-            case NameType.MERCHANT:
-                return "아빠";
-            case NameType.SYSTEM:
-                return "시스템";
-            default:
-                return "무명";
-        }
     }
 }

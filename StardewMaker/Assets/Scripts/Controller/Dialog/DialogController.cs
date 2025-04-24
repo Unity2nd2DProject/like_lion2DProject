@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +13,11 @@ public class DialogController : MonoBehaviour
     // 메뉴 열기, 상점 열기 등 이벤트 전달
     public static event Action<bool> OnButtonPanelRequested;
     public static event Action OnShopRequested;
+    public static event Action OnExitRequested;
 
     private DialogView dialogView; // UI 부분
 
+    private NPCDialog currentNPCDialog;
     private Dialog currentDialog; // 현재 대사
     private int selectedOptionNum = 0; // 옵션 선택 저장
 
@@ -25,7 +28,7 @@ public class DialogController : MonoBehaviour
 
     void Awake()
     {
-        DialogTool.CsvRead("Dialog/Dialog"); // 대사 DB에서 가져 옴
+        DialogTool.Init();
         dialogView = GetComponent<DialogView>();
     }
 
@@ -58,12 +61,15 @@ public class DialogController : MonoBehaviour
     {
         if (isNextDialogReady) // 다음 대사가 준비되었다면
         {
-            int currentDialogId = 0;
+            int nextDialogId = 0;
             ExtType extType = ExtType.NONE;
+
+            // 현재 띄워져 있는 Dialog를 기반으로 다음 Dialog Id를 nextDialogId에 저장해서 대사 출력
             switch (currentDialog.type)
             {
                 case DialogType.NORMAL: // 일반적인 대사 진행
-                    currentDialogId = currentDialog.nextId; // 다음 대사 id 저장
+                case DialogType.CONDITION: // 일반적인 대사 진행
+                    nextDialogId = currentDialog.nextId; // 다음 대사 id 저장
 
                     // 다음 대사가 없는 경우 대화 끝
                     if (currentDialog.id == currentDialog.nextId)
@@ -76,14 +82,36 @@ public class DialogController : MonoBehaviour
                 case DialogType.CHOICE: // 선택 옵션이 있는 대사 진행
                     dialogView.DeleteAllOptionButton(); // 옵션 리스트 삭제
 
-                    Dialog checkedOptionDialog = DialogTool.dic[currentDialog.optionIdList[selectedOptionNum]];
-                    currentDialogId = checkedOptionDialog.nextId; // 다음 대사 id 저장
+                    Dialog checkedOptionDialog = DialogTool.dialogDic[currentDialog.optionIdList[selectedOptionNum]];
+                    nextDialogId = checkedOptionDialog.nextId; // 다음 대사 id 저장
 
-                    // 옵션 선택 후 다음 대사 없는 경우 대화 끝
-                    if (currentDialogId == DialogTool.dic[currentDialogId].nextId)
+                    // 다음 대사가 없는 경우 대화 끝
+                    if (checkedOptionDialog.id == checkedOptionDialog.nextId)
                     {
                         isDialogEnd = true;
-                        extType = checkedOptionDialog.ext1;
+                        extType = currentDialog.ext1;
+                    }
+                    break;
+
+                case DialogType.MULTI: // Condition에 따른 멀티 대사 진행
+                    // 현재 currentDialog가 ConditionType을 가지고 있는지 체크. 안 쓸 듯
+                    bool has = DialogTool.HasConditionType(currentDialog, ConditionType.VITALITY) ? true : false;
+                    // todo 또는 현재 currentDialog가 가지고 있는 ConditionType에 따라 다른 변수 넣어주기
+                    Dictionary<ConditionType, int> conditionTypeValueDic = new();
+                    conditionTypeValueDic[ConditionType.MOOD] = 5;
+                    conditionTypeValueDic[ConditionType.VITALITY] = 5;
+                    conditionTypeValueDic[ConditionType.HUNGER] = 5;
+                    conditionTypeValueDic[ConditionType.TRUST] = 5;
+
+                    int selectedNum = currentDialog.IsConditionMet(conditionTypeValueDic) ? (int)MultiOptionIdType.FIRST : (int)MultiOptionIdType.SECOND;
+                    Dialog selectedDialog = DialogTool.dialogDic[currentDialog.optionIdList[selectedNum]];
+                    nextDialogId = selectedDialog.id; // 다음 대사 id 저장
+
+                    // 다음 대사가 없는 경우 대화 끝. optionIdList[0]이 0일 때 동작
+                    if (currentDialog.id == nextDialogId)
+                    {
+                        isDialogEnd = true;
+                        extType = currentDialog.ext1;
                     }
                     break;
             }
@@ -94,15 +122,24 @@ public class DialogController : MonoBehaviour
                 isNextDialogReady = false;
                 dialogView.EnableDialogPanel(false);
                 dialogView.EnableOptionPanel(false);
-                dialogView.EnableNPCImage(false);
 
                 switch (extType)
                 {
-                    case ExtType.ACT:
+                    case ExtType.ACT: // 집에서 행동
+
+                        // PRINCESS인 경우 캐릭터 이미지 IDLE로 지속
+                        if (currentNPCDialog.nameType == NameType.PRINCESS) ChangeEmotionImage(EmotionType.IDLE);
+                        else dialogView.EnableNPCImage(false);
+
                         Debug.Log($"{TAG} ExtType.ACT");
                         OnButtonPanelRequested?.Invoke(true);
                         break;
-                    case ExtType.SHOP:
+                    case ExtType.EXIT: // 집에서 나가기
+                        Debug.Log($"{TAG} ExtType.EXIT");
+                        if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
+                        // todo 상점에서 나가기
+                        break;
+                    case ExtType.SHOP: // 상점 열기
                         Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
                         OnShopRequested?.Invoke();
                         break;
@@ -111,7 +148,7 @@ public class DialogController : MonoBehaviour
             else
             {
                 isDialogEnd = true;
-                StartDialog(currentDialogId); // 대사 출력
+                StartDialog(nextDialogId); // 대사 출력
             }
 
         }
@@ -128,12 +165,13 @@ public class DialogController : MonoBehaviour
         }
     }
 
-    // 다이얼로그 NPC 초기화
+    // 다이얼로그 NPC 처음 시작
     public void InitDialog(NPCDialog npcDialog)
     {
+        currentNPCDialog = npcDialog;
         dialogView.SetNPCDialog(npcDialog);
         dialogView.EnableNPCImage(true);
-        StartDialog(npcDialog.dialogId);
+        StartDialog(npcDialog.currentDialogId);
     }
 
     // 대화 시작
@@ -149,13 +187,13 @@ public class DialogController : MonoBehaviour
 
     public IEnumerator ConversationById(int id)
     {
-        currentDialog = DialogTool.dic[id]; // id에 맞는 대사 가져옴
+        currentDialog = DialogTool.dialogDic[id]; // id에 맞는 대사 가져옴
 
         dialogView.EnableDialogPanel(true);
 
         ChangeEmotionImage(currentDialog.emotion);
 
-        ChangeCharacterName(currentDialog.name);
+        ChangeCharacterName(currentDialog.GetName());
 
         OnStartTextPrint(); // todo 대사 출력 시 효과음 내기
         yield return TextTool.PrintTmpText(dialogView.dialogText, currentDialog.GetText(), () => isSkipRequested);
@@ -167,7 +205,7 @@ public class DialogController : MonoBehaviour
             for (int i = 0; i < currentDialog.optionIdList.Count; i++)
             {
                 int index = i; // 람다식 클로저 문제 방지
-                GameObject go = dialogView.CreateOptionButton(DialogTool.dic[currentDialog.optionIdList[i]].GetText());
+                GameObject go = dialogView.CreateOptionButton(DialogTool.dialogDic[currentDialog.optionIdList[i]].GetText());
                 go.GetComponent<Button>().onClick.AddListener(() => OnClickOption(index));
             }
             dialogView.EnableOptionPanel(true);
@@ -197,6 +235,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 시작
     private void OnStartTextPrint()
     {
+        selectedOptionNum = 0; // 선택된 옵션 초기화
         isNextDialogReady = false;
         isTextSkipEnabled = true;
         dialogView.EnableNextDialogBtn(false);

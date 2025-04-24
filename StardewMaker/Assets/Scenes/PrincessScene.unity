@@ -199,7 +199,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_TargetDisplay: 0
 --- !u!224 &17281324
 RectTransform:
@@ -374,7 +374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &175610726
 RectTransform:
   m_ObjectHideFlags: 0
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -189462343588538925, guid: c7d410bc9578d9d449fca50766c6a6c5, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -960,6 +960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogController: {fileID: 554685605}
   buttonPanel: {fileID: 1317444122}
+  testIndex: 19
 --- !u!114 &493754956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -972,7 +973,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c9524d16272c044a7f3adc0189cccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogId: 2
+  nameType: 2
   idleImg: {fileID: -189462343588538925, guid: c7d410bc9578d9d449fca50766c6a6c5, type: 3}
   happyImg: {fileID: 8799264640979206458, guid: 106da5ec00180d748b6d36641fdc6e31, type: 3}
   angryImg: {fileID: -6002389452898355967, guid: 4108e0c94ad5c404dad7ccf1d3374eb0, type: 3}
@@ -4103,7 +4104,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1878339596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 493754955}
+        m_TargetAssemblyTypeName: PrincessScene1Controller, Assembly-CSharp
+        m_MethodName: DialogTest
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1878339596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4613,7 +4626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66c9524d16272c044a7f3adc0189cccc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dialogId: 30
+  nameType: 0
   idleImg: {fileID: 8559451026430547853, guid: 1bc25cf9f4aa38f4691e8cbacfe6c11b, type: 3}
   happyImg: {fileID: 1066986955731472311, guid: 7a63c50660e4a4e41a58bdf62c4f4456, type: 3}
   angryImg: {fileID: -6298173742144715627, guid: 211bad911240e9e4c9cb68cd4ce81082, type: 3}

@@ -10,6 +10,7 @@ public class ArrivalPoint : MonoBehaviour
     {
         if (arrivalPointName == GameManager.Instance.arrivalPointName) // 플레이어가 소환될 위치 이름이 현재 이 ArrivalPoint의 이름과 같은지
         {
+            // Debug.Log($"{TAG}, {arrivalPointName}");
             GameObject go = GameObject.FindGameObjectWithTag("Player"); // 플레이어가 있을 경우에만 동작
             if (go)
             {
