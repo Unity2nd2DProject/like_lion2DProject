@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 public enum LandState
@@ -24,12 +25,7 @@ public class FarmLand : MonoBehaviour
 
         position = new Vector2(transform.position.x, transform.position.y);
 
-        //position = new Vector2Int(
-        //    Mathf.RoundToInt(transform.position.x),
-        //    Mathf.RoundToInt(transform.position.y)
-        //);
-
-        //UpdateTileSprite();
+        UpdateTileSprite();
     }
 
     public bool Plant(ItemData itemData)
@@ -44,7 +40,12 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow);
             }
-            Inventory.Instance.RemoveItem(itemData);
+
+            if (!Inventory.Instance.RemoveItem(itemData))
+            {
+                QuickSlotManager.Instance.RemoveItem(itemData);
+            }
+
             return true;
         }
         else
@@ -83,7 +84,12 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.WaterCrop(position);
             }
-            Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
+
+            if (!Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물")))
+            {
+                QuickSlotManager.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
+            }
+
             UpdateTileSprite();
             return true;
         }
@@ -141,5 +147,30 @@ public class FarmLand : MonoBehaviour
     public Vector2 GetPosition()
     {
         return position;
+    }
+
+    public bool CanPlant(ItemData itemData)
+    {
+        return landState != LandState.Normal &&
+               itemData != null &&
+               itemData.cropToGrow != null &&
+               CropManager.Instance.GetCropAt(position) == null;
+    }
+
+    public bool CanPick()
+    {
+        return CropManager.Instance.GetCropAt(position) == null;
+    }
+
+    public bool CanWater()
+    {
+        return landState == LandState.Fertile &&
+               Inventory.Instance.GetItem("물") != null;
+    }
+
+    public bool CanHarvest()
+    {
+        var crop = CropManager.Instance.GetCropAt(position);
+        return crop != null && crop.IsHarvestable();
     }
 }

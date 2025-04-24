@@ -2,46 +2,60 @@ using UnityEngine;
 
 public class PlayerAnimationTrigger : MonoBehaviour
 {
-    private Animator anim;
+    //private Animator anim;
 
     private void Awake()
     {
-        anim = GetComponent<Animator>();
+        //anim = GetComponent<Animator>();
     }
 
     private void PickFinishTrigger()
     {
-        anim.SetBool("Pick", false);
+        PlayerController.Instance.Pick();
+        PlayerController.Instance.anim.SetBool("Pick", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void PlantFinishTrigger()
     {
-        anim.SetBool("Plant", false);
+        PlayerController.Instance.Plant();
+        PlayerController.Instance.anim.SetBool("Plant", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void WaterFinishTrigger()
     {
-        anim.SetBool("Water", false);
+        PlayerController.Instance.Water();
+        PlayerController.Instance.anim.SetBool("Water", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void HarvestFinishTrigger()
     {
-        anim.SetBool("Harvest", false);
+        PlayerController.Instance.Harvest();
+        PlayerController.Instance.anim.SetBool("Harvest", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void FishFinishTrigger()
     {
-        anim.SetBool("Fish", false);
+        PlayerController.Instance.Fish();
+        PlayerController.Instance.anim.SetBool("Fish", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void AxeFinishTrigger()
     {
-        anim.SetBool("Axe", false);
+        PlayerController.Instance.Chop();
+        PlayerController.Instance.anim.SetBool("Axe", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
     private void GetWaterFinishTrigger()
     {
-        anim.SetBool("GetWater", false);
+        PlayerController.Instance.GetWater();
+        PlayerController.Instance.anim.SetBool("GetWater", false);
+        PlayerController.Instance.SetCanMove(true);
     }
 
 }

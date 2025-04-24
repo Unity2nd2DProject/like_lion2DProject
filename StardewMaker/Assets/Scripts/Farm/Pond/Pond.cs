@@ -13,16 +13,20 @@ public class Pond : MonoBehaviour
 
     public void Fish()
     {
-        StartCoroutine(FishingRoutine());
-    }
-
-    IEnumerator FishingRoutine()
-    {
-        float waitTime = Random.Range(1f, 3f);
-        yield return new WaitForSeconds(waitTime);
+        //StartCoroutine(FishingRoutine());
 
         ItemData caughtFish = Fishes[Random.Range(0, Fishes.Length)];
         Debug.Log($"get {caughtFish.itemName}!");
         Inventory.Instance.AddItem(caughtFish, 1);
     }
+
+    //IEnumerator FishingRoutine()
+    //{
+    //    float waitTime = Random.Range(1f, 3f);
+    //    yield return new WaitForSeconds(waitTime);
+
+    //    ItemData caughtFish = Fishes[Random.Range(0, Fishes.Length)];
+    //    Debug.Log($"get {caughtFish.itemName}!");
+    //    Inventory.Instance.AddItem(caughtFish, 1);
+    //}
 }

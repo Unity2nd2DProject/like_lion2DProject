@@ -23,7 +23,6 @@ public class Crop : MonoBehaviour
     public void Water()
     {
         isWatered = true;
-        Debug.Log($"💧 {cropData.name} get water!");
     }
 
     public void NextDay()

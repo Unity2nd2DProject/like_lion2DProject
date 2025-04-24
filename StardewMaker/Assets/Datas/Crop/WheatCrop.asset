@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a85aef20f0e4ee54b9fe8911ab13bb54, type: 3}
+  m_Name: WheatCrop
+  m_EditorClassIdentifier: 
+  id: 6
+  cropName: "\uBC00 \uC791\uBB3C"
+  growthSprites:
+  - {fileID: 6159464741088255127, guid: 514339654f672df4bbd67fbc89e4f5bd, type: 3}
+  - {fileID: 3265069124142530092, guid: 514339654f672df4bbd67fbc89e4f5bd, type: 3}
+  - {fileID: -6589015961412656718, guid: 514339654f672df4bbd67fbc89e4f5bd, type: 3}
+  - {fileID: -400016446700539083, guid: 514339654f672df4bbd67fbc89e4f5bd, type: 3}
+  maxGrowthStage: 3
+  harvestNum: 5
+  harvestItem: {fileID: 11400000, guid: 0a116ce5dc8b43e48b32e743056186db, type: 2}

@@ -32,8 +32,12 @@ public class PlayerController : MonoBehaviour
     private Vector2 playerToMouse;
     public float moveSpeed = 5f;
     private Vector2 curPos;
+    private bool canMove = true;
 
-    public LayerMask whatIsLand;
+    private FarmLand curFarmLand;
+    private Pond curPond;
+    private Tree curTree;
+    private ItemData curItem;
 
     void Awake()
     {
@@ -53,6 +57,11 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+        if (!canMove)
+        {
+            return;
+        }
+
         PlayerMoveInput();
         SpaceInput();
         ESCInput();
@@ -69,7 +78,17 @@ public class PlayerController : MonoBehaviour
         curPos = rb.position;
 
         mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        playerToMouse = (mouseWorldPos - curPos).normalized;
+        //playerToMouse = (mouseWorldPos - curPos).normalized;
+
+        Vector2 direction = mouseWorldPos - curPos;
+        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
+        {
+            playerToMouse = direction.x > 0 ? Vector2.right : Vector2.left;
+        }
+        else
+        {
+            playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
+        }
     }
 
     private void PlayerMoveInput()
@@ -115,7 +134,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.Z.WasPressedThisFrame())
         {
-            GameManager.Instance.changeScene("Connect1"); // 테스트용
+            //GameManager.Instance.changeScene("Connect1"); // 테스트용
         }
     }
 
@@ -164,83 +183,75 @@ public class PlayerController : MonoBehaviour
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        ItemData currentItem = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
+        curItem = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
 
-        foreach(Collider2D hit in playerHits)
+        foreach (Collider2D hit in playerHits)
         {
             if (hit == mouseHit)
             {
-                Debug.Log($"hit Info : {hit.name}({hit.transform.position})");
+                SetTarget(hit);
 
-                hit.TryGetComponent(out FarmLand farmLand);
-                hit.TryGetComponent(out Tree tree);
-                hit.TryGetComponent(out Pond pond);
-
-                if (currentItem != null)
+                if (curItem != null)
                 {
-                    switch (currentItem.itemType)
+                    switch (curItem.itemType)
                     {
                         case ItemType.Seed:
-                            if (farmLand != null)
+                            if (curFarmLand != null)
                             {
-                                var crop = CropManager.Instance.GetCropAt(farmLand.GetPosition());
+                                var crop = CropManager.Instance.GetCropAt(curFarmLand.GetPosition());
 
-                                if (crop == null && farmLand.landState != LandState.Normal)
+                                if (curFarmLand.CanPlant(curItem))
                                 {
-                                    farmLand.Plant(currentItem);
                                     SetInteractAnimation(PlayerInteraction.Plant);
                                 }
                             }
                             break;
                         case ItemType.Tool:
-                            if (currentItem.name == "ToolHoe")
+                            if (curItem.name == "ToolHoe")
                             {
-                                if (farmLand != null)
+                                if (curFarmLand != null)
                                 {
-                                    if (farmLand.Pick())
+                                    if (curFarmLand.CanPick())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Pick);
                                     }
                                 }
                             }
-                            else if (currentItem.name == "ToolWateringCan")
+                            else if (curItem.name == "ToolWateringCan")
                             {
-                                if (farmLand != null)
+                                if (curFarmLand != null)
                                 {
-                                    if (farmLand.Water())
+                                    if (curFarmLand.CanWater())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Water);
                                     }
                                 }
-                                else if (pond != null)
+                                else if (curPond != null)
                                 {
-                                    pond.GetWater();
                                     SetInteractAnimation(PlayerInteraction.GetWater);
                                 }
                             }
-                            else if (currentItem.name == "ToolAxe")
+                            else if (curItem.name == "ToolAxe")
                             {
-                                if (tree != null)
+                                if (curTree != null)
                                 {
-                                    tree.Chop();
                                     SetInteractAnimation(PlayerInteraction.Axe);
                                 }
                             }
-                            else if (currentItem.name == "ToolFishingRod")
+                            else if (curItem.name == "ToolFishingRod")
                             {
-                                if (pond != null)
+                                if (curPond != null)
                                 {
-                                    pond.Fish();
                                     SetInteractAnimation(PlayerInteraction.Fish);
                                 }
                             }
-                            else if (currentItem.name == "ToolGlove")
+                            else if (curItem.name == "ToolGlove")
                             {
-                                if (farmLand != null)
+                                if (curFarmLand != null)
                                 {
-                                    var crop = CropManager.Instance.GetCropAt(farmLand.GetPosition());
+                                    var crop = CropManager.Instance.GetCropAt(curFarmLand.GetPosition());
 
-                                    if (crop != null && farmLand.Harvest())
+                                    if (crop != null && curFarmLand.CanHarvest())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Harvest);
                                     }
@@ -257,48 +268,96 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void SetTarget(Collider2D hit)
+    {
+        curFarmLand = null;
+        curPond = null;
+        curTree = null;
+
+        if (hit.TryGetComponent(out FarmLand farmLand))
+        {
+            curFarmLand = farmLand;
+        }
+        else if (hit.TryGetComponent(out Tree tree))
+        {
+            curTree = tree;
+        }
+        else if (hit.TryGetComponent(out Pond pond))
+        {
+            curPond = pond;
+        }
+    }
+
+    public void Harvest()
+    {
+        curFarmLand.Harvest();
+    }
+
+    public void Fish()
+    {
+        curPond.Fish();
+    }
+
+    public void Chop()
+    {
+        curTree.Chop();
+    }
+
+    public void GetWater()
+    {
+        curPond.GetWater();
+    }
+
+    public void Water()
+    {
+        curFarmLand.Water();
+    }
+
+    public void Pick()
+    {
+        curFarmLand.Pick();
+    }
+
+    public void Plant()
+    {
+        curFarmLand.Plant(curItem);
+    }
+
     private void SetInteractAnimation(PlayerInteraction interaction)
     {
         switch (interaction)
         {
-            case PlayerInteraction.None:
-                break;
             case PlayerInteraction.Pick:
                 anim.SetBool("Pick", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Plant:
                 anim.SetBool("Plant", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Water:
                 anim.SetBool("Water", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Harvest:
                 anim.SetBool("Harvest", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Fish:
                 anim.SetBool("Fish", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.GetWater:
                 anim.SetBool("GetWater", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
             case PlayerInteraction.Axe:
                 anim.SetBool("Axe", true);
-                anim.SetFloat("MouseX", playerToMouse.x);
-                anim.SetFloat("MouseY", playerToMouse.y);
                 break;
         }
+
+        anim.SetFloat("MouseX", playerToMouse.x);
+        anim.SetFloat("MouseY", playerToMouse.y);
+        SetCanMove(false);
+    }
+
+    public void SetCanMove(bool _canMove)
+    {
+        canMove = _canMove;
     }
 
     private void OnDrawGizmos()
