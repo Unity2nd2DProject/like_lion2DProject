@@ -1,18 +1,33 @@
 using System;
 using UnityEngine;
 
-public class CookingUI : MonoBehaviour
+public class CookingUI : Singleton<CookingUI>
 {
-    public GameObject cookingPanel;
 
     public GameObject recipeListParent; // content
-    public GameObject recipeBlockPrefab; 
+    public GameObject recipeBlockPrefab;
 
-    internal void AddRecipe(Recipe recipe)
+
+    public RecipeInfoUI recipeInfoUI; // 레시피 정보 UI
+    public CookingInventory cookingInventory; // 요리 인벤토리 UI
+
+    protected override void Awake()
+    {
+        base.Awake();
+    }   
+
+    public void AddRecipe(Recipe recipe)
     {
         var recipeListBlock = Instantiate(recipeBlockPrefab, recipeListParent.transform);
-        // recipeListBlock.GetComponent<RecipeBlock>().SetRecipe(recipe);
+        recipeListBlock.GetComponent<RecipeBlock>().SetRecipe(recipe);
     }
+
+    public void ShowRecipeInfo(Recipe recipe)
+    {
+        recipeInfoUI.UpdateRecipeInfo(recipe);
+    }
+
+
     // 1. 리스트 생성, INSTATIATE
     // 2. 리스트 생성된 버튼에 onclicick 에 함수 추가...? 
 

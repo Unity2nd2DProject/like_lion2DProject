@@ -70,8 +70,34 @@ public class Inventory : Singleton<Inventory>
 
     public void RemoveItem(ItemData item, int amount = 1)
     {
-
+        for (int i = 0; i < slots.Count; i++)
+        {
+            if (slots[i].itemData == item) // 아이템 발견
+            {
+                slots[i].quantity -= amount; // 수량 감소
+                if (slots[i].quantity <= 0) // 수량이 0 이하인 경우 슬롯 비우기
+                {
+                    slots[i].Clear(); // 슬롯 비우기
+                }
+                return; // 아이템 제거 완료
+            }
+        }
     }
 
+    public bool SearchItem(ItemData item)
+    {
+        foreach (var inventorySlot in slots)
+        {
+            if (inventorySlot.itemData == item)
+            {
+                return true; // 아이템 발견
+            }
+            else
+            {
+                return false; // 아이템 없음
+            }
+        }
+        return false;
+    }
 
 }
