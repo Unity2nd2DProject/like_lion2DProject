@@ -1,5 +1,4 @@
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class TooltipUI : MonoBehaviour
@@ -70,7 +69,7 @@ public class TooltipUI : MonoBehaviour
 
         // left
         float leftEdge = anchoredPos.x - pivotOffsetX;
-        float leftOverflow = (-canvasWidth / 2 + margin) - leftEdge; 
+        float leftOverflow = (-canvasWidth / 2 + margin) - leftEdge;
         if (leftOverflow > 0)
         {
             anchoredPos.x += leftOverflow;
