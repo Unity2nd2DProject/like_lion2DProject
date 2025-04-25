@@ -29,7 +29,7 @@ public class DialogTrigger : MonoBehaviour
         if (other.CompareTag("NPC"))
         {
             currentNPC = other.GetComponent<NPCDialog>();
-            Debug.Log($"{TAG} NPC meet, NPC dialogId : {currentNPC.dialogId}");
+            Debug.Log($"{TAG} NPC meet, NPC dialogId : {currentNPC.currentDialogId}");
         }
     }
 
