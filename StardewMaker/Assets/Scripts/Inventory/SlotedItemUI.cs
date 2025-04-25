@@ -7,7 +7,7 @@ using UnityEditor.ShaderGraph.Internal;
 using System.Collections.Generic;
 
 
-public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public static bool IsDragging { get; private set; }
 
@@ -60,6 +60,20 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             // TODO: 아이템 클릭 시 행동 정의
         }
     }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (itemData != null)
+        {
+            TooltipUI.Instance.ShowTooltip(itemData, transform.position);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipUI.Instance.HideTooltip();
+    }
+
 
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
