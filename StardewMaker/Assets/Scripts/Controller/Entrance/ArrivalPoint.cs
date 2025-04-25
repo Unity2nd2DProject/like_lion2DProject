@@ -8,13 +8,14 @@ public class ArrivalPoint : MonoBehaviour
 
     void Start()
     {
-        if (arrivalPointName == GameManager.Instance.arrivalPointName)
+        if (arrivalPointName == GameManager.Instance.arrivalPointName) // 플레이어가 소환될 위치 이름이 현재 이 ArrivalPoint의 이름과 같은지
         {
-            GameObject go = GameObject.FindGameObjectWithTag("Player");
+            // Debug.Log($"{TAG}, {arrivalPointName}");
+            GameObject go = GameObject.FindGameObjectWithTag("Player"); // 플레이어가 있을 경우에만 동작
             if (go)
             {
-                go.transform.position = transform.position;
-                GameManager.Instance.SetGameState(TAG, GameState.PLAYING);
+                go.transform.position = transform.position; // 플레이어 해당 위치로 이동
+                GameManager.Instance.SetGameState(TAG, GameState.PLAYING); // Playing으로 input manager 전환
             }
             FadeManager.Instance.FadeIn();
         }
