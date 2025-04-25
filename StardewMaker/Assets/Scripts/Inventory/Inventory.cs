@@ -27,8 +27,9 @@ public class Inventory : Singleton<Inventory>
         // 테스트 용 아이템 추가
         for (int i = 0; i < starterItems.Count; i++)
         {
-            AddItem(starterItems[i], 20);
+            AddItem(starterItems[i], 4);
         }
+        InventoryUI.Instance.UpdateInventoryUI();
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)
@@ -40,6 +41,7 @@ public class Inventory : Singleton<Inventory>
                 if (inventorySlot.itemData == newItem) // 같은 아이템이 있는 슬롯을 찾음
                 {
                     inventorySlot.quantity += amount; // 수량 증가
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -49,6 +51,7 @@ public class Inventory : Singleton<Inventory>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }      
@@ -61,6 +64,7 @@ public class Inventory : Singleton<Inventory>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }            
@@ -68,36 +72,40 @@ public class Inventory : Singleton<Inventory>
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 
-    public void RemoveItem(ItemData item, int amount = 1)
+    public bool RemoveItem(ItemData item, int amount = 1)
     {
-        for (int i = 0; i < slots.Count; i++)
+        foreach (var slot in slots)
         {
-            if (slots[i].itemData == item) // 아이템 발견
+            if (slot.itemData == item)
             {
-                slots[i].quantity -= amount; // 수량 감소
-                if (slots[i].quantity <= 0) // 수량이 0 이하인 경우 슬롯 비우기
+                if (slot.quantity >= amount)
                 {
-                    slots[i].Clear(); // 슬롯 비우기
+                    slot.quantity -= amount;
+
+                    if (slot.quantity <= 0) // 수량이 0 이하가 되면 슬롯을 비움
+                    {
+                        slot.itemData = null;
+                        slot.quantity = 0;
+                    }
+                    InventoryUI.Instance.UpdateInventoryUI();
+                    return true; // 아이템 제거 성공
                 }
-                return; // 아이템 제거 완료
             }
         }
+
+        return false; // 아이템이 없거나 수량 부족
     }
 
-    public bool SearchItem(ItemData item)
+    public ItemData GetItem(string itemName)
     {
-        foreach (var inventorySlot in slots)
+        foreach (var slot in slots)
         {
-            if (inventorySlot.itemData == item)
+            if (!slot.IsEmpty() && slot.itemData.itemName == itemName)
             {
-                return true; // 아이템 발견
-            }
-            else
-            {
-                return false; // 아이템 없음
+                return slot.itemData;
             }
         }
-        return false;
-    }
 
+        return null;
+    }
 }

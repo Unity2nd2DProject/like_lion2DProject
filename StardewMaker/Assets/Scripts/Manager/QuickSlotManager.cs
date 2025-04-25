@@ -25,6 +25,12 @@ public class QuickSlotManager : Singleton<QuickSlotManager>
 
     private void GetMouseScroll()
     {
+        // 상점 UI가 켜져 있으면 스크롤 무시
+        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        {
+            return;
+        }
+
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         int selectedIndex = currentSelectedIndex;
 
@@ -64,5 +70,42 @@ public class QuickSlotManager : Singleton<QuickSlotManager>
     {
         currentSelectedIndex = index;
         QuickSlotUI.Instance.UpdateSelectedSlot(); // UI 갱신
+    }
+
+    public bool RemoveItem(ItemData item, int amount = 1)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.itemData == item)
+            {
+                if (slot.quantity >= amount)
+                {
+                    slot.quantity -= amount;
+
+                    if (slot.quantity <= 0)
+                    {
+                        slot.itemData = null;
+                        slot.quantity = 0;
+                    }
+                    QuickSlotUI.Instance.UpdateUI();
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    public ItemData GetItem(string itemName)
+    {
+        foreach (var slot in slots)
+        {
+            if (!slot.IsEmpty() && slot.itemData.itemName == itemName)
+            {
+                return slot.itemData;
+            }
+        }
+
+        return null;
     }
 }

@@ -14,7 +14,10 @@ public class QuickSlotUI : Singleton<QuickSlotUI>
     {
         base.Awake();
         quickSlotManager = QuickSlotManager.Instance;
+    }
 
+    private void Start()
+    {
         UpdateUI();
     }
 

@@ -2,19 +2,45 @@ using UnityEngine;
 
 public class ShopTrigger : MonoBehaviour
 {
-    public GameObject shopUI;
-    public GameObject sellUI;
-    private bool isPlayerNearby;
+    [Header("UI References")]
+    public GameObject shopUI;   // ShopUI 루트 오브젝트
+    public GameObject inventoryUI;  // InventoryUI 루트 오브젝트
+
+    private bool isPlayerNearby = false;
 
     void Update()
     {
-        if (isPlayerNearby && Input.GetKeyDown(KeyCode.Return))
-        {
-            shopUI.SetActive(!shopUI.activeSelf);
-            sellUI.SetActive(!sellUI.activeSelf);
+        HandleShopToggleInput();
+        HandleEscapeCloseInput();
+    }
 
-            Time.timeScale = shopUI.activeSelf ? 0f : 1f;
-            Time.timeScale = sellUI.activeSelf ? 0f : 1f;
+    // Enter 키로 상점/인벤토리 UI를 토글
+    private void HandleShopToggleInput()
+    {
+        if (!isPlayerNearby) return;
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            bool isActive = !shopUI.activeSelf;
+
+            shopUI.SetActive(isActive);
+            inventoryUI.SetActive(isActive);
+
+            Time.timeScale = isActive ? 0f : 1f; // UI 열릴 때 게임 일시 정지
+        }
+    }
+
+    // ESC 키로 상점 닫기
+    private void HandleEscapeCloseInput()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+            {
+                ShopUI.Instance.Close();
+                inventoryUI.SetActive(false);
+                Time.timeScale = 1f;
+            }
         }
     }
 

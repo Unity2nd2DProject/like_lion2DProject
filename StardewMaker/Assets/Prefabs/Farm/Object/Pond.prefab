@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 625419608018208454}
   - component: {fileID: 1699918221156782201}
   - component: {fileID: 8104005597641639321}
+  - component: {fileID: 5337692955270967650}
   m_Layer: 0
   m_Name: Pond
   m_TagString: Untagged
@@ -75,10 +76,10 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -915736819
+  m_SortingLayer: 2
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 0.3066038, g: 0.4099335, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -86,7 +87,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1699918221156782201
@@ -101,8 +102,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab06fff90f1af8a45a639b1aa4a977fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  waterData: {fileID: 11400000, guid: 009ca434ddd01324bbbc2b3a09a11713, type: 2}
+  Fishes:
+  - {fileID: 11400000, guid: 880e2026f15a0a049b02376cccf15bfd, type: 2}
+  - {fileID: 11400000, guid: c4617ffc21bb75c4ca0feb19733ee1db, type: 2}
+  - {fileID: 11400000, guid: 44ca11d739a8136419f3f0b65ba0f893, type: 2}
+  - {fileID: 11400000, guid: d7afc8307ad46fe4b8b791283d36848f, type: 2}
+  - {fileID: 11400000, guid: 9494e9219e724494f9498e9863283c6e, type: 2}
+  - {fileID: 11400000, guid: a52f906aa0cfd2e43a104c36c2cd4609, type: 2}
 --- !u!70 &8104005597641639321
 CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3882985612481071873}
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_CompositeOperation: 0
+  m_CompositeOrder: 0
+  m_Offset: {x: -0.74597627, y: -0.15265062}
+  m_Size: {x: 2.5000741, y: 2.8221312}
+  m_Direction: 1
+--- !u!60 &5337692955270967650
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -135,6 +181,29 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.00000004306015, y: 0.010698602}
-  m_Size: {x: 1.0081085, y: 0.9708034}
-  m_Direction: 1
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  m_Points:
+    m_Paths:
+    - - {x: 1.5772495, y: 1.291544}
+      - {x: 0.8717836, y: 1.3234451}
+      - {x: 0.68165493, y: 1.7971873}
+      - {x: 0.3100744, y: 1.7819741}
+      - {x: 0.14602277, y: 1.3581771}
+      - {x: 0.0993709, y: 1.2998018}
+      - {x: -1.817003, y: 1.3021109}
+      - {x: -2.0049381, y: 0.78305995}
+      - {x: -2.0052633, y: -1.1561573}
+      - {x: -1.8441174, y: -1.5772593}
+      - {x: 1.618408, y: -1.5312208}
+      - {x: 1.7505615, y: -1.1372429}
+      - {x: 1.7591609, y: 0.79092973}
+  m_UseDelaunayMesh: 0

@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class InventoryUI : Singleton<InventoryUI>
 {
-
     public Inventory inventory;
 
     public GameObject inventorGrid; // 필요한가?
@@ -22,7 +21,6 @@ public class InventoryUI : Singleton<InventoryUI>
 
         this.gameObject.SetActive(false);
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
-        
     }
 
     private void OnEnable()
@@ -41,6 +39,11 @@ public class InventoryUI : Singleton<InventoryUI>
     private void OnCancelButtonClicked()
     {
         ToggleInventory();
+
+        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        {
+            ShopUI.Instance.Close();
+        }
     }
 
     public void ToggleInventory()

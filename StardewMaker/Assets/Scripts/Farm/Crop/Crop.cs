@@ -23,7 +23,13 @@ public class Crop : MonoBehaviour
     public void Water()
     {
         isWatered = true;
-        Debug.Log($"💧 {cropData.name} get water!");
+    }
+
+    public void Fertlize()
+    {
+        currentGrowthStage = cropData.maxGrowthStage;
+        isWatered = true;
+        UpdateGrowth();
     }
 
     public void NextDay()
