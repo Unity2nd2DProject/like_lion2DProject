@@ -7,7 +7,6 @@ using System.Collections.Generic;
 
 public class InventoryUI : Singleton<InventoryUI>
 {
-
     public Inventory inventory;
 
     public GameObject inventorGrid; // 필요한가?
