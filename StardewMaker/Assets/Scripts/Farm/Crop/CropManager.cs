@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CropManager : MonoBehaviour
 {
@@ -50,6 +51,15 @@ public class CropManager : MonoBehaviour
                 crops.Remove(gridPos);
                 Inventory.Instance.AddItem(crop.cropData.harvestItem, crop.cropData.harvestNum);
             }
+        }
+    }
+
+    public void FertilizeCrop(Vector2 gridPos)
+    {
+        if (crops.TryGetValue(gridPos, out Crop crop))
+        {
+            Debug.Log("cropmanager");
+            crop.Fertlize();
         }
     }
 

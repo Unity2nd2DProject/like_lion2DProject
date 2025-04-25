@@ -58,4 +58,11 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.SetCanMove(true);
     }
 
+    private void FertlizeFinishTrigger()
+    {
+        PlayerController.Instance.Fertlize();
+        PlayerController.Instance.anim.SetBool("Fertilize", false);
+        PlayerController.Instance.SetCanMove(true);
+    }
+
 }

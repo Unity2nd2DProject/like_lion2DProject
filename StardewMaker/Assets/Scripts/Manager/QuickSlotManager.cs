@@ -95,4 +95,17 @@ public class QuickSlotManager : Singleton<QuickSlotManager>
 
         return false;
     }
+
+    public ItemData GetItem(string itemName)
+    {
+        foreach (var slot in slots)
+        {
+            if (!slot.IsEmpty() && slot.itemData.itemName == itemName)
+            {
+                return slot.itemData;
+            }
+        }
+
+        return null;
+    }
 }

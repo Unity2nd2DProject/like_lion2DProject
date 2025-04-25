@@ -6,14 +6,15 @@ using UnityEngine.Tilemaps;
 
 public enum PlayerInteraction
 {
-    None, // null
-    Pick, // PickAxe
-    Plant, // null?
-    Water, // WateringCan
-    Harvest, // null?
-    Fish, // FishingRod
-    GetWater, // WateringCan
-    Axe
+    None,
+    Pick, 
+    Plant,
+    Water, 
+    Harvest, 
+    Fish, 
+    GetWater,
+    Axe,
+    Fertilize
 }
 
 public class PlayerController : MonoBehaviour
@@ -198,11 +199,20 @@ public class PlayerController : MonoBehaviour
                         case ItemType.Seed:
                             if (curFarmLand != null)
                             {
-                                var crop = CropManager.Instance.GetCropAt(curFarmLand.GetPosition());
+                                //var crop = CropManager.Instance.GetCropAt(curFarmLand.GetPosition());
 
                                 if (curFarmLand.CanPlant(curItem))
                                 {
                                     SetInteractAnimation(PlayerInteraction.Plant);
+                                }
+                            }
+                            break;
+                        case ItemType.Etc:
+                            if (curItem.name == "Fertilizer" && curFarmLand != null)
+                            {
+                                if (curFarmLand.CanFertilze())
+                                {
+                                    SetInteractAnimation(PlayerInteraction.Fertilize);
                                 }
                             }
                             break;
@@ -323,6 +333,12 @@ public class PlayerController : MonoBehaviour
         curFarmLand.Plant(curItem);
     }
 
+    public void Fertlize()
+    {
+        Debug.Log("playercontroller");
+        curFarmLand.Fertilize();
+    }
+
     private void SetInteractAnimation(PlayerInteraction interaction)
     {
         switch (interaction)
@@ -347,6 +363,10 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerInteraction.Axe:
                 anim.SetBool("Axe", true);
+                break;
+            case PlayerInteraction.Fertilize:
+                Debug.Log("fertilize true");
+                anim.SetBool("Fertilize", true);
                 break;
         }
 
