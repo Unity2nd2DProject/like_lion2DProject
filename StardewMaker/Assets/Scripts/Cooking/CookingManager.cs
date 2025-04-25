@@ -10,10 +10,7 @@ public class CookingManager : Singleton<CookingManager>
     protected override void Awake()
     {
         base.Awake();       
-
     }
-
-
 
     private void Start()
     {
@@ -42,7 +39,7 @@ public class CookingManager : Singleton<CookingManager>
         for(int i = 0; i < currentRecipe.ingredients.Length; i++)
         {
             // 재료 확인
-            if (Inventory.Instance.SearchItem(currentRecipe.ingredients[i]) == false)
+            if (Inventory.Instance.CheckItem(currentRecipe.ingredients[i]) == false)
             {
                 Debug.Log("재료가 부족합니다.");
                 return;

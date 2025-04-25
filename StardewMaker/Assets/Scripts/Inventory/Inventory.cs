@@ -108,4 +108,16 @@ public class Inventory : Singleton<Inventory>
 
         return null;
     }
+
+    public bool CheckItem(ItemData item)
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.itemData == item)
+            {
+                return true; // 아이템이 존재함
+            }
+        }
+        return false; // 아이템이 존재하지 않음
+    } 
 }

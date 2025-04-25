@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CookTestManager : MonoBehaviour
+public class CookingSceneManager : MonoBehaviour
 {
     public GameObject toggleButton;
     public GameObject CookingUI;
