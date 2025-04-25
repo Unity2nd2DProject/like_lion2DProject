@@ -119,7 +119,6 @@ public class FarmLand : MonoBehaviour
     {
         if (CanFertilze())
         {
-            Debug.Log("farmland");
             CropManager.Instance.FertilizeCrop(position);
 
             if (!Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("비료")))

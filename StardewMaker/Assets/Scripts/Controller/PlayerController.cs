@@ -335,7 +335,6 @@ public class PlayerController : MonoBehaviour
 
     public void Fertlize()
     {
-        Debug.Log("playercontroller");
         curFarmLand.Fertilize();
     }
 
@@ -365,7 +364,6 @@ public class PlayerController : MonoBehaviour
                 anim.SetBool("Axe", true);
                 break;
             case PlayerInteraction.Fertilize:
-                Debug.Log("fertilize true");
                 anim.SetBool("Fertilize", true);
                 break;
         }

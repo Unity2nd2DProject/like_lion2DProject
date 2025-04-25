@@ -58,7 +58,6 @@ public class CropManager : MonoBehaviour
     {
         if (crops.TryGetValue(gridPos, out Crop crop))
         {
-            Debug.Log("cropmanager");
             crop.Fertlize();
         }
     }
