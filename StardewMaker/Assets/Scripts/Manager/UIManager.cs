@@ -1,9 +1,15 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class UIManager : Singleton<UIManager>
 {
+    [Header("Inventory and QuickSlot")]
+    public GameObject InventoryUI;
+    public GameObject QuickSlotUI;
 
+
+    [Header("Stat UI")]
     [SerializeField] private StatUI statUIPrefab;
     [SerializeField] private Transform statUIParent;
 
@@ -21,5 +27,14 @@ public class UIManager : Singleton<UIManager>
         statUIInstance.Initialize(stats);
     }
 
+    internal void UpdateQuickSlotUI()
+    {
+        throw new NotImplementedException();
+    }
+
+    internal void UpdateInventoryUI()
+    {
+        throw new NotImplementedException();
+    }
 }
 

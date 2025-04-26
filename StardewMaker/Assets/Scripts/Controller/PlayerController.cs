@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        curItem = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
+        curItem = InventoryManager.Instance.slots[InventoryManager.Instance.currentSelectedIndex].itemData;
 
         foreach (Collider2D hit in playerHits)
         {

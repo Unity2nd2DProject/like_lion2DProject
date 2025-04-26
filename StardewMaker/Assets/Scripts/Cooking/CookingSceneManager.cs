@@ -4,23 +4,32 @@ using UnityEngine.UI;
 
 public class CookingSceneManager : MonoBehaviour
 {
-    public GameObject toggleButton;
-    public GameObject CookingUI;
+    public GameObject invenTogleButton;
+    public GameObject cookingTogleButton;
+
+    public GameObject cookingUI;
+    public GameObject inventoryAndQuickSlotUI;
 
 
     private void Awake()
     {
-        CookingUI.SetActive(false);
+        cookingUI.SetActive(false);
         Initialize();
     }
 
     private void Initialize()
     {
-        toggleButton.GetComponent<Button>().onClick.AddListener(ToggleCookingUI);
+        cookingTogleButton.GetComponent<Button>().onClick.AddListener(ToggleCookingUI);
+        invenTogleButton.GetComponent<Button>().onClick.AddListener(ToggleInventoryUI);
     }
 
     private void ToggleCookingUI()
     {
-        CookingUI.SetActive(!CookingUI.activeSelf);
+        cookingUI.SetActive(!cookingUI.activeSelf);
+    }
+
+    private void ToggleInventoryUI()
+    {
+        inventoryAndQuickSlotUI.SetActive(!inventoryAndQuickSlotUI.activeSelf);
     }
 }

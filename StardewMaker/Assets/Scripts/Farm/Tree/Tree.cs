@@ -9,7 +9,7 @@ public class Tree : MonoBehaviour
     public void Chop()
     {
         currentHits++;
-        Inventory.Instance.AddItem(woodData, 1);
+        InventoryManager.Instance.AddItem(woodData, 1);
 
         if (currentHits >= maxHits)
         {

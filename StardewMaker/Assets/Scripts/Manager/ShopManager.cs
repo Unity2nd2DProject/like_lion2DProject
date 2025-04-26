@@ -8,7 +8,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Settings")]
     public List<ItemData> shopItems;
-    public Inventory playerInventory;
+    public InventoryManager playerInventory;
 
     [Header("Player Money")]
     public int playerMoney;

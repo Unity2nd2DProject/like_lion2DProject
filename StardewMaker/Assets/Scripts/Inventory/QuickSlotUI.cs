@@ -2,36 +2,29 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickSlotUI : Singleton<QuickSlotUI>
+public class QuickSlotUI : MonoBehaviour
 {
-    QuickSlotManager quickSlotManager;
-
-    public List<QuickSlotSlotUI> quickSlotSlotUIs = new List<QuickSlotSlotUI>();
-
+    InventoryManager inventoryManager;
+    public List<SlotUI> quickSlotSlotUIs = new List<SlotUI>();
     public GameObject currentSelectedCursor;
 
-    protected override void Awake()
+    private void Init(InventoryManager inventoryManager)
     {
-        base.Awake();
-        quickSlotManager = QuickSlotManager.Instance;
-    }
-
-    private void Start()
-    {
+        this.inventoryManager = inventoryManager;
         UpdateUI();
     }
 
     public void UpdateUI()
     {
-        for (int i = 0; i < quickSlotManager.quickSlotSize; i++)
+        for (int i = 0; i < inventoryManager.quickSlotSize; i++)
         {
-            quickSlotSlotUIs[i].UpdateSlot(quickSlotManager.slots[i]);
+            quickSlotSlotUIs[i].UpdateSlot(inventoryManager.slots[i]);
         }
     }
 
     internal void UpdateSelectedSlot()
     {
-        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[quickSlotManager.currentSelectedIndex].transform);
-        currentSelectedCursor.transform.localPosition = new Vector3(-50, 50);
+        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedIndex].transform);
+        currentSelectedCursor.transform.localPosition = new Vector3(-50, 50); // 위치 조정
     }
 }

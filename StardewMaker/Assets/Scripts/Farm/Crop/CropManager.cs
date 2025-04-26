@@ -49,7 +49,7 @@ public class CropManager : MonoBehaviour
             {
                 Destroy(crop.gameObject);
                 crops.Remove(gridPos);
-                Inventory.Instance.AddItem(crop.cropData.harvestItem, crop.cropData.harvestNum);
+                InventoryManager.Instance.AddItem(crop.cropData.harvestItem, crop.cropData.harvestNum);
             }
         }
     }

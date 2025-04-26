@@ -3,15 +3,13 @@ using UnityEngine;
 
 public class CookingInventory : MonoBehaviour
 {
-    Inventory inventory;
-    QuickSlotManager quickSlotManager;
+    InventoryManager inventory;
 
     public IngredientSlotUI[] ingredientSlots; // 슬롯 아이템 UI 배열
 
     private void Awake()
     {
-        inventory = Inventory.Instance; // Inventory 인스턴스 가져오기
-        quickSlotManager = QuickSlotManager.Instance; // QuickSlotManager 인스턴스 가져오기
+        inventory = InventoryManager.Instance; // Inventory 인스턴스 가져오기
     }
     private void Start()
     {
@@ -28,14 +26,6 @@ public class CookingInventory : MonoBehaviour
             if (!inventory.slots[i].IsEmpty() && inventory.slots[i].itemData.itemType == ItemType.Ingredient)          {
 
                 ingredientSlots[cookInventoryIndex].SetSlot(inventory.slots[i].itemData, inventory.slots[i].quantity);
-                cookInventoryIndex++;
-            }
-        }
-        for(int i = 0; i < quickSlotManager.slots.Count; i++)
-        {
-            if (!quickSlotManager.slots[i].IsEmpty() && quickSlotManager.slots[i].itemData.itemType == ItemType.Ingredient)
-            {
-                ingredientSlots[cookInventoryIndex].SetSlot(quickSlotManager.slots[i].itemData, quickSlotManager.slots[i].quantity);
                 cookInventoryIndex++;
             }
         }

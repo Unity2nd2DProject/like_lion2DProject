@@ -7,11 +7,9 @@ using System.Collections.Generic;
 
 public class InventoryUI : Singleton<InventoryUI>
 {
-    public Inventory inventory;
+    public InventoryManager inventory;
 
-    public GameObject inventorGrid; // 필요한가?
-
-    public List<InventorySlotUI> inventorySlotUIs = new List<InventorySlotUI>();
+    public List<SlotUI> inventorySlotUIs = new List<SlotUI>();
 
     public Button cancelButton;
 

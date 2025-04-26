@@ -39,7 +39,7 @@ public class CookingManager : Singleton<CookingManager>
         for(int i = 0; i < currentRecipe.ingredients.Length; i++)
         {
             // 재료 확인
-            if (Inventory.Instance.CheckItem(currentRecipe.ingredients[i]) == false)
+            if (InventoryManager.Instance.CheckItem(currentRecipe.ingredients[i]) == false)
             {
                 Debug.Log("재료가 부족합니다.");
                 return;
@@ -48,9 +48,9 @@ public class CookingManager : Singleton<CookingManager>
         // 재료가 모두 있는 경우 요리 진행
         for (int i = 0; i < currentRecipe.ingredients.Length; i++)
         {
-            Inventory.Instance.RemoveItem(currentRecipe.ingredients[i]);
+            InventoryManager.Instance.RemoveItem(currentRecipe.ingredients[i]);
         }
-        Inventory.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
+        InventoryManager.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
         // 요리 완료 후 결과 UI 표시
         Debug.Log("요리 완성!");
         cookingUI.cookingInventory.UpdateUI();

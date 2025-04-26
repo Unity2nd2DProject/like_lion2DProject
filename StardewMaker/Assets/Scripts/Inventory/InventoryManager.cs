@@ -2,24 +2,30 @@ using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Inventory : Singleton<Inventory>
+public class InventoryManager : Singleton<InventoryManager>
 {
     public int inventorySize = 25;
+    public int quickSlotSize = 10;
     public List<ItemSlot> slots = new List<ItemSlot>();
+
+    public int currentSelectedIndex;
 
     public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
     protected override void Awake()
     {
         base.Awake();
-        Debug.Log("Inventory Initialized");
+
 
         InitInventory();
+        SetQuickSlot();
+        currentSelectedIndex = 0;
+        Debug.Log("Inventory Initialized");
     }
 
     private void InitInventory()
     {
-        for (int i = 0; i < inventorySize; i++)
+        for (int i = 0; i < inventorySize + quickSlotSize; i++)
         {
             slots.Add(new ItemSlot()); // 슬롯 초기화
         }
@@ -54,7 +60,7 @@ public class Inventory : Singleton<Inventory>
                     InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
-            }      
+            }
         }
         else
         {
@@ -67,7 +73,7 @@ public class Inventory : Singleton<Inventory>
                     InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
-            }            
+            }
         }
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
@@ -119,5 +125,66 @@ public class Inventory : Singleton<Inventory>
             }
         }
         return false; // 아이템이 존재하지 않음
-    } 
+    }
+
+
+
+
+    private void Update()
+    {
+        GetKeyborardNumber();
+        GetMouseScroll();
+    }
+
+    private void GetMouseScroll()
+    {
+        // 상점 UI가 켜져 있으면 스크롤 무시
+        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        {
+            return;
+        }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        int selectedIndex = currentSelectedIndex;
+
+        if (scroll > 0f) // 휠 위로
+        {
+            selectedIndex = (selectedIndex - 1 + quickSlotSize) % quickSlotSize;
+            SetSelectedSlot(selectedIndex);
+        }
+        else if (scroll < 0f) // 휠 아래로
+        {
+            selectedIndex = (selectedIndex + 1) % quickSlotSize;
+            SetSelectedSlot(selectedIndex);
+        }
+    }
+
+    private void GetKeyborardNumber()
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            int keyNumber = (i + 1) % 10;
+            if (Input.GetKeyDown((KeyCode)((int)KeyCode.Alpha0 + keyNumber)))
+            {
+                SetSelectedSlot(i);
+            }
+        }
+    }
+
+    public void SetQuickSlot()
+    {
+        for (int i = 0; i < quickSlotSize; i++)
+        {
+            slots.Add(new ItemSlot()); // 슬롯 초기화
+        }
+    }
+
+    private void SetSelectedSlot(int index)
+    {
+        currentSelectedIndex = index;
+        UIManager.Instance.UpdateQuickSlotUI(); // UI 갱신
+    }
+
+
+
 }
