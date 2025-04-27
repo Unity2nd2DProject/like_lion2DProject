@@ -53,7 +53,7 @@ public class CookingManager : Singleton<CookingManager>
         InventoryManager.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
         // 요리 완료 후 결과 UI 표시
         Debug.Log("요리 완성!");
-        cookingUI.cookingInventory.UpdateUI();
+        cookingUI.cookingInventory.UpdateIngredientInventoryUI();
 
 
 

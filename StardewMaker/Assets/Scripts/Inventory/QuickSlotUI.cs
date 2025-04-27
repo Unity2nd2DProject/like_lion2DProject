@@ -11,20 +11,22 @@ public class QuickSlotUI : MonoBehaviour
     private void Init(InventoryManager inventoryManager)
     {
         this.inventoryManager = inventoryManager;
-        UpdateUI();
+        UpdateQuickSlotUI();
     }
 
-    public void UpdateUI()
+    public void UpdateQuickSlotUI()
     {
         for (int i = 0; i < inventoryManager.quickSlotSize; i++)
         {
-            quickSlotSlotUIs[i].UpdateSlot(inventoryManager.slots[i]);
+            quickSlotSlotUIs[i].UpdateSlot(inventoryManager.slots[inventoryManager.inventorySize + i]);
         }
+
+        UpdateSelectedSlot();
     }
 
-    internal void UpdateSelectedSlot()
+    private void UpdateSelectedSlot()
     {
-        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedIndex].transform);
+        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedQuickSlotIndex].transform);
         currentSelectedCursor.transform.localPosition = new Vector3(-50, 50); // 위치 조정
     }
 }

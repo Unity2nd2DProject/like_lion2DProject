@@ -199,7 +199,7 @@ public class FarmLand : MonoBehaviour
     public bool CanFertilze()
     {
         var crop = CropManager.Instance.GetCropAt(position);
-        return crop != null && !crop.IsHarvestable() &&
+        return crop != null && !crop.IsHarvestable() && 
             InventoryManager.Instance.GetItem("비료") != null;
     }
 }

@@ -67,7 +67,7 @@ public class ShopManager : MonoBehaviour
         playerMoney -= item.buyPrice * qty;
 
         // UI 업데이트
-        InventoryUI.Instance.UpdateInventoryUI();
+        UIManager.Instance.UpdateInventoryUI();
         UpdateMoneyUI();
 
         return true;
@@ -102,7 +102,7 @@ public class ShopManager : MonoBehaviour
         playerMoney += itemData.sellPrice * qty;
 
         // UI 업데이트
-        InventoryUI.Instance.UpdateInventoryUI();
+        UIManager.Instance.UpdateInventoryUI();
         UpdateMoneyUI();
 
         return true;

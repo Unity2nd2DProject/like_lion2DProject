@@ -8,7 +8,7 @@ public class InventoryManager : Singleton<InventoryManager>
     public int quickSlotSize = 10;
     public List<ItemSlot> slots = new List<ItemSlot>();
 
-    public int currentSelectedIndex;
+    public int currentSelectedQuickSlotIndex;
 
     public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
@@ -18,9 +18,14 @@ public class InventoryManager : Singleton<InventoryManager>
 
 
         InitInventory();
-        SetQuickSlot();
-        currentSelectedIndex = 0;
+        InitQuickSlot();
         Debug.Log("Inventory Initialized");
+    }
+
+    private void Update()
+    {
+        GetKeyborardNumber();
+        GetMouseScroll();
     }
 
     private void InitInventory()
@@ -35,7 +40,6 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             AddItem(starterItems[i], 4);
         }
-        InventoryUI.Instance.UpdateInventoryUI();
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)
@@ -46,8 +50,7 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 if (inventorySlot.itemData == newItem) // 같은 아이템이 있는 슬롯을 찾음
                 {
-                    inventorySlot.quantity += amount; // 수량 증가
-                    InventoryUI.Instance.UpdateInventoryUI();
+                    inventorySlot.quantity += amount; // 수량 증가                
                     return true; // 아이템 추가 완료
                 }
             }
@@ -57,7 +60,6 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
-                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -70,11 +72,11 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
-                    InventoryUI.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
         }
+        UIManager.Instance.UpdateInventoryUI(); // UI 갱신
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 
@@ -93,7 +95,7 @@ public class InventoryManager : Singleton<InventoryManager>
                         slot.itemData = null;
                         slot.quantity = 0;
                     }
-                    InventoryUI.Instance.UpdateInventoryUI();
+                    UIManager.Instance.UpdateInventoryUI(); // UI 갱신
                     return true; // 아이템 제거 성공
                 }
             }
@@ -127,38 +129,7 @@ public class InventoryManager : Singleton<InventoryManager>
         return false; // 아이템이 존재하지 않음
     }
 
-
-
-
-    private void Update()
-    {
-        GetKeyborardNumber();
-        GetMouseScroll();
-    }
-
-    private void GetMouseScroll()
-    {
-        // 상점 UI가 켜져 있으면 스크롤 무시
-        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
-        {
-            return;
-        }
-
-        float scroll = Input.GetAxis("Mouse ScrollWheel");
-        int selectedIndex = currentSelectedIndex;
-
-        if (scroll > 0f) // 휠 위로
-        {
-            selectedIndex = (selectedIndex - 1 + quickSlotSize) % quickSlotSize;
-            SetSelectedSlot(selectedIndex);
-        }
-        else if (scroll < 0f) // 휠 아래로
-        {
-            selectedIndex = (selectedIndex + 1) % quickSlotSize;
-            SetSelectedSlot(selectedIndex);
-        }
-    }
-
+    #region 퀵슬롯 입력
     private void GetKeyborardNumber()
     {
         for (int i = 0; i < 10; i++)
@@ -171,20 +142,43 @@ public class InventoryManager : Singleton<InventoryManager>
         }
     }
 
-    public void SetQuickSlot()
+    private void GetMouseScroll()
+    {
+        // 상점 UI가 켜져 있으면 스크롤 무시
+        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        {
+            return;
+        }
+
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        int selectedIndex = currentSelectedQuickSlotIndex;
+
+        if (scroll > 0f) // 휠 위로
+        {
+            selectedIndex = (selectedIndex - 1 + quickSlotSize) % quickSlotSize;
+            SetSelectedSlot(selectedIndex);
+        }
+        else if (scroll < 0f) // 휠 아래로
+        {
+            selectedIndex = (selectedIndex + 1) % quickSlotSize;
+            SetSelectedSlot(selectedIndex);
+        }
+    }
+    #endregion
+
+    public void InitQuickSlot()
     {
         for (int i = 0; i < quickSlotSize; i++)
         {
             slots.Add(new ItemSlot()); // 슬롯 초기화
         }
+        currentSelectedQuickSlotIndex = 0;
+
     }
 
     private void SetSelectedSlot(int index)
     {
-        currentSelectedIndex = index;
+        currentSelectedQuickSlotIndex = index;
         UIManager.Instance.UpdateQuickSlotUI(); // UI 갱신
     }
-
-
-
 }

@@ -5,19 +5,16 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
 
-public class InventoryUI : Singleton<InventoryUI>
+public class InventoryUI : MonoBehaviour
 {
-    public InventoryManager inventory;
 
     public List<SlotUI> inventorySlotUIs = new List<SlotUI>();
-
     public Button cancelButton;
 
-    protected override void Awake()
-    {
-        base.Awake();
 
-        this.gameObject.SetActive(false);
+    private void Start()
+    {
+        UpdateInventoryUI();
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
     }
 
@@ -28,9 +25,9 @@ public class InventoryUI : Singleton<InventoryUI>
 
     public void UpdateInventoryUI()
     {
-        for (int i = 0; i < inventory.slots.Count; i++)
+        for (int i = 0; i < InventoryManager.Instance.inventorySize; i++)
         {
-            inventorySlotUIs[i].UpdateSlot(inventory.slots[i]);
+            inventorySlotUIs[i].UpdateSlot(InventoryManager.Instance.slots[i]);
         }
     }
 

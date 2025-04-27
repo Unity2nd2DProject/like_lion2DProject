@@ -27,14 +27,14 @@ public class UIManager : Singleton<UIManager>
         statUIInstance.Initialize(stats);
     }
 
-    internal void UpdateQuickSlotUI()
+    public void UpdateQuickSlotUI()
     {
-        throw new NotImplementedException();
+        QuickSlotUI.GetComponent<QuickSlotUI>().UpdateQuickSlotUI();
     }
 
-    internal void UpdateInventoryUI()
+    public void UpdateInventoryUI()
     {
-        throw new NotImplementedException();
+        InventoryUI.GetComponent<InventoryUI>().UpdateInventoryUI();
     }
 }
 

@@ -3,29 +3,28 @@ using UnityEngine;
 
 public class CookingInventory : MonoBehaviour
 {
-    InventoryManager inventory;
+    InventoryManager inventoryManager;
 
     public IngredientSlotUI[] ingredientSlots; // 슬롯 아이템 UI 배열
 
     private void Awake()
     {
-        inventory = InventoryManager.Instance; // Inventory 인스턴스 가져오기
+        inventoryManager = InventoryManager.Instance;
     }
     private void Start()
     {
-        UpdateUI(); // UI 업데이트
+        UpdateIngredientInventoryUI(); // 재료 UI 업데이트
     }
 
-    public void UpdateUI()
+    public void UpdateIngredientInventoryUI()
     {
         int cookInventoryIndex = 0;
 
-        for (int i = 0; i < inventory.inventorySize; i++)
+        for (int i = 0; i < inventoryManager.inventorySize + inventoryManager.quickSlotSize; i++)
         {
-            // 슬롯이 비어있지 않고, 아이템 타입이 재료인 경우
-            if (!inventory.slots[i].IsEmpty() && inventory.slots[i].itemData.itemType == ItemType.Ingredient)          {
+            if (!inventoryManager.slots[i].IsEmpty() && inventoryManager.slots[i].itemData.itemType == ItemType.Ingredient)          {
 
-                ingredientSlots[cookInventoryIndex].SetSlot(inventory.slots[i].itemData, inventory.slots[i].quantity);
+                ingredientSlots[cookInventoryIndex].SetSlot(inventoryManager.slots[i].itemData, inventoryManager.slots[i].quantity);
                 cookInventoryIndex++;
             }
         }
