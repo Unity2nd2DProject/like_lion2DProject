@@ -15,6 +15,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     public Image icon;
     public TextMeshProUGUI quantityText;
     public Button slotButton;
+    public GameObject quantityTextBox;
 
     private Transform originalParent;
 
@@ -40,6 +41,11 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             icon.enabled = true;
             icon.sprite = _item.icon;
             quantityText.text = _item.isStackable ? quantity.ToString() : "";
+
+            if (_item.isStackable)
+            {
+                quantityTextBox.SetActive(true);
+            }
         }
         else
         {
