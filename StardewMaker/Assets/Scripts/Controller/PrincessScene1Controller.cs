@@ -44,18 +44,20 @@ public class PrincessScene1Controller : MonoBehaviour
         // todo 현재 날짜 확인
 
         // todo 어떤 대화를 할지 정해야 함
-        // npcDialog.currentDialogId = introDialogId;
 
         // todo 낮과 밤에 따른 차이 두기?
-        Dictionary<ConditionType, int> conditionTypeValueDic = new();
-        conditionTypeValueDic[ConditionType.MOOD] = 5;
-        conditionTypeValueDic[ConditionType.VITALITY] = 5;
-        conditionTypeValueDic[ConditionType.HUNGER] = 5;
-        conditionTypeValueDic[ConditionType.TRUST] = 5;
+        // Dictionary<ConditionType, int> conditionTypeValueDic = new();
+        // conditionTypeValueDic[ConditionType.MOOD] = 5;
+        // conditionTypeValueDic[ConditionType.VITALITY] = 5;
+        // conditionTypeValueDic[ConditionType.HUNGER] = 5;
+        // conditionTypeValueDic[ConditionType.TRUST] = 5;
 
-        List<Dialog> vitalityDialogList = DialogTool.GetDialogListByCondition(ConditionType.VITALITY, conditionTypeValueDic); // VITALITY가 5일 때 대사들 가져옴
+        List<Dialog> vitalityDialogList = DialogTool.GetDialogListByCondition(StatType.VITALITY, DaughterManager.Instance.GetStats()); // VITALITY가 5일 때 대사들 가져옴
         npcDialog.currentDialogId = vitalityDialogList[Random.Range(0, vitalityDialogList.Count)].id;
         // Debug.Log($"{TAG} npcDialog.currentDialogId {npcDialog.currentDialogId}");
+
+        // 게임 처음 시작 시 대화
+        npcDialog.currentDialogId = introDialogId;
     }
 
     private void Update()
@@ -90,6 +92,20 @@ public class PrincessScene1Controller : MonoBehaviour
     public void DialogTest()
     {
         npcDialog.currentDialogId = testIndex;
+        dialogController.InitDialog(npcDialog);
+    }
+
+    public void ReadBook()
+    {
+        // Dictionary<ConditionType, int> conditionTypeValueDic = new();
+        // conditionTypeValueDic[ConditionType.MOOD] = 8;
+        // conditionTypeValueDic[ConditionType.VITALITY] = 5;
+        // conditionTypeValueDic[ConditionType.HUNGER] = 5;
+        // conditionTypeValueDic[ConditionType.TRUST] = 5;
+
+        List<Dialog> bookDialogList = DialogTool.GetDialogListBySituation(SituationType.BOOK, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = bookDialogList[Random.Range(0, bookDialogList.Count)].id;
+        // npcDialog.currentDialogId = 103;
         dialogController.InitDialog(npcDialog);
     }
 }
