@@ -27,6 +27,11 @@ public class UIManager : Singleton<UIManager>
         statUIInstance.Initialize(stats);
     }
 
+    public void InitializeInventoryAndQuickSlot()
+    {
+        InventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
+        QuickSlotUI.GetComponent<QuickSlotUI>().InitializeQuickSlotUI();
+    }
     public void UpdateQuickSlotUI()
     {
         QuickSlotUI.GetComponent<QuickSlotUI>().UpdateQuickSlotUI();
@@ -36,5 +41,7 @@ public class UIManager : Singleton<UIManager>
     {
         InventoryUI.GetComponent<InventoryUI>().UpdateInventoryUI();
     }
+
+
 }
 

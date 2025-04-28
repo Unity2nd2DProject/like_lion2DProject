@@ -86,11 +86,7 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.WaterCrop(position);
             }
-
-            if (!InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물")))
-            {
-                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물"));
-            }
+            InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물"));
 
             UpdateTileSprite();
             return true;
@@ -107,7 +103,7 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.HarvestCrop(position);
             UpdateTileSprite();
-            return true;    
+            return true;
         }
         else
         {
@@ -121,10 +117,7 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.FertilizeCrop(position);
 
-            if (!InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("비료")))
-            {
-                InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("비료"));
-            }
+            InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("비료"));
 
             UpdateTileSprite();
             return true;
@@ -199,7 +192,7 @@ public class FarmLand : MonoBehaviour
     public bool CanFertilze()
     {
         var crop = CropManager.Instance.GetCropAt(position);
-        return crop != null && !crop.IsHarvestable() && 
+        return crop != null && !crop.IsHarvestable() &&
             InventoryManager.Instance.GetItem("비료") != null;
     }
 }

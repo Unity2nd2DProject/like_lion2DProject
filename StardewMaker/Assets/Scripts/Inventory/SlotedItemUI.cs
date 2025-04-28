@@ -74,7 +74,6 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         TooltipUI.Instance.HideTooltip();
     }
 
-
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
     {

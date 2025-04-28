@@ -16,9 +16,7 @@ public class InventoryManager : Singleton<InventoryManager>
     {
         base.Awake();
 
-
-        InitInventory();
-        InitQuickSlot();
+        InitializeInventory();
         Debug.Log("Inventory Initialized");
     }
 
@@ -28,18 +26,26 @@ public class InventoryManager : Singleton<InventoryManager>
         GetMouseScroll();
     }
 
-    private void InitInventory()
+    private void InitializeInventory()
     {
+        for (int i = 0; i < inventorySize; i++)
+        {
+            slots.Add(new ItemSlot());
+        }
+
         for (int i = 0; i < inventorySize + quickSlotSize; i++)
         {
-            slots.Add(new ItemSlot()); // 슬롯 초기화
+            slots.Add(new ItemSlot());
         }
+        currentSelectedQuickSlotIndex = 0;
 
         // 테스트 용 아이템 추가
         for (int i = 0; i < starterItems.Count; i++)
         {
             AddItem(starterItems[i], 4);
         }
+
+        UIManager.Instance.InitializeInventoryAndQuickSlot();
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)
@@ -166,19 +172,14 @@ public class InventoryManager : Singleton<InventoryManager>
     }
     #endregion
 
-    public void InitQuickSlot()
-    {
-        for (int i = 0; i < quickSlotSize; i++)
-        {
-            slots.Add(new ItemSlot()); // 슬롯 초기화
-        }
-        currentSelectedQuickSlotIndex = 0;
-
-    }
-
     private void SetSelectedSlot(int index)
     {
         currentSelectedQuickSlotIndex = index;
         UIManager.Instance.UpdateQuickSlotUI(); // UI 갱신
+    }
+
+    public ItemData GetQuickSlotCurrentSelectedItem()
+    {
+        return slots[currentSelectedQuickSlotIndex + inventorySize].itemData;
     }
 }

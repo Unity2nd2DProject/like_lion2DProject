@@ -8,9 +8,9 @@ public class QuickSlotUI : MonoBehaviour
     public List<SlotUI> quickSlotSlotUIs = new List<SlotUI>();
     public GameObject currentSelectedCursor;
 
-    private void Init(InventoryManager inventoryManager)
+    public void InitializeQuickSlotUI()
     {
-        this.inventoryManager = inventoryManager;
+        inventoryManager = InventoryManager.Instance;
         UpdateQuickSlotUI();
     }
 
@@ -20,13 +20,13 @@ public class QuickSlotUI : MonoBehaviour
         {
             quickSlotSlotUIs[i].UpdateSlot(inventoryManager.slots[inventoryManager.inventorySize + i]);
         }
-
         UpdateSelectedSlot();
     }
 
     private void UpdateSelectedSlot()
     {
         currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedQuickSlotIndex].transform);
-        currentSelectedCursor.transform.localPosition = new Vector3(-50, 50); // 위치 조정
+        currentSelectedCursor.transform.localPosition = new Vector3(0, 0, 0);
+        Debug.Log(currentSelectedCursor.transform.localPosition);
     }
 }

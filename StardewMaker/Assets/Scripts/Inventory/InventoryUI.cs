@@ -11,23 +11,20 @@ public class InventoryUI : MonoBehaviour
     public List<SlotUI> inventorySlotUIs = new List<SlotUI>();
     public Button cancelButton;
 
+    private InventoryManager inventoryManager;
 
-    private void Start()
+    public void InitializeInventoryUI()
     {
-        UpdateInventoryUI();
+        inventoryManager = InventoryManager.Instance;
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
-    }
-
-    private void OnEnable()
-    {
         UpdateInventoryUI();
     }
 
     public void UpdateInventoryUI()
     {
-        for (int i = 0; i < InventoryManager.Instance.inventorySize; i++)
+        for (int i = 0; i < inventoryManager.inventorySize; i++)
         {
-            inventorySlotUIs[i].UpdateSlot(InventoryManager.Instance.slots[i]);
+            inventorySlotUIs[i].UpdateSlot(inventoryManager.slots[i]);
         }
     }
 
@@ -43,6 +40,7 @@ public class InventoryUI : MonoBehaviour
 
     public void ToggleInventory()
     {
+        UpdateInventoryUI();
         gameObject.SetActive(!gameObject.activeSelf);
     }
 
