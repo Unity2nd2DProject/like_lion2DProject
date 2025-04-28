@@ -32,6 +32,6 @@ public class QuickSlotUI : Singleton<QuickSlotUI>
     internal void UpdateSelectedSlot()
     {
         currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[quickSlotManager.currentSelectedIndex].transform);
-        currentSelectedCursor.transform.localPosition = new Vector3(-50, 50);
+        currentSelectedCursor.transform.localPosition = new Vector3(-42, 42);
     }
 }
