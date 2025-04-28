@@ -25,14 +25,6 @@ public class GameManager : Singleton<GameManager>
         base.Awake();
     }
 
-    public void NextDay()
-    {
-        Debug.Log("☀️ ============ NextDay.. ==============");
-        CropManager.Instance.NextDay();
-        FarmLandManager.Instance.NextDay();
-        TreeManager.Instance.NextDay();
-    }
-
     public void SetGameState(string tag, GameState newState)
     {
         currentState = newState;

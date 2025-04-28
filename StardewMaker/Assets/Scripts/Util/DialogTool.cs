@@ -24,6 +24,7 @@ public enum DialogDataType
     KOREAN,
     ENGLISH
 }
+
 public enum DialogType
 {
     NONE,

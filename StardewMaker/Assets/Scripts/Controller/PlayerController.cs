@@ -167,7 +167,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
         {
-            GameManager.Instance.NextDay();
+            TimeManager.Instance.OnNextDay();
         }
     }
 

@@ -686,6 +686,7 @@ GameObject:
   - component: {fileID: 38497249}
   - component: {fileID: 38497251}
   - component: {fileID: 38497250}
+  - component: {fileID: 38497252}
   m_Layer: 5
   m_Name: BaseUI
   m_TagString: Untagged
@@ -754,6 +755,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38497248}
   m_CullTransparentMesh: 1
+--- !u!114 &38497252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38497248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf9be50cf783d442941eb5caad0bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dateText: {fileID: 1998393825}
+  timeText: {fileID: 188238680}
+  moneyText: {fileID: 702254861}
 --- !u!1 &41402613
 GameObject:
   m_ObjectHideFlags: 0
@@ -46162,6 +46178,56 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1223717778}
   m_CullTransparentMesh: 1
+--- !u!1 &1246767326
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1246767328}
+  - component: {fileID: 1246767327}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1246767327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246767326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5abac6397e54a441adedb9aea5688f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  realSecondsPerGameDay: 600
+  currentYear: 1
+  currentSeason: 0
+  currentDay: 1
+  currentHour: 7
+  currentMinute: 0
+--- !u!4 &1246767328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1246767326}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.8357515, y: -1.7948017, z: 0.16480519}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1247179223
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79856,6 +79922,7 @@ GameObject:
   - component: {fileID: 2110723330}
   - component: {fileID: 2110723332}
   - component: {fileID: 2110723331}
+  - component: {fileID: 2110723333}
   m_Layer: 5
   m_Name: TimeImage
   m_TagString: Untagged
@@ -79920,6 +79987,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110723329}
   m_CullTransparentMesh: 1
+--- !u!114 &2110723333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110723329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f28e1b202cfac49b329aae0bbbc854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  daySprite: {fileID: 7629601655650313939, guid: b37dfb604a3382d44a17aff062cc31e0, type: 3}
+  nightSprite: {fileID: 5030310586381747962, guid: 482d055951c80654a8e0812b70999b1a, type: 3}
 --- !u!1 &2121720230
 GameObject:
   m_ObjectHideFlags: 0
@@ -80526,6 +80607,7 @@ SceneRoots:
   - {fileID: 629405050}
   - {fileID: 2121720234}
   - {fileID: 2124212773}
+  - {fileID: 1246767328}
   - {fileID: 604816958}
   - {fileID: 598944761}
   - {fileID: 1549390349}
