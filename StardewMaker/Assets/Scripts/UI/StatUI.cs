@@ -14,10 +14,10 @@ public class StatUI : MonoBehaviour
     {
         rowDict = new Dictionary<StatType, StatRowUI>
         {
-            { StatType.Mood, moodRow },
-            { StatType.Vitality, vitalityRow },
-            { StatType.Hunger, hungerRow },
-            { StatType.Trust, trustRow }
+            { StatType.MOOD, moodRow },
+            { StatType.VITALITY, vitalityRow },
+            { StatType.HUNGER, hungerRow },
+            { StatType.TRUST, trustRow }
         };
     }
 
