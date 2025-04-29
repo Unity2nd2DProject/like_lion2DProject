@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
-            UIManager.Instance.InventoryUI.GetComponent<InventoryUI>().ToggleInventory();
+            UIManager.Instance.inventoryUI.ToggleInventory();
         }
     }
 
