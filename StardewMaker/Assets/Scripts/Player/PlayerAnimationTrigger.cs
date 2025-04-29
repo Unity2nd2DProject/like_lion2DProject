@@ -23,7 +23,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.Plant();
         PlayerController.Instance.anim.SetBool("Plant", false);
         PlayerController.Instance.SetCanMove(true);
-        StaminaUI.Instance.ConsumeStamina();
     }
 
     private void WaterFinishTrigger()
@@ -39,7 +38,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.Harvest();
         PlayerController.Instance.anim.SetBool("Harvest", false);
         PlayerController.Instance.SetCanMove(true);
-        StaminaUI.Instance.ConsumeStamina();
     }
 
     private void FishFinishTrigger()
@@ -63,7 +61,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.GetWater();
         PlayerController.Instance.anim.SetBool("GetWater", false);
         PlayerController.Instance.SetCanMove(true);
-        StaminaUI.Instance.ConsumeStamina();
     }
 
     private void FertlizeFinishTrigger()
@@ -73,5 +70,4 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.SetCanMove(true);
         StaminaUI.Instance.ConsumeStamina();
     }
-
 }
