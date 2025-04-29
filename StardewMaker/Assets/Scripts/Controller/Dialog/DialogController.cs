@@ -11,7 +11,8 @@ public class DialogController : MonoBehaviour
     private UserInputManager inputManager;
 
     // 메뉴 열기, 상점 열기 등 이벤트 전달
-    public static event Action<bool> OnButtonPanelRequested;
+    public static event Action<bool> OnNormalMenuRequested;
+    public static event Action<bool> OnScheduleMenuRequested;
     public static event Action OnShopRequested;
     public static event Action OnExitRequested;
 
@@ -135,11 +136,11 @@ public class DialogController : MonoBehaviour
                         else dialogView.EnableNPCImage(false);
 
                         Debug.Log($"{TAG} ExtType.ACT");
-                        OnButtonPanelRequested?.Invoke(true);
+                        OnNormalMenuRequested?.Invoke(true);
                         break;
-                    case ExtType.EXIT: // 집에서 나가기
+                    case ExtType.EXIT: // 집에서 나가기 -> 스케줄 메뉴
                         Debug.Log($"{TAG} ExtType.EXIT");
-                        if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
+                        if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
                         // todo 상점에서 나가기
                         break;
                     case ExtType.SHOP: // 상점 열기
@@ -183,7 +184,7 @@ public class DialogController : MonoBehaviour
         if (isDialogEnd) // 대사가 끝나있는 상태일때만 실행 가능
         {
             isDialogEnd = false;
-            OnButtonPanelRequested?.Invoke(false);
+            OnNormalMenuRequested?.Invoke(false);
             StartCoroutine(ConversationById(dialogId));
         }
     }
