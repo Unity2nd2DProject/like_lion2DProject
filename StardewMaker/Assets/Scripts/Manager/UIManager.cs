@@ -38,6 +38,12 @@ public class UIManager : Singleton<UIManager>
         QuickSlotUI.GetComponent<QuickSlotUI>().InitializeQuickSlotUI();
     }
 
+    public void UpdateInventoryAndQuickSlot()
+    {
+        QuickSlotUI.GetComponent<QuickSlotUI>().UpdateQuickSlotUI();
+        InventoryUI.GetComponent<InventoryUI>().UpdateInventoryUI();
+    }
+
     public void UpdateQuickSlotUI()
     {
         QuickSlotUI.GetComponent<QuickSlotUI>().UpdateQuickSlotUI();

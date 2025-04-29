@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FarmLandManager : MonoBehaviour
+public class FarmLandManager : Singleton<FarmLandManager>
 {
-    public static FarmLandManager Instance;
+    //public static FarmLandManager Instance;
+
     public GameObject farmlandPrefab;
 
     public Vector2Int topLeft;
@@ -11,15 +12,22 @@ public class FarmLandManager : MonoBehaviour
 
     private Dictionary<Vector2, FarmLand> farmLands = new Dictionary<Vector2, FarmLand>();
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
         GenerateFarmLands();
     }
+
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+
+    //    GenerateFarmLands();
+    //}
 
     public void GenerateFarmLands()
     {

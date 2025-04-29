@@ -11,9 +11,9 @@ public enum Season
     Winter
 }
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : Singleton<TimeManager>
 {
-    public static TimeManager Instance;
+    //public static TimeManager Instance;
 
     [Header("Time Settings")]
     public float realSecondsPerGameDay = 600f; // 10분 = 600초
@@ -36,15 +36,23 @@ public class TimeManager : MonoBehaviour
 
     public event Action OnDayChanged;
 
-    private void Awake()
+
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
     }
+
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+
+    //    gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
+    //}
 
     private void Start()
     {

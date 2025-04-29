@@ -17,9 +17,9 @@ public enum PlayerInteraction
     Fertilize
 }
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : Singleton<PlayerController>
 {
-    public static PlayerController Instance;
+    //public static PlayerController Instance;
 
     private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
@@ -40,16 +40,24 @@ public class PlayerController : MonoBehaviour
     private Tree curTree;
     private ItemData curItem;
 
-    void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
+
+    //void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+
+    //    anim = GetComponentInChildren<Animator>();
+    //    rb = GetComponent<Rigidbody2D>();
+    //}
 
     private void OnEnable()
     {

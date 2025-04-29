@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-public class CropManager : MonoBehaviour
+public class CropManager : Singleton<CropManager>
 {
-    public static CropManager Instance;
+    //public static CropManager Instance;
 
     public GameObject[] cropPrefabs;
     public Dictionary<Vector2, Crop> crops = new Dictionary<Vector2, Crop>();
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
     }
+
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+    //}
 
     public void PlantCrop(Transform parentTtransform, Vector2 position, CropData cropData, bool _isWatered = false)
     {
