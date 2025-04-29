@@ -109,11 +109,11 @@ public class StaminaUI : MonoBehaviour
     }
 
     // 테스트용: 엔터키로 반칸 회복
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            RecoverStamina(1);
-        }
-    }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.Return))
+    //    {
+    //        RecoverStamina(1);
+    //    }
+    //}
 }

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 
 public class DaughterManager : Singleton<DaughterManager>
 {
@@ -11,7 +12,7 @@ public class DaughterManager : Singleton<DaughterManager>
     [SerializeField] private Stat vitalityStat;
     [SerializeField] private Stat hungerStat;
     [SerializeField] private Stat trustStat;
-    
+
 
     protected override void Awake()
     {
@@ -22,16 +23,32 @@ public class DaughterManager : Singleton<DaughterManager>
 
     private void Initialize()
     {
-        moodStat.Initialize(StatType.Mood, 100 ,50);
-        vitalityStat.Initialize(StatType.Vitality, 100, 60);
-        hungerStat.Initialize(StatType.Hunger, 100, 80);
-        trustStat.Initialize(StatType.Trust, 100, 80);
+        moodStat.Initialize(StatType.MOOD, 100, 50);
+        vitalityStat.Initialize(StatType.VITALITY, 100, 60);
+        hungerStat.Initialize(StatType.HUNGER, 100, 80);
+        trustStat.Initialize(StatType.TRUST, 100, 80);
 
         stats.Add(moodStat);
         stats.Add(vitalityStat);
         stats.Add(hungerStat);
         stats.Add(trustStat);
 
-        UIManager.Instance.InitializeStatUI(stats);
+        // UIManager.Instance.InitializeStatUI(stats);
+    }
+
+    public List<Stat> GetStats()
+    {
+        return stats;
+    }
+
+    public void SetStats(StatType statType, int value)
+    {
+        foreach (var i in stats)
+        {
+            if (i.statType == statType)
+            {
+                i.CurrentValue = value;
+            }
+        }
     }
 }

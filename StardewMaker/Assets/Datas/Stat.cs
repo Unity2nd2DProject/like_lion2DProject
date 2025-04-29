@@ -1,14 +1,13 @@
 using System;
 using UnityEngine;
 
-
-
 public enum StatType
 {
-    Mood,
-    Vitality,
-    Hunger,
-    Trust
+    NONE,
+    MOOD,
+    VITALITY,
+    HUNGER,
+    TRUST
 }
 
 public static class StatTypeExtensions
@@ -17,13 +16,13 @@ public static class StatTypeExtensions
     {
         switch (statType)
         {
-            case StatType.Mood:
+            case StatType.MOOD:
                 return "기분";
-            case StatType.Vitality:
+            case StatType.VITALITY:
                 return "건강";
-            case StatType.Hunger:
+            case StatType.HUNGER:
                 return "배고픔";
-            case StatType.Trust:
+            case StatType.TRUST:
                 return "신뢰도";
             default:
                 return statType.ToString();
@@ -35,8 +34,8 @@ public static class StatTypeExtensions
 public class Stat : ScriptableObject
 {
     public StatType statType;
-    private float currentValue;
-    private float maxValue;
+    public float currentValue;
+    public float maxValue;
 
     public float CurrentValue
     {
