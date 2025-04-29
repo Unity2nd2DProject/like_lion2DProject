@@ -17,7 +17,6 @@ public class InventoryManager : Singleton<InventoryManager>
         base.Awake();
 
         InitializeInventory();
-        Debug.Log("Inventory Initialized");
     }
 
     private void Update()
