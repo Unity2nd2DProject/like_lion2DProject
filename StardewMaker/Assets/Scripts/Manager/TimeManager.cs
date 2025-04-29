@@ -9,7 +9,6 @@ public enum Season
     Winter
 }
 
-
 public class TimeManager : MonoBehaviour
 {
     public static TimeManager Instance;
@@ -131,7 +130,7 @@ public class TimeManager : MonoBehaviour
         isTimePaused = true;
     }
 
-    public void ResumeTime()  // 집에서 나오면
+    public void ResumeTime() // 집에서 나오면
     {
         isTimePaused = false;
     }
