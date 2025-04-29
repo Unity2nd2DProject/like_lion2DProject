@@ -52,6 +52,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             icon.enabled = false;
             quantityText.text = "";
+            quantityTextBox.SetActive(false);
         }
     }
 
