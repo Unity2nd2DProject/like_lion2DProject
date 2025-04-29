@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class IngredientSlotUI : MonoBehaviour
+public class IngredientSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private ItemData itemData;
     public Image icon;
@@ -41,12 +41,17 @@ public class IngredientSlotUI : MonoBehaviour
         return itemData;
     }
 
-    private void OnSlotClicked()
+    public void OnPointerEnter(PointerEventData eventData)
     {
         if (itemData != null)
         {
-            // TODO: 아이템 클릭 시 행동 정의
+            TooltipUI.Instance.ShowTooltip(itemData, transform.position);
         }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        TooltipUI.Instance.HideTooltip();
     }
 }
 

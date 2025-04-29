@@ -28,14 +28,13 @@ public class RecipeInfoUI : MonoBehaviour
         // 재료 아이콘 업데이트
         for (int i = 0; i < ingredientIcons.Length; i++)
         {
+            ingredientIcons[i].sprite = null; // 재료 아이콘 초기화
+        }
+        for (int i = 0; i < ingredientIcons.Length; i++)
+        {
             if (i < recipe.ingredients.Length)
             {
                 ingredientIcons[i].sprite = recipe.ingredients[i].icon;
-            }
-            else
-            {
-                // TODO: 남는 아이콘 비활성화가 아닌 기본 이미지로 변경
-                // ingredientIcons[i].sprite = recipe.ingredients[i].icon;
             }
         }
         // 요리 이름, 설명, 효과 업데이트

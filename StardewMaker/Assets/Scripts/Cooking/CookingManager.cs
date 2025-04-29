@@ -20,8 +20,12 @@ public class CookingManager : Singleton<CookingManager>
     // 테스트용 레시피 잠금 해제
     private void InitTest()
     {
-        recipes[0].UnlockRecipe(); // 첫 번째 레시피 잠금 해제
-        recipes[1].UnlockRecipe(); // 두 번째 레시피 잠금 해제
+        recipes[0].UnlockRecipe(); 
+        recipes[1].UnlockRecipe(); 
+        recipes[2].UnlockRecipe(); 
+        recipes[3].UnlockRecipe(); 
+        recipes[4].UnlockRecipe(); 
+        recipes[5].UnlockRecipe();        
     }
 
     private void InitRecipe()
@@ -41,7 +45,7 @@ public class CookingManager : Singleton<CookingManager>
             // 재료 확인
             if (InventoryManager.Instance.CheckItem(currentRecipe.ingredients[i]) == false)
             {
-                Debug.Log("재료가 부족합니다.");
+                UIManager.Instance.ShowPopup("재료가 부족합니다.");
                 return;
             }
         }
@@ -52,10 +56,8 @@ public class CookingManager : Singleton<CookingManager>
         }
         InventoryManager.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
         // 요리 완료 후 결과 UI 표시
-        Debug.Log("요리 완성!");
+        UIManager.Instance.ShowPopup("요리 완성!.");
         cookingUI.cookingInventory.UpdateIngredientInventoryUI();
-
-
 
     }
 }

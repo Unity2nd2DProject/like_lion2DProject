@@ -28,24 +28,18 @@ public class InventoryManager : Singleton<InventoryManager>
 
     private void InitializeInventory()
     {
-        for (int i = 0; i < inventorySize; i++)
-        {
-            slots.Add(new ItemSlot());
-        }
-
         for (int i = 0; i < inventorySize + quickSlotSize; i++)
         {
             slots.Add(new ItemSlot());
         }
         currentSelectedQuickSlotIndex = 0;
+        UIManager.Instance.InitializeInventoryAndQuickSlot();
 
         // 테스트 용 아이템 추가
         for (int i = 0; i < starterItems.Count; i++)
         {
             AddItem(starterItems[i], 4);
-        }
-
-        UIManager.Instance.InitializeInventoryAndQuickSlot();
+        }        
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)
@@ -56,7 +50,8 @@ public class InventoryManager : Singleton<InventoryManager>
             {
                 if (inventorySlot.itemData == newItem) // 같은 아이템이 있는 슬롯을 찾음
                 {
-                    inventorySlot.quantity += amount; // 수량 증가                
+                    inventorySlot.quantity += amount; // 수량 증가
+                    UIManager.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -66,6 +61,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    UIManager.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -78,11 +74,12 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
+                    UIManager.Instance.UpdateInventoryUI();
                     return true; // 아이템 추가 완료
                 }
             }
         }
-        UIManager.Instance.UpdateInventoryUI(); // UI 갱신
+        UIManager.Instance.UpdateInventoryUI();
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 
@@ -96,17 +93,14 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     slot.quantity -= amount;
 
-                    if (slot.quantity <= 0) // 수량이 0 이하가 되면 슬롯을 비움
+                    if (slot.IsEmpty()) // 수량이 0 이하가 되면 슬롯을 비움
                     {
-                        slot.itemData = null;
-                        slot.quantity = 0;
+                        slot.Clear();
                     }
-                    UIManager.Instance.UpdateInventoryUI(); // UI 갱신
                     return true; // 아이템 제거 성공
                 }
             }
         }
-
         return false; // 아이템이 없거나 수량 부족
     }
 
@@ -133,6 +127,18 @@ public class InventoryManager : Singleton<InventoryManager>
             }
         }
         return false; // 아이템이 존재하지 않음
+    }
+
+    public bool isFull()
+    {
+        foreach (var slot in slots)
+        {
+            if (slot.IsEmpty())
+            {
+                return false; // 비어있는 슬롯이 있음
+            }
+        }
+        return true; // 모든 슬롯이 가득 참
     }
 
     #region 퀵슬롯 입력

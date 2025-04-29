@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEditor.ShaderGraph.Internal;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 
 
 public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -158,17 +159,23 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private void SwapSlotData(SlotUI currentSlot, SlotUI targetSlot)
     {
-        // Slot Index 가져오기
-        int currentIndex = 0;
-        int targetIndex = 0;
+        InventoryManager inventoryManager = InventoryManager.Instance;
 
+        int currentSlotIndex = inventoryManager.slots.IndexOf(currentSlot.itemSlot);
+        int targetSlotIndex = inventoryManager.slots.IndexOf(targetSlot.itemSlot);
+
+        // 최신식 인덱스 교환
+        (inventoryManager.slots[currentSlotIndex], inventoryManager.slots[targetSlotIndex]) = 
+            (inventoryManager.slots[targetSlotIndex], inventoryManager.slots[currentSlotIndex]);
+        
         // UI 아이템 오브젝트 스왑
         GameObject currentItem = currentSlot.item;
         GameObject targetItem = targetSlot.item;
 
         currentSlot.item = targetItem;
         targetSlot.item = currentItem;
-
+        
+        
         if (currentItem != null)
         {
             currentItem.transform.SetParent(targetSlot.transform);
@@ -178,7 +185,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             targetItem.transform.SetParent(currentSlot.transform);
             targetItem.transform.localPosition = Vector3.zero;
-        }
+        }       
 
         // UI 새로고침
         UIManager.Instance.UpdateInventoryUI(); // 인벤토리 UI 업데이트
