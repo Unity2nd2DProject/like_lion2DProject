@@ -24,6 +24,7 @@ public enum DialogDataType
     KOREAN,
     ENGLISH
 }
+
 public enum DialogType
 {
     NONE,
@@ -55,7 +56,8 @@ public enum SituationType
     INTRO,
     MORNING,
     EVENING,
-    EVENT
+    EVENT,
+    BOOK
 }
 
 public enum ConditionType
@@ -92,14 +94,14 @@ public class Dialog
     public DialogType type;
     public NameType nameType;
     public SituationType situationType;
-    public ConditionType conditionType;
+    public StatType conditionType;
     public string conditionOperator;
     public int conditionValue;
     public EmotionType emotion;
     public int nextId;
     public List<int> optionIdList;
     public ExtType ext1;
-    public ConditionType targetType;
+    public StatType targetType;
     public string targetOperator;
     public int targetValue;
     public List<string> korean;
@@ -126,24 +128,90 @@ public class Dialog
         }
     }
 
-    public bool IsConditionMet(Dictionary<ConditionType, int> dic)
+    public bool IsConditionMet(List<Stat> stats)
     {
-        switch (conditionOperator)
+        foreach (var i in stats)
         {
-            case "<":
-                return dic[conditionType] < conditionValue;
-            case "<=":
-                return dic[conditionType] <= conditionValue;
-            case "==":
-                return dic[conditionType] == conditionValue;
-            case ">=":
-                return dic[conditionType] >= conditionValue;
-            case ">":
-                return dic[conditionType] > conditionValue;
-            case "!=":
-                return dic[conditionType] != conditionValue;
-            default:
-                return false;
+            if (i.statType == conditionType)
+            {
+                switch (conditionOperator)
+                {
+                    case "<":
+                        return i.currentValue < conditionValue;
+                    case "<=":
+                        return i.currentValue <= conditionValue;
+                    case "==":
+                        return i.currentValue == conditionValue;
+                    case ">=":
+                        return i.currentValue >= conditionValue;
+                    case ">":
+                        return i.currentValue > conditionValue;
+                    case "!=":
+                        return i.currentValue != conditionValue;
+                    default:
+                        return false;
+                }
+            }
+        }
+        return false;
+    }
+
+    // public bool IsConditionMet(Dictionary<ConditionType, int> dic)
+    // {
+    //     switch (conditionOperator)
+    //     {
+    //         case "<":
+    //             return dic[conditionType] < conditionValue;
+    //         case "<=":
+    //             return dic[conditionType] <= conditionValue;
+    //         case "==":
+    //             return dic[conditionType] == conditionValue;
+    //         case ">=":
+    //             return dic[conditionType] >= conditionValue;
+    //         case ">":
+    //             return dic[conditionType] > conditionValue;
+    //         case "!=":
+    //             return dic[conditionType] != conditionValue;
+    //         default:
+    //             return false;
+    //     }
+    // }
+
+    // public void SetTarget(Dictionary<ConditionType, int> dic)
+    // {
+    //     switch (targetOperator)
+    //     {
+    //         case "`+":
+    //             dic[targetType] += targetValue;
+    //             break;
+    //         case "-":
+    //             dic[targetType] -= targetValue;
+    //             break;
+    //         case "`=":
+    //             dic[targetType] = targetValue;
+    //             break;
+    //     }
+    // }
+
+    public void SetTarget(List<Stat> stats)
+    {
+        foreach (var i in stats)
+        {
+            if (i.statType == targetType)
+            {
+                switch (targetOperator)
+                {
+                    case "`+":
+                        i.CurrentValue += targetValue;
+                        break;
+                    case "-":
+                        i.CurrentValue -= targetValue;
+                        break;
+                    case "`=":
+                        i.CurrentValue = targetValue;
+                        break;
+                }
+            }
         }
     }
 
@@ -176,6 +244,7 @@ public static class DialogTool
 
     public static Dictionary<int, Dialog> dialogDic = new();
     public static Dictionary<DialogType, List<Dialog>> princessByDialogTypeDic = new();
+    public static Dictionary<SituationType, List<Dialog>> princessBySituationDic = new();
 
     private static readonly Dictionary<DialogDataType, string> dialogFieldNames = new()
     {
@@ -200,6 +269,7 @@ public static class DialogTool
     {
         CsvRead("Dialog/Dialog");
         SetPrincessDialogTypeDic();
+        SetPrincessDialogSituationDic();
     }
 
     public static void SetPrincessDialogTypeDic()
@@ -217,13 +287,13 @@ public static class DialogTool
         }
     }
 
-    public static List<Dialog> GetDialogListByCondition(ConditionType conditionType, Dictionary<ConditionType, int> conditionTypeValueDic)
+    public static List<Dialog> GetDialogListByCondition(StatType conditionType, List<Stat> stats)
     {
         List<Dialog> dialogByConditionList = princessByDialogTypeDic[DialogType.CONDITION];
         List<Dialog> dialogList = new();
         foreach (var dialog in dialogByConditionList)
         {
-            if (dialog.conditionType == conditionType && dialog.IsConditionMet(conditionTypeValueDic))
+            if (dialog.conditionType == conditionType && dialog.IsConditionMet(stats))
             {
                 // Debug.Log($"{TAG} id {dialog.id}");
                 dialogList.Add(dialog);
@@ -232,7 +302,36 @@ public static class DialogTool
         return dialogList;
     }
 
-    public static bool HasConditionType(Dialog dialog, ConditionType conditionType)
+    public static void SetPrincessDialogSituationDic()
+    {
+        foreach (var dialog in dialogDic.Values)
+        {
+            if (dialog.nameType == NameType.PRINCESS)
+            {
+                if (!princessBySituationDic.ContainsKey(dialog.situationType))
+                {
+                    princessBySituationDic[dialog.situationType] = new();
+                }
+                princessBySituationDic[dialog.situationType].Add(dialog);
+            }
+        }
+    }
+
+    public static List<Dialog> GetDialogListBySituation(SituationType situationType, List<Stat> stats)
+    {
+        List<Dialog> dialogSituationList = princessBySituationDic[situationType];
+        List<Dialog> dialogList = new();
+        foreach (var dialog in dialogSituationList)
+        {
+            if (dialog.situationType == situationType && dialog.IsConditionMet(stats))
+            {
+                dialogList.Add(dialog);
+            }
+        }
+        return dialogList;
+    }
+
+    public static bool HasConditionType(Dialog dialog, StatType conditionType)
     {
         if (dialog.conditionType == conditionType) return true;
         else return false;
@@ -279,14 +378,14 @@ public static class DialogTool
                 DialogType type = Enum.TryParse(typeStr, out DialogType a) ? a : DialogType.NONE;
                 NameType nameType = Enum.TryParse(nameStr, out NameType b) ? b : NameType.NONE;
                 SituationType situationType = Enum.TryParse(situationStr, out SituationType c) ? c : SituationType.NONE;
-                ConditionType conditionType = Enum.TryParse(conditionTypeStr, out ConditionType d) ? d : ConditionType.NONE;
+                StatType conditionType = Enum.TryParse(conditionTypeStr, out StatType d) ? d : StatType.NONE;
                 string conditionOperator = conditionOperatorStr == "`==" ? "==" : conditionOperatorStr;
                 int conditionValue = int.TryParse(conditionValueStr, out int e) ? e : 0;
                 EmotionType emotion = Enum.TryParse(emotionStr, out EmotionType f) ? f : EmotionType.NONE;
                 int nextId = int.TryParse(nextIdStr, out int g) ? lineNum + g : -1;
                 List<int> optionIdList = optionIdListStr.Split(',').Select(s => int.TryParse(s.Trim(), out int h) ? lineNum + h : -1).ToList();
                 ExtType ext1 = Enum.TryParse(ext1Str, out ExtType i) ? i : ExtType.NONE;
-                ConditionType targetType = Enum.TryParse(targetTypeStr, out ConditionType j) ? j : ConditionType.NONE;
+                StatType targetType = Enum.TryParse(targetTypeStr, out StatType j) ? j : StatType.NONE;
                 string targetOperator = targetOperatorStr == "`=" ? "=" : targetOperatorStr;
                 int targetValue = int.TryParse(targetValueStr, out int k) ? k : 0;
 
