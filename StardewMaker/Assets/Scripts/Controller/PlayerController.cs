@@ -159,7 +159,7 @@ public class PlayerController : MonoBehaviour
     {
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
-            InventoryUI.Instance.ToggleInventory();
+            UIManager.Instance.InventoryUI.GetComponent<InventoryUI>().ToggleInventory();
         }
     }
 
@@ -184,7 +184,7 @@ public class PlayerController : MonoBehaviour
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        curItem = QuickSlotManager.Instance.slots[QuickSlotManager.Instance.currentSelectedIndex].itemData;
+        curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
 
         foreach (Collider2D hit in playerHits)
         {

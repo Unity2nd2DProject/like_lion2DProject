@@ -5,34 +5,26 @@ using UnityEngine.EventSystems;
 using System;
 using System.Collections.Generic;
 
-public class InventoryUI : Singleton<InventoryUI>
+public class InventoryUI : MonoBehaviour
 {
-    public Inventory inventory;
 
-    public GameObject inventorGrid; // 필요한가?
-
-    public List<InventorySlotUI> inventorySlotUIs = new List<InventorySlotUI>();
-
+    public List<SlotUI> inventorySlotUIs = new List<SlotUI>();
     public Button cancelButton;
 
-    protected override void Awake()
-    {
-        base.Awake();
+    private InventoryManager inventoryManager;
 
-        this.gameObject.SetActive(false);
+    public void InitializeInventoryUI()
+    {
+        inventoryManager = InventoryManager.Instance;
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
-    }
-
-    private void OnEnable()
-    {
         UpdateInventoryUI();
     }
 
     public void UpdateInventoryUI()
     {
-        for (int i = 0; i < inventory.slots.Count; i++)
+        for (int i = 0; i < inventoryManager.inventorySize; i++)
         {
-            inventorySlotUIs[i].UpdateSlot(inventory.slots[i]);
+            inventorySlotUIs[i].UpdateSlot(inventoryManager.slots[i]);
         }
     }
 
@@ -48,6 +40,7 @@ public class InventoryUI : Singleton<InventoryUI>
 
     public void ToggleInventory()
     {
+        UpdateInventoryUI();
         gameObject.SetActive(!gameObject.activeSelf);
     }
 

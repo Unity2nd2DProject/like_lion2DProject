@@ -8,7 +8,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Settings")]
     public List<ItemData> shopItems;
-    public Inventory playerInventory;
+    public InventoryManager playerInventory;
 
     [Header("Player Money")]
     public int playerMoney;
@@ -28,6 +28,7 @@ public class ShopManager : MonoBehaviour
     private void Start()
     {
         UpdateMoneyUI();  // 처음 한 번 초기화
+        playerInventory = InventoryManager.Instance; // 플레이어 인벤토리 참조
     }
 
     // 머니가 바뀔 때마다 이 함수를 호출
@@ -67,7 +68,7 @@ public class ShopManager : MonoBehaviour
         playerMoney -= item.buyPrice * qty;
 
         // UI 업데이트
-        InventoryUI.Instance.UpdateInventoryUI();
+        UIManager.Instance.UpdateInventoryUI();
         UpdateMoneyUI();
 
         return true;
@@ -76,6 +77,8 @@ public class ShopManager : MonoBehaviour
     // 아이템 판매 처리
     public bool Sell(ItemData itemData, int qty)
     {
+        Debug.Log(itemData);
+        Debug.Log(qty);
         // 상점에서 취급하는 아이템인지 확인
         if (!itemData.isSellable)
         {
@@ -102,7 +105,7 @@ public class ShopManager : MonoBehaviour
         playerMoney += itemData.sellPrice * qty;
 
         // UI 업데이트
-        InventoryUI.Instance.UpdateInventoryUI();
+        UIManager.Instance.UpdateInventoryUI();
         UpdateMoneyUI();
 
         return true;

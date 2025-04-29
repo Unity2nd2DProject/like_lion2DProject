@@ -41,9 +41,9 @@ public class FarmLand : MonoBehaviour
                 CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow);
             }
 
-            if (!Inventory.Instance.RemoveItem(itemData))
+            if (!InventoryManager.Instance.RemoveItem(itemData))
             {
-                QuickSlotManager.Instance.RemoveItem(itemData);
+                InventoryManager.Instance.RemoveItem(itemData);
             }
 
             return true;
@@ -86,11 +86,7 @@ public class FarmLand : MonoBehaviour
             {
                 CropManager.Instance.WaterCrop(position);
             }
-
-            if (!Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("물")))
-            {
-                QuickSlotManager.Instance.RemoveItem(Inventory.Instance.GetItem("물"));
-            }
+            InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물"));
 
             UpdateTileSprite();
             return true;
@@ -107,7 +103,7 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.HarvestCrop(position);
             UpdateTileSprite();
-            return true;    
+            return true;
         }
         else
         {
@@ -121,10 +117,7 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.FertilizeCrop(position);
 
-            if (!Inventory.Instance.RemoveItem(Inventory.Instance.GetItem("비료")))
-            {
-                QuickSlotManager.Instance.RemoveItem(Inventory.Instance.GetItem("비료"));
-            }
+            InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("비료"));
 
             UpdateTileSprite();
             return true;
@@ -187,7 +180,7 @@ public class FarmLand : MonoBehaviour
     public bool CanWater()
     {
         return landState == LandState.Fertile &&
-               Inventory.Instance.GetItem("물") != null;
+               InventoryManager.Instance.GetItem("물") != null;
     }
 
     public bool CanHarvest()
@@ -200,6 +193,6 @@ public class FarmLand : MonoBehaviour
     {
         var crop = CropManager.Instance.GetCropAt(position);
         return crop != null && !crop.IsHarvestable() &&
-            QuickSlotManager.Instance.GetItem("비료") != null;
+            InventoryManager.Instance.GetItem("비료") != null;
     }
 }

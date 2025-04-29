@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using System;
 using UnityEditor.ShaderGraph.Internal;
 using System.Collections.Generic;
+using UnityEditor.Experimental.GraphView;
 
 
 public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
@@ -79,7 +80,6 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
     {
         TooltipUI.Instance.HideTooltip();
     }
-
 
     #region Drag & Drop
     public void OnBeginDrag(PointerEventData eventData)
@@ -165,53 +165,23 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
 
     private void SwapSlotData(SlotUI currentSlot, SlotUI targetSlot)
     {
-        var inventory = InventoryUI.Instance.inventory;
-        var quickSlotManager = QuickSlotManager.Instance;
+        InventoryManager inventoryManager = InventoryManager.Instance;
 
-        bool currentIsInventory = currentSlot is InventorySlotUI;
-        bool targetIsInventory = targetSlot is InventorySlotUI;
+        int currentSlotIndex = inventoryManager.slots.IndexOf(currentSlot.itemSlot);
+        int targetSlotIndex = inventoryManager.slots.IndexOf(targetSlot.itemSlot);
 
-        bool currentIsQuick = currentSlot is QuickSlotSlotUI;
-        bool targetIsQuick = targetSlot is QuickSlotSlotUI;
-
-        // Slot Index 가져오기
-        int currentIndex = currentIsInventory
-            ? InventoryUI.Instance.inventorySlotUIs.IndexOf((InventorySlotUI)currentSlot)
-            : QuickSlotUI.Instance.quickSlotSlotUIs.IndexOf((QuickSlotSlotUI)currentSlot);
-
-        int targetIndex = targetIsInventory
-            ? InventoryUI.Instance.inventorySlotUIs.IndexOf((InventorySlotUI)targetSlot)
-            : QuickSlotUI.Instance.quickSlotSlotUIs.IndexOf((QuickSlotSlotUI)targetSlot);
-
-        // 데이터 교환
-        if (currentIsInventory && targetIsInventory)
-        {
-            (inventory.slots[currentIndex], inventory.slots[targetIndex])
-                = (inventory.slots[targetIndex], inventory.slots[currentIndex]);
-        }
-        else if (currentIsQuick && targetIsQuick)
-        {
-            (quickSlotManager.slots[currentIndex], quickSlotManager.slots[targetIndex])
-                = (quickSlotManager.slots[targetIndex], quickSlotManager.slots[currentIndex]);
-        }
-        else if (currentIsInventory && targetIsQuick)
-        {
-            (inventory.slots[currentIndex], quickSlotManager.slots[targetIndex])
-                = (quickSlotManager.slots[targetIndex], inventory.slots[currentIndex]);
-        }
-        else if (currentIsQuick && targetIsInventory)
-        {
-            (quickSlotManager.slots[currentIndex], inventory.slots[targetIndex])
-                = (inventory.slots[targetIndex], quickSlotManager.slots[currentIndex]);
-        }
-
+        // 최신식 인덱스 교환
+        (inventoryManager.slots[currentSlotIndex], inventoryManager.slots[targetSlotIndex]) = 
+            (inventoryManager.slots[targetSlotIndex], inventoryManager.slots[currentSlotIndex]);
+        
         // UI 아이템 오브젝트 스왑
         GameObject currentItem = currentSlot.item;
         GameObject targetItem = targetSlot.item;
 
         currentSlot.item = targetItem;
         targetSlot.item = currentItem;
-
+        
+        
         if (currentItem != null)
         {
             currentItem.transform.SetParent(targetSlot.transform);
@@ -221,11 +191,11 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         {
             targetItem.transform.SetParent(currentSlot.transform);
             targetItem.transform.localPosition = Vector3.zero;
-        }
+        }       
 
         // UI 새로고침
-        InventoryUI.Instance.UpdateInventoryUI();
-        QuickSlotUI.Instance.UpdateUI();
+        UIManager.Instance.UpdateInventoryUI(); // 인벤토리 UI 업데이트
+        UIManager.Instance.UpdateQuickSlotUI(); // 퀵슬롯 UI 업데이트
     }
 
     private void ReturnToOriginalPosition()

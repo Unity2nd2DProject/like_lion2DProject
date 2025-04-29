@@ -2,36 +2,30 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuickSlotUI : Singleton<QuickSlotUI>
+public class QuickSlotUI : MonoBehaviour
 {
-    QuickSlotManager quickSlotManager;
-
-    public List<QuickSlotSlotUI> quickSlotSlotUIs = new List<QuickSlotSlotUI>();
-
+    InventoryManager inventoryManager;
+    public List<SlotUI> quickSlotSlotUIs = new List<SlotUI>();
     public GameObject currentSelectedCursor;
 
-    protected override void Awake()
+    public void InitializeQuickSlotUI()
     {
-        base.Awake();
-        quickSlotManager = QuickSlotManager.Instance;
+        inventoryManager = InventoryManager.Instance;
+        UpdateQuickSlotUI();
     }
 
-    private void Start()
+    public void UpdateQuickSlotUI()
     {
-        UpdateUI();
-    }
-
-    public void UpdateUI()
-    {
-        for (int i = 0; i < quickSlotManager.quickSlotSize; i++)
+        for (int i = 0; i < inventoryManager.quickSlotSize; i++)
         {
-            quickSlotSlotUIs[i].UpdateSlot(quickSlotManager.slots[i]);
+            quickSlotSlotUIs[i].UpdateSlot(inventoryManager.slots[inventoryManager.inventorySize + i]);
         }
+        UpdateSelectedSlot();
     }
 
-    internal void UpdateSelectedSlot()
+    private void UpdateSelectedSlot()
     {
-        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[quickSlotManager.currentSelectedIndex].transform);
-        currentSelectedCursor.transform.localPosition = new Vector3(-42, 42);
+        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedQuickSlotIndex].transform);
+        currentSelectedCursor.transform.localPosition = new Vector3(0, 0, 0);
     }
 }

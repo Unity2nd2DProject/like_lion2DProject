@@ -8,7 +8,7 @@ public class Pond : MonoBehaviour
 
     public void GetWater()
     {
-        Inventory.Instance.AddItem(waterData, 10);
+        InventoryManager.Instance.AddItem(waterData, 10);
     }
 
     public void Fish()
@@ -17,7 +17,7 @@ public class Pond : MonoBehaviour
 
         ItemData caughtFish = Fishes[Random.Range(0, Fishes.Length)];
         Debug.Log($"get {caughtFish.itemName}!");
-        Inventory.Instance.AddItem(caughtFish, 1);
+        InventoryManager.Instance.AddItem(caughtFish, 1);
     }
 
     //IEnumerator FishingRoutine()

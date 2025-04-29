@@ -1,18 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public enum SlotType
-{
-    Inventory,
-    QuickSlot,
-}
-
 public class SlotUI : MonoBehaviour, IDropHandler
 {
     public GameObject item;
     [HideInInspector]
     public ItemSlot itemSlot;
-    public SlotType slotType;
 
     private bool isSellMode = false;
     private SellPopupUI sellPopup;
@@ -35,7 +28,7 @@ public class SlotUI : MonoBehaviour, IDropHandler
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (isSellMode && slotType == SlotType.Inventory && itemSlot != null && itemSlot.itemData != null)
+        if (isSellMode && itemSlot != null && itemSlot.itemData != null)
         {
             if (itemSlot.itemData.isSellable)
             {

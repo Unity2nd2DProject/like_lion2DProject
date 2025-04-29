@@ -8,7 +8,7 @@ public class ItemSlot
 
     public bool IsEmpty()
     {
-        return itemData == null;
+        return itemData == null || quantity <= 0;
     }
 
     public void Clear()
