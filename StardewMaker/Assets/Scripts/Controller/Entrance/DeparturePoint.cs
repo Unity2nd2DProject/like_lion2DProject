@@ -10,12 +10,12 @@ public class DeparturePoint : MonoBehaviour
 
     void OnEnable()
     {
-        DialogController.OnExitRequested += Departure;
+        PrincessScene1Controller.OnExitRequested += Departure;
     }
 
     void OnDisable()
     {
-        DialogController.OnExitRequested -= Departure;
+        PrincessScene1Controller.OnExitRequested -= Departure;
     }
 
     // 지정된 영역으로 들어온 경우
