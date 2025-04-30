@@ -43,7 +43,7 @@ public class StartUIManager : MonoBehaviour
 
     private void OnStartButtonClick()
     {
-        SceneManager.LoadScene(gameSceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(gameSceneName);
     }
 
     private void OnOptionButtonClick()

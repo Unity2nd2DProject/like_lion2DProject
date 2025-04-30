@@ -21,7 +21,6 @@ public class InventoryUI : MonoBehaviour
     {
         inventoryManager = InventoryManager.Instance;
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
-        gameObject.SetActive(false);
     }
 
     public void UpdateInventoryUI()

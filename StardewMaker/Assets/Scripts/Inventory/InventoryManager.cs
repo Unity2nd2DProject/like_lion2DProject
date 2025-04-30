@@ -96,12 +96,12 @@ public class InventoryManager : Singleton<InventoryManager>
                     {
                         slot.Clear();
                     }
-                    UIManager.Instance.InitializeInventoryAndQuickSlot();
+                    UIManager.Instance.UpdateInventoryAndQuickSlot();
                     return true; // 아이템 제거 성공
                 }
             }
         }
-        UIManager.Instance.InitializeInventoryAndQuickSlot();
+        UIManager.Instance.UpdateInventoryAndQuickSlot();
         return false; // 아이템이 없거나 수량 부족
     }
 
