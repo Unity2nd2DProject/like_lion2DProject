@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class FarmLandManager : Singleton<FarmLandManager>
 {
-    //public static FarmLandManager Instance;
-
     public GameObject farmlandPrefab;
 
     public Vector2Int topLeft;
@@ -18,16 +16,6 @@ public class FarmLandManager : Singleton<FarmLandManager>
 
         GenerateFarmLands();
     }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-
-    //    GenerateFarmLands();
-    //}
 
     public void GenerateFarmLands()
     {
@@ -68,6 +56,41 @@ public class FarmLandManager : Singleton<FarmLandManager>
         else
         {
             return null;
+        }
+    }
+
+    public List<SavedFarmLand> SaveFarmLands()
+    {
+        List<SavedFarmLand> list = new List<SavedFarmLand>();
+        foreach (var kvp in farmLands)
+        {
+            list.Add(new SavedFarmLand
+            {
+                position = kvp.Key,
+                landState = kvp.Value.landState
+            });
+        }
+        return list;
+    }
+
+    public void LoadFarmLands(List<SavedFarmLand> savedList)
+    {
+        foreach (var saved in savedList)
+        {
+            GameObject obj = Instantiate(farmlandPrefab, saved.position, Quaternion.identity);
+            FarmLand land = obj.GetComponent<FarmLand>();
+            land.landState = saved.landState;
+            farmLands[saved.position] = land;
+            farmLands[saved.position].UpdateTileSprite();
+        }
+    }
+
+    public void RegisterFarmLand(FarmLand land)
+    {
+        Vector2 pos = land.GetPosition();
+        if (!farmLands.ContainsKey(pos))
+        {
+            farmLands[pos] = land;
         }
     }
 }

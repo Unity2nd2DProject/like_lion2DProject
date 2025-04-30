@@ -1,23 +1,17 @@
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TreeManager : Singleton<TreeManager>
 {
-    //public static TreeManager Instance;
-
-    public Tree[] trees;
+    public GameObject treeDarkPrefab;
+    public GameObject treeLightPrefab;
+    public List<Tree> trees = new List<Tree>();
 
     protected override void Awake()
     {
         base.Awake();
     }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-    //}
 
     public void NextDay()
     {
@@ -26,4 +20,39 @@ public class TreeManager : Singleton<TreeManager>
             tree.NexDay();
         }
     }
+
+    public List<SavedTree> SaveTrees()
+    {
+        List<SavedTree> savedTrees = new List<SavedTree>();
+        foreach (var tree in trees)
+        {
+            savedTrees.Add(new SavedTree
+            {
+                position = tree.transform.position,
+                currentHits = tree.GetCurrentHits(),
+                isActive = tree.gameObject.activeSelf
+            });
+        }
+        return savedTrees;
+    }
+
+    public void LoadTrees(List<SavedTree> savedTrees)
+    {
+        foreach (var data in savedTrees)
+        {
+            GameObject obj = Instantiate(treeDarkPrefab, data.position, Quaternion.identity);
+            Tree tree = obj.GetComponent<Tree>();
+            tree.SetState(data.currentHits, data.isActive);
+            trees.Add(tree);
+        }
+    }
+
+    public void RegisterTree(Tree tree)
+    {
+        if (!trees.Contains(tree))
+        {
+            trees.Add(tree);
+        }
+    }
+
 }

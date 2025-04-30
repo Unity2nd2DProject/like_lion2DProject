@@ -6,46 +6,54 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
 {
     void OnEnable()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
     void OnDisable()
     {
-        UnityEngine.SceneManagement.SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+        SceneManager.sceneUnloaded -= OnSceneUnloaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log($"{scene.name}({scene}) is loaded...");
+        Debug.Log($"{scene.name} is loaded...");
 
         if (scene.name == "TownScene-yh")
         {
             TimeManager.Instance.ResumeTime();
-            StartCoroutine(DelayedUpdateUI());
+            StartCoroutine(DelayedUpdateUI(scene));
+            
         }
         else if (scene.name == "HomeScene-yh")
         {
             TimeManager.Instance.PauseTime();
-            StartCoroutine(DelayedUpdateUI());
+            StartCoroutine(DelayedUpdateUI(scene));
         }
     }
 
-    private IEnumerator DelayedUpdateUI() // 필수!
+    private IEnumerator DelayedUpdateUI(Scene scene) // 필수!
     {
         yield return null; // 한 프레임 대기
         if (TimeImageUI.Instance != null && TimeImageUI.Instance.timeImage != null)
         {
             TimeManager.Instance.UpdateUI();
             StaminaManager.Instance.UpdateStamina();
+
+            if (scene.name == "TownScene-yh")
+            {
+                SaveManager.Instance.LoadFarm();
+            }
         }
         else
         {
-            Debug.LogWarning("TimeImageUI is not initialized yet.");
+            
         }
     }
 
-    void OnActiveSceneChanged(Scene previousScene, Scene newScene)
+    public void OnSceneUnloaded(Scene scene)
     {
-        Debug.Log($"{previousScene.name} -> {newScene.name}");
+        //Debug.Log($"{scene.name} is unloaded...");
     }
 }

@@ -143,7 +143,7 @@ public class FarmLand : MonoBehaviour
         UpdateTileSprite();
     }
 
-    private void UpdateTileSprite()
+    public void UpdateTileSprite()
     {
         switch (landState)
         {
