@@ -9,12 +9,12 @@ public class StatRowUI : MonoBehaviour
     public void Bind(Stat stat)
     {
         this.stat = stat;
-        statText.text = $"{stat.statType.ToKorean()}: {stat.CurrentValue} \\ {stat.MaxValue}";
+        statText.text = $"{stat.statType.ToKorean()}: {stat.CurrentValue}/{stat.MaxValue}";
 
         stat.OnValueChanged += UpdateUI;
     }
     private void UpdateUI(float current)
     {
-        statText.text = $"{stat.statType.ToKorean()}: {current} \\ {stat.MaxValue}";
+        statText.text = $"{stat.statType.ToKorean()}: {current}/{stat.MaxValue}";
     }
 }

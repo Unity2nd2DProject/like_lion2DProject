@@ -9366,7 +9366,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c6c6ed55f10a6468761d3f3375e775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNameToLoad: PrincessSceneUI
+  sceneNameToLoad: HomeHyunkyu
   arrivalPointName: InsideHomeFrontDoor
 --- !u!61 &319592259
 BoxCollider2D:
@@ -10563,6 +10563,56 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &407117035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 407117036}
+  - component: {fileID: 407117037}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &407117036
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407117035}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &407117037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 407117035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e20ae4bc17c34a547b510fb269566e77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryUIPrefab: {fileID: 6976886593212597948, guid: 7b1e12b81f51f9a448096ac4474a510c, type: 3}
+  quickSlotUIPrefab: {fileID: 6122598617353136204, guid: 10a6342ba5cb622418ff3196f888790e, type: 3}
+  inventoryUI: {fileID: 0}
+  PopupMessagePrefab: {fileID: 9141062335628843681, guid: d5639b1fac4925d46bf425eda8812242, type: 3}
+  statUIPrefab: {fileID: 0}
+  statUIParent: {fileID: 0}
 --- !u!1 &409402082
 GameObject:
   m_ObjectHideFlags: 0
@@ -22300,6 +22350,54 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 436844134}
   m_CullTransparentMesh: 1
+--- !u!1 &437775563
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 437775565}
+  - component: {fileID: 437775564}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &437775564
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437775563}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16c2d25fc49b00d44a5d4112ca25f17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventorySize: 25
+  quickSlotSize: 10
+  currentSelectedQuickSlotIndex: 0
+  starterItems: []
+--- !u!4 &437775565
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 437775563}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &448893750
 GameObject:
   m_ObjectHideFlags: 0
@@ -93056,6 +93154,8 @@ SceneRoots:
   - {fileID: 589087619}
   - {fileID: 784614694}
   - {fileID: 657249519}
+  - {fileID: 437775565}
+  - {fileID: 407117036}
   - {fileID: 1370578865}
   - {fileID: 989373489}
   - {fileID: 534465864}

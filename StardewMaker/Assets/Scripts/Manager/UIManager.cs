@@ -18,12 +18,10 @@ public class UIManager : Singleton<UIManager>
     public GameObject PopupMessagePrefab;
 
     [Header("Stat UI")]
-    [SerializeField] private StatUI statUIPrefab;
+    [SerializeField] private GameObject statUIPrefab;
     [SerializeField] private Transform statUIParent;
 
     private StatUI statUIInstance;
-    private Canvas canvas;
-
     
     protected override void Awake()
     {
@@ -32,25 +30,27 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeStatUI(List<Stat> stats)
     {
-        statUIInstance = Instantiate(statUIPrefab, statUIParent);
+        Debug.Log("StatUI Initialized");
+       
+        statUIInstance = Instantiate(statUIPrefab, statUIParent).GetComponent<StatUI>();
         statUIInstance.Initialize(stats);
+        Debug.Log(statUIInstance);
     }
 
     public void InitializeInventoryAndQuickSlot()
     {
-        Debug.Log($"[{nameof(UIManager)}] InitializeInventoryAndQuickSlot()");
-        Debug.Log(canvas);
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // 씬에서 Canvas를 찾음
         if (inventoryUI == null) // 인벤토리 UI가 null이면 새로 생성
         {
-            Debug.Log(inventoryUIPrefab);
             inventoryUI = Instantiate(inventoryUIPrefab, canvas.transform).GetComponent<InventoryUI>();
+            inventoryUI.gameObject.transform.SetAsFirstSibling();
             inventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
-            Debug.Log(inventoryUI);
         }
 
         if (quickSlotUI == null) // 퀵슬롯 UI가 null이면 새로 생성
         {
             quickSlotUI = Instantiate(quickSlotUIPrefab, canvas.transform).GetComponent<QuickSlotUI>();
+            quickSlotUI.gameObject.transform.SetAsFirstSibling();
             quickSlotUI.InitializeQuickSlotUI();
         }
     }
@@ -71,10 +71,34 @@ public class UIManager : Singleton<UIManager>
         {
             position = Input.mousePosition;
         }
-
+        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>(); // 씬에서 Canvas를 찾음
         GameObject popup = Instantiate(PopupMessagePrefab, canvas.transform);
         popup.transform.position = position;    
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
+    }
+
+    public void ToggleInventoryAndQuickSlotForTest()
+    {
+
+        if(quickSlotUI.gameObject.activeSelf != inventoryUI.gameObject.activeSelf)
+        {
+            quickSlotUI.gameObject.SetActive(true);
+            inventoryUI.gameObject.SetActive(true);
+        }
+        else
+        {
+            quickSlotUI.gameObject.SetActive(!quickSlotUI.gameObject.activeSelf);
+            inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
+        }
+            
+    }
+
+    internal void ShowQuickSlotUI()
+    {
+        if (quickSlotUI != null)
+        {
+            quickSlotUI.gameObject.SetActive(true);
+        }
     }
 }
 
