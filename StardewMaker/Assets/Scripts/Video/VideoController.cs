@@ -92,7 +92,7 @@ public class VideoController : MonoBehaviour
         // 다음 씬 이름이 비어있지 않은 경우 씬 이동
         if (!string.IsNullOrEmpty(nextSceneName))
         {
-            SceneManager.LoadScene(nextSceneName);
+            UnityEngine.SceneManagement.SceneManager.LoadScene(nextSceneName);
         }
         else
         {

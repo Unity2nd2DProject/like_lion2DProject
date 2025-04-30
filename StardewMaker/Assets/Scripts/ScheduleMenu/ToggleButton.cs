@@ -1,18 +1,27 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class ToggleButton : MonoBehaviour
 {
     private string TAG = "[ToggleButton]";
-    private Toggle toggle;
+    [SerializeField] private TMP_Text text;
+    public static event Action<string, bool> OnToggleChangeRequested;
+
+    public Toggle toggle;
 
     public Graphic targetGraphic;
-    public Color onColor = Color.gray;
-    public Color offColor = Color.white;
+    private Color onColor; // = Color.gray;
+    private Color offColor; // = Color.white;
+
     void Awake()
     {
         toggle = GetComponent<Toggle>();
         toggle.onValueChanged.AddListener(OnToggleChanged);
+
+        ColorUtility.TryParseHtmlString("#f49946", out onColor);
+        ColorUtility.TryParseHtmlString("#ffffff", out offColor);
 
         UpdateColor(toggle.isOn);
     }
@@ -20,6 +29,7 @@ public class ToggleButton : MonoBehaviour
     void OnToggleChanged(bool isOn)
     {
         UpdateColor(isOn);
+        OnToggleChangeRequested?.Invoke(GetComponentInChildren<TMP_Text>().text, isOn);
     }
 
     void UpdateColor(bool isOn)
@@ -29,4 +39,10 @@ public class ToggleButton : MonoBehaviour
             targetGraphic.color = isOn ? onColor : offColor;
         }
     }
+
+    public void SetText(string t)
+    {
+        text.text = t;
+    }
+
 }

@@ -1,17 +1,23 @@
 using UnityEngine;
 
-public class TreeManager : MonoBehaviour
+public class TreeManager : Singleton<TreeManager>
 {
-    public static TreeManager Instance;
+    //public static TreeManager Instance;
+
     public Tree[] trees;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
     }
+
+    //private void Awake()
+    //{
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+    //}
 
     public void NextDay()
     {

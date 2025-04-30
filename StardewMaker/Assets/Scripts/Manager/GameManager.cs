@@ -34,7 +34,7 @@ public class GameManager : Singleton<GameManager>
 
     public void changeScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         // todo 데이터 저장
     }
 }

@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public enum Season
 {
@@ -11,9 +11,9 @@ public enum Season
     Winter
 }
 
-public class TimeManager : MonoBehaviour
+public class TimeManager : Singleton<TimeManager>
 {
-    public static TimeManager Instance;
+    //public static TimeManager Instance;
 
     [Header("Time Settings")]
     public float realSecondsPerGameDay = 600f; // 10분 = 600초
@@ -36,14 +36,21 @@ public class TimeManager : MonoBehaviour
 
     public event Action OnDayChanged;
 
-    private void Awake()
+
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
+
+        // 홈씬에서 시작하는 경우 시간 멈추기
+        CheckCurrentScene();
+    }
+
+    private void CheckCurrentScene()
+    {
+        Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        if (currentScene.name == "HomeScene" || currentScene.name == "HomeSceneTestJune") PauseTime();
     }
 
     private void Start()
@@ -67,7 +74,11 @@ public class TimeManager : MonoBehaviour
         }
 
         ForceReturnHome();
-        UpdateLighting();
+
+        if (!isTimePaused)
+        {
+            LightManager.Instance.UpdateLighting(currentHour, currentMinute);
+        }
     }
 
     private void AdvanceMinute()
@@ -144,7 +155,7 @@ public class TimeManager : MonoBehaviour
         isTimePaused = false;
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (currentHour >= 7 && currentHour < 18)
         {
@@ -191,40 +202,5 @@ public class TimeManager : MonoBehaviour
         }
 
         return $"{period} {displayHour:D2}:{currentMinute:D2}";
-    }
-
-    private void UpdateLighting()
-    {
-        float currentTime = currentHour + (currentMinute / 60f);
-
-        // 기본 색상
-        Color targetColor = morningColor;
-
-        if (currentTime >= 16f && currentTime < 18f)
-        {
-            // 16시~18시 : 아침색 → 노을색으로 변화
-            float t = (currentTime - 16f) / 2f;
-            targetColor = Color.Lerp(morningColor, sunsetColor, t);
-        }
-        else if (currentTime >= 18f && currentTime < 20f)
-        {
-            // 18시~20시 : 노을색 → 밤색으로 변화
-            float t = (currentTime - 18f) / 2f;
-            targetColor = Color.Lerp(sunsetColor, nightColor, t);
-        }
-        else if (currentTime >= 20f && currentTime < 24f)
-        {
-            // 20시~24시 : 밤 색상 고정
-            targetColor = nightColor;
-        }
-        else if (currentTime >= 0f && currentTime < 7f)
-        {
-            // 0시~7시 : 밤색 → 아침색으로 변화
-            float t = currentTime / 7f;
-            targetColor = Color.Lerp(nightColor, morningColor, t);
-        }
-
-        // 최종 적용
-        light.color = targetColor;
     }
 }

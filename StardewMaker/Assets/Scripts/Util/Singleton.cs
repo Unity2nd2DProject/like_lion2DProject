@@ -47,6 +47,14 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         }
 
         instance = this as T; // 인스턴스가 null이면 현재 오브젝트를 인스턴스로 설정
+
+        //if (this as BaseUI || this as TimeImageUI)
+        //{
+        //    Debug.Log(this);
+        //    DontDestroyOnLoad(gameObject);
+        //    return;
+        //}
+
         if (!gameObject.transform.parent) DontDestroyOnLoad(gameObject); // 최상위 오브젝트일때만 씬 전환 시에도 이 게임 오브젝트가 파괴되지 않도록 설정
     }
 
