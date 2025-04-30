@@ -2584,7 +2584,7 @@ MonoBehaviour:
   yesNoImage: {fileID: 29477448}
   exitAndSleepButton: {fileID: 100442451}
   toggleButtonPrefab: {fileID: 4077881074139651632, guid: 3ea164a6a572703488adf0e215cbe6ba, type: 3}
-  dialogTestIndex: 0
+  dialogTestIndex: 19
 --- !u!114 &493754956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5185,7 +5185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c6c6ed55f10a6468761d3f3375e775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNameToLoad: TownScene
+  sceneNameToLoad: TownScene-yh
   arrivalPointName: HomeFrontDoor
 --- !u!61 &1301544394
 BoxCollider2D:
@@ -5879,8 +5879,8 @@ MonoBehaviour:
   realSecondsPerGameDay: 60
   currentYear: 1
   currentSeason: 0
-  currentDay: 1
-  currentHour: 7
+  currentDay: 2
+  currentHour: 20
   currentMinute: 0
   light: {fileID: 463761394}
 --- !u!1 &1635154092
@@ -7959,6 +7959,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f28e1b202cfac49b329aae0bbbc854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeImage: {fileID: 2110723331}
   daySprite: {fileID: 7629601655650313939, guid: b37dfb604a3382d44a17aff062cc31e0, type: 3}
   nightSprite: {fileID: 5030310586381747962, guid: 482d055951c80654a8e0812b70999b1a, type: 3}
 --- !u!1001 &351974895949517323

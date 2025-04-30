@@ -41,7 +41,6 @@ public class TimeManager : Singleton<TimeManager>
     {
         base.Awake();
 
-        //light = GetComponentInChildren<Light2D>();
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
         // 홈씬에서 시작하는 경우 시간 멈추기
@@ -156,7 +155,7 @@ public class TimeManager : Singleton<TimeManager>
         isTimePaused = false;
     }
 
-    private void UpdateUI()
+    public void UpdateUI()
     {
         if (currentHour >= 7 && currentHour < 18)
         {

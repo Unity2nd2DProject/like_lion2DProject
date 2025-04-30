@@ -4,13 +4,22 @@ using UnityEngine.UI;
 using TMPro;
 using System.Linq;
 
-public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
+    public static bool IsDragging { get; private set; }
+
     [Header("UI Components")]
     public Image itemIcon;
     public TextMeshProUGUI itemNameText;
     public TextMeshProUGUI priceText;
     public Button buyButton;
+
+    private Transform originalParent;
+    private Canvas canvas;
+    private CanvasGroup canvasGroup;
+
+    private GameObject dragIconInstance;
+    private Image dragIconImage;
 
     [Header("Popup Settings")]
     [SerializeField] private float safeZonePadding = 40f;
@@ -21,6 +30,12 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private ShopUI shopUI;
 
     private bool isPointerOverSlot = false;
+
+    private void Start()
+    {
+        canvas = GetComponentInParent<Canvas>();
+        canvasGroup = GetComponent<CanvasGroup>();
+    }
 
     // 슬롯 초기화
     public void Setup(ItemData data, ShopManager manager, ItemInfoPopupUI popup, ShopUI ui)
@@ -152,5 +167,96 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         }
 
         return false;
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        IsDragging = true;  // 드래그 시작
+        originalParent = transform.parent; // 드래그 시작 슬롯 저장
+
+        if (itemData == null)
+        {
+            return;
+        }
+
+        // 드래그 중에 아이템 정보 팝업 숨기기
+        if (ItemInfoPopupUI.Instance != null)
+        {
+            ItemInfoPopupUI.Instance.Hide();
+        }
+
+        dragIconInstance = new GameObject("DragIcon", typeof(RectTransform), typeof(CanvasRenderer), typeof(Image));
+        dragIconInstance.transform.SetParent(transform.root, false); // 최상위 UI에 붙이기
+        dragIconInstance.transform.SetAsLastSibling(); // 가장 위로
+
+        // 이미지 설정
+        dragIconImage = dragIconInstance.GetComponent<Image>();
+        dragIconImage.sprite = itemIcon.sprite;
+        dragIconImage.raycastTarget = false;
+
+        // 기존 슬롯 아이콘의 크기를 그대로 복사
+        RectTransform iconRect = itemIcon.rectTransform;
+        RectTransform dragRect = dragIconInstance.GetComponent<RectTransform>();
+        dragRect.sizeDelta = iconRect.sizeDelta;
+
+        // 위치 설정
+        dragIconInstance.transform.position = eventData.position;
+
+        // 원래 아이콘 숨기기
+        itemIcon.enabled = false;
+
+        canvasGroup.blocksRaycasts = false; // 드래그 중에는 다른 UI 요소와의 상호작용을 비활성화
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        if (dragIconInstance != null)
+        {
+            dragIconInstance.transform.position = eventData.position;
+        }
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        IsDragging = false;
+
+        // 드래그 아이콘 제거
+        if (dragIconInstance != null)
+        {
+            Destroy(dragIconInstance);
+            dragIconInstance = null;
+        }
+
+        itemIcon.enabled = true; // 아이콘 다시 보이게
+
+        if (itemData == null)
+        {
+            ReturnToOriginalPosition();
+            return;
+        }
+
+        GameObject dropTarget = eventData.pointerEnter;
+
+        if (dropTarget == null)
+        {
+            ReturnToOriginalPosition();
+            return;
+        }
+
+        // 구매 시도
+        bool success = shopManager.Buy(itemData, 1);
+
+        // 성공하면 UI 갱신
+        if (success)
+        {
+            shopUI.UpdateUI();  // 상점 슬롯 갱신
+            UIManager.Instance.UpdateInventoryUI();
+        }
+    }
+
+    private void ReturnToOriginalPosition()
+    {
+        transform.SetParent(originalParent);
+        transform.localPosition = Vector3.zero; // 원래 위치로 돌아감
     }
 }

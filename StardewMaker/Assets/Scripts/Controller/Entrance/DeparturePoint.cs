@@ -37,14 +37,5 @@ public class DeparturePoint : MonoBehaviour
     {
         yield return new WaitForSeconds(FadeManager.Instance.fadeDuration);
         GameManager.Instance.changeScene(sceneNameToLoad);
-
-        if (sceneNameToLoad == "HomeScene-yh")
-        {
-            TimeManager.Instance.PauseTime();
-        }
-        else if (sceneNameToLoad == "TownScene-yh")
-        {
-            TimeManager.Instance.ResumeTime();
-        }
     }
 }
