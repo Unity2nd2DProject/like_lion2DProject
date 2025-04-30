@@ -130,6 +130,7 @@ public class Dialog
 
     public bool IsConditionMet(List<Stat> stats)
     {
+        if (conditionType == StatType.NONE) return true;
         foreach (var i in stats)
         {
             if (i.statType == conditionType)
@@ -315,6 +316,14 @@ public static class DialogTool
                 princessBySituationDic[dialog.situationType].Add(dialog);
             }
         }
+        // foreach (var keyValue in princessBySituationDic)
+        // {
+        //     Debug.Log($"{TAG} princessBySituationDic {keyValue.Key} {keyValue.Value}");
+        // }
+        // foreach (var dialog in princessBySituationDic[SituationType.EVENING])
+        // {
+        //     Debug.Log($"{TAG} dialog {dialog.id} {dialog.korean} ");
+        // }
     }
 
     public static List<Dialog> GetDialogListBySituation(SituationType situationType, List<Stat> stats)
@@ -326,6 +335,7 @@ public static class DialogTool
             if (dialog.situationType == situationType && dialog.IsConditionMet(stats))
             {
                 dialogList.Add(dialog);
+                // Debug.Log($"{TAG} dialog {dialog.id} {dialog.korean} ");
             }
         }
         return dialogList;
