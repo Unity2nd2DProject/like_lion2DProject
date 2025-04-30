@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +8,11 @@ public class PrincessScene1Controller : MonoBehaviour
     private string TAG = "[PrincessScene1Controller]";
     private UserInputManager inputManager;
 
+    public static event Action OnExitRequested;
+
     [SerializeField] private DialogController dialogController;
-    [SerializeField] private GameObject buttonPanel;
+    [SerializeField] private GameObject normalMenu;
+    [SerializeField] private GameObject scheduleMenu;
     [SerializeField] private int testIndex;
     private NPCDialog npcDialog;
 
@@ -26,7 +30,8 @@ public class PrincessScene1Controller : MonoBehaviour
     private void OnEnable()
     {
         inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
-        DialogController.OnButtonPanelRequested += EnableButtonPanel;
+        DialogController.OnNormalMenuRequested += EnableNormalMenuPanel;
+        DialogController.OnScheduleMenuRequested += EnableScheduleMenuPanel;
     }
 
     private void Start()
@@ -46,14 +51,9 @@ public class PrincessScene1Controller : MonoBehaviour
         // todo 어떤 대화를 할지 정해야 함
 
         // todo 낮과 밤에 따른 차이 두기?
-        // Dictionary<ConditionType, int> conditionTypeValueDic = new();
-        // conditionTypeValueDic[ConditionType.MOOD] = 5;
-        // conditionTypeValueDic[ConditionType.VITALITY] = 5;
-        // conditionTypeValueDic[ConditionType.HUNGER] = 5;
-        // conditionTypeValueDic[ConditionType.TRUST] = 5;
 
         List<Dialog> vitalityDialogList = DialogTool.GetDialogListByCondition(StatType.VITALITY, DaughterManager.Instance.GetStats()); // VITALITY가 5일 때 대사들 가져옴
-        npcDialog.currentDialogId = vitalityDialogList[Random.Range(0, vitalityDialogList.Count)].id;
+        npcDialog.currentDialogId = vitalityDialogList[UnityEngine.Random.Range(0, vitalityDialogList.Count)].id;
         // Debug.Log($"{TAG} npcDialog.currentDialogId {npcDialog.currentDialogId}");
 
         // 게임 처음 시작 시 대화
@@ -67,12 +67,25 @@ public class PrincessScene1Controller : MonoBehaviour
 
     void OnDisable()
     {
-        DialogController.OnButtonPanelRequested -= EnableButtonPanel;
+        DialogController.OnNormalMenuRequested -= EnableNormalMenuPanel;
+        DialogController.OnScheduleMenuRequested -= EnableScheduleMenuPanel;
     }
 
-    private void EnableButtonPanel(bool sw)
+    public void EnableNormalMenuPanel(bool sw)
     {
-        buttonPanel.SetActive(sw);
+        normalMenu.SetActive(sw);
+    }
+
+    public void EnableScheduleMenuPanel(bool sw)
+    {
+        normalMenu.SetActive(!sw);
+        scheduleMenu.SetActive(sw);
+    }
+
+    public void Exit()
+    {
+        // todo 할 일들 저장
+        OnExitRequested?.Invoke();
     }
 
     private void MoveInput()
@@ -91,20 +104,16 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void DialogTest()
     {
+        StaminaUI.Instance.ConsumeStamina();
+
         npcDialog.currentDialogId = testIndex;
         dialogController.InitDialog(npcDialog);
     }
 
     public void ReadBook()
     {
-        // Dictionary<ConditionType, int> conditionTypeValueDic = new();
-        // conditionTypeValueDic[ConditionType.MOOD] = 8;
-        // conditionTypeValueDic[ConditionType.VITALITY] = 5;
-        // conditionTypeValueDic[ConditionType.HUNGER] = 5;
-        // conditionTypeValueDic[ConditionType.TRUST] = 5;
-
         List<Dialog> bookDialogList = DialogTool.GetDialogListBySituation(SituationType.BOOK, DaughterManager.Instance.GetStats());
-        npcDialog.currentDialogId = bookDialogList[Random.Range(0, bookDialogList.Count)].id;
+        npcDialog.currentDialogId = bookDialogList[UnityEngine.Random.Range(0, bookDialogList.Count)].id;
         // npcDialog.currentDialogId = 103;
         dialogController.InitDialog(npcDialog);
     }
