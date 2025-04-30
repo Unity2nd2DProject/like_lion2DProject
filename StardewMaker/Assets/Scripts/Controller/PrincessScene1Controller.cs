@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum scheduleType
 {
@@ -16,31 +17,33 @@ public enum scheduleType
     DOLL
 }
 
-
-
 public class PrincessScene1Controller : MonoBehaviour
 {
     private string TAG = "[PrincessScene1Controller]";
     private UserInputManager inputManager;
+    public static event Action OnExitRequested; // 홈에서 나가기
 
-    public static event Action OnExitRequested;
-
+    [Header("GameObject들 관리")]
     [SerializeField] private DialogController dialogController;
     [SerializeField] private GameObject normalMenu;
     [SerializeField] private GameObject scheduleMenu;
     [SerializeField] private GameObject yesNoMenu;
     [SerializeField] private GameObject yesNoImage;
-    [SerializeField] private int testIndex;
-    private NPCDialog npcDialog;
+    [SerializeField] private GameObject exitAndSleepButton;
 
+    [Space]
     [SerializeField] private GameObject toggleButtonPrefab;
+    [SerializeField] private int dialogTestIndex;
+
+    private NPCDialog npcDialog;
+    private BackgroundController backgroundController;
+
     private List<string> toggleButtonStringList = new();
     private List<ToggleButton> toggleButtonList = new();
     private int maxToggleButtonNum = 8;
+    private bool isDay = true;
 
-    private int introDialogId = 2;
-
-    // todo introDialogId는 DB에서 가져와야 함
+    private int introDialogId = 2; // todo introDialogId는 DB에서 가져와야 함
 
     private Dictionary<scheduleType, string> scheduleTextDic = new(){
         {scheduleType.EXERCISE, "운동"},
@@ -58,8 +61,66 @@ public class PrincessScene1Controller : MonoBehaviour
         GameManager.Instance.arrivalPointName = "InsideHomeFrontDoor"; //  FadeIn 실행하기 위함
 
         npcDialog = GetComponent<NPCDialog>();
+        backgroundController = GetComponent<BackgroundController>();
 
         SetToggleButton();
+    }
+
+    private void OnEnable()
+    {
+        inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
+        DialogController.OnNormalMenuRequested += EnableNormalMenuPanel;
+        DialogController.OnScheduleMenuRequested += EnableScheduleMenuPanel;
+        ToggleButton.OnToggleChangeRequested += CheckScheduleMenu;
+    }
+
+    private void Start()
+    {
+        GameManager.Instance.SetGameState(TAG, GameState.UI); // 입력을 UI모드로 변경
+
+        SetDay();
+
+        SetDialog();
+
+        StartCoroutine(StartScene1()); // 씬1 시작
+    }
+
+    private void Update()
+    {
+        MoveInput();
+    }
+
+    void OnDisable()
+    {
+        DialogController.OnNormalMenuRequested -= EnableNormalMenuPanel;
+        DialogController.OnScheduleMenuRequested -= EnableScheduleMenuPanel;
+        ToggleButton.OnToggleChangeRequested -= CheckScheduleMenu;
+    }
+
+    private void SetDay()
+    {
+        // todo 아침인지 저녁인지 판별
+        int currentYear = TimeManager.Instance.currentYear;
+        int currentHour = TimeManager.Instance.currentHour;
+        int currentMinute = TimeManager.Instance.currentMinute;
+        Debug.Log($"{TAG} currentHour {currentHour}");
+
+
+
+        if (currentHour > 19)
+        {
+            backgroundController.SetNightSprite();
+            isDay = false;
+            exitAndSleepButton.GetComponentInChildren<TMP_Text>().text = "잠자기";
+        }
+        else
+        {
+            backgroundController.SetDaySprite();
+            isDay = true;
+            exitAndSleepButton.GetComponentInChildren<TMP_Text>().text = "나가기";
+        }
+
+        // 나가기, 잠자기 버튼 변경
     }
 
     private void SetToggleButton()
@@ -99,37 +160,6 @@ public class PrincessScene1Controller : MonoBehaviour
         }
     }
 
-    private void OnEnable()
-    {
-        inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
-        DialogController.OnNormalMenuRequested += EnableNormalMenuPanel;
-        DialogController.OnScheduleMenuRequested += EnableScheduleMenuPanel;
-        ToggleButton.OnToggleChangeRequested += CheckScheduleMenu;
-    }
-
-    private void Start()
-    {
-        GameManager.Instance.SetGameState(TAG, GameState.UI); // 입력을 UI모드로 변경
-
-        SetDialog();
-
-        StartCoroutine(StartScene1()); // 씬1 시작
-    }
-
-
-
-    private void Update()
-    {
-        MoveInput();
-    }
-
-    void OnDisable()
-    {
-        DialogController.OnNormalMenuRequested -= EnableNormalMenuPanel;
-        DialogController.OnScheduleMenuRequested -= EnableScheduleMenuPanel;
-        ToggleButton.OnToggleChangeRequested -= CheckScheduleMenu;
-    }
-
     private void CheckScheduleMenu(string text, bool isOn)
     {
         // Debug.Log($"{TAG} CheckScheduleMenu {text} {isOn}");
@@ -149,24 +179,47 @@ public class PrincessScene1Controller : MonoBehaviour
 
     private void SetDialog()
     {
-        // todo 아침인지 저녁인지 판별
-        // todo 현재 날짜 확인
+        // 낮과 밤에 따른 차이 두기
+        int currentDay = TimeManager.Instance.currentDay;
 
-        // todo 어떤 대화를 할지 정해야 함
+        if (currentDay == 1 && isDay)
+        {
+            // 게임 처음 시작 시 대화
+            npcDialog.currentDialogId = introDialogId;
+            return;
+        }
 
-        // todo 낮과 밤에 따른 차이 두기?
+        if (isDay)
+        {
+            List<Dialog> dayDialogList = DialogTool.GetDialogListBySituation(SituationType.MORNING, DaughterManager.Instance.GetStats());
+            npcDialog.currentDialogId = dayDialogList[UnityEngine.Random.Range(0, dayDialogList.Count)].id;
+        }
+        else
+        {
+            List<Dialog> nightDialogList = DialogTool.GetDialogListBySituation(SituationType.EVENING, DaughterManager.Instance.GetStats());
+            npcDialog.currentDialogId = nightDialogList[UnityEngine.Random.Range(0, nightDialogList.Count)].id;
+        }
 
-        List<Dialog> vitalityDialogList = DialogTool.GetDialogListByCondition(StatType.VITALITY, DaughterManager.Instance.GetStats()); // VITALITY가 5일 때 대사들 가져옴
-        npcDialog.currentDialogId = vitalityDialogList[UnityEngine.Random.Range(0, vitalityDialogList.Count)].id;
+        // List<Dialog> vitalityDialogList = DialogTool.GetDialogListByCondition(StatType.VITALITY, DaughterManager.Instance.GetStats()); // VITALITY가 5일 때 대사들 가져옴
+        // npcDialog.currentDialogId = vitalityDialogList[UnityEngine.Random.Range(0, vitalityDialogList.Count)].id;
         // Debug.Log($"{TAG} npcDialog.currentDialogId {npcDialog.currentDialogId}");
-
-        // 게임 처음 시작 시 대화
-        npcDialog.currentDialogId = introDialogId;
     }
 
     public void EnableNormalMenuPanel(bool sw)
     {
         normalMenu.SetActive(sw);
+    }
+
+    public void ExitAndSleepButton(bool sw)
+    {
+        if (isDay)
+        {
+            EnableScheduleMenuPanel(sw);
+        }
+        else
+        {
+            Debug.Log($"{TAG} 잠자기");
+        }
     }
 
     public void EnableScheduleMenuPanel(bool sw)
@@ -175,7 +228,7 @@ public class PrincessScene1Controller : MonoBehaviour
         scheduleMenu.SetActive(sw);
     }
 
-    public void Exit()
+    public void YesExit()
     {
         // todo 할 일들 저장
         for (int i = 0; i < toggleButtonList.Count; i++)
@@ -215,7 +268,9 @@ public class PrincessScene1Controller : MonoBehaviour
     public void DialogTest()
     {
         StaminaManager.Instance.ConsumeStamina();
-        npcDialog.currentDialogId = testIndex;
+        //npcDialog.currentDialogId = testIndex;
+
+        npcDialog.currentDialogId = dialogTestIndex;
         dialogController.InitDialog(npcDialog);
     }
 

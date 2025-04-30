@@ -385,6 +385,7 @@ GameObject:
   - component: {fileID: 38497249}
   - component: {fileID: 38497251}
   - component: {fileID: 38497250}
+  - component: {fileID: 38497252}
   m_Layer: 5
   m_Name: BaseUI
   m_TagString: Untagged
@@ -453,6 +454,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 38497248}
   m_CullTransparentMesh: 1
+--- !u!114 &38497252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38497248}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bf9be50cf783d442941eb5caad0bdcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dateText: {fileID: 1998393825}
+  timeText: {fileID: 188238680}
+  moneyText: {fileID: 702254861}
 --- !u!1 &46120399
 GameObject:
   m_ObjectHideFlags: 0
@@ -749,7 +765,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 493754955}
         m_TargetAssemblyTypeName: PrincessScene1Controller, Assembly-CSharp
-        m_MethodName: EnableScheduleMenuPanel
+        m_MethodName: ExitAndSleepButton
         m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2178,6 +2194,107 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 457797300}
   m_CullTransparentMesh: 1
+--- !u!1 &463761391
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 463761392}
+  - component: {fileID: 463761394}
+  - component: {fileID: 463761393}
+  m_Layer: 0
+  m_Name: LightManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &463761392
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463761391}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 19.51929, y: 0.28762937, z: -0.16480519}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671510289}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &463761393
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463761391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 845f03491b9adb04c9b500cfad8aefbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  directionalLight: {fileID: 463761394}
+  morningColor: {r: 1, g: 1, b: 1, a: 1}
+  sunsetColor: {r: 1, g: 0.7, b: 0.5, a: 1}
+  nightColor: {r: 0.2, g: 0.3, b: 0.6, a: 1}
+--- !u!114 &463761394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463761391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ComponentVersion: 2
+  m_LightType: 4
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeIntensity: 1
+  m_LightVolumeEnabled: 0
+  m_ApplyToSortingLayers: 0df76ac9af3e8c4d000000003945ff3c
+  m_LightCookieSprite: {fileID: 0}
+  m_DeprecatedPointLightCookieSprite: {fileID: 0}
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_OverlapOperation: 0
+  m_NormalMapDistance: 3
+  m_NormalMapQuality: 2
+  m_UseNormalMap: 0
+  m_ShadowsEnabled: 1
+  m_ShadowIntensity: 0.75
+  m_ShadowSoftness: 0.3
+  m_ShadowSoftnessFalloffIntensity: 0.5
+  m_ShadowVolumeIntensityEnabled: 0
+  m_ShadowVolumeIntensity: 0.75
+  m_LocalBounds:
+    m_Center: {x: -0.00024998188, y: -0.000100016594, z: 0}
+    m_Extent: {x: 1.00045, y: 1.0009, z: 0}
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!1 &466454634
 GameObject:
   m_ObjectHideFlags: 0
@@ -2263,7 +2380,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 493754955}
         m_TargetAssemblyTypeName: PrincessScene1Controller, Assembly-CSharp
-        m_MethodName: Exit
+        m_MethodName: YesExit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2424,6 +2541,7 @@ GameObject:
   - component: {fileID: 493754954}
   - component: {fileID: 493754955}
   - component: {fileID: 493754956}
+  - component: {fileID: 493754957}
   m_Layer: 0
   m_Name: PrincessScene1Controller
   m_TagString: Untagged
@@ -2464,8 +2582,9 @@ MonoBehaviour:
   scheduleMenu: {fileID: 1783859990}
   yesNoMenu: {fileID: 1183653617}
   yesNoImage: {fileID: 29477448}
-  testIndex: 19
+  exitAndSleepButton: {fileID: 100442451}
   toggleButtonPrefab: {fileID: 4077881074139651632, guid: 3ea164a6a572703488adf0e215cbe6ba, type: 3}
+  dialogTestIndex: 19
 --- !u!114 &493754956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2483,6 +2602,21 @@ MonoBehaviour:
   happyImg: {fileID: 8799264640979206458, guid: 106da5ec00180d748b6d36641fdc6e31, type: 3}
   angryImg: {fileID: -6002389452898355967, guid: 4108e0c94ad5c404dad7ccf1d3374eb0, type: 3}
   sadImg: {fileID: 381666739527185095, guid: 48677d019299f7d4489bcd9bf3895a76, type: 3}
+--- !u!114 &493754957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493754953}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdfec2886503b034d9eb0bf5667a31e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  background: {fileID: 1168903014}
+  daySprite: {fileID: -4338923204896016089, guid: 2cb034f8f1ebaa240b03140b9e60bb85, type: 3}
+  nightSprite: {fileID: -146202152014452212, guid: d081ec1b48294d24fb0307859796d396, type: 3}
 --- !u!1 &501932298
 GameObject:
   m_ObjectHideFlags: 0
@@ -5051,7 +5185,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c6c6ed55f10a6468761d3f3375e775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNameToLoad: TownScene
+  sceneNameToLoad: TownScene-yh
   arrivalPointName: HomeFrontDoor
 --- !u!61 &1301544394
 BoxCollider2D:
@@ -5698,6 +5832,57 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1528307322}
   m_CullTransparentMesh: 1
+--- !u!1 &1553331196
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1553331197}
+  - component: {fileID: 1553331198}
+  m_Layer: 0
+  m_Name: TimeManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1553331197
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553331196}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1671510289}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1553331198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553331196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5abac6397e54a441adedb9aea5688f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  realSecondsPerGameDay: 60
+  currentYear: 1
+  currentSeason: 0
+  currentDay: 2
+  currentHour: 7
+  currentMinute: 0
+  light: {fileID: 463761394}
 --- !u!1 &1635154092
 GameObject:
   m_ObjectHideFlags: 0
@@ -5929,6 +6114,8 @@ Transform:
   - {fileID: 1160997892}
   - {fileID: 1775399170}
   - {fileID: 1635154093}
+  - {fileID: 1553331197}
+  - {fileID: 463761392}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1674896641
@@ -7695,6 +7882,7 @@ GameObject:
   - component: {fileID: 2110723330}
   - component: {fileID: 2110723332}
   - component: {fileID: 2110723331}
+  - component: {fileID: 2110723333}
   m_Layer: 5
   m_Name: TimeImage
   m_TagString: Untagged
@@ -7759,6 +7947,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2110723329}
   m_CullTransparentMesh: 1
+--- !u!114 &2110723333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110723329}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 43f28e1b202cfac49b329aae0bbbc854, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeImage: {fileID: 2110723331}
+  daySprite: {fileID: 7629601655650313939, guid: b37dfb604a3382d44a17aff062cc31e0, type: 3}
+  nightSprite: {fileID: 5030310586381747962, guid: 482d055951c80654a8e0812b70999b1a, type: 3}
 --- !u!1001 &351974895949517323
 PrefabInstance:
   m_ObjectHideFlags: 0
