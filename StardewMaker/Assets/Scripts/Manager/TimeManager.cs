@@ -41,18 +41,10 @@ public class TimeManager : Singleton<TimeManager>
     {
         base.Awake();
 
+        //light = GetComponentInChildren<Light2D>();
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
+
     }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-
-    //    gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
-    //}
 
     private void Start()
     {
@@ -75,7 +67,11 @@ public class TimeManager : Singleton<TimeManager>
         }
 
         ForceReturnHome();
-        UpdateLighting();
+
+        if (!isTimePaused)
+        {
+            LightManager.Instance.UpdateLighting(currentHour, currentMinute);
+        }
     }
 
     private void AdvanceMinute()
@@ -199,40 +195,5 @@ public class TimeManager : Singleton<TimeManager>
         }
 
         return $"{period} {displayHour:D2}:{currentMinute:D2}";
-    }
-
-    private void UpdateLighting()
-    {
-        float currentTime = currentHour + (currentMinute / 60f);
-
-        // 기본 색상
-        Color targetColor = morningColor;
-
-        if (currentTime >= 16f && currentTime < 18f)
-        {
-            // 16시~18시 : 아침색 → 노을색으로 변화
-            float t = (currentTime - 16f) / 2f;
-            targetColor = Color.Lerp(morningColor, sunsetColor, t);
-        }
-        else if (currentTime >= 18f && currentTime < 20f)
-        {
-            // 18시~20시 : 노을색 → 밤색으로 변화
-            float t = (currentTime - 18f) / 2f;
-            targetColor = Color.Lerp(sunsetColor, nightColor, t);
-        }
-        else if (currentTime >= 20f && currentTime < 24f)
-        {
-            // 20시~24시 : 밤 색상 고정
-            targetColor = nightColor;
-        }
-        else if (currentTime >= 0f && currentTime < 7f)
-        {
-            // 0시~7시 : 밤색 → 아침색으로 변화
-            float t = currentTime / 7f;
-            targetColor = Color.Lerp(nightColor, morningColor, t);
-        }
-
-        // 최종 적용
-        light.color = targetColor;
     }
 }

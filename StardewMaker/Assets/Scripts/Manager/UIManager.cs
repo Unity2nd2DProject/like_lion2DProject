@@ -34,6 +34,17 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeInventoryAndQuickSlot()
     {
+        if (InventoryUI == null)
+        {
+            InventoryUI = GameObject.Find("InventoryUI");
+        }
+
+        if (QuickSlotUI == null)
+        {
+            QuickSlotUI = GameObject.Find("QuickSlotUI");
+        }
+
+
         InventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
         QuickSlotUI.GetComponent<QuickSlotUI>().InitializeQuickSlotUI();
     }
