@@ -15,8 +15,13 @@ public class UIManager : Singleton<UIManager>
     [Header("Stat UI")]
     [SerializeField] private StatUI statUIPrefab;
     [SerializeField] private Transform statUIParent;
-
     private StatUI statUIInstance;
+
+    //[Header("TimeImage and BaseUI")]
+    //[SerializeField] private Transform timeImageUITransofrm;
+    //[SerializeField] private Transform baseUITransform;
+    //[SerializeField] private GameObject timeImageUI;
+    //[SerializeField] private GameObject baseUI;
 
     public Canvas cnavas;
 
@@ -34,20 +39,16 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeInventoryAndQuickSlot()
     {
-        if (InventoryUI == null)
-        {
-            InventoryUI = GameObject.Find("InventoryUI");
-        }
-
-        if (QuickSlotUI == null)
-        {
-            QuickSlotUI = GameObject.Find("QuickSlotUI");
-        }
-
-
         InventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
         QuickSlotUI.GetComponent<QuickSlotUI>().InitializeQuickSlotUI();
     }
+
+    //public void InitializeTimeImageAndBaseUI()
+    //{
+    //    Debug.Log("InitializeTimeImageAndBaseUI()");
+    //    Instantiate(timeImageUI);
+    //    Instantiate(baseUI);
+    //}
 
     public void UpdateInventoryAndQuickSlot()
     {
