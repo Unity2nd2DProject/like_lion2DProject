@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
-using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public enum Season
 {
@@ -44,6 +44,14 @@ public class TimeManager : Singleton<TimeManager>
         //light = GetComponentInChildren<Light2D>();
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
+        // 홈씬에서 시작하는 경우 시간 멈추기
+        CheckCurrentScene();
+    }
+
+    private void CheckCurrentScene()
+    {
+        Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        if (currentScene.name == "HomeScene" || currentScene.name == "HomeSceneTestJune") PauseTime();
     }
 
     private void Start()
