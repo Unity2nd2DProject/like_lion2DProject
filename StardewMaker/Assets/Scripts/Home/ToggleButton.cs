@@ -10,6 +10,7 @@ public class ToggleButton : MonoBehaviour
     public static event Action<string, bool> OnToggleChangeRequested;
 
     public Toggle toggle;
+    public ScheduleType scheduleType;
 
     public Graphic targetGraphic;
     private Color onColor; // = Color.gray;
@@ -43,6 +44,11 @@ public class ToggleButton : MonoBehaviour
     public void SetText(string t)
     {
         text.text = t;
+    }
+
+    public void SetScheduleType(ScheduleType st)
+    {
+        scheduleType = st;
     }
 
 }

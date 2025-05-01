@@ -21,6 +21,7 @@ public enum DialogDataType
     TARGET_TYPE,
     TARGET_OPERATOR,
     TARGET_VALUE,
+    SCHEDULE_TYPE,
     KOREAN,
     ENGLISH
 }
@@ -57,7 +58,10 @@ public enum SituationType
     MORNING,
     EVENING,
     EVENT,
-    BOOK
+    BOOK,
+    WANT_TO_EAT,
+    WANT_TO_DO,
+    WANT_TO_BE
 }
 
 public enum ConditionType
@@ -85,7 +89,21 @@ public enum ExtType
     NONE,
     ACT,
     EXIT,
-    SHOP
+    SHOP,
+    WILL
+}
+
+public enum ScheduleType
+{
+    NONE,
+    EXERCISE,
+    HOME_WORK,
+    PLAY,
+    READ_BOOK,
+    DRAWING,
+    COOK,
+    MUSIC,
+    DOLL
 }
 
 public class Dialog
@@ -104,6 +122,7 @@ public class Dialog
     public StatType targetType;
     public string targetOperator;
     public int targetValue;
+    public ScheduleType scheduleType;
     public List<string> korean;
     public string english;
 
@@ -262,6 +281,7 @@ public static class DialogTool
         { DialogDataType.TARGET_TYPE, "TargetType" },
         { DialogDataType.TARGET_OPERATOR, "TargetOperator" },
         { DialogDataType.TARGET_VALUE, "TargetValue" },
+        { DialogDataType.SCHEDULE_TYPE, "ScheduleType" },
         { DialogDataType.KOREAN, "Korean" },
         { DialogDataType.ENGLISH, "English" }
     };
@@ -382,6 +402,7 @@ public static class DialogTool
                 string targetTypeStr = rows[dialogDataIndexDic[DialogDataType.TARGET_TYPE]];
                 string targetOperatorStr = rows[dialogDataIndexDic[DialogDataType.TARGET_OPERATOR]];
                 string targetValueStr = rows[dialogDataIndexDic[DialogDataType.TARGET_VALUE]];
+                string scheduleTypeStr = rows[dialogDataIndexDic[DialogDataType.SCHEDULE_TYPE]];
                 List<string> korean = rows[dialogDataIndexDic[DialogDataType.KOREAN]].Split("§").ToList();
                 string english = rows[dialogDataIndexDic[DialogDataType.ENGLISH]];
 
@@ -398,6 +419,7 @@ public static class DialogTool
                 StatType targetType = Enum.TryParse(targetTypeStr, out StatType j) ? j : StatType.NONE;
                 string targetOperator = targetOperatorStr == "`=" ? "=" : targetOperatorStr;
                 int targetValue = int.TryParse(targetValueStr, out int k) ? k : 0;
+                ScheduleType scheduleType = Enum.TryParse(scheduleTypeStr, out ScheduleType l) ? l : ScheduleType.NONE;
 
                 Dialog dialog = new()
                 {
@@ -415,6 +437,7 @@ public static class DialogTool
                     targetType = targetType,
                     targetOperator = targetOperator,
                     targetValue = targetValue,
+                    scheduleType = scheduleType,
                     korean = korean,
                     english = english
                 };

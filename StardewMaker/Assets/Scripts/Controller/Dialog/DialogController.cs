@@ -27,6 +27,8 @@ public class DialogController : MonoBehaviour
     private bool isSkipRequested = false; // 대사 빨리감기
     private bool isDialogEnd = true; // 대화가 끝났는지 판별
 
+    public StatType wantedConditionType; // 딸이 원하는 스케줄 타입
+
     void Awake()
     {
         DialogTool.Init();
@@ -118,7 +120,7 @@ public class DialogController : MonoBehaviour
             }
 
             // target condition value 변경하기
-            currentDialog.SetTarget(DaughterManager.Instance.GetStats());
+            if (extType != ExtType.WILL) currentDialog.SetTarget(DaughterManager.Instance.GetStats());
 
             if (isDialogEnd) // 다음 대사가 없는 경우
             {
@@ -146,6 +148,11 @@ public class DialogController : MonoBehaviour
                     case ExtType.SHOP: // 상점 열기
                         Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
                         OnShopRequested?.Invoke();
+                        break;
+                    case ExtType.WILL:
+                        GameManager.Instance.wantedScheduleType = currentDialog.scheduleType;
+                        Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedScheduleType}");
+                        OnNormalMenuRequested?.Invoke(true);
                         break;
                 }
             }
