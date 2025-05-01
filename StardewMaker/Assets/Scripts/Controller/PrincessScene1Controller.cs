@@ -64,6 +64,8 @@ public class PrincessScene1Controller : MonoBehaviour
         backgroundController = GetComponent<BackgroundController>();
 
         SetToggleButton();
+
+        // SoundManager.Instance.PlayBGM1(Volume.MEDIUM); // 동작 함
     }
 
     private void OnEnable()
