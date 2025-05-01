@@ -199,7 +199,7 @@ public class DialogController : MonoBehaviour
 
         ChangeCharacterName(currentDialog.GetName());
 
-        OnStartTextPrint(); // todo 대사 출력 시 효과음 내기
+        OnStartTextPrint();
         yield return TextTool.PrintTmpText(dialogView.dialogText, currentDialog.GetText(), () => isSkipRequested);
         OnStopTextPrint();
 
@@ -239,6 +239,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 시작
     private void OnStartTextPrint()
     {
+        SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
         selectedOptionNum = 0; // 선택된 옵션 초기화
         isNextDialogReady = false;
         isTextSkipEnabled = true;
@@ -249,6 +250,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 끝
     private void OnStopTextPrint()
     {
+        SoundManager.Instance.StopSfx();
         isNextDialogReady = true;
         isTextSkipEnabled = false;
         if (currentDialog.type != DialogType.CHOICE) // 옵션 선택 대사일 경우 NextDialogBtn 안나옴
