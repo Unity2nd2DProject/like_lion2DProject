@@ -28,11 +28,11 @@ public class PrincessScene1Controller : MonoBehaviour
     private NPCDialog npcDialog;
     private BackgroundController backgroundController;
 
-    private List<ToggleButton> toggleButtonList = new();
+    private List<ToggleButton> toggleButtonList;
     private int maxToggleButtonNum = 8;
     private bool isDay = true;
 
-    private List<DialogSubjectButton> dialogSubjectButtonList = new();
+    private List<DialogSubjectButton> dialogSubjectButtonList;
 
     private int introDialogId = 2;
 
@@ -72,12 +72,18 @@ public class PrincessScene1Controller : MonoBehaviour
         ToggleButton.OnToggleChangeRequested += CheckScheduleMenu;
         DialogSubjectButton.OnDialogSubjectButtonRequested += OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested += StatChanged;
+        DialogController.OnNextDayRequested += CheckAtStart;
     }
 
     private void Start()
     {
         GameManager.Instance.SetGameState(TAG, GameState.UI); // 입력을 UI모드로 변경
 
+        CheckAtStart();
+    }
+
+    private void CheckAtStart()
+    {
         SetDayNight(); // 아침인지 낮인지 구분
 
         CheckNightDo(); // 저녁에 할 일 체크
@@ -103,6 +109,7 @@ public class PrincessScene1Controller : MonoBehaviour
         ToggleButton.OnToggleChangeRequested -= CheckScheduleMenu;
         DialogSubjectButton.OnDialogSubjectButtonRequested -= OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested -= StatChanged;
+        DialogController.OnNextDayRequested -= CheckAtStart;
     }
 
     private void SetDayNight()
@@ -170,6 +177,8 @@ public class PrincessScene1Controller : MonoBehaviour
     // 선택 가능한 대화 주제 리스트 만들기
     private void SetAvailableDialogSubject()
     {
+        dialogSubjectButtonList = new();
+
         List<string> dialogSubejctButtonStringList = new()
         {
             dialogSubjectDic[SituationType.WANT_TO_DO],
@@ -202,6 +211,8 @@ public class PrincessScene1Controller : MonoBehaviour
     // 선택 가능한 스케줄 리스트 만들기
     private void SetAvailableSchedule()
     {
+        toggleButtonList = new();
+
         List<(ScheduleType, string)> toggleButtonTupleList = new()
         {
             (ScheduleType.EXERCISE, scheduleTextDic[ScheduleType.EXERCISE]),
@@ -241,6 +252,26 @@ public class PrincessScene1Controller : MonoBehaviour
         }
     }
 
+    public void ResetScheduleDialogMenu()
+    {
+        foreach (Transform child in scheduleMenu.transform.Find("Panel1"))
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in scheduleMenu.transform.Find("Panel2"))
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in dialogMenu.transform.Find("Panel1"))
+        {
+            Destroy(child.gameObject);
+        }
+        foreach (Transform child in dialogMenu.transform.Find("Panel2"))
+        {
+            Destroy(child.gameObject);
+        }
+    }
+
     // 기본 메뉴 On/Off
     public void EnableNormalMenuPanel(bool sw)
     {
@@ -267,6 +298,8 @@ public class PrincessScene1Controller : MonoBehaviour
             Dialog dialog = dialogList[UnityEngine.Random.Range(0, dialogList.Count)];
             npcDialog.currentDialogId = dialog.id;
             dialogController.InitDialog(npcDialog);
+
+            ResetScheduleDialogMenu(); // 게임오브젝트 삭제
         }
     }
 

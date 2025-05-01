@@ -15,6 +15,7 @@ public class DialogController : MonoBehaviour
     public static event Action<bool> OnScheduleMenuRequested;
     public static event Action OnShopRequested;
     public static event Action OnExitRequested;
+    public static event Action OnNextDayRequested;
 
     private DialogView dialogView; // UI 부분
 
@@ -147,7 +148,12 @@ public class DialogController : MonoBehaviour
                         break;
                     case ExtType.SLEEP:
                         Debug.Log($"{TAG} 잠자기 진행해야 함");
-                        // TimeManager.Instance.OnNextDay();
+                        FadeManager.Instance.FadeOut(() =>
+                        {
+                            TimeManager.Instance.AdvanceDay();
+                            FadeManager.Instance.FadeIn();
+                            OnNextDayRequested?.Invoke();
+                        });
                         break;
                 }
             }
