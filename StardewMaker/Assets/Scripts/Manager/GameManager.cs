@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -22,7 +21,7 @@ public class GameManager : Singleton<GameManager>
 
     public string arrivalPointName { get; set; } // 씬 전환 시 캐릭터의 위치를 잡아주기 위함
 
-    public ScheduleType wantedScheduleType; // 딸이 원하는 스케줄 임시 저장
+    public Dialog wantedDialog; // 딸이 원하는 스케줄이 있는 대화 임시 저장
     public List<ScheduleType> actualScheuleType = new(); // 실제 진행할 스케줄
 
     protected override void Awake()
