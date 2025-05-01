@@ -49,13 +49,17 @@ public class TeleportPoint : MonoBehaviour
     {
         isTeleporting = true;
 
+        player.SetCanMove(false);
+
         // 페이드 아웃
         FadeManager.Instance.FadeOut();
         yield return new WaitForSeconds(fadeDuration);
 
         // 플레이어 이동
         if (destinationPoint != null)
+        {
             player.transform.position = destinationPoint.position;
+        }
 
         // 카메라가 새 위치에 도착할 때까지 대기
         if (cameraTransform != null)
@@ -82,6 +86,8 @@ public class TeleportPoint : MonoBehaviour
         // 페이드 인
         FadeManager.Instance.FadeIn();
         yield return new WaitForSeconds(fadeDuration);
+
+        player.SetCanMove(true);
 
         isTeleporting = false;
     }
