@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SaveManager : Singleton<SaveManager>
 {
@@ -86,8 +87,13 @@ public class SaveManager : Singleton<SaveManager>
         while (true)
         {
             yield return new WaitForSeconds(autoSaveInterval);
-            SaveManager.Instance.SaveFarm(); // 농장 데이터
-            SaveManager.Instance.SaveTime(); // 시간 데이터
+
+            Scene currentScene = SceneManager.GetActiveScene();
+            if (currentScene.name.Contains("TownScene"))
+            {
+                SaveFarm();
+            }
+            SaveTime();
             Debug.Log("💾 자동 저장 완료");
         }
     }

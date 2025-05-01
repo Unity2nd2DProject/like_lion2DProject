@@ -44,6 +44,7 @@ public class TimeManager : Singleton<TimeManager>
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
         // 홈씬에서 시작하는 경우 시간 멈추기
+        SaveManager.Instance.LoadTime();
         CheckCurrentScene();
     }
 
