@@ -6,15 +6,34 @@ public class StatRowUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI statText;
     [SerializeField] private Stat stat;
 
-    public void Bind(Stat stat)
+    bool isEndingStat;
+
+    public void Bind(Stat stat, bool isEndingStat)
     {
         this.stat = stat;
-        statText.text = $"{stat.statType.ToKorean()}: {stat.CurrentValue}/{stat.MaxValue}";
-
-        stat.OnValueChanged += UpdateUI;
+        this.isEndingStat = isEndingStat;
+        
+        if (!isEndingStat)
+        {            
+            statText.text = $"{stat.statType.ToKorean()}: {stat.CurrentValue}/{stat.MaxValue}";
+            stat.OnValueChanged += UpdateUI;
+        }
+        else
+        {
+            statText.text = $"{stat.statType.ToKorean()}: {stat.CurrentValue}";
+            stat.OnValueChanged += UpdateUI;
+        }
+        
     }
     private void UpdateUI(float current)
     {
-        statText.text = $"{stat.statType.ToKorean()}: {current}/{stat.MaxValue}";
+        if (!isEndingStat)
+        {
+            statText.text = $"{stat.statType.ToKorean()}: {current}/{stat.MaxValue}";
+        }
+        else
+        {
+            statText.text = $"{stat.statType.ToKorean()}: {current}";
+        }
     }
 }

@@ -57,7 +57,8 @@ public enum SituationType
     MORNING,
     EVENING,
     EVENT,
-    BOOK
+    BOOK,
+    COOK,
 }
 
 public enum ConditionType

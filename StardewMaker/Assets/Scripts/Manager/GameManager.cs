@@ -51,7 +51,7 @@ public class GameManager : Singleton<GameManager>
         }
 
         // 테스트용
-        if(sceneName == "TwonHyunkyu")
+        if(sceneName == "TownHyunkyu")
         {
             currentMode = GameMode.TOWN;
         }

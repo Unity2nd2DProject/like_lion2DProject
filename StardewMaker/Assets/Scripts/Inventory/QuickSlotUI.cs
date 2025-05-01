@@ -11,12 +11,28 @@ public class QuickSlotUI : MonoBehaviour
 
     private void Awake()
     {
+        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
         SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if(GameManager.Instance.currentMode == GameMode.TOWN)
+        if (GameManager.Instance.currentMode == GameMode.TOWN)
         {
             ShowQuickSlot();
         }
@@ -26,17 +42,14 @@ public class QuickSlotUI : MonoBehaviour
         }
     }
 
-
-
-
     private void ShowQuickSlot()
     {
-        this.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 
     private void HideQuickSlot()
     {
-        this.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void InitializeQuickSlotUI()

@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class CookingManager : Singleton<CookingManager>
 {
-    public Recipe[] recipes; // 요리 레시피 배열
-
-    public CookingUI cookingUI;
+    public Recipe[] recipes; // 요리 레시피 배열 수동으로 inspector에서 추가 요망.
 
     protected override void Awake()
     {
-        base.Awake();       
+        base.Awake();
+
+        
     }
 
     private void Start()
@@ -30,10 +30,11 @@ public class CookingManager : Singleton<CookingManager>
 
     private void InitRecipe()
     {
+        UIManager.Instance.InitializeCookingUI();
         // 레시피 추가
         for (int i = 0; i < recipes.Length; i++)
         {
-            cookingUI.AddRecipe(recipes[i]);
+            UIManager.Instance.cookingUI.AddRecipe(recipes[i]);
         }
     }
 
@@ -57,7 +58,7 @@ public class CookingManager : Singleton<CookingManager>
         InventoryManager.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
         // 요리 완료 후 결과 UI 표시
         UIManager.Instance.ShowPopup("요리 완성!.");
-        cookingUI.cookingInventory.UpdateIngredientInventoryUI();
+        UIManager.Instance.cookingUI.cookingInventory.UpdateIngredientInventoryUI();
 
     }
 }

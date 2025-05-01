@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -19,7 +20,10 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUIPrefab;
-    [SerializeField] private Transform statUIParent;
+
+    public GameObject cookingUIPrefab;
+    [HideInInspector]
+    public CookingUI cookingUI;
 
     private StatUI statUIInstance;
     
@@ -31,8 +35,8 @@ public class UIManager : Singleton<UIManager>
     public void InitializeStatUI(List<Stat> stats)
     {
         Debug.Log("StatUI Initialized");
-       
-        statUIInstance = Instantiate(statUIPrefab, statUIParent).GetComponent<StatUI>();
+        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>();
+        statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
         statUIInstance.Initialize(stats);
         Debug.Log(statUIInstance);
     }
@@ -40,6 +44,7 @@ public class UIManager : Singleton<UIManager>
     public void InitializeInventoryAndQuickSlot()
     {
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // 씬에서 Canvas를 찾음
+        inventoryUI = canvas.GetComponentInChildren<InventoryUI>(); // 씬에서 InventoryUI를 찾음
         if (inventoryUI == null) // 인벤토리 UI가 null이면 새로 생성
         {
             inventoryUI = Instantiate(inventoryUIPrefab, canvas.transform).GetComponent<InventoryUI>();
@@ -47,6 +52,7 @@ public class UIManager : Singleton<UIManager>
             inventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
         }
 
+        quickSlotUI = canvas.GetComponentInChildren<QuickSlotUI>(); // 씬에서 QuickSlotUI를 찾음
         if (quickSlotUI == null) // 퀵슬롯 UI가 null이면 새로 생성
         {
             quickSlotUI = Instantiate(quickSlotUIPrefab, canvas.transform).GetComponent<QuickSlotUI>();
@@ -71,7 +77,7 @@ public class UIManager : Singleton<UIManager>
         {
             position = Input.mousePosition;
         }
-        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>(); // 씬에서 Canvas를 찾음
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         GameObject popup = Instantiate(PopupMessagePrefab, canvas.transform);
         popup.transform.position = position;    
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
@@ -93,12 +99,36 @@ public class UIManager : Singleton<UIManager>
             
     }
 
-    internal void ShowQuickSlotUI()
+    public void ShowQuickSlotUI()
     {
         if (quickSlotUI != null)
         {
             quickSlotUI.gameObject.SetActive(true);
         }
+    }
+
+
+
+    public void InitializeCookingUI()
+    {
+        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>();
+        cookingUI = canvas.GetComponentInChildren<CookingUI>();
+        if (cookingUI == null)
+        {
+            cookingUI = Instantiate(cookingUIPrefab, canvas.transform).GetComponent<CookingUI>();
+            cookingUI.gameObject.SetActive(false);
+        }
+        
+    }
+
+    public void ToggleCookingUI()
+    {
+        if(cookingUI == null)
+        {
+            InitializeCookingUI();
+        }
+        cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
+        cookingUI.transform.SetAsLastSibling();
     }
 }
 
