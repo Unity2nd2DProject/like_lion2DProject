@@ -50,7 +50,7 @@ public class TimeManager : Singleton<TimeManager>
     private void CheckCurrentScene()
     {
         Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        if (currentScene.name == "HomeScene" || currentScene.name == "HomeSceneTestJune") PauseTime();
+        if (currentScene.name.Contains("HomeScene")) PauseTime();
     }
 
     private void Start()
@@ -130,7 +130,7 @@ public class TimeManager : Singleton<TimeManager>
         CropManager.Instance.NextDay();
         FarmLandManager.Instance.NextDay();
         TreeManager.Instance.NextDay();
-        StaminaUI.Instance.RecoverStamina(20);
+        StaminaManager.Instance.RecoverStamina(20);
     }
 
     private void ForceReturnHome()

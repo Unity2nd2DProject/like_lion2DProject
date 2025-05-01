@@ -37,5 +37,6 @@ public class DeparturePoint : MonoBehaviour
     {
         yield return new WaitForSeconds(FadeManager.Instance.fadeDuration);
         GameManager.Instance.changeScene(sceneNameToLoad);
+
     }
 }

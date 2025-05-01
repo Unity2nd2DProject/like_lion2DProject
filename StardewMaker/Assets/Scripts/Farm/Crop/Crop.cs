@@ -54,4 +54,12 @@ public class Crop : MonoBehaviour
     {
         return currentGrowthStage == cropData.maxGrowthStage;
     }
+
+    public int GetGrowthStage() => currentGrowthStage;
+
+    public void SetGrowthStage(int stage)
+    {
+        currentGrowthStage = stage;
+        UpdateGrowth();
+    }
 }

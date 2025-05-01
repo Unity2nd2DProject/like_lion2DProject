@@ -143,8 +143,9 @@ public class FarmLand : MonoBehaviour
         UpdateTileSprite();
     }
 
-    private void UpdateTileSprite()
+    public void UpdateTileSprite()
     {
+        //Debug.Log("UpdateTileSprite");
         switch (landState)
         {
             case LandState.Normal:

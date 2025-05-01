@@ -5,24 +5,14 @@ using UnityEngine.UIElements;
 
 public class CropManager : Singleton<CropManager>
 {
-    //public static CropManager Instance;
-
     public GameObject[] cropPrefabs;
+    public List<CropData> cropDatabase;
     public Dictionary<Vector2, Crop> crops = new Dictionary<Vector2, Crop>();
 
     protected override void Awake()
     {
         base.Awake();
     }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-    //}
-
     public void PlantCrop(Transform parentTtransform, Vector2 position, CropData cropData, bool _isWatered = false)
     {
         if (crops.ContainsKey(position))
@@ -94,4 +84,43 @@ public class CropManager : Singleton<CropManager>
     {
         return crops;
     }
+
+    public List<SavedCrop> SaveCrops()
+    {
+        List<SavedCrop> list = new List<SavedCrop>();
+        foreach (var kv in crops)
+        {
+            var crop = kv.Value;
+            list.Add(new SavedCrop
+            {
+                position = kv.Key,
+                cropId = crop.cropData.id,
+                currentGrowthStage = crop.GetGrowthStage(),
+                isWatered = crop.isWatered
+            });
+        }
+        return list;
+    }
+
+    public void LoadCrops(List<SavedCrop> savedList)
+    {
+        foreach (var saved in savedList)
+        {
+            var cropData = cropDatabase.Find(c => c.id == saved.cropId);
+            if (cropData == null) continue;
+
+            GameObject obj = Instantiate(cropPrefabs[saved.cropId], saved.position, Quaternion.identity);
+            Crop crop = obj.GetComponent<Crop>();
+            crop.Initialize(cropData, saved.isWatered);
+            crop.SetGrowthStage(saved.currentGrowthStage);
+
+            crops[saved.position] = crop;
+        }
+    }
+
+    public void RegisterCrop(Vector2 position, Crop crop)
+    {
+        crops[position] = crop;
+    }
+
 }

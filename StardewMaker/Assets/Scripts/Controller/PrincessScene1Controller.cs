@@ -269,7 +269,8 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void DialogTest()
     {
-        StaminaUI.Instance.ConsumeStamina();
+        StaminaManager.Instance.ConsumeStamina();
+        //npcDialog.currentDialogId = testIndex;
 
         npcDialog.currentDialogId = dialogTestIndex;
         dialogController.InitDialog(npcDialog);

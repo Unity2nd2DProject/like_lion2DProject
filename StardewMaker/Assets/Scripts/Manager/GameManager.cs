@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -34,7 +35,12 @@ public class GameManager : Singleton<GameManager>
 
     public void changeScene(string sceneName)
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);
+
         // todo 데이터 저장
+        if (sceneName.Contains("HomeScene"))
+        {
+            SaveManager.Instance.SaveFarm();
+        }
     }
 }
