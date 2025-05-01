@@ -40,7 +40,9 @@ public class TreeManager : Singleton<TreeManager>
     {
         foreach (var data in savedTrees)
         {
-            GameObject obj = Instantiate(treeDarkPrefab, data.position, Quaternion.identity);
+            GameObject prefab = Random.value < 0.5f ? treeDarkPrefab : treeLightPrefab;
+
+            GameObject obj = Instantiate(prefab, data.position, Quaternion.identity);
             Tree tree = obj.GetComponent<Tree>();
             tree.SetState(data.currentHits, data.isActive);
             trees.Add(tree);

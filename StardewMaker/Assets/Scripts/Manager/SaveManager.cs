@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
 {
-    private string path => Application.persistentDataPath + "/save.json";
+    private string path => Application.dataPath + "/Save/save.json";
 
     public void SaveFarm()
     {

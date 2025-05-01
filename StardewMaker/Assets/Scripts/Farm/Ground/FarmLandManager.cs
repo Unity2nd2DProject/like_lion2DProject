@@ -14,7 +14,7 @@ public class FarmLandManager : Singleton<FarmLandManager>
     {
         base.Awake();
 
-        GenerateFarmLands();
+        //GenerateFarmLands();
     }
 
     public void GenerateFarmLands()

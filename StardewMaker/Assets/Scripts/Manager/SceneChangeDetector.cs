@@ -20,13 +20,13 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
     {
         Debug.Log($"{scene.name} is loaded...");
 
-        if (scene.name == "TownScene-yh")
+        if (scene.name.Contains("TownScene"))
         {
             TimeManager.Instance.ResumeTime();
             StartCoroutine(DelayedUpdateUI(scene));
             
         }
-        else if (scene.name == "HomeScene-yh")
+        else if (scene.name.Contains("HomeScene"))
         {
             TimeManager.Instance.PauseTime();
             StartCoroutine(DelayedUpdateUI(scene));
@@ -41,7 +41,7 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
             TimeManager.Instance.UpdateUI();
             StaminaManager.Instance.UpdateStamina();
 
-            if (scene.name == "TownScene-yh")
+            if (scene.name.Contains("TownScene"))
             {
                 SaveManager.Instance.LoadFarm();
             }
