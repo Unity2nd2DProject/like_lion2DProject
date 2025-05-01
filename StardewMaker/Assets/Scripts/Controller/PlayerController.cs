@@ -40,6 +40,8 @@ public class PlayerController : Singleton<PlayerController>
     private Tree curTree;
     private ItemData curItem;
 
+    public bool justTeleported = false;
+
     protected override void Awake()
     {
         base.Awake();
