@@ -9,10 +9,10 @@ public class SaveManager : Singleton<SaveManager>
     private string farmPath => Application.dataPath + "/Save/farm.json";
     private string timePath => Application.dataPath + "/Save/time.json";
 
-    //private void Start()
-    //{
-    //    StartCoroutine(AutoSaveRoutine());
-    //}
+    private void Start()
+    {
+        //StartCoroutine(AutoSaveRoutine());
+    }
 
     public void SaveFarm()
     {

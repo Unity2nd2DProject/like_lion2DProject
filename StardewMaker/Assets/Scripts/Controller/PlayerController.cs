@@ -177,7 +177,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
         {
-            TimeManager.Instance.OnNextDay();
+            TimeManager.Instance.AdvanceDay();
         }
     }
 

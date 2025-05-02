@@ -49,13 +49,34 @@ public class TeleportPoint : MonoBehaviour
     {
         isTeleporting = true;
 
+        // 이동 및 애니메이션 차단
+        player.SetCanMove(false);
+        if (player.anim != null)
+        {
+            player.anim.SetBool("Move", false);
+            player.anim.speed = 0f;
+        }
+
+        // 입력 시스템 차단
+        UserInputManager.Instance.inputActions.Player.Disable();
+
+        // 이동 벡터 수동 초기화
+        var playerController = player.GetComponent<PlayerController>();
+        var moveField = typeof(PlayerController).GetField("move", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (moveField != null)
+        {
+            moveField.SetValue(playerController, Vector2.zero);
+        }
+
         // 페이드 아웃
         FadeManager.Instance.FadeOut();
         yield return new WaitForSeconds(fadeDuration);
 
         // 플레이어 이동
         if (destinationPoint != null)
+        {
             player.transform.position = destinationPoint.position;
+        }
 
         // 카메라가 새 위치에 도착할 때까지 대기
         if (cameraTransform != null)
@@ -82,6 +103,15 @@ public class TeleportPoint : MonoBehaviour
         // 페이드 인
         FadeManager.Instance.FadeIn();
         yield return new WaitForSeconds(fadeDuration);
+
+        // 이동/입력 복구
+        if (player.anim != null)
+        {
+            player.anim.SetBool("Move", false);
+            player.anim.speed = 1f;
+        }
+        UserInputManager.Instance.inputActions.Player.Enable();
+        player.SetCanMove(true);
 
         isTeleporting = false;
     }
