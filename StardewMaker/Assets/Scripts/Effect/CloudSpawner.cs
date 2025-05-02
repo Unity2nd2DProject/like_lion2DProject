@@ -9,10 +9,9 @@ public class CloudSpawner : MonoBehaviour
     public float baseSpeed = 0.5f;
     public Vector2 speedRange = new Vector2(0.1f, 0.3f);  // 속도 범위
     public Vector2 scaleRange = new Vector2(0.2f, 0.7f);  // 크기 범위
-    public Vector2 alphaRange = new Vector2(0.1f, 0.4f);  // 불투명도 범위
+
     public Vector2 yRange = new Vector2(-8f, 8f);
     public float xOffset = 10f;
-    public float shadowYOffset = -3.5f;
 
     private float timer;
     private bool isFirstSpawn = true;
@@ -39,43 +38,44 @@ public class CloudSpawner : MonoBehaviour
 
     void SpawnCloud()
     {
-        // 스폰 위치에 z=0 명시적 지정
-        Vector3 spawnPos = Camera.main.transform.position + new Vector3(xOffset, Random.Range(yRange.x, yRange.y), 0);
+        // 메인 카메라의 화면 크기 계산
+        Camera mainCamera = Camera.main;
+        float height = 2f * mainCamera.orthographicSize;
+        float width = height * mainCamera.aspect;
+
+        Vector3 spawnPos;
+
+        // 생성 위치 랜덤 선택 (0: 위, 1: 오른쪽, 2: 아래)
+        int spawnType = Random.Range(0, 3);
+
+        // 범위를 3분의 1로 줄임
+        float restrictedWidth = width / 3;
+        float restrictedHeight = height / 3;
+
+        switch (spawnType)
+        {
+            case 0: // 위쪽에서 생성
+                float spawnX = Random.Range(-restrictedWidth, restrictedWidth);
+                spawnPos = mainCamera.transform.position + new Vector3(spawnX, height / 2 + xOffset, 1);
+                break;
+
+            case 1: // 오른쪽에서 생성
+                float spawnY = Random.Range(-restrictedHeight, restrictedHeight);
+                spawnPos = mainCamera.transform.position + new Vector3(width / 2 + xOffset, spawnY, 1);
+                break;
+
+            default: // 아래쪽에서 생성
+                spawnX = Random.Range(-restrictedWidth, restrictedWidth);
+                spawnPos = mainCamera.transform.position + new Vector3(spawnX, -height / 2 - xOffset, 1);
+                break;
+        }
+
+        // 프리팹 선택 및 생성
         var prefab = cloudPrefabs[Random.Range(0, cloudPrefabs.Length)];
-
-        // 랜덤 값들 생성
-        float randomScale = Random.Range(scaleRange.x, scaleRange.y);
-        float randomAlpha = Random.Range(alphaRange.x, alphaRange.y);
-        float randomSpeed = Random.Range(speedRange.x, speedRange.y);
-
-        // 구름과 그림자 생성 시 Z 포지션 확인
         var cloud = Instantiate(prefab, spawnPos, Quaternion.identity, weatherEffectsParent);
-        var shadow = Instantiate(prefab, new Vector3(spawnPos.x, spawnPos.y + shadowYOffset, 0), Quaternion.identity, weatherEffectsParent);
 
-        // Z 위치 강제 설정
-        cloud.transform.position = new Vector3(cloud.transform.position.x, cloud.transform.position.y, 0);
-        shadow.transform.position = new Vector3(shadow.transform.position.x, shadow.transform.position.y, 0);
-
-        // 크기 설정
+        // 랜덤 크기 설정
+        float randomScale = Random.Range(scaleRange.x, scaleRange.y);
         cloud.transform.localScale = new Vector3(randomScale, randomScale, 1);
-        shadow.transform.localScale = new Vector3(randomScale, randomScale, 1);
-
-        // 구름 알파값 설정
-        SpriteRenderer cloudRenderer = cloud.GetComponent<SpriteRenderer>();
-        if (cloudRenderer != null)
-        {
-            cloudRenderer.color = new Color(1, 1, 1, randomAlpha); // 구름의 알파값 설정
-        }
-
-        // 그림자 색상 설정
-        SpriteRenderer shadowRenderer = shadow.GetComponent<SpriteRenderer>();
-        if (shadowRenderer != null)
-        {
-            shadowRenderer.color = new Color(0, 0, 0, randomAlpha);
-        }
-
-        // 속도 설정
-        cloud.AddComponent<CloudMover>().speed = randomSpeed;
-        shadow.AddComponent<CloudMover>().speed = randomSpeed;
     }
 }
