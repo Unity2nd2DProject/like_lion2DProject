@@ -1,9 +1,9 @@
 using TMPro;
 using UnityEngine;
 
-public class TooltipUI : MonoBehaviour
+public class TooltipUI : Singleton<TooltipUI>
 {
-    public static TooltipUI Instance;
+    //public static TooltipUI Instance;
 
     CanvasGroup canvasGroup;
     public TextMeshProUGUI nameText;
@@ -11,21 +11,20 @@ public class TooltipUI : MonoBehaviour
 
     private void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
         canvasGroup = gameObject.GetComponent<CanvasGroup>();
 
         HideTooltip();
     }
 
-    //public void ShowTooltip(ItemData itemData, Vector3 position)
+    //private void Awake()
     //{
-    //    gameObject.SetActive(true);
-    //    transform.position = position + new Vector3(100, 0);
-    //    nameText.text = itemData.name;
-    //    descriptionText.text = itemData.itemDescription;
+    //    if (Instance == null)
+    //    {
+    //        Instance = this;
+    //    }
+    //    canvasGroup = gameObject.GetComponent<CanvasGroup>();
+
+    //    HideTooltip();
     //}
 
     public void ShowTooltip(ItemData item, Vector3 mousePosition)

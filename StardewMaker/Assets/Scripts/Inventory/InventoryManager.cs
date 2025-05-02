@@ -1,5 +1,6 @@
 using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
@@ -11,6 +12,10 @@ public class InventoryManager : Singleton<InventoryManager>
     public int currentSelectedQuickSlotIndex;
 
     public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
+
+    [Header("Player Money")]
+    public int playerMoney;
+    public TextMeshProUGUI moneyText;  // Inspector에 드래그할 머니 표시용 UI
 
     protected override void Awake()
     {
@@ -100,14 +105,12 @@ public class InventoryManager : Singleton<InventoryManager>
                     {
                         slot.Clear();
                     }
-                    UIManager.Instance.UpdateInventoryUI();
-                    UIManager.Instance.UpdateQuickSlotUI();
+                    UIManager.Instance.UpdateInventoryAndQuickSlot();
                     return true; // 아이템 제거 성공
                 }
             }
         }
-        UIManager.Instance.UpdateInventoryUI();
-        UIManager.Instance.UpdateQuickSlotUI();
+        UIManager.Instance.UpdateInventoryAndQuickSlot();
         return false; // 아이템이 없거나 수량 부족
     }
 

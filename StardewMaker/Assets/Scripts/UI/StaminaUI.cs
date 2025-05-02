@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,112 +9,76 @@ public enum StaminaState
     Empty
 }
 
-public class StaminaUI : MonoBehaviour
+public class StaminaUI : Singleton<StaminaUI>
 {
-    public static StaminaUI Instance { get; private set; }
-
     [Header("Stamina Settings")]
     public Image[] staminaIcons;
     public Sprite fullSprite;
     public Sprite halfSprite;
     public Sprite emptySprite;
 
-    private StaminaState[] staminaStates;
-
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        // 초기화
-        staminaStates = new StaminaState[staminaIcons.Length];
-        for (int i = 0; i < staminaStates.Length; i++)
-        {
-            staminaStates[i] = StaminaState.Full;
-            staminaIcons[i].sprite = fullSprite;
-        }
+        base.Awake();
     }
 
-    // 스태미나 소모 (반칸씩)
-    public void ConsumeStamina()
+    public void InitializeUI(int staminaCount)
     {
-        // 마지막(오른쪽)부터 Full/Half 중 첫 칸 찾기
-        for (int i = staminaStates.Length - 1; i >= 0; i--)
+        // 스태미나 아이콘 초기화
+        for (int i = 0; i < staminaIcons.Length; i++)
         {
-            if (staminaStates[i] == StaminaState.Full)
+            if (i < staminaCount * 2) // 반칸 단위로 계산 (Full = 2 Half)
             {
-                staminaStates[i] = StaminaState.Half;
-                staminaIcons[i].sprite = halfSprite;
-                return;
+                staminaIcons[i].gameObject.SetActive(true);
+                staminaIcons[i].sprite = fullSprite;
             }
-            else if (staminaStates[i] == StaminaState.Half)
+            else
             {
-                staminaStates[i] = StaminaState.Empty;
-                staminaIcons[i].sprite = emptySprite;
-                
-                bool allEmpty = true;
-                for (int j = 0; j < staminaStates.Length; j++)
-                {
-                    if (staminaStates[j] != StaminaState.Empty)
-                    {
-                        allEmpty = false;
-                        break;
-                    }
-                }
-                if (allEmpty)
-                {
-                    Debug.Log("스태미나 고갈됐으니 집으로 돌아가삼");
-                }
-
-                return;
+                staminaIcons[i].gameObject.SetActive(false);
             }
         }
     }
 
-    // 스태미나 amount 칸(반칸 단위) 회복
-    public void RecoverStamina(int amount)
+    public void UpdateStaminaUI(StaminaState[] states)
     {
-        for (int a = 0; a < amount; a++)
+        for (int i = 0; i < staminaIcons.Length; i++)
         {
-            // 맨 왼쪽(0번)부터 Empty/Half 중 첫 칸 찾기
-            bool didRecover = false;
-            for (int i = 0; i < staminaStates.Length; i++)
+            switch (states[i])
             {
-                if (staminaStates[i] == StaminaState.Empty)
-                {
-                    staminaStates[i] = StaminaState.Half;
-                    staminaIcons[i].sprite = halfSprite;
-                    didRecover = true;
-                    break;
-                }
-                else if (staminaStates[i] == StaminaState.Half)
-                {
-                    staminaStates[i] = StaminaState.Full;
+                case StaminaState.Full:
                     staminaIcons[i].sprite = fullSprite;
-                    didRecover = true;
                     break;
-                }
-            }
-
-            if (!didRecover)
-            {
-                Debug.Log("스태미나 풀임");
-                break;
+                case StaminaState.Half:
+                    staminaIcons[i].sprite = halfSprite;
+                    break;
+                case StaminaState.Empty:
+                    staminaIcons[i].sprite = emptySprite;
+                    break;
             }
         }
     }
 
-    // 테스트용: 엔터키로 반칸 회복
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.Return))
-    //    {
-    //        RecoverStamina(1);
-    //    }
-    //}
+    public void ShakeUI(float duration = 0.2f, float magnitude = 2f)
+    {
+        StartCoroutine(ShakeCoroutine(duration, magnitude));
+    }
+
+    private IEnumerator ShakeCoroutine(float duration, float magnitude)
+    {
+        RectTransform rt = gameObject.GetComponent<RectTransform>();
+        Vector3 originalPos = rt.anchoredPosition;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float offsetX = Random.Range(-2f, 2f) * magnitude;
+            float offsetY = Random.Range(-2f, 2f) * magnitude;
+
+            rt.anchoredPosition = originalPos + new Vector3(offsetX, offsetY, 0);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        rt.anchoredPosition = originalPos;
+    }
 }

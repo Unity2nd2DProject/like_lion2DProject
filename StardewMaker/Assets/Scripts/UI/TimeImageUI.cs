@@ -1,24 +1,17 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class TimeImageUI : MonoBehaviour
+public class TimeImageUI : Singleton<TimeImageUI>
 {
-    public static TimeImageUI Instance;
+    //public static TimeImageUI Instance;
 
-    private Image timeImage;
+    public Image timeImage;
     public Sprite daySprite;
     public Sprite nightSprite;
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-
-        timeImage = GetComponent<Image>();
-
-        //SetDayImage();
+        base.Awake();
     }
 
     public void SetDayImage()

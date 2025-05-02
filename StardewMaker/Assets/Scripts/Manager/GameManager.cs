@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -26,6 +27,9 @@ public class GameManager : Singleton<GameManager>
     public GameMode currentMode;
 
     public string arrivalPointName { get; set; } // 씬 전환 시 캐릭터의 위치를 잡아주기 위함
+
+    public Dialog wantedDialog; // 딸이 원하는 스케줄이 있는 대화 임시 저장
+    public List<ScheduleType> actualScheuleType = new(); // 실제 진행할 스케줄
 
     protected override void Awake()
     {
@@ -62,7 +66,10 @@ public class GameManager : Singleton<GameManager>
 
         SceneManager.LoadScene(sceneName);
 
-        
         // todo 데이터 저장
+        if (sceneName.Contains("HomeScene"))
+        {
+            SaveManager.Instance.SaveFarm();
+        }
     }
 }

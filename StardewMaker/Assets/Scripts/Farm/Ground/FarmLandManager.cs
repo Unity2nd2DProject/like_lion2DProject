@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FarmLandManager : MonoBehaviour
+public class FarmLandManager : Singleton<FarmLandManager>
 {
-    public static FarmLandManager Instance;
     public GameObject farmlandPrefab;
 
     public Vector2Int topLeft;
@@ -11,14 +10,11 @@ public class FarmLandManager : MonoBehaviour
 
     private Dictionary<Vector2, FarmLand> farmLands = new Dictionary<Vector2, FarmLand>();
 
-    private void Awake()
+    protected override void Awake()
     {
-        if (Instance == null)
-        {
-            Instance = this;
-        }
+        base.Awake();
 
-        GenerateFarmLands();
+        //GenerateFarmLands();
     }
 
     public void GenerateFarmLands()
@@ -60,6 +56,41 @@ public class FarmLandManager : MonoBehaviour
         else
         {
             return null;
+        }
+    }
+
+    public List<SavedFarmLand> SaveFarmLands()
+    {
+        List<SavedFarmLand> list = new List<SavedFarmLand>();
+        foreach (var kvp in farmLands)
+        {
+            list.Add(new SavedFarmLand
+            {
+                position = kvp.Key,
+                landState = kvp.Value.landState
+            });
+        }
+        return list;
+    }
+
+    public void LoadFarmLands(List<SavedFarmLand> savedList)
+    {
+        foreach (var saved in savedList)
+        {
+            GameObject obj = Instantiate(farmlandPrefab, saved.position, Quaternion.identity);
+            FarmLand land = obj.GetComponent<FarmLand>();
+            land.landState = saved.landState;
+            farmLands[saved.position] = land;
+            farmLands[saved.position].UpdateTileSprite();
+        }
+    }
+
+    public void RegisterFarmLand(FarmLand land)
+    {
+        Vector2 pos = land.GetPosition();
+        if (!farmLands.ContainsKey(pos))
+        {
+            farmLands[pos] = land;
         }
     }
 }

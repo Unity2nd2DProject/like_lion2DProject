@@ -10,10 +10,6 @@ public class ShopManager : MonoBehaviour
     public List<ItemData> shopItems;
     public InventoryManager playerInventory;
 
-    [Header("Player Money")]
-    public int playerMoney;
-    public TextMeshProUGUI moneyText;  // Inspector에 드래그할 머니 표시용 UI
-
     private void Awake()
     {
         // 싱글톤 설정
@@ -34,16 +30,16 @@ public class ShopManager : MonoBehaviour
     // 머니가 바뀔 때마다 이 함수를 호출
     private void UpdateMoneyUI()
     {
-        if (moneyText != null)
+        if (InventoryManager.Instance.moneyText != null)
         {
-            moneyText.text = playerMoney.ToString("#,0");
+            InventoryManager.Instance.moneyText.text = InventoryManager.Instance.playerMoney.ToString("#,0");
         }
     }
 
     // 아이템을 구매할 수 있는지 확인
     public bool CanAfford(ItemData item, int qty)
     {
-        return playerMoney >= item.buyPrice * qty;
+        return InventoryManager.Instance.playerMoney >= item.buyPrice * qty;
     }
     
     // 아이템 구매 처리
@@ -65,7 +61,7 @@ public class ShopManager : MonoBehaviour
         }
 
         // 금액 차감
-        playerMoney -= item.buyPrice * qty;
+        InventoryManager.Instance.playerMoney -= item.buyPrice * qty;
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();
@@ -102,7 +98,7 @@ public class ShopManager : MonoBehaviour
         }
 
         playerInventory.RemoveItem(itemData, qty);
-        playerMoney += itemData.sellPrice * qty;
+        InventoryManager.Instance.playerMoney += itemData.sellPrice * qty;
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();

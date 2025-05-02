@@ -11,9 +11,11 @@ public class DialogController : MonoBehaviour
     private UserInputManager inputManager;
 
     // 메뉴 열기, 상점 열기 등 이벤트 전달
-    public static event Action<bool> OnButtonPanelRequested;
+    public static event Action<bool> OnNormalMenuRequested;
+    public static event Action<bool> OnScheduleMenuRequested;
     public static event Action OnShopRequested;
     public static event Action OnExitRequested;
+    public static event Action OnNextDayRequested;
 
     private DialogView dialogView; // UI 부분
 
@@ -25,6 +27,8 @@ public class DialogController : MonoBehaviour
     private bool isTextSkipEnabled = false; // 대사 빨리 감기 가능한지 판별
     private bool isSkipRequested = false; // 대사 빨리감기
     private bool isDialogEnd = true; // 대화가 끝났는지 판별
+
+    public StatType wantedConditionType; // 딸이 원하는 스케줄 타입
 
     void Awake()
     {
@@ -94,15 +98,6 @@ public class DialogController : MonoBehaviour
                     break;
 
                 case DialogType.MULTI: // Condition에 따른 멀티 대사 진행
-                    // 현재 currentDialog가 ConditionType을 가지고 있는지 체크. 안 쓸 듯
-                    // bool has = DialogTool.HasConditionType(currentDialog, StatType.VITALITY) ? true : false;
-                    // todo 또는 현재 currentDialog가 가지고 있는 ConditionType에 따라 다른 변수 넣어주기
-                    // Dictionary<ConditionType, int> conditionTypeValueDic = new();
-                    // conditionTypeValueDic[ConditionType.MOOD] = 8;
-                    // conditionTypeValueDic[ConditionType.VITALITY] = 5;
-                    // conditionTypeValueDic[ConditionType.HUNGER] = 5;
-                    // conditionTypeValueDic[ConditionType.TRUST] = 5;
-
                     int selectedNum = currentDialog.IsConditionMet(DaughterManager.Instance.GetStats()) ? (int)MultiOptionIdType.FIRST : (int)MultiOptionIdType.SECOND;
                     Dialog selectedDialog = DialogTool.dialogDic[currentDialog.optionIdList[selectedNum]];
                     nextDialogId = selectedDialog.id; // 다음 대사 id 저장
@@ -117,7 +112,7 @@ public class DialogController : MonoBehaviour
             }
 
             // target condition value 변경하기
-            currentDialog.SetTarget(DaughterManager.Instance.GetStats());
+            if (extType != ExtType.WILL) currentDialog.SetTarget(DaughterManager.Instance.GetStats());
 
             if (isDialogEnd) // 다음 대사가 없는 경우
             {
@@ -135,16 +130,30 @@ public class DialogController : MonoBehaviour
                         else dialogView.EnableNPCImage(false);
 
                         Debug.Log($"{TAG} ExtType.ACT");
-                        OnButtonPanelRequested?.Invoke(true);
+                        OnNormalMenuRequested?.Invoke(true);
                         break;
-                    case ExtType.EXIT: // 집에서 나가기
+                    case ExtType.EXIT: // 집에서 나가기 -> 스케줄 메뉴
                         Debug.Log($"{TAG} ExtType.EXIT");
-                        if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
+                        if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
                         // todo 상점에서 나가기
                         break;
                     case ExtType.SHOP: // 상점 열기
                         Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
                         OnShopRequested?.Invoke();
+                        break;
+                    case ExtType.WILL:
+                        GameManager.Instance.wantedDialog = currentDialog;
+                        Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedDialog.scheduleType}");
+                        OnNormalMenuRequested?.Invoke(true);
+                        break;
+                    case ExtType.SLEEP:
+                        Debug.Log($"{TAG} 잠자기 진행해야 함");
+                        FadeManager.Instance.FadeOut(() =>
+                        {
+                            TimeManager.Instance.AdvanceDay();
+                            FadeManager.Instance.FadeIn();
+                            OnNextDayRequested?.Invoke();
+                        });
                         break;
                 }
             }
@@ -183,7 +192,7 @@ public class DialogController : MonoBehaviour
         if (isDialogEnd) // 대사가 끝나있는 상태일때만 실행 가능
         {
             isDialogEnd = false;
-            OnButtonPanelRequested?.Invoke(false);
+            OnNormalMenuRequested?.Invoke(false);
             StartCoroutine(ConversationById(dialogId));
         }
     }
@@ -198,7 +207,7 @@ public class DialogController : MonoBehaviour
 
         ChangeCharacterName(currentDialog.GetName());
 
-        OnStartTextPrint(); // todo 대사 출력 시 효과음 내기
+        OnStartTextPrint();
         yield return TextTool.PrintTmpText(dialogView.dialogText, currentDialog.GetText(), () => isSkipRequested);
         OnStopTextPrint();
 
@@ -238,6 +247,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 시작
     private void OnStartTextPrint()
     {
+        SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
         selectedOptionNum = 0; // 선택된 옵션 초기화
         isNextDialogReady = false;
         isTextSkipEnabled = true;
@@ -248,6 +258,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 끝
     private void OnStopTextPrint()
     {
+        SoundManager.Instance.StopSfx();
         isNextDialogReady = true;
         isTextSkipEnabled = false;
         if (currentDialog.type != DialogType.CHOICE) // 옵션 선택 대사일 경우 NextDialogBtn 안나옴

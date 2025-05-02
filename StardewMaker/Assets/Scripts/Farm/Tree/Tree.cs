@@ -22,4 +22,13 @@ public class Tree : MonoBehaviour
         currentHits = 0;
         gameObject.SetActive(true);
     }
+
+    public int GetCurrentHits() => currentHits;
+
+    public void SetState(int hits, bool active)
+    {
+        currentHits = hits;
+        gameObject.SetActive(active);
+    }
+
 }

@@ -20,6 +20,8 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUIPrefab;
+    [SerializeField] private StatUI statUIPrefab;
+    [SerializeField] private Transform statUIParent;
     private StatUI statUIInstance;
 
 
@@ -65,6 +67,12 @@ public class UIManager : Singleton<UIManager>
             quickSlotUI.gameObject.transform.SetAsFirstSibling();
             quickSlotUI.InitializeQuickSlotUI();
         }
+    }
+
+    public void UpdateInventoryAndQuickSlot()
+    {
+        QuickSlotUI.GetComponent<QuickSlotUI>().UpdateQuickSlotUI();
+        InventoryUI.GetComponent<InventoryUI>().UpdateInventoryUI();
     }
 
     public void UpdateQuickSlotUI()
