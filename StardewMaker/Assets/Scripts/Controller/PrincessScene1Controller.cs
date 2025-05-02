@@ -120,6 +120,7 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void OnClickGiftButton()
     {
+        UIManager.Instance.ToggleGiftUI();
 
     }
 

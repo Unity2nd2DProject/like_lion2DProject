@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class CookingInventory : MonoBehaviour
+public class IngredientInventory : MonoBehaviour
 {
     InventoryManager inventoryManager;
 

@@ -20,13 +20,20 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUIPrefab;
+    private StatUI statUIInstance;
 
+
+    [Header("Cooking UI")]
     public GameObject cookingUIPrefab;
     [HideInInspector]
     public CookingUI cookingUI;
 
-    private StatUI statUIInstance;
-    
+    [Header("Gift UI")]
+    public GameObject giftUIPrefab;
+    [HideInInspector]
+    public GiftUI giftUI;
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -34,8 +41,7 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeStatUI(List<Stat> stats)
     {
-        Debug.Log("StatUI Initialized");
-        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>();
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
         statUIInstance.Initialize(stats);
         Debug.Log(statUIInstance);
@@ -111,7 +117,7 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeCookingUI()
     {
-        Canvas canvas = Canvas.FindAnyObjectByType<Canvas>();
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         cookingUI = canvas.GetComponentInChildren<CookingUI>();
         if (cookingUI == null)
         {
@@ -130,5 +136,28 @@ public class UIManager : Singleton<UIManager>
         cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
         cookingUI.transform.SetAsLastSibling();
     }
+
+    public void InitializeGiftUI()
+    {
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+        giftUI = canvas.GetComponentInChildren<GiftUI>();
+        if (giftUI == null)
+        {
+            giftUI = Instantiate(giftUIPrefab, canvas.transform).GetComponent<GiftUI>();
+            giftUI.gameObject.SetActive(false);
+        }
+    }
+
+    public void ToggleGiftUI()
+    {
+        if (giftUI == null)
+        {
+            InitializeGiftUI();
+        }
+        giftUI.gameObject.SetActive(!giftUI.gameObject.activeSelf);
+        giftUI.transform.SetAsLastSibling();
+    }
+
+
 }
 

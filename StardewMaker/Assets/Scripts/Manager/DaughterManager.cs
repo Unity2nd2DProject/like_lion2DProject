@@ -72,4 +72,15 @@ public class DaughterManager : Singleton<DaughterManager>
             }
         }
     }
+
+    public void AddStats(StatType statType, int value)
+    {
+        foreach (var i in stats)
+        {
+            if (i.statType == statType)
+            {
+                i.CurrentValue += value;
+            }
+        }
+    }
 }

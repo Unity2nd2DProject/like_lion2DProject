@@ -34,7 +34,7 @@ public class TooltipUI : MonoBehaviour
         {
             canvasGroup.blocksRaycasts = false;
         }
-
+        gameObject.transform.SetAsLastSibling(); // Ensure the tooltip is on top of other UI elements
         gameObject.SetActive(true);
 
         nameText.text = item.itemName;
