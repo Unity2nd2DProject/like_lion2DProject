@@ -5,24 +5,23 @@ public class LegendCrop : Crop
 
     public override void UpdateGrowth()
     {
-        int lastDay = TimeManager.Instance.LAST_DAY_OF_SEASON-1;
-        if (currentGrowthStage == 0)
+        if (currentGrowthStage <= 0)
         {
             sr.sprite = cropData.growthSprites[0];
         }
-        else if (currentGrowthStage > 0 && currentGrowthStage < lastDay)
+        else if (currentGrowthStage > 0 && currentGrowthStage <= 7) 
         {
             sr.sprite = cropData.growthSprites[1];
         }
-        else if (currentGrowthStage > lastDay && currentGrowthStage < lastDay * 2)
+        else if (currentGrowthStage > 7 && currentGrowthStage < 15) 
         {
             sr.sprite = cropData.growthSprites[2];
         }
-        else if (currentGrowthStage > lastDay * 2 && currentGrowthStage < lastDay * 3)
+        else if (currentGrowthStage >= 15 && currentGrowthStage < 20) 
         {
             sr.sprite = cropData.growthSprites[3];
         }
-        else
+        else if (currentGrowthStage >= 20 && IsHarvestable())
         {
             sr.sprite = cropData.growthSprites[4];
         }
@@ -30,6 +29,6 @@ public class LegendCrop : Crop
 
     public override bool IsHarvestable()
     {
-        return base.IsHarvestable(); // + 딸 스탯 조건 추가
+        return base.IsHarvestable(); // + 딸 스탯 조건 추가, 게임 일수 추가
     }
 }

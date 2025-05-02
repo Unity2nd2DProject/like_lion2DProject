@@ -13,7 +13,7 @@ public enum Season
 
 public class TimeManager : Singleton<TimeManager>
 {
-    public int LAST_DAY_OF_SEASON = 28;
+    public int LAST_DAY_OF_SEASON = 7;
     public int START_HOUR = 7;
 
     [Header("Time Settings")]
@@ -25,7 +25,7 @@ public class TimeManager : Singleton<TimeManager>
     [Header("Date Settings")]
     public int currentYear = 1;
     public Season currentSeason = Season.Spring;
-    public int currentDay = 1; // 1~28
+    public int currentDay = 1; // 1~7
     public int currentHour = 7; // AM 07:00 시작
     public int currentMinute = 0;
 

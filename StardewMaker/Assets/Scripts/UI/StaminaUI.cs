@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -55,5 +56,29 @@ public class StaminaUI : Singleton<StaminaUI>
                     break;
             }
         }
+    }
+
+    public void ShakeUI(float duration = 0.2f, float magnitude = 2f)
+    {
+        StartCoroutine(ShakeCoroutine(duration, magnitude));
+    }
+
+    private IEnumerator ShakeCoroutine(float duration, float magnitude)
+    {
+        RectTransform rt = gameObject.GetComponent<RectTransform>();
+        Vector3 originalPos = rt.anchoredPosition;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            float offsetX = Random.Range(-2f, 2f) * magnitude;
+            float offsetY = Random.Range(-2f, 2f) * magnitude;
+
+            rt.anchoredPosition = originalPos + new Vector3(offsetX, offsetY, 0);
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        rt.anchoredPosition = originalPos;
     }
 }

@@ -45,6 +45,8 @@ public class StaminaManager : Singleton<StaminaManager>
                 return;
             }
         }
+
+        StaminaUI.Instance.ShakeUI();
     }
 
     // 스태미나 amount 칸(반칸 단위) 회복
@@ -86,16 +88,17 @@ public class StaminaManager : Singleton<StaminaManager>
     }
 
     // 테스트용 입력
-    //private void Update()
-    //{
-    //    if (Input.GetKeyDown(KeyCode.LeftArrow))
-    //    {
-    //        ConsumeStamina();
-    //    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            ConsumeStamina();
+            //StaminaUI.Instance.ShakeUI();
+        }
 
-    //    if (Input.GetKeyDown(KeyCode.RightArrow))
-    //    {
-    //        RecoverStamina(1);
-    //    }
-    //}
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            RecoverStamina(1);
+        }
+    }
 }
