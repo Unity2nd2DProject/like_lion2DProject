@@ -87,18 +87,18 @@ public class StaminaManager : Singleton<StaminaManager>
         StaminaUI.Instance.UpdateStaminaUI(staminaStates);
     }
 
-    // 테스트용 입력
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            ConsumeStamina();
-            //StaminaUI.Instance.ShakeUI();
-        }
+    //// 테스트용 입력
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.LeftArrow))
+    //    {
+    //        ConsumeStamina();
+    //        //StaminaUI.Instance.ShakeUI();
+    //    }
 
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            RecoverStamina(1);
-        }
-    }
+    //    if (Input.GetKeyDown(KeyCode.RightArrow))
+    //    {
+    //        RecoverStamina(1);
+    //    }
+    //}
 }
