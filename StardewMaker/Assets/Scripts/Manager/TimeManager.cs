@@ -127,6 +127,9 @@ public class TimeManager : Singleton<TimeManager>
         }
 
         OnNextDay();
+
+        UpdateUI(); // 업데이트 한 번 해 줌
+        CheckCurrentScene(); // 홈씬이면 시간 멈춤
     }
 
     public void OnNextDay()

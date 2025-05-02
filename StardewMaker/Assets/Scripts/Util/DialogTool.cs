@@ -21,6 +21,7 @@ public enum DialogDataType
     TARGET_TYPE,
     TARGET_OPERATOR,
     TARGET_VALUE,
+    SCHEDULE_TYPE,
     KOREAN,
     ENGLISH
 }
@@ -57,7 +58,14 @@ public enum SituationType
     MORNING,
     EVENING,
     EVENT,
-    BOOK
+    BOOK,
+    WANT_TO_EAT,
+    WANT_TO_DO,
+    WANT_TO_BE,
+    MEMORY,
+    SWEET,
+    TODAY,
+    SLEEP
 }
 
 public enum ConditionType
@@ -66,7 +74,8 @@ public enum ConditionType
     MOOD,
     VITALITY,
     HUNGER,
-    TRUST
+    TRUST,
+    TIME
 }
 
 public enum EmotionType
@@ -85,25 +94,44 @@ public enum ExtType
     NONE,
     ACT,
     EXIT,
-    SHOP
+    SHOP,
+    WILL,
+    SLEEP
+}
+
+public enum ScheduleType
+{
+    NONE,
+    EXERCISE,
+    HOME_WORK,
+    PLAY,
+    READ_BOOK,
+    DRAWING,
+    COOK,
+    MUSIC,
+    DOLL
 }
 
 public class Dialog
 {
+    private string TAG = "[Dialog]";
+
+    public static Action<string> OnStatChangeRequested;
     public int id;
     public DialogType type;
     public NameType nameType;
     public SituationType situationType;
-    public StatType conditionType;
+    public ConditionType conditionType;
     public string conditionOperator;
     public int conditionValue;
     public EmotionType emotion;
     public int nextId;
     public List<int> optionIdList;
     public ExtType ext1;
-    public StatType targetType;
+    public ConditionType targetType;
     public string targetOperator;
     public int targetValue;
+    public ScheduleType scheduleType;
     public List<string> korean;
     public string english;
 
@@ -130,10 +158,33 @@ public class Dialog
 
     public bool IsConditionMet(List<Stat> stats)
     {
-        if (conditionType == StatType.NONE) return true;
+        if (conditionType == ConditionType.NONE) return true;
         foreach (var i in stats)
         {
-            if (i.statType == conditionType)
+            if (ConditionType.TIME == conditionType)
+            {
+                // Debug.Log($"{TAG} currentHour {TimeManager.Instance.currentHour}");
+                // Debug.Log($"{TAG} conditionValue {conditionValue}");
+                switch (conditionOperator)
+                {
+                    case "<":
+                        return TimeManager.Instance.currentHour < conditionValue;
+                    case "<=":
+                        return TimeManager.Instance.currentHour <= conditionValue;
+                    case "==":
+                        return TimeManager.Instance.currentHour == conditionValue;
+                    case ">=":
+                        return TimeManager.Instance.currentHour >= conditionValue;
+                    case ">":
+                        return TimeManager.Instance.currentHour > conditionValue;
+                    case "!=":
+                        return TimeManager.Instance.currentHour != conditionValue;
+                    default:
+                        return false;
+                }
+            }
+
+            if ((ConditionType)i.statType == conditionType)
             {
                 switch (conditionOperator)
                 {
@@ -198,7 +249,7 @@ public class Dialog
     {
         foreach (var i in stats)
         {
-            if (i.statType == targetType)
+            if ((ConditionType)i.statType == targetType)
             {
                 switch (targetOperator)
                 {
@@ -212,6 +263,8 @@ public class Dialog
                         i.CurrentValue = targetValue;
                         break;
                 }
+                Debug.Log($"{TAG} {targetType} {targetOperator} {targetValue}");
+                OnStatChangeRequested?.Invoke($"{targetType} {targetOperator} {targetValue}");
             }
         }
     }
@@ -262,6 +315,7 @@ public static class DialogTool
         { DialogDataType.TARGET_TYPE, "TargetType" },
         { DialogDataType.TARGET_OPERATOR, "TargetOperator" },
         { DialogDataType.TARGET_VALUE, "TargetValue" },
+        { DialogDataType.SCHEDULE_TYPE, "ScheduleType" },
         { DialogDataType.KOREAN, "Korean" },
         { DialogDataType.ENGLISH, "English" }
     };
@@ -288,7 +342,7 @@ public static class DialogTool
         }
     }
 
-    public static List<Dialog> GetDialogListByCondition(StatType conditionType, List<Stat> stats)
+    public static List<Dialog> GetDialogListByCondition(ConditionType conditionType, List<Stat> stats)
     {
         List<Dialog> dialogByConditionList = princessByDialogTypeDic[DialogType.CONDITION];
         List<Dialog> dialogList = new();
@@ -341,7 +395,7 @@ public static class DialogTool
         return dialogList;
     }
 
-    public static bool HasConditionType(Dialog dialog, StatType conditionType)
+    public static bool HasConditionType(Dialog dialog, ConditionType conditionType)
     {
         if (dialog.conditionType == conditionType) return true;
         else return false;
@@ -382,22 +436,24 @@ public static class DialogTool
                 string targetTypeStr = rows[dialogDataIndexDic[DialogDataType.TARGET_TYPE]];
                 string targetOperatorStr = rows[dialogDataIndexDic[DialogDataType.TARGET_OPERATOR]];
                 string targetValueStr = rows[dialogDataIndexDic[DialogDataType.TARGET_VALUE]];
+                string scheduleTypeStr = rows[dialogDataIndexDic[DialogDataType.SCHEDULE_TYPE]];
                 List<string> korean = rows[dialogDataIndexDic[DialogDataType.KOREAN]].Split("§").ToList();
                 string english = rows[dialogDataIndexDic[DialogDataType.ENGLISH]];
 
                 DialogType type = Enum.TryParse(typeStr, out DialogType a) ? a : DialogType.NONE;
                 NameType nameType = Enum.TryParse(nameStr, out NameType b) ? b : NameType.NONE;
                 SituationType situationType = Enum.TryParse(situationStr, out SituationType c) ? c : SituationType.NONE;
-                StatType conditionType = Enum.TryParse(conditionTypeStr, out StatType d) ? d : StatType.NONE;
+                ConditionType conditionType = Enum.TryParse(conditionTypeStr, out ConditionType d) ? d : ConditionType.NONE;
                 string conditionOperator = conditionOperatorStr == "`==" ? "==" : conditionOperatorStr;
                 int conditionValue = int.TryParse(conditionValueStr, out int e) ? e : 0;
                 EmotionType emotion = Enum.TryParse(emotionStr, out EmotionType f) ? f : EmotionType.NONE;
                 int nextId = int.TryParse(nextIdStr, out int g) ? lineNum + g : -1;
                 List<int> optionIdList = optionIdListStr.Split(',').Select(s => int.TryParse(s.Trim(), out int h) ? lineNum + h : -1).ToList();
                 ExtType ext1 = Enum.TryParse(ext1Str, out ExtType i) ? i : ExtType.NONE;
-                StatType targetType = Enum.TryParse(targetTypeStr, out StatType j) ? j : StatType.NONE;
+                ConditionType targetType = Enum.TryParse(targetTypeStr, out ConditionType j) ? j : ConditionType.NONE;
                 string targetOperator = targetOperatorStr == "`=" ? "=" : targetOperatorStr;
                 int targetValue = int.TryParse(targetValueStr, out int k) ? k : 0;
+                ScheduleType scheduleType = Enum.TryParse(scheduleTypeStr, out ScheduleType l) ? l : ScheduleType.NONE;
 
                 Dialog dialog = new()
                 {
@@ -415,6 +471,7 @@ public static class DialogTool
                     targetType = targetType,
                     targetOperator = targetOperator,
                     targetValue = targetValue,
+                    scheduleType = scheduleType,
                     korean = korean,
                     english = english
                 };
