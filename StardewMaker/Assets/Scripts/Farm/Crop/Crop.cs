@@ -1,12 +1,13 @@
+using System;
 using UnityEngine;
 
 public class Crop : MonoBehaviour
 {
     public CropData cropData;
-    private int currentGrowthStage = 0;
+    public int currentGrowthStage = 0;
     public bool isWatered = false;
 
-    private SpriteRenderer sr;
+    protected SpriteRenderer sr;
 
     private void Awake()
     {
@@ -45,12 +46,12 @@ public class Crop : MonoBehaviour
         isWatered = false;
     }
 
-    private void UpdateGrowth()
+    public virtual void UpdateGrowth()
     {
         sr.sprite = cropData.growthSprites[currentGrowthStage];
     }
 
-    public bool IsHarvestable()
+    public virtual bool IsHarvestable()
     {
         return currentGrowthStage == cropData.maxGrowthStage;
     }

@@ -404,14 +404,14 @@
                 "x": -0.5,
                 "y": -1.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
                 "x": 0.5,
                 "y": -1.5
             },
-            "landState": 1
+            "landState": 2
         },
         {
             "position": {
@@ -488,7 +488,7 @@
                 "x": 1.5,
                 "y": -2.5
             },
-            "landState": 1
+            "landState": 2
         },
         {
             "position": {
@@ -708,8 +708,8 @@
                 "y": -1.5
             },
             "cropId": 4,
-            "currentGrowthStage": 1,
-            "isWatered": false
+            "currentGrowthStage": 0,
+            "isWatered": true
         },
         {
             "position": {
@@ -718,7 +718,7 @@
             },
             "cropId": 1,
             "currentGrowthStage": 2,
-            "isWatered": false
+            "isWatered": true
         },
         {
             "position": {
@@ -735,8 +735,8 @@
                 "y": -2.5
             },
             "cropId": 1,
-            "currentGrowthStage": 1,
-            "isWatered": false
+            "currentGrowthStage": 0,
+            "isWatered": true
         }
     ],
     "savedTrees": [
@@ -961,8 +961,8 @@
                 "x": 4.090000152587891,
                 "y": 1.7300000190734864
             },
-            "currentHits": 0,
-            "isActive": true
+            "currentHits": 3,
+            "isActive": false
         },
         {
             "position": {

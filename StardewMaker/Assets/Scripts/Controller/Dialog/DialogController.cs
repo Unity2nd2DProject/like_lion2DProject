@@ -15,6 +15,7 @@ public class DialogController : MonoBehaviour
     public static event Action<bool> OnScheduleMenuRequested;
     public static event Action OnShopRequested;
     public static event Action OnExitRequested;
+    public static event Action OnNextDayRequested;
 
     private DialogView dialogView; // UI 부분
 
@@ -97,15 +98,6 @@ public class DialogController : MonoBehaviour
                     break;
 
                 case DialogType.MULTI: // Condition에 따른 멀티 대사 진행
-                    // 현재 currentDialog가 ConditionType을 가지고 있는지 체크. 안 쓸 듯
-                    // bool has = DialogTool.HasConditionType(currentDialog, StatType.VITALITY) ? true : false;
-                    // todo 또는 현재 currentDialog가 가지고 있는 ConditionType에 따라 다른 변수 넣어주기
-                    // Dictionary<ConditionType, int> conditionTypeValueDic = new();
-                    // conditionTypeValueDic[ConditionType.MOOD] = 8;
-                    // conditionTypeValueDic[ConditionType.VITALITY] = 5;
-                    // conditionTypeValueDic[ConditionType.HUNGER] = 5;
-                    // conditionTypeValueDic[ConditionType.TRUST] = 5;
-
                     int selectedNum = currentDialog.IsConditionMet(DaughterManager.Instance.GetStats()) ? (int)MultiOptionIdType.FIRST : (int)MultiOptionIdType.SECOND;
                     Dialog selectedDialog = DialogTool.dialogDic[currentDialog.optionIdList[selectedNum]];
                     nextDialogId = selectedDialog.id; // 다음 대사 id 저장
@@ -150,9 +142,18 @@ public class DialogController : MonoBehaviour
                         OnShopRequested?.Invoke();
                         break;
                     case ExtType.WILL:
-                        GameManager.Instance.wantedScheduleType = currentDialog.scheduleType;
-                        Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedScheduleType}");
+                        GameManager.Instance.wantedDialog = currentDialog;
+                        Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedDialog.scheduleType}");
                         OnNormalMenuRequested?.Invoke(true);
+                        break;
+                    case ExtType.SLEEP:
+                        Debug.Log($"{TAG} 잠자기 진행해야 함");
+                        FadeManager.Instance.FadeOut(() =>
+                        {
+                            TimeManager.Instance.AdvanceDay();
+                            FadeManager.Instance.FadeIn();
+                            OnNextDayRequested?.Invoke();
+                        });
                         break;
                 }
             }
