@@ -29673,10 +29673,10 @@ MonoBehaviour:
   buySlotParent: {fileID: 1621935350}
   slotPrefab: {fileID: 5502198387185177735, guid: d631c97df7c83714b893f95be65cf567, type: 3}
   scrollRectTransform: {fileID: 1621935350}
-  shopManager: {fileID: 0}
+  shopManager: {fileID: 604816956}
   sellPopup: {fileID: 1529576478}
-  itemInfoPopup: {fileID: 0}
-  inventoryParent: {fileID: 0}
+  itemInfoPopup: {fileID: 1345808281}
+  inventoryParent: {fileID: 1268573626}
   scrollViewport: {fileID: 1316936962}
 --- !u!114 &634890158
 MonoBehaviour:
@@ -78965,8 +78965,8 @@ GameObject:
   - component: {fileID: 1476247936}
   - component: {fileID: 1476247938}
   - component: {fileID: 1476247934}
-  - component: {fileID: 1476247935}
   - component: {fileID: 1476247939}
+  - component: {fileID: 1476247935}
   m_Layer: 0
   m_Name: NPC
   m_TagString: NPC
@@ -79023,7 +79023,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5632f99f72a94694b8de65e1ffedff70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shopUI: {fileID: 0}
+  shopUI: {fileID: 634890155}
   inventoryUI: {fileID: 1268573627}
 --- !u!212 &1476247936
 SpriteRenderer:
