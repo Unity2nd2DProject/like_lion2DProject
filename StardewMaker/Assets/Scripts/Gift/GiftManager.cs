@@ -5,6 +5,11 @@ public class GiftManager : Singleton<GiftManager>
     protected override void Awake()
     {
         base.Awake();
+       
+    }
+    private void Start()
+    {
+        UIManager.Instance.InitializeGiftUI();
     }
 
     public void Gift(ItemData giftItem)

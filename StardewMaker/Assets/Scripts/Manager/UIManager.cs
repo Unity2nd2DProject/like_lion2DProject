@@ -145,6 +145,8 @@ public class UIManager : Singleton<UIManager>
         {
             giftUI = Instantiate(giftUIPrefab, canvas.transform).GetComponent<GiftUI>();
             giftUI.gameObject.SetActive(false);
+            giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().InitializeGiftInventoryUI(); // 선물 인벤토리 UI 초기화
+            giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().UpdateGiftInventory();
         }
     }
 

@@ -5,15 +5,13 @@ using System;
 public class GiftInventoryUI : MonoBehaviour
 {
     public GiftSlotUI[] giftSlots; // 선물 슬롯 UI 배열
-    GiftUI giftUI; // 선물 UI 스크립트
 
     private void Start()
     {
     }
 
-    public void InitializeGiftInventoryUI(GiftUI giftUI)
+    public void InitializeGiftInventoryUI()
     {
-        this.giftUI = giftUI; // 선물 UI 스크립트 초기화
         UpdateGiftInventory(); // 선물 인벤토리 업데이트
     }
 
@@ -31,7 +29,7 @@ public class GiftInventoryUI : MonoBehaviour
             else
             {
                 giftSlots[giftInventoryIndex].SetSlot(inventoryManager.slots[i].itemData, inventoryManager.slots[i].quantity);
-                giftSlots[giftInventoryIndex].SetButton(giftUI);
+                giftSlots[giftInventoryIndex].SetButton(UIManager.Instance.giftUI); // 선물 UI에 버튼 설정
                 giftInventoryIndex++;
             }
         }
