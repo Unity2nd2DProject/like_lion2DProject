@@ -42,13 +42,13 @@ public class GiftSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     {
         if (itemData != null)
         {
-            TooltipUI.Instance.ShowTooltip(itemData, transform.position);
+            UIManager.Instance.ShowTooltip(itemData, transform.position);
         }
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        TooltipUI.Instance.HideTooltip();
+        UIManager.Instance.HideTooltip();
     }
 
     public void SetButton(GiftUI giftUI)

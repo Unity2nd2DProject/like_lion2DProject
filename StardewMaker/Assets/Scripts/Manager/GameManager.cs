@@ -45,21 +45,11 @@ public class GameManager : Singleton<GameManager>
 
     public void changeScene(string sceneName)
     {
-        if(sceneName == "TownScene")
+        if(sceneName.Contains("Town"))
         {
             currentMode = GameMode.TOWN;
         }
-        else if (sceneName == "HomeScene")
-        {
-            currentMode = GameMode.HOME;
-        }
-
-        // 테스트용
-        if(sceneName == "TownHyunkyu")
-        {
-            currentMode = GameMode.TOWN;
-        }
-        else if (sceneName == "HomeHyunkyu")
+        else if (sceneName.Contains("Home"))
         {
             currentMode = GameMode.HOME;
         }

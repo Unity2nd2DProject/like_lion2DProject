@@ -45,11 +45,7 @@ public class InventoryUI : MonoBehaviour
     {
         UpdateInventoryUI();
         gameObject.SetActive(!gameObject.activeSelf);
-
-        if (!gameObject.activeSelf && TooltipUI.Instance != null)
-        {
-            TooltipUI.Instance.gameObject.SetActive(false);
-        }
+        UIManager.Instance.HideTooltip();
     }
 
     public void ShowInventory()
@@ -60,11 +56,7 @@ public class InventoryUI : MonoBehaviour
     public void HideInventory()
     {
         gameObject.SetActive(false);
-
-        if (TooltipUI.Instance != null)
-        {
-            TooltipUI.Instance.gameObject.SetActive(false);
-        }
+        UIManager.Instance.HideTooltip();
     }
 
     public ItemData GetSelectedItem()

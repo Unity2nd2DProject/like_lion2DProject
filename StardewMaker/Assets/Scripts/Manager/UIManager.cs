@@ -16,12 +16,12 @@ public class UIManager : Singleton<UIManager>
 
 
     [Header("Popup Message")]
-    public GameObject PopupMessagePrefab;
+    public GameObject popupMessagePrefab;
+    public GameObject toolTipPrefab;
+    private TooltipUI toolTipInstance;
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUIPrefab;
-    [SerializeField] private StatUI statUI;
-    [SerializeField] private Transform statUIParent;
     private StatUI statUIInstance;
 
 
@@ -34,6 +34,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject giftUIPrefab;
     [HideInInspector]
     public GiftUI giftUI;
+
+
 
 
     protected override void Awake()
@@ -52,15 +54,15 @@ public class UIManager : Singleton<UIManager>
     public void InitializeInventoryAndQuickSlot()
     {
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // 씬에서 Canvas를 찾음
-        inventoryUI = canvas.GetComponentInChildren<InventoryUI>(); // 씬에서 InventoryUI를 찾음
+        inventoryUI = canvas.GetComponentInChildren<InventoryUI>();
         if (inventoryUI == null) // 인벤토리 UI가 null이면 새로 생성
         {
             inventoryUI = Instantiate(inventoryUIPrefab, canvas.transform).GetComponent<InventoryUI>();
             inventoryUI.gameObject.transform.SetAsFirstSibling();
-            inventoryUI.GetComponent<InventoryUI>().InitializeInventoryUI();
+            inventoryUI.InitializeInventoryUI();
         }
 
-        quickSlotUI = canvas.GetComponentInChildren<QuickSlotUI>(); // 씬에서 QuickSlotUI를 찾음
+        quickSlotUI = canvas.GetComponentInChildren<QuickSlotUI>();
         if (quickSlotUI == null) // 퀵슬롯 UI가 null이면 새로 생성
         {
             quickSlotUI = Instantiate(quickSlotUIPrefab, canvas.transform).GetComponent<QuickSlotUI>();
@@ -92,7 +94,7 @@ public class UIManager : Singleton<UIManager>
             position = Input.mousePosition;
         }
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
-        GameObject popup = Instantiate(PopupMessagePrefab, canvas.transform);
+        GameObject popup = Instantiate(popupMessagePrefab, canvas.transform);
         popup.transform.position = position;    
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
     }
@@ -166,6 +168,24 @@ public class UIManager : Singleton<UIManager>
         }
         giftUI.gameObject.SetActive(!giftUI.gameObject.activeSelf);
         giftUI.transform.SetAsLastSibling();
+    }
+
+    public void ShowTooltip(ItemData itemdata, Vector3 position)
+    {
+        if(toolTipInstance == null)
+        {
+            toolTipInstance = Instantiate(toolTipPrefab, GameObject.FindGameObjectWithTag("MainCanvas").transform).GetComponent<TooltipUI>();
+        }
+        toolTipInstance.ShowTooltip(itemdata, position);
+        toolTipInstance.gameObject.SetActive(true);
+    }
+    public void HideTooltip()
+    {
+        if (toolTipInstance != null)
+        {
+            toolTipInstance.HideTooltip();
+            toolTipInstance.gameObject.SetActive(false);
+        }
     }
 
 

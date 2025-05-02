@@ -1,31 +1,11 @@
 using TMPro;
 using UnityEngine;
 
-public class TooltipUI : Singleton<TooltipUI>
+public class TooltipUI : MonoBehaviour
 {
-    //public static TooltipUI Instance;
-
     CanvasGroup canvasGroup;
     public TextMeshProUGUI nameText;
     public TextMeshProUGUI descriptionText;
-
-    private void Awake()
-    {
-        canvasGroup = gameObject.GetComponent<CanvasGroup>();
-
-        HideTooltip();
-    }
-
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-    //    canvasGroup = gameObject.GetComponent<CanvasGroup>();
-
-    //    HideTooltip();
-    //}
 
     public void ShowTooltip(ItemData item, Vector3 mousePosition)
     {
@@ -33,6 +13,7 @@ public class TooltipUI : Singleton<TooltipUI>
         {
             canvasGroup.blocksRaycasts = false;
         }
+        gameObject.transform.SetParent(GameObject.FindGameObjectWithTag("MainCanvas").transform);
         gameObject.transform.SetAsLastSibling(); // Ensure the tooltip is on top of other UI elements
         gameObject.SetActive(true);
 
