@@ -46,10 +46,10 @@ public class TimeManager : Singleton<TimeManager>
         if (currentScene.name.Contains("HomeScene")) PauseTime();
     }
 
-    //private void Start()
-    //{
-    //    UpdateUI();
-    //}
+    private void Start()
+    {
+        SaveManager.Instance.LoadTime();
+    }
 
     private void Update()
     {
