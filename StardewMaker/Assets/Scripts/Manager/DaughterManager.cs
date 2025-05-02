@@ -13,10 +13,18 @@ public class DaughterManager : Singleton<DaughterManager>
     [SerializeField] private Stat hungerStat;
     [SerializeField] private Stat trustStat;
 
+    [SerializeField] private Stat physicalStat;
+    [SerializeField] private Stat musicStat;
+    [SerializeField] private Stat artStat;
+    [SerializeField] private Stat socialStat;
+    [SerializeField] private Stat academicStat;
+    [SerializeField] private Stat domesticStat;
+
 
     protected override void Awake()
     {
         base.Awake();
+        if (!isValid) return;
 
         Initialize();
     }
@@ -28,12 +36,26 @@ public class DaughterManager : Singleton<DaughterManager>
         hungerStat.Initialize(StatType.HUNGER, 100, 80);
         trustStat.Initialize(StatType.TRUST, 100, 80);
 
+        physicalStat.Initialize(StatType.PYSICAL, 250, 0);
+        musicStat.Initialize(StatType.MUSIC, 250, 0);
+        artStat.Initialize(StatType.ART, 250, 0);
+        socialStat.Initialize(StatType.SOCIAL, 250, 0);
+        academicStat.Initialize(StatType.ACADEMIC, 250, 0);
+        domesticStat.Initialize(StatType.DOMESTIC, 250, 0);
+
         stats.Add(moodStat);
         stats.Add(vitalityStat);
         stats.Add(hungerStat);
         stats.Add(trustStat);
 
-        // UIManager.Instance.InitializeStatUI(stats);
+        stats.Add(physicalStat);
+        stats.Add(musicStat);
+        stats.Add(artStat);
+        stats.Add(socialStat);
+        stats.Add(academicStat);
+        stats.Add(domesticStat);
+
+        UIManager.Instance.InitializeStatUI(stats);
     }
 
     public List<Stat> GetStats()
@@ -48,6 +70,17 @@ public class DaughterManager : Singleton<DaughterManager>
             if (i.statType == statType)
             {
                 i.CurrentValue = value;
+            }
+        }
+    }
+
+    public void AddStats(StatType statType, int value)
+    {
+        foreach (var i in stats)
+        {
+            if (i.statType == statType)
+            {
+                i.CurrentValue += value;
             }
         }
     }

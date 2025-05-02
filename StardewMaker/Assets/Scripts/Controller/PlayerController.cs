@@ -169,7 +169,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
-            UIManager.Instance.InventoryUI.GetComponent<InventoryUI>().ToggleInventory();
+            UIManager.Instance.inventoryUI.ToggleInventory();
         }
     }
 

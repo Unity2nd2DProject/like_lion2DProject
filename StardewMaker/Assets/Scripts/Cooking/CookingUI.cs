@@ -8,7 +8,7 @@ public class CookingUI : MonoBehaviour
     public GameObject recipeBlockPrefab; // 레시피 블록 프리팹
 
     public RecipeInfoUI recipeInfoUI; // 레시피 정보 UI
-    public CookingInventory cookingInventory; // 요리 인벤토리 UI
+    public IngredientInventory cookingInventory; // 요리 인벤토리 UI
 
     public void AddRecipe(Recipe recipe)
     {

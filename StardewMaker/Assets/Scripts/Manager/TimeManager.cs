@@ -32,6 +32,7 @@ public class TimeManager : Singleton<TimeManager>
     protected override void Awake()
     {
         base.Awake();
+        if (!isValid) return; // 없어질 게임오브젝트면 아래 명령들 실행 안 함
 
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
@@ -46,10 +47,10 @@ public class TimeManager : Singleton<TimeManager>
         if (currentScene.name.Contains("HomeScene")) PauseTime();
     }
 
-    //private void Start()
-    //{
-    //    UpdateUI();
-    //}
+    private void Start()
+    {
+        SaveManager.Instance.LoadTime();
+    }
 
     private void Update()
     {

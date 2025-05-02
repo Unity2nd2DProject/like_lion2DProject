@@ -59,6 +59,7 @@ public enum SituationType
     EVENING,
     EVENT,
     BOOK,
+    COOK,
     WANT_TO_EAT,
     WANT_TO_DO,
     WANT_TO_BE,

@@ -56,6 +56,7 @@ public class InventoryManager : Singleton<InventoryManager>
                 {
                     inventorySlot.quantity += amount; // 수량 증가
                     UIManager.Instance.UpdateInventoryUI();
+                    UIManager.Instance.UpdateQuickSlotUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -66,6 +67,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
                     UIManager.Instance.UpdateInventoryUI();
+                    UIManager.Instance.UpdateQuickSlotUI();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -79,11 +81,13 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.itemData = newItem; // 아이템 할당
                     inventorySlot.quantity = amount; // 수량 설정
                     UIManager.Instance.UpdateInventoryUI();
+                    UIManager.Instance.UpdateQuickSlotUI();
                     return true; // 아이템 추가 완료
                 }
             }
         }
         UIManager.Instance.UpdateInventoryUI();
+        UIManager.Instance.UpdateQuickSlotUI();
         return false; // 슬롯이 부족하여 아이템 추가 실패
     }
 

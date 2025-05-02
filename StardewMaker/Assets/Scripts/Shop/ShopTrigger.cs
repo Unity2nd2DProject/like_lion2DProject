@@ -4,7 +4,6 @@ public class ShopTrigger : MonoBehaviour
 {
     [Header("UI References")]
     public GameObject shopUI;   // ShopUI 루트 오브젝트
-    public GameObject inventoryUI;  // InventoryUI 루트 오브젝트
 
     private bool isPlayerNearby = false;
 
@@ -22,9 +21,12 @@ public class ShopTrigger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             bool isActive = !shopUI.activeSelf;
+            
+            shopUI.transform.SetAsFirstSibling(); // 상점 UI를 최상위로 이동
 
             shopUI.SetActive(isActive);
-            inventoryUI.SetActive(isActive);
+            UIManager.Instance.UpdateInventoryUI(); // 활성화 전 인벤토리 UI 업데이트
+            UIManager.Instance.inventoryUI.gameObject.SetActive(isActive); // 인벤토리 UI 활성화
 
             Time.timeScale = isActive ? 0f : 1f; // UI 열릴 때 게임 일시 정지
         }
@@ -38,7 +40,7 @@ public class ShopTrigger : MonoBehaviour
             if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
             {
                 ShopUI.Instance.Close();
-                inventoryUI.SetActive(false);
+                UIManager.Instance.inventoryUI.gameObject.SetActive(false);
                 Time.timeScale = 1f;
             }
         }

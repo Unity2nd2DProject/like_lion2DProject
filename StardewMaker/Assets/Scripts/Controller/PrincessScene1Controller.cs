@@ -412,4 +412,21 @@ public class PrincessScene1Controller : MonoBehaviour
         // npcDialog.currentDialogId = 103;
         dialogController.InitDialog(npcDialog);
     }
+
+
+    public void OnClickCookButton()
+    {
+        // List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.COOK, DaughterManager.Instance.GetStats());
+        // npcDialog.currentDialogId = cookDialogList[Random.Range(0, cookDialogList.Count)].id;
+        // dialogController.InitDialog(npcDialog);
+        UIManager.Instance.ToggleCookingUI();
+    }
+
+    public void OnClickGiftButton()
+    {
+        UIManager.Instance.ToggleGiftUI();
+
+    }
+
+
 }

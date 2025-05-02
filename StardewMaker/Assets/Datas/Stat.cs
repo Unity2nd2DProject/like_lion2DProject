@@ -7,7 +7,15 @@ public enum StatType
     MOOD,
     VITALITY,
     HUNGER,
-    TRUST
+    TRUST,
+
+    PYSICAL,
+    MUSIC,
+    ART,
+    SOCIAL,
+    ACADEMIC,
+    DOMESTIC,
+
 }
 
 public static class StatTypeExtensions
@@ -24,6 +32,18 @@ public static class StatTypeExtensions
                 return "배고픔";
             case StatType.TRUST:
                 return "신뢰도";
+            case StatType.PYSICAL:
+                return "운동";
+            case StatType.MUSIC:
+                return "음악";
+            case StatType.ART:
+                return "미술";
+            case StatType.SOCIAL:
+                return "사교";
+            case StatType.ACADEMIC:
+                return "학문";
+            case StatType.DOMESTIC:
+                return "생활";
             default:
                 return statType.ToString();
         }
