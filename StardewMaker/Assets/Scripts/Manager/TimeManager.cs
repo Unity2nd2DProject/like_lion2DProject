@@ -13,7 +13,6 @@ public enum Season
 
 public class TimeManager : Singleton<TimeManager>
 {
-    //public static TimeManager Instance;
     public int LAST_DAY_OF_SEASON = 28;
     public int START_HOUR = 7;
 
@@ -29,15 +28,6 @@ public class TimeManager : Singleton<TimeManager>
     public int currentDay = 1; // 1~28
     public int currentHour = 7; // AM 07:00 시작
     public int currentMinute = 0;
-
-    [Header("Lighting Settings")]
-    public new Light2D light; // Directional Light 연결
-    private Color morningColor = new Color(1f, 1f, 1f, 1f); // 아침
-    private Color sunsetColor = new Color(1f, 0.7f, 0.5f, 1f);  // 노을
-    private Color nightColor = new Color(0.2f, 0.3f, 0.6f, 1f); // 밤
-
-    public event Action OnDayChanged;
-
 
     protected override void Awake()
     {

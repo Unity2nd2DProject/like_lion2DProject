@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1958470109653407482}
   - component: {fileID: 3407873935755486954}
-  - component: {fileID: 57674026959899549}
+  - component: {fileID: -508974866703790267}
   m_Layer: 0
   m_Name: LegendCrop
   m_TagString: Untagged
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &57674026959899549
+--- !u!114 &-508974866703790267
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -97,8 +97,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 5384650382493774926}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc8f0a89366052042bdba769d4a81010, type: 3}
+  m_Script: {fileID: 11500000, guid: 1a4ece8fa2a1f65449c66b2fae92deb1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cropData: {fileID: 11400000, guid: a0951b84fa71ebd4da0a51a49862c076, type: 2}
+  currentGrowthStage: 0
   isWatered: 0

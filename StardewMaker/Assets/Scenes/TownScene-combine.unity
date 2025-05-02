@@ -3094,6 +3094,7 @@ MonoBehaviour:
   - {fileID: 1788041616121415389, guid: aacab0e76f4c9da4cb1eb9a790bce4b1, type: 3}
   - {fileID: 6894814576079113775, guid: df361020bf1ddc34da8d331a21d9efda, type: 3}
   - {fileID: 8631297095140301122, guid: 6505887492cb85344a9504878cb6586d, type: 3}
+  - {fileID: 5384650382493774926, guid: 721aef99b31144d4fbdb1314c027a21f, type: 3}
   cropDatabase:
   - {fileID: 11400000, guid: 8aec42aa2cd643d4197478fb61561042, type: 2}
   - {fileID: 11400000, guid: 05fd371a57eeabe45babc7ecd5571949, type: 2}
@@ -3102,6 +3103,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: aa17104aebb371343b54bf25b698c575, type: 2}
   - {fileID: 11400000, guid: 5b5c316c9a6900043b7a277229995038, type: 2}
   - {fileID: 11400000, guid: 8418d86b10c033f469d9e5b5649dae23, type: 2}
+  - {fileID: 11400000, guid: a0951b84fa71ebd4da0a51a49862c076, type: 2}
 --- !u!4 &118537002
 Transform:
   m_ObjectHideFlags: 0
@@ -67907,13 +67909,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e5abac6397e54a441adedb9aea5688f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LAST_DAY_OF_SEASON: 28
+  START_HOUR: 7
   realSecondsPerGameDay: 600
   currentYear: 1
   currentSeason: 0
   currentDay: 1
   currentHour: 7
   currentMinute: 0
-  light: {fileID: 1982314606}
 --- !u!4 &1363108824
 Transform:
   m_ObjectHideFlags: 0
@@ -109631,6 +109634,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d049bbee14bcc9042af0a329fc7434ae, type: 2}
   - {fileID: 11400000, guid: 2ad7ba2c813f5c04c86b0a0281197268, type: 2}
   - {fileID: 11400000, guid: f7027825e95d8474e910cf6749b7aa86, type: 2}
+  - {fileID: 11400000, guid: 4ed94e4cebc966244964835b4d80c6c6, type: 2}
   playerMoney: 10000
   moneyText: {fileID: 531966061}
 --- !u!4 &1691080402
