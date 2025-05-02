@@ -6178,7 +6178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14c6c6ed55f10a6468761d3f3375e775, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sceneNameToLoad: HomeScene
+  sceneNameToLoad: HomeScene-combine
   arrivalPointName: InsideHomeFrontDoor
 --- !u!61 &319592259
 BoxCollider2D:
@@ -31129,11 +31129,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 634890155}
   m_CullTransparentMesh: 1
---- !u!1 &649118352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 17808308951893288, guid: a468af920e0b84548bfe98a306a8c856, type: 3}
-  m_PrefabInstance: {fileID: 1742353182}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &655740958
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31220,8 +31215,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61ad8eb00c0e25b4a83ac5536d380ef3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treeDarkPrefab: {fileID: 1869133410}
-  treeLightPrefab: {fileID: 649118352}
+  treeDarkPrefab: {fileID: 7074923028809407180, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
+  treeLightPrefab: {fileID: 17808308951893288, guid: a468af920e0b84548bfe98a306a8c856, type: 3}
   trees: []
 --- !u!4 &657249519
 Transform:
@@ -117503,11 +117498,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   activationDistance: 15
---- !u!1 &1869133410 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7074923028809407180, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
-  m_PrefabInstance: {fileID: 1303568886}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1879110095
 GameObject:
   m_ObjectHideFlags: 0

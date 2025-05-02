@@ -34,23 +34,22 @@ public class TimeManager : Singleton<TimeManager>
         base.Awake();
 
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
-        currentDay = START_HOUR;
 
-        // 홈씬에서 시작하는 경우 시간 멈추기
+        Debug.Log("TimeManager Awake");
         SaveManager.Instance.LoadTime();
-        CheckCurrentScene();
+        CheckCurrentScene(); // 홈씬에서 시작하는 경우 시간 멈추기
     }
 
     private void CheckCurrentScene()
     {
-        Scene currentScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name.Contains("HomeScene")) PauseTime();
     }
 
-    private void Start()
-    {
-        UpdateUI();
-    }
+    //private void Start()
+    //{
+    //    UpdateUI();
+    //}
 
     private void Update()
     {
@@ -155,6 +154,7 @@ public class TimeManager : Singleton<TimeManager>
 
     public void UpdateUI()
     {
+        Debug.Log($"TimeUI Update : {currentHour} : {currentMinute}");
         if (currentHour >= 7 && currentHour < 18)
         {
             TimeImageUI.Instance.SetDayImage();
