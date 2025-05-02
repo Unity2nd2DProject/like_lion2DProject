@@ -14,6 +14,8 @@ public enum Season
 public class TimeManager : Singleton<TimeManager>
 {
     //public static TimeManager Instance;
+    public int LAST_DAY_OF_SEASON = 28;
+    public int START_HOUR = 7;
 
     [Header("Time Settings")]
     public float realSecondsPerGameDay = 600f; // 10분 = 600초
@@ -42,6 +44,7 @@ public class TimeManager : Singleton<TimeManager>
         base.Awake();
 
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
+        currentDay = START_HOUR;
 
         // 홈씬에서 시작하는 경우 시간 멈추기
         SaveManager.Instance.LoadTime();
@@ -103,15 +106,15 @@ public class TimeManager : Singleton<TimeManager>
         }
     }
 
-    private void AdvanceDay()
+    public void AdvanceDay()
     {
         ResumeTime();
         currentDay++;
         timer = 0f;
-        currentHour = 7;
+        currentHour = START_HOUR;
         currentMinute = 0;
 
-        if (currentDay > 28)
+        if (currentDay > LAST_DAY_OF_SEASON)
         {
             currentDay = 1;
             currentSeason++;
@@ -132,6 +135,7 @@ public class TimeManager : Singleton<TimeManager>
         FarmLandManager.Instance.NextDay();
         TreeManager.Instance.NextDay();
         StaminaManager.Instance.RecoverStamina(20);
+        UpdateUI();
     }
 
     private void ForceReturnHome()

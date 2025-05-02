@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Crop : MonoBehaviour
@@ -47,12 +48,39 @@ public class Crop : MonoBehaviour
 
     private void UpdateGrowth()
     {
-        sr.sprite = cropData.growthSprites[currentGrowthStage];
+        if (cropData.id != 7)
+        {
+            sr.sprite = cropData.growthSprites[currentGrowthStage];
+        }
+        else // 전설의 작물
+        {
+            int lastDay = TimeManager.Instance.LAST_DAY_OF_SEASON;
+            if (currentGrowthStage == 0)
+            {
+                sr.sprite = cropData.growthSprites[0];
+            }
+            else if (currentGrowthStage > 0 && currentGrowthStage < lastDay)
+            {
+                sr.sprite = cropData.growthSprites[1];
+            }
+            else if (currentGrowthStage > lastDay && currentGrowthStage < lastDay * 2)
+            {
+                sr.sprite = cropData.growthSprites[2];
+            }
+            else if (currentGrowthStage > lastDay * 2 && currentGrowthStage < lastDay * 3)
+            {
+                sr.sprite = cropData.growthSprites[3];
+            }
+            else
+            {
+                sr.sprite = cropData.growthSprites[4];
+            }
+        }
     }
 
     public bool IsHarvestable()
     {
-        return currentGrowthStage == cropData.maxGrowthStage;
+        return currentGrowthStage == cropData.maxGrowthStage && cropData.id != 7;
     }
 
     public int GetGrowthStage() => currentGrowthStage;

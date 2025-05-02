@@ -11,7 +11,7 @@ public class SaveManager : Singleton<SaveManager>
 
     private void Start()
     {
-        StartCoroutine(AutoSaveRoutine());
+        //StartCoroutine(AutoSaveRoutine());
     }
 
     public void SaveFarm()
