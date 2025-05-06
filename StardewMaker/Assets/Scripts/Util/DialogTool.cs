@@ -136,6 +136,13 @@ public class Dialog
     public List<string> korean;
     public string english;
 
+    public Dictionary<ConditionType, string> conditionStrDic = new(){
+        {ConditionType.MOOD, "기분"},
+        {ConditionType.VITALITY, "건강"},
+        {ConditionType.HUNGER, "배고픔"},
+        {ConditionType.TRUST, "신뢰도"},
+    };
+
     public bool IsConditionMetNotUse(int value)
     {
         switch (conditionOperator)
@@ -264,8 +271,9 @@ public class Dialog
                         i.CurrentValue = targetValue;
                         break;
                 }
-                Debug.Log($"{TAG} {targetType} {targetOperator} {targetValue}");
-                OnStatChangeRequested?.Invoke($"{targetType} {targetOperator} {targetValue}");
+                // Debug.Log($"{TAG} {targetType} {targetOperator} {targetValue}");
+                string targetOperatorTemp = targetOperator == "`+" ? "+" : (targetOperator == "`=" ? "=" : "-");
+                OnStatChangeRequested?.Invoke($"{conditionStrDic[targetType]} {targetOperatorTemp} {targetValue}");
             }
         }
     }

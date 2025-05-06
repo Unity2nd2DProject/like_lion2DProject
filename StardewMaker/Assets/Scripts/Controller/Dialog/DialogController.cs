@@ -111,7 +111,7 @@ public class DialogController : MonoBehaviour
                     break;
             }
 
-            // target condition value 변경하기
+            // target stat value 변경하기
             if (extType != ExtType.WILL) currentDialog.SetTarget(DaughterManager.Instance.GetStats());
 
             if (isDialogEnd) // 다음 대사가 없는 경우
