@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CookingUI : MonoBehaviour
 {
@@ -9,6 +10,17 @@ public class CookingUI : MonoBehaviour
 
     public RecipeInfoUI recipeInfoUI; // 레시피 정보 UI
     public IngredientInventory cookingInventory; // 요리 인벤토리 UI
+    public Button exitButton; // 요리 창 닫기 버튼
+
+    void Start()
+    {
+        exitButton.onClick.AddListener(CloseUI);
+    }
+
+    void CloseUI()
+    {
+        UIManager.Instance.CloseCookingUI();
+    }
 
     public void AddRecipe(Recipe recipe)
     {

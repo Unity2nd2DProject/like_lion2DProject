@@ -66,7 +66,9 @@ public enum SituationType
     MEMORY,
     SWEET,
     TODAY,
-    SLEEP
+    SLEEP,
+    GIFT,
+    GIFT_RECEIVED
 }
 
 public enum ConditionType
@@ -76,7 +78,16 @@ public enum ConditionType
     VITALITY,
     HUNGER,
     TRUST,
+
+    PYSICAL,
+    MUSIC,
+    ART,
+    SOCIAL,
+    ACADEMIC,
+    DOMESTIC,
+
     TIME
+
 }
 
 public enum EmotionType
@@ -97,7 +108,9 @@ public enum ExtType
     EXIT,
     SHOP,
     WILL,
-    SLEEP
+    SLEEP,
+    COOK,
+    GIFT
 }
 
 public enum ScheduleType

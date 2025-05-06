@@ -74,6 +74,9 @@ public class PrincessScene1Controller : MonoBehaviour
         DialogSubjectButton.OnDialogSubjectButtonRequested += OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested += StatChanged;
         DialogController.OnNextDayRequested += CheckAtStart;
+        UIManager.OnNormalMenuRequested += EnableNormalMenuPanel;
+        GiftManager.OnDialogRequested += OnDialogStart;
+        DaughterManager.OnStatChangeRequested += StatChanged;
     }
 
     private void Start()
@@ -111,6 +114,9 @@ public class PrincessScene1Controller : MonoBehaviour
         DialogSubjectButton.OnDialogSubjectButtonRequested -= OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested -= StatChanged;
         DialogController.OnNextDayRequested -= CheckAtStart;
+        UIManager.OnNormalMenuRequested -= EnableNormalMenuPanel;
+        GiftManager.OnDialogRequested -= OnDialogStart;
+        DaughterManager.OnStatChangeRequested -= StatChanged;
     }
 
     private void SetDayNight()
@@ -460,17 +466,24 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void OnClickCookButton()
     {
-        // List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.COOK, DaughterManager.Instance.GetStats());
-        // npcDialog.currentDialogId = cookDialogList[Random.Range(0, cookDialogList.Count)].id;
-        // dialogController.InitDialog(npcDialog);
-        UIManager.Instance.ToggleCookingUI();
+        List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.COOK, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = cookDialogList[UnityEngine.Random.Range(0, cookDialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+        // UIManager.Instance.ToggleCookingUI();
     }
 
     public void OnClickGiftButton()
     {
-        UIManager.Instance.ToggleGiftUI();
-
+        List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.GIFT, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = cookDialogList[UnityEngine.Random.Range(0, cookDialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+        // UIManager.Instance.ToggleGiftUI();
     }
 
-
+    public void OnDialogStart(SituationType situationType)
+    {
+        List<Dialog> dialogList = DialogTool.GetDialogListBySituation(situationType, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = dialogList[UnityEngine.Random.Range(0, dialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+    }
 }

@@ -155,6 +155,14 @@ public class DialogController : MonoBehaviour
                             OnNextDayRequested?.Invoke();
                         });
                         break;
+                    case ExtType.COOK:
+                        Debug.Log($"{TAG} COOK");
+                        UIManager.Instance.ToggleCookingUI();
+                        break;
+                    case ExtType.GIFT:
+                        Debug.Log($"{TAG} GIFT");
+                        UIManager.Instance.ToggleGiftUI();
+                        break;
                 }
             }
             else

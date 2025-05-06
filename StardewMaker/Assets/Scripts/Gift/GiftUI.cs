@@ -8,16 +8,22 @@ public class GiftUI : MonoBehaviour
     public GameObject GiftInfoUI; // 선물 정보 UI
     public GameObject GiftInventoryUI; // 선물 인벤토리 UI
 
+    void CloseUI()
+    {
+        UIManager.Instance.CloseGiftUI();
+    }
+
     private void Start()
     {
-        quitButton.onClick.AddListener(OnQuickButtonClicked);
+        quitButton.onClick.AddListener(CloseUI);
+        // quitButton.onClick.AddListener(OnQuickButtonClicked);
         GiftInventoryUI.GetComponent<GiftInventoryUI>().InitializeGiftInventoryUI(); // 선물 인벤토리 UI 초기화
     }
 
-    private void OnQuickButtonClicked()
-    {
-        gameObject.SetActive(false); // UI 비활성화
-    }
+    // private void OnQuickButtonClicked()
+    // {
+    //     gameObject.SetActive(false); // UI 비활성화
+    // }
 
     public void SetGift(ItemData gift)
     {
