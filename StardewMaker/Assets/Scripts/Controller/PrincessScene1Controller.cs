@@ -19,6 +19,7 @@ public class PrincessScene1Controller : MonoBehaviour
     [SerializeField] private GameObject yesNoImage;
     [SerializeField] private GameObject exitAndSleepButton;
     [SerializeField] private TMP_Text statText;
+    [SerializeField] private GameObject statChangePopup;
 
     [Space]
     [SerializeField] private GameObject toggleButtonPrefab;
@@ -73,6 +74,9 @@ public class PrincessScene1Controller : MonoBehaviour
         DialogSubjectButton.OnDialogSubjectButtonRequested += OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested += StatChanged;
         DialogController.OnNextDayRequested += CheckAtStart;
+        UIManager.OnNormalMenuRequested += EnableNormalMenuPanel;
+        GiftManager.OnDialogRequested += OnDialogStart;
+        DaughterManager.OnStatChangeRequested += StatChanged;
     }
 
     private void Start()
@@ -110,6 +114,9 @@ public class PrincessScene1Controller : MonoBehaviour
         DialogSubjectButton.OnDialogSubjectButtonRequested -= OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested -= StatChanged;
         DialogController.OnNextDayRequested -= CheckAtStart;
+        UIManager.OnNormalMenuRequested -= EnableNormalMenuPanel;
+        GiftManager.OnDialogRequested -= OnDialogStart;
+        DaughterManager.OnStatChangeRequested -= StatChanged;
     }
 
     private void SetDayNight()
@@ -340,7 +347,50 @@ public class PrincessScene1Controller : MonoBehaviour
     private void StatChanged(string str)
     {
         statText.text = str;
+        StartCoroutine(ShowStatChangePopup());
     }
+
+    private IEnumerator ShowStatChangePopup()
+    {
+        RectTransform rect = statChangePopup.GetComponent<RectTransform>();
+        Vector3 originalPos = rect.anchoredPosition;
+
+        statChangePopup.SetActive(true);
+        rect.anchoredPosition = originalPos;
+
+        CanvasGroup cg = statChangePopup.GetComponent<CanvasGroup>();
+        if (cg == null)
+            cg = statChangePopup.AddComponent<CanvasGroup>();
+
+        // 초기 상태
+        cg.alpha = 0f;
+
+        // fade-in
+        float duration = 0.2f;
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            cg.alpha = Mathf.Lerp(0f, 1f, t / duration);
+            yield return null;
+        }
+        cg.alpha = 1f;
+
+        // 대기 시간
+        yield return new WaitForSeconds(0.5f);
+
+        // 위로 올라가면서 fade-out
+        Vector3 targetPos = originalPos + new Vector3(0, 50f, 0);
+        duration = 0.5f;
+        for (float t = 0; t < duration; t += Time.deltaTime)
+        {
+            cg.alpha = Mathf.Lerp(1f, 0f, t / duration);
+            rect.anchoredPosition = Vector3.Lerp(originalPos, targetPos, t / duration);
+            yield return null;
+        }
+        cg.alpha = 0f;
+        rect.anchoredPosition = originalPos;
+        statChangePopup.SetActive(false);
+    }
+
 
     // 대화 주제 선택 메뉴 On/Off
     public void EnableDialogMenuPanel(bool sw)
@@ -416,17 +466,24 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void OnClickCookButton()
     {
-        // List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.COOK, DaughterManager.Instance.GetStats());
-        // npcDialog.currentDialogId = cookDialogList[Random.Range(0, cookDialogList.Count)].id;
-        // dialogController.InitDialog(npcDialog);
-        UIManager.Instance.ToggleCookingUI();
+        List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.COOK, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = cookDialogList[UnityEngine.Random.Range(0, cookDialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+        // UIManager.Instance.ToggleCookingUI();
     }
 
     public void OnClickGiftButton()
     {
-        UIManager.Instance.ToggleGiftUI();
-
+        List<Dialog> cookDialogList = DialogTool.GetDialogListBySituation(SituationType.GIFT, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = cookDialogList[UnityEngine.Random.Range(0, cookDialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+        // UIManager.Instance.ToggleGiftUI();
     }
 
-
+    public void OnDialogStart(SituationType situationType)
+    {
+        List<Dialog> dialogList = DialogTool.GetDialogListBySituation(situationType, DaughterManager.Instance.GetStats());
+        npcDialog.currentDialogId = dialogList[UnityEngine.Random.Range(0, dialogList.Count)].id;
+        dialogController.InitDialog(npcDialog);
+    }
 }

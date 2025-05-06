@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
 
 public class GiftManager : Singleton<GiftManager>
 {
+    public static event Action<SituationType> OnDialogRequested;
+
     protected override void Awake()
     {
         base.Awake();
-       
+
     }
     private void Start()
     {
@@ -21,9 +24,10 @@ public class GiftManager : Singleton<GiftManager>
         // 인벤토리에서 선물 아이템 제거
         InventoryManager.Instance.RemoveItem(giftItem);
         // TODO: 선물 아이템을 주고 난 뒤 다이얼로그 추가
+        OnDialogRequested?.Invoke(SituationType.GIFT_RECEIVED);
 
-        DaughterManager.Instance.AddStats(StatType.MOOD,1);
-        DaughterManager.Instance.AddStats(StatType.ART,1);
+        DaughterManager.Instance.AddStats(StatType.MOOD, 1);
+        DaughterManager.Instance.AddStats(StatType.ART, 1);
 
         UIManager.Instance.ToggleGiftUI();
     }
