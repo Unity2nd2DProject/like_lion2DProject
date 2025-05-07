@@ -48,7 +48,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadBase();
+        SaveManager.Instance.LoadTime();
     }
 
     private void Update()

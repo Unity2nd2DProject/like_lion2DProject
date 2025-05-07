@@ -27,6 +27,7 @@ public class InventoryManager : Singleton<InventoryManager>
     private void Start()
     {
         SaveManager.Instance.LoadInventory();
+        SaveManager.Instance.LoadMoney();
     }
 
     private void Update()

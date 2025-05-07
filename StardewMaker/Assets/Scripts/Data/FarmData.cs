@@ -42,7 +42,7 @@ public class GameBaseData
     public int hour;
     public int minute;
 
-    public int stamina;
+    public StaminaState[] staminaStates;
     public int money;
 }
 

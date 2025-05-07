@@ -7,7 +7,7 @@ public class SaveManager : Singleton<SaveManager>
     public float autoSaveInterval = 30f;
 
     private string farmPath => Application.dataPath + "/Save/farm.json";
-    private string timePath => Application.dataPath + "/Save/time.json";
+    private string baseDataPath => Application.dataPath + "/Save/baseData.json";
     private string inventroyPath => Application.dataPath + "/Save/inventory.json";
     private string statsPath => Application.dataPath + "/Save/stats.json";
 
@@ -71,33 +71,64 @@ public class SaveManager : Singleton<SaveManager>
             season = (int)TimeManager.Instance.currentSeason,
             day = TimeManager.Instance.currentDay,
             hour = TimeManager.Instance.currentHour,
-            minute = TimeManager.Instance.currentMinute
+            minute = TimeManager.Instance.currentMinute,
+            staminaStates = StaminaManager.Instance.staminaStates,
+            money = InventoryManager.Instance.playerMoney
         };
 
         string json = JsonUtility.ToJson(dateTime, true);
-        System.IO.File.WriteAllText(timePath, json);
-        Debug.Log("시간 정보가 저장되었습니다. " + timePath);
+        System.IO.File.WriteAllText(baseDataPath, json);
+        Debug.Log("기본 정보가 저장되었습니다. " + baseDataPath);
     }
 
-    public void LoadBase()
+    public void LoadTime()
     {
-
-        if (!System.IO.File.Exists(timePath))
+        if (!System.IO.File.Exists(baseDataPath))
         {
-            Debug.LogWarning("time.json 파일이 존재하지 않습니다.");
+            Debug.LogWarning("baseData.json 파일이 존재하지 않습니다.");
             return;
         }
 
-        string json = System.IO.File.ReadAllText(timePath);
-        GameBaseData dateTime = JsonUtility.FromJson<GameBaseData>(json);
+        string json = System.IO.File.ReadAllText(baseDataPath);
+        GameBaseData baseData = JsonUtility.FromJson<GameBaseData>(json);
 
-        TimeManager.Instance.currentYear = dateTime.year;
-        TimeManager.Instance.currentSeason = (Season)dateTime.season;
-        TimeManager.Instance.currentDay = dateTime.day;
-        TimeManager.Instance.currentHour = dateTime.hour;
-        TimeManager.Instance.currentMinute = dateTime.minute;
+        TimeManager.Instance.currentYear = baseData.year;
+        TimeManager.Instance.currentSeason = (Season)baseData.season;
+        TimeManager.Instance.currentDay = baseData.day;
+        TimeManager.Instance.currentHour = baseData.hour;
+        TimeManager.Instance.currentMinute = baseData.minute;
 
         TimeManager.Instance.UpdateUI();
+    }
+
+    public void LoadStamina()
+    {
+        if (!System.IO.File.Exists(baseDataPath))
+        {
+            Debug.LogWarning("baseData.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(baseDataPath);
+        GameBaseData baseData = JsonUtility.FromJson<GameBaseData>(json);
+
+        StaminaManager.Instance.staminaStates = baseData.staminaStates;
+        StaminaManager.Instance.UpdateStaminaUI();
+    }
+
+    public void LoadMoney()
+    {
+        if (!System.IO.File.Exists(baseDataPath))
+        {
+            Debug.LogWarning("baseData.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(baseDataPath);
+        GameBaseData baseData = JsonUtility.FromJson<GameBaseData>(json);
+
+        InventoryManager.Instance.playerMoney = baseData.money;
+        //BaseUI.Instance.SetMoneyText(InventoryManager.Instance.playerMoney.ToString());
     }
 
     public void SaveInventory()
