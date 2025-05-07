@@ -23,36 +23,39 @@ public class TreeManager : Singleton<TreeManager>
 
     public List<SavedTree> SaveTrees()
     {
-        List<SavedTree> savedTrees = new List<SavedTree>();
+        List<SavedTree> list = new List<SavedTree>();
         foreach (var tree in trees)
         {
-            savedTrees.Add(new SavedTree
+            list.Add(new SavedTree
             {
                 position = tree.transform.position,
                 currentHits = tree.GetCurrentHits(),
                 isActive = tree.gameObject.activeSelf
             });
         }
-        return savedTrees;
+        return list;
     }
 
-    public List<SavedTree> NextDayTrees()
+    public List<SavedTree> NextDayTrees(List<SavedTree> savedList)
     {
-        List<SavedTree> savedTrees = new List<SavedTree>();
-        foreach (var tree in trees)
+        List<SavedTree> list = new List<SavedTree>();
+
+        foreach (var saved in savedList)
         {
-            savedTrees.Add(new SavedTree
+            list.Add(new SavedTree
             {
-                position = tree.transform.position,
+                position = saved.position,
                 currentHits = 0,
                 isActive = true
             });
         }
-        return savedTrees;
+        return list;
     }
 
     public void LoadTrees(List<SavedTree> savedTrees)
     {
+        trees = new List<Tree>();
+
         foreach (var data in savedTrees)
         {
             GameObject prefab = Random.value < 0.5f ? treeDarkPrefab : treeLightPrefab;

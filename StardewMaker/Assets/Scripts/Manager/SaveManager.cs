@@ -31,16 +31,19 @@ public class SaveManager : Singleton<SaveManager>
 
     public void NextDayFarm()
     {
-        FarmData data = new FarmData
+        string json = System.IO.File.ReadAllText(farmPath);
+        FarmData data = JsonUtility.FromJson<FarmData>(json);
+
+        data = new FarmData
         {
-            savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(),
-            savedCrops = CropManager.Instance.NextDayCrops(),
-            savedTrees = TreeManager.Instance.NextDayTrees(),
+            savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(data.savedFarmLands),
+            savedCrops = CropManager.Instance.NextDayCrops(data.savedCrops),
+            savedTrees = TreeManager.Instance.NextDayTrees(data.savedTrees),
         };
 
-        string json = JsonUtility.ToJson(data, true);
+        json = JsonUtility.ToJson(data, true);
         System.IO.File.WriteAllText(farmPath, json);
-        Debug.Log("농장 정보가 저장되었습니다. " + farmPath);
+        Debug.Log("농장 정보가 업데이트되었습니다. " + farmPath);
     }
 
     public void LoadFarm()
@@ -74,7 +77,6 @@ public class SaveManager : Singleton<SaveManager>
         System.IO.File.WriteAllText(timePath, json);
         Debug.Log("시간 정보가 저장되었습니다. " + timePath);
     }
-
 
     public void LoadTime()
     {

@@ -73,12 +73,13 @@ public class FarmLandManager : Singleton<FarmLandManager>
         return list;
     }
 
-    public List<SavedFarmLand> NextDayFarmLands()
+    public List<SavedFarmLand> NextDayFarmLands(List<SavedFarmLand> savedList)
     {
         List<SavedFarmLand> list = new List<SavedFarmLand>();
-        foreach (var kvp in farmLands)
+
+        foreach (var saved in savedList)
         {
-            LandState newState = kvp.Value.landState;
+            LandState newState = saved.landState;
             if (newState == LandState.Watered)
             {
                 newState = LandState.Fertile;
@@ -86,7 +87,7 @@ public class FarmLandManager : Singleton<FarmLandManager>
 
             list.Add(new SavedFarmLand
             {
-                position = kvp.Key,
+                position = saved.position,
                 landState = newState
             });
         }
