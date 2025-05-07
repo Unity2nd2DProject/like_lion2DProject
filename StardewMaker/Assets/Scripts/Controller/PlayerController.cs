@@ -7,11 +7,11 @@ using UnityEngine.Tilemaps;
 public enum PlayerInteraction
 {
     None,
-    Pick, 
+    Pick,
     Plant,
-    Water, 
-    Harvest, 
-    Fish, 
+    Water,
+    Harvest,
+    Fish,
     GetWater,
     Axe,
     Fertilize
@@ -75,7 +75,7 @@ public class PlayerController : Singleton<PlayerController>
 
         PlayerMoveInput();
         SpaceInput();
-        ESCInput();
+        // ESCInput();
         ZInput();
         XInput();
         IInput();
@@ -133,14 +133,14 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    private void ESCInput()
-    {
-        if (inputManager.inputActions.Player.ESC.WasPressedThisFrame())
-        {
-            Debug.Log($"{TAG} ESCInput IsPressed. UI 인풋으로 전환");
-            GameManager.Instance.SetGameState(TAG, GameState.UI);
-        }
-    }
+    // private void ESCInput()
+    // {
+    //     if (inputManager.inputActions.Player.ESC.WasPressedThisFrame())
+    //     {
+    //         Debug.Log($"{TAG} ESCInput IsPressed. UI 인풋으로 전환");
+    //         GameManager.Instance.SetGameState(TAG, GameState.UI);
+    //     }
+    // }
 
     private void ZInput()
     {
@@ -154,7 +154,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.X.WasPressedThisFrame())
         {
-            
+
         }
         if (inputManager.inputActions.Player.X.IsPressed())
         {

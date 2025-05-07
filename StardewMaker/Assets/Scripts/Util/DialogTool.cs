@@ -68,7 +68,8 @@ public enum SituationType
     TODAY,
     SLEEP,
     GIFT,
-    GIFT_RECEIVED
+    GIFT_RECEIVED,
+    ENTER_HOME
 }
 
 public enum ConditionType
