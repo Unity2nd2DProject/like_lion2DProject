@@ -21,7 +21,14 @@ public class DeparturePoint : MonoBehaviour
     // 지정된 영역으로 들어온 경우
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.GetComponent<PlayerController>()) Departure();
+        if (TimeManager.Instance.currentHour < 19)
+        {
+            Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
+        }
+        else
+        {
+            if (collision.gameObject.GetComponent<PlayerController>()) Departure();
+        }
     }
 
     // Exit 버튼을 클릭하는 경우 등

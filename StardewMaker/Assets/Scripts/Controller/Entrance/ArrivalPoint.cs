@@ -1,4 +1,6 @@
+using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ArrivalPoint : MonoBehaviour
 {
@@ -15,7 +17,20 @@ public class ArrivalPoint : MonoBehaviour
             if (go)
             {
                 go.transform.position = transform.position; // 플레이어 해당 위치로 이동
-                GameManager.Instance.SetGameState(TAG, GameState.PLAYING); // Playing으로 input manager 전환
+                if (SceneManager.GetActiveScene().name.Contains("Town"))
+                {
+                    GameManager.Instance.SetGameState(TAG, GameState.PLAYING); // Playing으로 input manager 전환
+
+                    // Player 트래킹 붙이기
+                    GameObject cameraObject = GameObject.Find("CinemachineCamera");
+                    CinemachineCamera virtualCamera = cameraObject.GetComponent<CinemachineCamera>();
+                    GameObject playerObject = GameObject.Find("Player");
+                    virtualCamera.Follow = playerObject.transform;
+                }
+                else
+                {
+                    GameManager.Instance.SetGameState(TAG, GameState.UI); // UI로 input manager 전환
+                }
             }
             FadeManager.Instance.FadeIn();
         }

@@ -35,7 +35,8 @@ public class UIManager : Singleton<UIManager>
     [HideInInspector]
     public GiftUI giftUI;
 
-
+    // Normal Menu띄우기 액션
+    public static event Action<bool> OnNormalMenuRequested;
 
 
     protected override void Awake()
@@ -89,20 +90,20 @@ public class UIManager : Singleton<UIManager>
 
     public void ShowPopup(string message, Vector3 position = default)
     {
-        if(position == default)
+        if (position == default)
         {
             position = Input.mousePosition;
         }
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         GameObject popup = Instantiate(popupMessagePrefab, canvas.transform);
-        popup.transform.position = position;    
+        popup.transform.position = position;
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
     }
 
     public void ToggleInventoryAndQuickSlotForTest()
     {
 
-        if(quickSlotUI.gameObject.activeSelf != inventoryUI.gameObject.activeSelf)
+        if (quickSlotUI.gameObject.activeSelf != inventoryUI.gameObject.activeSelf)
         {
             quickSlotUI.gameObject.SetActive(true);
             inventoryUI.gameObject.SetActive(true);
@@ -112,7 +113,7 @@ public class UIManager : Singleton<UIManager>
             quickSlotUI.gameObject.SetActive(!quickSlotUI.gameObject.activeSelf);
             inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
         }
-            
+
     }
 
     public void ShowQuickSlotUI()
@@ -134,17 +135,27 @@ public class UIManager : Singleton<UIManager>
             cookingUI = Instantiate(cookingUIPrefab, canvas.transform).GetComponent<CookingUI>();
             cookingUI.gameObject.SetActive(false);
         }
-        
+
     }
 
     public void ToggleCookingUI()
     {
-        if(cookingUI == null)
+        if (cookingUI == null)
         {
             InitializeCookingUI();
         }
         cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
         cookingUI.transform.SetAsLastSibling();
+    }
+
+    public void CloseCookingUI()
+    {
+        cookingUI.gameObject.SetActive(false);
+
+        if (!cookingUI.gameObject.activeSelf) // 열려있다면 닫고 메인메뉴 띄우기
+        {
+            OnNormalMenuRequested?.Invoke(true);
+        }
     }
 
     public void InitializeGiftUI()
@@ -170,9 +181,19 @@ public class UIManager : Singleton<UIManager>
         giftUI.transform.SetAsLastSibling();
     }
 
+    public void CloseGiftUI()
+    {
+        giftUI.gameObject.SetActive(false);
+
+        if (!giftUI.gameObject.activeSelf) // 열려있다면 닫고 메인메뉴 띄우기
+        {
+            OnNormalMenuRequested?.Invoke(true);
+        }
+    }
+
     public void ShowTooltip(ItemData itemdata, Vector3 position)
     {
-        if(toolTipInstance == null)
+        if (toolTipInstance == null)
         {
             toolTipInstance = Instantiate(toolTipPrefab, GameObject.FindGameObjectWithTag("MainCanvas").transform).GetComponent<TooltipUI>();
         }

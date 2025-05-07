@@ -18,7 +18,7 @@ public enum GameMode
 public class GameManager : Singleton<GameManager>
 {
     private string TAG = "[GameManager]";
-    public bool isDebug = false;
+    public bool isDebug = true;
 
     private GameState currentState;
     public static event Action<GameState> OnGameStateChanged;
@@ -45,7 +45,7 @@ public class GameManager : Singleton<GameManager>
 
     public void changeScene(string sceneName)
     {
-        if(sceneName.Contains("Town"))
+        if (sceneName.Contains("Town"))
         {
             currentMode = GameMode.TOWN;
         }
