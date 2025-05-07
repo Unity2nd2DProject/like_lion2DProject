@@ -116,7 +116,7 @@ public class DialogController : MonoBehaviour
 
             if (isDialogEnd) // 다음 대사가 없는 경우
             {
-                Debug.Log($"{TAG} 대화 끝");
+                // Debug.Log($"{TAG} 대화 끝");
                 isNextDialogReady = false;
                 dialogView.EnableDialogPanel(false);
                 dialogView.EnableOptionPanel(false);
@@ -129,25 +129,25 @@ public class DialogController : MonoBehaviour
                         if (currentNPCDialog.nameType == NameType.PRINCESS) ChangeEmotionImage(EmotionType.IDLE);
                         else dialogView.EnableNPCImage(false);
 
-                        Debug.Log($"{TAG} ExtType.ACT");
+                        // Debug.Log($"{TAG} ExtType.ACT");
                         OnNormalMenuRequested?.Invoke(true);
                         break;
                     case ExtType.EXIT: // 집에서 나가기 -> 스케줄 메뉴
-                        Debug.Log($"{TAG} ExtType.EXIT");
+                        // Debug.Log($"{TAG} ExtType.EXIT");
                         if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
                         // todo 상점에서 나가기
                         break;
                     case ExtType.SHOP: // 상점 열기
-                        Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
+                        // Debug.Log($"{TAG} ExtType.SHOP"); // todo 상점 열기
                         OnShopRequested?.Invoke();
                         break;
                     case ExtType.WILL:
                         GameManager.Instance.wantedDialog = currentDialog;
-                        Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedDialog.scheduleType}");
+                        // Debug.Log($"{TAG} ExtType.WILL {GameManager.Instance.wantedDialog.scheduleType}");
                         OnNormalMenuRequested?.Invoke(true);
                         break;
                     case ExtType.SLEEP:
-                        Debug.Log($"{TAG} 잠자기 진행해야 함");
+                        // Debug.Log($"{TAG} 잠자기 진행해야 함");
                         FadeManager.Instance.FadeOut(() =>
                         {
                             TimeManager.Instance.AdvanceDay();
@@ -156,11 +156,11 @@ public class DialogController : MonoBehaviour
                         });
                         break;
                     case ExtType.COOK:
-                        Debug.Log($"{TAG} COOK");
+                        // Debug.Log($"{TAG} COOK");
                         UIManager.Instance.ToggleCookingUI();
                         break;
                     case ExtType.GIFT:
-                        Debug.Log($"{TAG} GIFT");
+                        // Debug.Log($"{TAG} GIFT");
                         UIManager.Instance.ToggleGiftUI();
                         break;
                 }
