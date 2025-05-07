@@ -20,6 +20,8 @@ public class ShopTrigger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             dialogUI.SetActive(true);
+
+            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
         }
     }
 

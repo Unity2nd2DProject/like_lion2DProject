@@ -26,9 +26,9 @@ public class DeparturePoint : MonoBehaviour
     {
         if (TimeManager.Instance.currentHour < 19)
         {
-            Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
-            // todo 대사 띄우기
+            // Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
             dialogUI.SetActive(true);
+            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
         }
         else
         {

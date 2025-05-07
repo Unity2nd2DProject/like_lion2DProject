@@ -41,6 +41,7 @@ public class DialogManager : MonoBehaviour
             dialogueText.text == typewriterEffect.fullText)
         {
             ShowButtons();
+            SoundManager.Instance.StopSfx();
         }
     }
 

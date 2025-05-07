@@ -105,6 +105,6 @@ public class DaughterManager : Singleton<DaughterManager>
             }
         }
         string op = (value > 0) ? "+" : "-";
-        OnStatChangeRequested?.Invoke($"{conditionStrDic[(ConditionType)statType]} {op} {value}");
+        OnStatChangeRequested?.Invoke($"{conditionStrDic[(ConditionType)statType]} {op} {Math.Abs(value)}");
     }
 }
