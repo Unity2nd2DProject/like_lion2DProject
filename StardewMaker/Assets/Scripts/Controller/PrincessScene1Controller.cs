@@ -90,7 +90,7 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         SetDayNight(); // 아침인지 낮인지 구분
 
-        CheckNightDo(); // 저녁에 할 일 체크
+        StatChangeAtNight(); // 저녁에 Stat 증감
 
         SetStartDialog(); // 아침, 저녁 별 첫 대화 정하기
 
@@ -141,18 +141,42 @@ public class PrincessScene1Controller : MonoBehaviour
         }
     }
 
-    private void CheckNightDo()
+    private void StatChangeAtNight()
     {
-        if (!isDay && GameManager.Instance.wantedDialog != null)
+        if (!isDay)
         {
-            ScheduleType wantedScheduleType = GameManager.Instance.wantedDialog.scheduleType;
-            ScheduleType actualScheduleType0 = GameManager.Instance.actualScheuleType[0];
-            ScheduleType actualScheduleType1 = GameManager.Instance.actualScheuleType[1];
-
-            // 같은 경우 증가
-            if (wantedScheduleType == actualScheduleType0 || wantedScheduleType == actualScheduleType1)
+            for (int i = 0; i < GameManager.Instance.actualScheuleType.Count; i++)
             {
-                GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats());
+                ScheduleType actualScheduleType = GameManager.Instance.actualScheuleType[i];
+                StatType statType = StatType.NONE;
+                switch (actualScheduleType)
+                {
+                    case ScheduleType.EXERCISE:
+                        statType = StatType.PYSICAL;
+                        break;
+                    case ScheduleType.HOME_WORK:
+                        statType = StatType.DOMESTIC;
+                        break;
+                    case ScheduleType.PLAY:
+                        statType = StatType.VITALITY;
+                        break;
+                    case ScheduleType.READ_BOOK:
+                        statType = StatType.ACADEMIC;
+                        break;
+                    case ScheduleType.DRAWING:
+                        statType = StatType.ART;
+                        break;
+                    case ScheduleType.COOK:
+                        statType = StatType.DOMESTIC;
+                        break;
+                    case ScheduleType.MUSIC:
+                        statType = StatType.MUSIC;
+                        break;
+                    case ScheduleType.DOLL:
+                        statType = StatType.SOCIAL;
+                        break;
+                }
+                DaughterManager.Instance.AddStats(statType, 1);
             }
         }
     }
@@ -192,11 +216,11 @@ public class PrincessScene1Controller : MonoBehaviour
                 }
             }
 
-            if (isWantedSchedule)
+            if (isWantedSchedule) // 원하는 스케쥴이었을 경우 대사 진행 및 스탯 증감
             {
                 Debug.Log($"{TAG} isWantedSchedule");
 
-                GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats());
+                // GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats()); // 여기서 안 하고 대사 끝나면 올리기
                 npcDialog.currentDialogId = GameManager.Instance.wantedDialog.id + 1;
                 GameManager.Instance.wantedDialog = null;
             }
