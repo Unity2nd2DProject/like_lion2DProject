@@ -73,7 +73,7 @@ public class SaveManager : Singleton<SaveManager>
             hour = TimeManager.Instance.currentHour,
             minute = TimeManager.Instance.currentMinute,
             staminaStates = StaminaManager.Instance.staminaStates,
-            money = InventoryManager.Instance.playerMoney
+            money = InventoryManager.Instance.PlayerMoney
         };
 
         string json = JsonUtility.ToJson(dateTime, true);
@@ -127,7 +127,7 @@ public class SaveManager : Singleton<SaveManager>
         string json = System.IO.File.ReadAllText(baseDataPath);
         GameBaseData baseData = JsonUtility.FromJson<GameBaseData>(json);
 
-        InventoryManager.Instance.playerMoney = baseData.money;
+        InventoryManager.Instance.PlayerMoney = baseData.money;
         //BaseUI.Instance.SetMoneyText(InventoryManager.Instance.playerMoney.ToString());
     }
 

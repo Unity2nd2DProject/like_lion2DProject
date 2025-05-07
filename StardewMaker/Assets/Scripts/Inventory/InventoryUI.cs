@@ -32,12 +32,18 @@ public class InventoryUI : MonoBehaviour
     }
 
     private void OnCancelButtonClicked()
-    {
-        ToggleInventory();
-
+    {       
         if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
         {
             ShopUI.Instance.Close();
+        }
+        if(GameManager.Instance.currentMode == GameMode.HOME)
+        {
+            UIManager.Instance.ToggleInventoryByButton();
+        }
+        else
+        {
+            HideInventory();
         }
     }
 
