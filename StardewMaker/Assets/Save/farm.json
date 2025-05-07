@@ -397,7 +397,7 @@
                 "x": -1.5,
                 "y": -1.5
             },
-            "landState": 2
+            "landState": 1
         },
         {
             "position": {
@@ -411,7 +411,7 @@
                 "x": 0.5,
                 "y": -1.5
             },
-            "landState": 2
+            "landState": 1
         },
         {
             "position": {
@@ -467,14 +467,14 @@
                 "x": -1.5,
                 "y": -2.5
             },
-            "landState": 2
+            "landState": 1
         },
         {
             "position": {
                 "x": -0.5,
                 "y": -2.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
@@ -488,7 +488,7 @@
                 "x": 1.5,
                 "y": -2.5
             },
-            "landState": 2
+            "landState": 1
         },
         {
             "position": {
@@ -537,21 +537,21 @@
                 "x": -1.5,
                 "y": -3.5
             },
-            "landState": 2
+            "landState": 0
         },
         {
             "position": {
                 "x": -0.5,
                 "y": -3.5
             },
-            "landState": 2
+            "landState": 0
         },
         {
             "position": {
                 "x": 0.5,
                 "y": -3.5
             },
-            "landState": 2
+            "landState": 0
         },
         {
             "position": {
@@ -704,29 +704,47 @@
     "savedCrops": [
         {
             "position": {
-                "x": 0.5,
+                "x": 1.5,
                 "y": -1.5
             },
-            "cropId": 4,
-            "currentGrowthStage": 0,
-            "isWatered": true
+            "cropId": 2,
+            "currentGrowthStage": 2,
+            "isWatered": false
         },
         {
             "position": {
-                "x": 1.5,
+                "x": 0.5,
+                "y": -1.5
+            },
+            "cropId": 6,
+            "currentGrowthStage": 2,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -0.5,
+                "y": -1.5
+            },
+            "cropId": 0,
+            "currentGrowthStage": 2,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -1.5,
                 "y": -1.5
             },
             "cropId": 1,
             "currentGrowthStage": 2,
-            "isWatered": true
+            "isWatered": false
         },
         {
             "position": {
                 "x": 0.5,
                 "y": -2.5
             },
-            "cropId": 4,
-            "currentGrowthStage": 0,
+            "cropId": 2,
+            "currentGrowthStage": 1,
             "isWatered": false
         },
         {
@@ -734,18 +752,18 @@
                 "x": 1.5,
                 "y": -2.5
             },
-            "cropId": 1,
+            "cropId": 6,
             "currentGrowthStage": 0,
-            "isWatered": true
+            "isWatered": false
         },
         {
             "position": {
-                "x": -1.5,
-                "y": -1.5
+                "x": -0.5,
+                "y": -2.5
             },
-            "cropId": 4,
-            "currentGrowthStage": 0,
-            "isWatered": true
+            "cropId": 0,
+            "currentGrowthStage": 1,
+            "isWatered": false
         },
         {
             "position": {
@@ -753,35 +771,8 @@
                 "y": -2.5
             },
             "cropId": 1,
-            "currentGrowthStage": 0,
-            "isWatered": true
-        },
-        {
-            "position": {
-                "x": -1.5,
-                "y": -3.5
-            },
-            "cropId": 1,
-            "currentGrowthStage": 0,
-            "isWatered": true
-        },
-        {
-            "position": {
-                "x": 0.5,
-                "y": -3.5
-            },
-            "cropId": 1,
-            "currentGrowthStage": 0,
-            "isWatered": true
-        },
-        {
-            "position": {
-                "x": -0.5,
-                "y": -3.5
-            },
-            "cropId": 1,
-            "currentGrowthStage": 0,
-            "isWatered": true
+            "currentGrowthStage": 1,
+            "isWatered": false
         }
     ],
     "savedTrees": [
@@ -814,16 +805,16 @@
                 "x": 13.470000267028809,
                 "y": -4.960000038146973
             },
-            "currentHits": 3,
-            "isActive": false
+            "currentHits": 0,
+            "isActive": true
         },
         {
             "position": {
                 "x": 17.889999389648439,
                 "y": -6.340000152587891
             },
-            "currentHits": 3,
-            "isActive": false
+            "currentHits": 0,
+            "isActive": true
         },
         {
             "position": {
@@ -1006,16 +997,16 @@
                 "x": 4.090000152587891,
                 "y": 1.7300000190734864
             },
-            "currentHits": 3,
-            "isActive": false
+            "currentHits": 0,
+            "isActive": true
         },
         {
             "position": {
                 "x": 20.040000915527345,
                 "y": -4.260000228881836
             },
-            "currentHits": 3,
-            "isActive": false
+            "currentHits": 0,
+            "isActive": true
         },
         {
             "position": {
@@ -1217,12 +1208,5 @@
             "currentHits": 0,
             "isActive": true
         }
-    ],
-    "dateTime": {
-        "year": 0,
-        "season": 0,
-        "day": 0,
-        "hour": 0,
-        "minute": 0
-    }
+    ]
 }

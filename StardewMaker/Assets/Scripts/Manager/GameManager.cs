@@ -57,9 +57,10 @@ public class GameManager : Singleton<GameManager>
         SceneManager.LoadScene(sceneName);
 
         // todo 데이터 저장
-        if (sceneName.Contains("HomeScene"))
-        {
-            SaveManager.Instance.SaveFarm();
-        }
+        SaveManager.Instance.Save();
+        //if (sceneName.Contains("HomeScene"))
+        //{
+        //    SaveManager.Instance.SaveFarm();
+        //}
     }
 }
