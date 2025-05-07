@@ -74,6 +74,11 @@ public class DaughterManager : Singleton<DaughterManager>
         UIManager.Instance.InitializeStatUI(stats);
     }
 
+    private void Start()
+    {
+        SaveManager.Instance.LoadStats();
+    }
+
     public List<Stat> GetStats()
     {
         return stats;

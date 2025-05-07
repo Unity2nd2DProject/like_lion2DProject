@@ -9,6 +9,7 @@ public class SaveManager : Singleton<SaveManager>
     private string farmPath => Application.dataPath + "/Save/farm.json";
     private string timePath => Application.dataPath + "/Save/time.json";
     private string inventroyPath => Application.dataPath + "/Save/inventory.json";
+    private string statsPath => Application.dataPath + "/Save/stats.json";
 
     private void Start()
     {
@@ -62,9 +63,9 @@ public class SaveManager : Singleton<SaveManager>
         TreeManager.Instance.LoadTrees(data.savedTrees);
     }
 
-    public void SaveTime()
+    public void SaveBase()
     {
-        GameDateTime dateTime = new GameDateTime
+        GameBaseData dateTime = new GameBaseData
         {
             year = TimeManager.Instance.currentYear,
             season = (int)TimeManager.Instance.currentSeason,
@@ -78,7 +79,7 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("시간 정보가 저장되었습니다. " + timePath);
     }
 
-    public void LoadTime()
+    public void LoadBase()
     {
 
         if (!System.IO.File.Exists(timePath))
@@ -88,7 +89,7 @@ public class SaveManager : Singleton<SaveManager>
         }
 
         string json = System.IO.File.ReadAllText(timePath);
-        GameDateTime dateTime = JsonUtility.FromJson<GameDateTime>(json);
+        GameBaseData dateTime = JsonUtility.FromJson<GameBaseData>(json);
 
         TimeManager.Instance.currentYear = dateTime.year;
         TimeManager.Instance.currentSeason = (Season)dateTime.season;
@@ -152,6 +153,41 @@ public class SaveManager : Singleton<SaveManager>
         UIManager.Instance.UpdateInventoryAndQuickSlot();
     }
 
+    public void SaveStats()
+    {
+        StatsData data = new StatsData();
+
+        foreach (var stat in DaughterManager.Instance.GetStats())
+        {
+            data.savedStats.Add(new SavedStat
+            {
+                statType = stat.statType,
+                currentValue = stat.CurrentValue,
+                maxValue = stat.MaxValue
+            });
+        }
+
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(statsPath, json);
+        Debug.Log("스탯 정보가 저장되었습니다. " + statsPath);
+    }
+
+    public void LoadStats()
+    {
+        if (!System.IO.File.Exists(statsPath))
+        {
+            Debug.LogWarning("stats.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(statsPath);
+        StatsData data = JsonUtility.FromJson<StatsData>(json);
+
+        foreach (var savedStat in data.savedStats)
+        {
+            DaughterManager.Instance.SetStats(savedStat.statType, (int)savedStat.currentValue);
+        }
+    }
 
     private IEnumerator AutoSaveRoutine()
     {
@@ -169,7 +205,11 @@ public class SaveManager : Singleton<SaveManager>
         {
             SaveFarm();
         }
-        SaveTime();
+        if (currentScene.name.Contains("HomeScene"))
+        {
+            SaveStats();
+        }
+        SaveBase();
         SaveInventory();
 
         Debug.Log("💾 저장 완료");

@@ -10,16 +10,6 @@ public class FarmData
 }
 
 [System.Serializable]
-public class GameDateTime
-{
-    public int year;
-    public int season;
-    public int day;
-    public int hour;
-    public int minute;
-}
-
-[System.Serializable]
 public class SavedTree
 {
     public Vector2 position;
@@ -43,6 +33,19 @@ public class SavedCrop
     public bool isWatered;
 }
 
+[System.Serializable]
+public class GameBaseData
+{
+    public int year;
+    public int season;
+    public int day;
+    public int hour;
+    public int minute;
+
+    public int stamina;
+    public int money;
+}
+
 public class InventoryData
 {
     public List<savedInventroyItem> savedInventory = new List<savedInventroyItem>();
@@ -54,4 +57,19 @@ public class savedInventroyItem
     public int slotIndex; // 0~24 : Inventory, 25 ~ 34 :Quickslot
     public string itemName;
     public int quantity;
+}
+
+[System.Serializable]
+public class StatsData
+{
+    public List<SavedStat> savedStats = new List<SavedStat>();
+}
+
+
+[System.Serializable]
+public class SavedStat
+{
+    public StatType statType;
+    public float currentValue;
+    public float maxValue;
 }
