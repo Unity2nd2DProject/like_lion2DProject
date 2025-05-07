@@ -69,7 +69,8 @@ public enum SituationType
     SLEEP,
     GIFT,
     GIFT_RECEIVED,
-    ENTER_HOME
+    ENTER_HOME,
+    ENDING
 }
 
 public enum ConditionType
@@ -310,6 +311,8 @@ public class Dialog
                 return "상인";
             case NameType.SYSTEM:
                 return "시스템";
+            case NameType.FATHER:
+                return "아빠";
             default:
                 return "무명";
         }
