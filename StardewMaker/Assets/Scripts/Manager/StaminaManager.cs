@@ -5,7 +5,7 @@ public class StaminaManager : Singleton<StaminaManager>
     [Header("Stamina Settings")]
     public int maxStamina = 10; // 전체 스태미나 칸 수
 
-    private StaminaState[] staminaStates;
+    public StaminaState[] staminaStates;
 
     protected override void Awake()
     {
@@ -27,6 +27,11 @@ public class StaminaManager : Singleton<StaminaManager>
         StaminaUI.Instance.InitializeUI(maxStamina);
     }
 
+    private void Start()
+    {
+        SaveManager.Instance.LoadStamina();
+    }
+
     // 스태미나 소모 (반칸씩)
     public void ConsumeStamina()
     {
@@ -36,13 +41,13 @@ public class StaminaManager : Singleton<StaminaManager>
             if (staminaStates[i] == StaminaState.Full)
             {
                 staminaStates[i] = StaminaState.Half;
-                UpdateStamina();
+                UpdateStaminaUI();
                 return;
             }
             else if (staminaStates[i] == StaminaState.Half)
             {
                 staminaStates[i] = StaminaState.Empty;
-                UpdateStamina();
+                UpdateStaminaUI();
                 return;
             }
         }
@@ -80,10 +85,10 @@ public class StaminaManager : Singleton<StaminaManager>
             }
         }
 
-        UpdateStamina();
+        UpdateStaminaUI();
     }
 
-    public void UpdateStamina()
+    public void UpdateStaminaUI()
     {
         StaminaUI.Instance.UpdateStaminaUI(staminaStates);
     }

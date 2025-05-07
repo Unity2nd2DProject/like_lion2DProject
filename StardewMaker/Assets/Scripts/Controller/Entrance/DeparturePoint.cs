@@ -1,5 +1,7 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class DeparturePoint : MonoBehaviour
 {
@@ -7,6 +9,7 @@ public class DeparturePoint : MonoBehaviour
 
     [SerializeField] private string sceneNameToLoad; // 로드할 씬 네임
     [SerializeField] private string arrivalPointName; // 소환될 플레이어 위치 이름
+    public GameObject dialogUI;
 
     void OnEnable()
     {
@@ -23,7 +26,9 @@ public class DeparturePoint : MonoBehaviour
     {
         if (TimeManager.Instance.currentHour < 19)
         {
-            Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
+            // Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
+            dialogUI.SetActive(true);
+            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
         }
         else
         {
@@ -34,6 +39,10 @@ public class DeparturePoint : MonoBehaviour
     // Exit 버튼을 클릭하는 경우 등
     public void Departure()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Town"))
+        {
+            TimeManager.Instance.currentHour = 19;
+        }
         GameManager.Instance.arrivalPointName = arrivalPointName;
         FadeManager.Instance.FadeOut();
         StartCoroutine(LoadSceneRoutine());

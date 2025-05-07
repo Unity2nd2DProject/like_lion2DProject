@@ -37,6 +37,10 @@ public class PrincessScene1Controller : MonoBehaviour
 
     private int introDialogId = 2;
 
+    // Stat증감 표현을 위함
+    private Queue<string> statChangeQueue = new Queue<string>();
+    private bool isShowing = false;
+
     private Dictionary<ScheduleType, string> scheduleTextDic = new(){
         {ScheduleType.EXERCISE, "운동"},
         {ScheduleType.HOME_WORK, "집안일"},
@@ -90,7 +94,7 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         SetDayNight(); // 아침인지 낮인지 구분
 
-        CheckNightDo(); // 저녁에 할 일 체크
+        StatChangeAtNight(); // 저녁에 Stat 증감
 
         SetStartDialog(); // 아침, 저녁 별 첫 대화 정하기
 
@@ -141,18 +145,52 @@ public class PrincessScene1Controller : MonoBehaviour
         }
     }
 
-    private void CheckNightDo()
+    private void StatChangeAtNight()
     {
-        if (!isDay && GameManager.Instance.wantedDialog != null)
+        if (!isDay)
         {
-            ScheduleType wantedScheduleType = GameManager.Instance.wantedDialog.scheduleType;
-            ScheduleType actualScheduleType0 = GameManager.Instance.actualScheuleType[0];
-            ScheduleType actualScheduleType1 = GameManager.Instance.actualScheuleType[1];
-
-            // 같은 경우 증가
-            if (wantedScheduleType == actualScheduleType0 || wantedScheduleType == actualScheduleType1)
+            for (int i = 0; i < GameManager.Instance.actualScheuleType.Count; i++)
             {
-                GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats());
+                ScheduleType actualScheduleType = GameManager.Instance.actualScheuleType[i];
+                switch (actualScheduleType)
+                {
+                    case ScheduleType.EXERCISE:
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.PYSICAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.HOME_WORK:
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
+                        break;
+                    case ScheduleType.PLAY:
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.READ_BOOK:
+                        DaughterManager.Instance.AddStats(StatType.ACADEMIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.DRAWING:
+                        DaughterManager.Instance.AddStats(StatType.ART, -1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.COOK:
+                        DaughterManager.Instance.AddStats(StatType.PYSICAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.MUSIC:
+                        DaughterManager.Instance.AddStats(StatType.MUSIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.MOOD, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                    case ScheduleType.DOLL:
+                        DaughterManager.Instance.AddStats(StatType.SOCIAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
+                        break;
+                }
             }
         }
     }
@@ -176,8 +214,35 @@ public class PrincessScene1Controller : MonoBehaviour
         }
         else
         {
-            List<Dialog> nightDialogList = DialogTool.GetDialogListBySituation(SituationType.EVENING, DaughterManager.Instance.GetStats());
-            npcDialog.currentDialogId = nightDialogList[UnityEngine.Random.Range(0, nightDialogList.Count)].id;
+            bool isWantedSchedule = false;
+            if (GameManager.Instance.wantedDialog != null)
+            {
+                ScheduleType wantedScheduleType = GameManager.Instance.wantedDialog.scheduleType;
+                List<ScheduleType> actualScheuleType = GameManager.Instance.actualScheuleType;
+
+                foreach (var i in actualScheuleType)
+                {
+                    if (i == wantedScheduleType)
+                    {
+                        isWantedSchedule = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isWantedSchedule) // 원하는 스케쥴이었을 경우 대사 진행 및 스탯 증감
+            {
+                Debug.Log($"{TAG} isWantedSchedule");
+
+                // GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats()); // 여기서 안 하고 대사 끝나면 올리기
+                npcDialog.currentDialogId = GameManager.Instance.wantedDialog.id + 1;
+                GameManager.Instance.wantedDialog = null;
+            }
+            else
+            {
+                List<Dialog> nightDialogList = DialogTool.GetDialogListBySituation(SituationType.EVENING, DaughterManager.Instance.GetStats());
+                npcDialog.currentDialogId = nightDialogList[UnityEngine.Random.Range(0, nightDialogList.Count)].id;
+            }
         }
     }
 
@@ -186,22 +251,37 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         dialogSubjectButtonList = new();
 
-        List<string> dialogSubejctButtonStringList = new()
+        List<string> dialogSubejctButtonStringList = isDay ? new()
         {
             dialogSubjectDic[SituationType.WANT_TO_DO],
-            dialogSubjectDic[SituationType.WANT_TO_BE],
-            dialogSubjectDic[SituationType.WANT_TO_EAT],
+            // dialogSubjectDic[SituationType.WANT_TO_BE],
+            // dialogSubjectDic[SituationType.WANT_TO_EAT],
             dialogSubjectDic[SituationType.MEMORY],
             dialogSubjectDic[SituationType.SWEET],
+            // dialogSubjectDic[SituationType.TODAY],
+        } : new()
+        {
+            // dialogSubjectDic[SituationType.WANT_TO_DO],
+            dialogSubjectDic[SituationType.WANT_TO_BE],
+            // dialogSubjectDic[SituationType.WANT_TO_EAT],
+            dialogSubjectDic[SituationType.MEMORY],
+            // dialogSubjectDic[SituationType.SWEET],
             dialogSubjectDic[SituationType.TODAY],
         };
 
-        List<SituationType> situationTypeList = new(){
+        List<SituationType> situationTypeList = isDay ? new(){
             SituationType.WANT_TO_DO,
-            SituationType.WANT_TO_BE,
-            SituationType.WANT_TO_EAT,
+            // SituationType.WANT_TO_BE,
+            // SituationType.WANT_TO_EAT,
             SituationType.MEMORY,
             SituationType.SWEET,
+            // SituationType.TODAY
+        } : new(){
+            // SituationType.WANT_TO_DO,
+            SituationType.WANT_TO_BE,
+            // SituationType.WANT_TO_EAT,
+            SituationType.MEMORY,
+            // SituationType.SWEET,
             SituationType.TODAY
         };
 
@@ -346,8 +426,29 @@ public class PrincessScene1Controller : MonoBehaviour
     // Stat 변경 시 화면에 표시
     private void StatChanged(string str)
     {
-        statText.text = str;
-        StartCoroutine(ShowStatChangePopup());
+        // statText.text = str;
+        // StartCoroutine(ShowStatChangePopup());
+
+        statChangeQueue.Enqueue(str);
+        if (!isShowing)
+        {
+            StartCoroutine(StatChangePopupQueue());
+        }
+    }
+
+
+    private IEnumerator StatChangePopupQueue()
+    {
+        isShowing = true;
+
+        while (statChangeQueue.Count > 0)
+        {
+            string str = statChangeQueue.Dequeue();
+            statText.text = str;
+            yield return ShowStatChangePopup();
+        }
+
+        isShowing = false;
     }
 
     private IEnumerator ShowStatChangePopup()

@@ -1,11 +1,9 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
-public class DialogManager : MonoBehaviour
+public class HomeEnterManager : MonoBehaviour
 {
     [SerializeField] private GameObject dialogUI;
-    [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject buttonPanel;
 
     [SerializeField] private TypewriterEffect typewriterEffect;
@@ -13,22 +11,19 @@ public class DialogManager : MonoBehaviour
 
     private bool hasShownButtons = false;
 
+
     void Start()
     {
         if (dialogUI != null)
         {
-            dialogUI.SetActive(false); 
-        }
-        if (shopUI != null)
-        {
-            shopUI.SetActive(false); 
+            dialogUI.SetActive(false);
         }
 
         hasShownButtons = false;
 
         if (buttonPanel != null)
         {
-            buttonPanel.SetActive(false); 
+            buttonPanel.SetActive(false);
         }
     }
 
@@ -73,20 +68,6 @@ public class DialogManager : MonoBehaviour
         {
             typewriterEffect.StartTyping(); // 텍스트 다시 시작
         }
-    }
-
-    public void OnClickBuy()
-    {
-        if (shopUI != null)
-        {
-            shopUI.transform.SetAsFirstSibling();
-            shopUI.SetActive(true);
-            UIManager.Instance.UpdateInventoryUI();
-            UIManager.Instance.inventoryUI.gameObject.SetActive(true);
-            Time.timeScale = 0f;
-        }
-
-        OnClickExit();
     }
 
     public void OnClickExit()

@@ -39,7 +39,7 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
         if (TimeImageUI.Instance != null && TimeImageUI.Instance.timeImage != null)
         {
             TimeManager.Instance.UpdateUI();
-            StaminaManager.Instance.UpdateStamina();
+            StaminaManager.Instance.UpdateStaminaUI();
 
             if (scene.name.Contains("TownScene"))
             {

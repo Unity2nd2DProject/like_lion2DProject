@@ -73,6 +73,27 @@ public class FarmLandManager : Singleton<FarmLandManager>
         return list;
     }
 
+    public List<SavedFarmLand> NextDayFarmLands(List<SavedFarmLand> savedList)
+    {
+        List<SavedFarmLand> list = new List<SavedFarmLand>();
+
+        foreach (var saved in savedList)
+        {
+            LandState newState = saved.landState;
+            if (newState == LandState.Watered)
+            {
+                newState = LandState.Fertile;
+            }
+
+            list.Add(new SavedFarmLand
+            {
+                position = saved.position,
+                landState = newState
+            });
+        }
+        return list;
+    }
+
     public void LoadFarmLands(List<SavedFarmLand> savedList)
     {
         foreach (var saved in savedList)

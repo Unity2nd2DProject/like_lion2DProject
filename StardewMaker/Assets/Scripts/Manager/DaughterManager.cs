@@ -74,6 +74,11 @@ public class DaughterManager : Singleton<DaughterManager>
         UIManager.Instance.InitializeStatUI(stats);
     }
 
+    private void Start()
+    {
+        SaveManager.Instance.LoadStats();
+    }
+
     public List<Stat> GetStats()
     {
         return stats;
@@ -100,6 +105,6 @@ public class DaughterManager : Singleton<DaughterManager>
             }
         }
         string op = (value > 0) ? "+" : "-";
-        OnStatChangeRequested?.Invoke($"{conditionStrDic[(ConditionType)statType]} {op} {value}");
+        OnStatChangeRequested?.Invoke($"{conditionStrDic[(ConditionType)statType]} {op} {Math.Abs(value)}");
     }
 }

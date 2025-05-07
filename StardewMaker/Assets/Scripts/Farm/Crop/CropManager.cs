@@ -102,6 +102,30 @@ public class CropManager : Singleton<CropManager>
         return list;
     }
 
+    public List<SavedCrop> NextDayCrops(List<SavedCrop> savedList)
+    {
+        List<SavedCrop> list = new List<SavedCrop>();
+
+        foreach (var saved in savedList)
+        {
+            var nextGrowthStage = saved.currentGrowthStage;
+            var maxGrowthStage = cropDatabase.Find(c => c.id == saved.cropId).maxGrowthStage;
+            if (saved.isWatered)
+            {
+                nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
+            }
+
+            list.Add(new SavedCrop
+            {
+                position = saved.position,
+                cropId = saved.cropId,
+                currentGrowthStage = nextGrowthStage,
+                isWatered = false
+            });
+        }
+        return list;
+    }
+
     public void LoadCrops(List<SavedCrop> savedList)
     {
         foreach (var saved in savedList)

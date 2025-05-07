@@ -37,8 +37,10 @@ public class TimeManager : Singleton<TimeManager>
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
         Debug.Log("TimeManager Awake");
-        SaveManager.Instance.LoadTime();
         CheckCurrentScene(); // 홈씬에서 시작하는 경우 시간 멈추기
+
+        SaveManager.Instance.LoadTime();
+
     }
 
     private void CheckCurrentScene()
@@ -49,7 +51,6 @@ public class TimeManager : Singleton<TimeManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadTime();
     }
 
     private void Update()
@@ -124,9 +125,17 @@ public class TimeManager : Singleton<TimeManager>
 
     public void OnNextDay()
     {
-        CropManager.Instance.NextDay();
-        FarmLandManager.Instance.NextDay();
-        TreeManager.Instance.NextDay();
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name.Contains("TownScene"))
+        {
+            CropManager.Instance.NextDay();
+            FarmLandManager.Instance.NextDay();
+            TreeManager.Instance.NextDay();
+        }
+        else
+        {
+            SaveManager.Instance.NextDayFarm();
+        }
         StaminaManager.Instance.RecoverStamina(20);
         UpdateUI();
     }
@@ -155,7 +164,7 @@ public class TimeManager : Singleton<TimeManager>
 
     public void UpdateUI()
     {
-        Debug.Log($"TimeUI Update : {currentHour} : {currentMinute}");
+        //Debug.Log($"TimeUI Update : {currentHour} : {currentMinute}");
         if (currentHour >= 7 && currentHour < 18)
         {
             TimeImageUI.Instance.SetDayImage();
