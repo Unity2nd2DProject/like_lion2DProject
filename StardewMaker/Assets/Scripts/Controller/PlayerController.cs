@@ -315,8 +315,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             curPond = pond;
         }
-
-        Debug.Log($"{curFarmLand} {curTree} {curPond}");
     }
 
     public void Harvest()
