@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class GameData
+public class FarmData
 {
     public List<SavedFarmLand> savedFarmLands = new List<SavedFarmLand>();
     public List<SavedCrop> savedCrops = new List<SavedCrop>();
     public List<SavedTree> savedTrees = new List<SavedTree>();
-
-    public GameDateTime dateTime;
 }
 
 [System.Serializable]
@@ -43,4 +41,17 @@ public class SavedCrop
     public int cropId;
     public int currentGrowthStage;
     public bool isWatered;
+}
+
+public class InventoryData
+{
+    public List<savedInventroyItem> savedInventory = new List<savedInventroyItem>();
+}
+
+[System.Serializable]
+public class savedInventroyItem
+{
+    public int slotIndex; // 0~24 : Inventory, 25 ~ 34 :Quickslot
+    public string itemName;
+    public int quantity;
 }

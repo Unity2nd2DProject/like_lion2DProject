@@ -79,6 +79,7 @@ public class PlayerController : Singleton<PlayerController>
         ZInput();
         XInput();
         IInput();
+        F1Input();
         NInput();
         MouseLeftInput();
     }
@@ -178,6 +179,14 @@ public class PlayerController : Singleton<PlayerController>
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
         {
             TimeManager.Instance.AdvanceDay();
+        }
+    }
+
+    private void F1Input() // Save
+    {
+        if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
+        {
+            SaveManager.Instance.Save();
         }
     }
 
@@ -306,6 +315,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             curPond = pond;
         }
+
+        Debug.Log($"{curFarmLand} {curTree} {curPond}");
     }
 
     public void Harvest()
