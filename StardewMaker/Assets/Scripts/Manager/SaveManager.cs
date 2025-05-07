@@ -29,6 +29,20 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("농장 정보가 저장되었습니다. " + farmPath);
     }
 
+    public void NextDayFarm()
+    {
+        FarmData data = new FarmData
+        {
+            savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(),
+            savedCrops = CropManager.Instance.NextDayCrops(),
+            savedTrees = TreeManager.Instance.NextDayTrees(),
+        };
+
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(farmPath, json);
+        Debug.Log("농장 정보가 저장되었습니다. " + farmPath);
+    }
+
     public void LoadFarm()
     {
         if (!System.IO.File.Exists(farmPath))

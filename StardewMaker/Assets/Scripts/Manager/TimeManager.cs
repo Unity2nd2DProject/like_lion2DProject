@@ -123,9 +123,17 @@ public class TimeManager : Singleton<TimeManager>
 
     public void OnNextDay()
     {
-        CropManager.Instance.NextDay();
-        FarmLandManager.Instance.NextDay();
-        TreeManager.Instance.NextDay();
+        Scene currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name.Contains("TownScene"))
+        {
+            CropManager.Instance.NextDay();
+            FarmLandManager.Instance.NextDay();
+            TreeManager.Instance.NextDay();
+        }
+        else
+        {
+            SaveManager.Instance.NextDayFarm();
+        }
         StaminaManager.Instance.RecoverStamina(20);
         UpdateUI();
     }
