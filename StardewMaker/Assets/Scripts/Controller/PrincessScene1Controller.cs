@@ -176,8 +176,35 @@ public class PrincessScene1Controller : MonoBehaviour
         }
         else
         {
-            List<Dialog> nightDialogList = DialogTool.GetDialogListBySituation(SituationType.EVENING, DaughterManager.Instance.GetStats());
-            npcDialog.currentDialogId = nightDialogList[UnityEngine.Random.Range(0, nightDialogList.Count)].id;
+            bool isWantedSchedule = false;
+            if (GameManager.Instance.wantedDialog != null)
+            {
+                ScheduleType wantedScheduleType = GameManager.Instance.wantedDialog.scheduleType;
+                List<ScheduleType> actualScheuleType = GameManager.Instance.actualScheuleType;
+
+                foreach (var i in actualScheuleType)
+                {
+                    if (i == wantedScheduleType)
+                    {
+                        isWantedSchedule = true;
+                        break;
+                    }
+                }
+            }
+
+            if (isWantedSchedule)
+            {
+                Debug.Log($"{TAG} isWantedSchedule");
+
+                GameManager.Instance.wantedDialog.SetTarget(DaughterManager.Instance.GetStats());
+                npcDialog.currentDialogId = GameManager.Instance.wantedDialog.id + 1;
+                GameManager.Instance.wantedDialog = null;
+            }
+            else
+            {
+                List<Dialog> nightDialogList = DialogTool.GetDialogListBySituation(SituationType.EVENING, DaughterManager.Instance.GetStats());
+                npcDialog.currentDialogId = nightDialogList[UnityEngine.Random.Range(0, nightDialogList.Count)].id;
+            }
         }
     }
 
@@ -186,22 +213,37 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         dialogSubjectButtonList = new();
 
-        List<string> dialogSubejctButtonStringList = new()
+        List<string> dialogSubejctButtonStringList = isDay ? new()
         {
             dialogSubjectDic[SituationType.WANT_TO_DO],
-            dialogSubjectDic[SituationType.WANT_TO_BE],
-            dialogSubjectDic[SituationType.WANT_TO_EAT],
+            // dialogSubjectDic[SituationType.WANT_TO_BE],
+            // dialogSubjectDic[SituationType.WANT_TO_EAT],
             dialogSubjectDic[SituationType.MEMORY],
             dialogSubjectDic[SituationType.SWEET],
+            // dialogSubjectDic[SituationType.TODAY],
+        } : new()
+        {
+            // dialogSubjectDic[SituationType.WANT_TO_DO],
+            dialogSubjectDic[SituationType.WANT_TO_BE],
+            // dialogSubjectDic[SituationType.WANT_TO_EAT],
+            dialogSubjectDic[SituationType.MEMORY],
+            // dialogSubjectDic[SituationType.SWEET],
             dialogSubjectDic[SituationType.TODAY],
         };
 
-        List<SituationType> situationTypeList = new(){
+        List<SituationType> situationTypeList = isDay ? new(){
             SituationType.WANT_TO_DO,
-            SituationType.WANT_TO_BE,
-            SituationType.WANT_TO_EAT,
+            // SituationType.WANT_TO_BE,
+            // SituationType.WANT_TO_EAT,
             SituationType.MEMORY,
             SituationType.SWEET,
+            // SituationType.TODAY
+        } : new(){
+            // SituationType.WANT_TO_DO,
+            SituationType.WANT_TO_BE,
+            // SituationType.WANT_TO_EAT,
+            SituationType.MEMORY,
+            // SituationType.SWEET,
             SituationType.TODAY
         };
 
