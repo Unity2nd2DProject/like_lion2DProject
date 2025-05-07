@@ -37,6 +37,10 @@ public class PrincessScene1Controller : MonoBehaviour
 
     private int introDialogId = 2;
 
+    // Stat증감 표현을 위함
+    private Queue<string> statChangeQueue = new Queue<string>();
+    private bool isShowing = false;
+
     private Dictionary<ScheduleType, string> scheduleTextDic = new(){
         {ScheduleType.EXERCISE, "운동"},
         {ScheduleType.HOME_WORK, "집안일"},
@@ -148,35 +152,45 @@ public class PrincessScene1Controller : MonoBehaviour
             for (int i = 0; i < GameManager.Instance.actualScheuleType.Count; i++)
             {
                 ScheduleType actualScheduleType = GameManager.Instance.actualScheuleType[i];
-                StatType statType = StatType.NONE;
                 switch (actualScheduleType)
                 {
                     case ScheduleType.EXERCISE:
-                        statType = StatType.PYSICAL;
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.PYSICAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.HOME_WORK:
-                        statType = StatType.DOMESTIC;
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
                         break;
                     case ScheduleType.PLAY:
-                        statType = StatType.VITALITY;
+                        DaughterManager.Instance.AddStats(StatType.VITALITY, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.READ_BOOK:
-                        statType = StatType.ACADEMIC;
+                        DaughterManager.Instance.AddStats(StatType.ACADEMIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.DRAWING:
-                        statType = StatType.ART;
+                        DaughterManager.Instance.AddStats(StatType.ART, -1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.COOK:
-                        statType = StatType.DOMESTIC;
+                        DaughterManager.Instance.AddStats(StatType.PYSICAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.MUSIC:
-                        statType = StatType.MUSIC;
+                        DaughterManager.Instance.AddStats(StatType.MUSIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.MOOD, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                     case ScheduleType.DOLL:
-                        statType = StatType.SOCIAL;
+                        DaughterManager.Instance.AddStats(StatType.SOCIAL, 1);
+                        DaughterManager.Instance.AddStats(StatType.DOMESTIC, 1);
+                        DaughterManager.Instance.AddStats(StatType.HUNGER, -1);
                         break;
                 }
-                DaughterManager.Instance.AddStats(statType, 1);
             }
         }
     }
@@ -412,8 +426,29 @@ public class PrincessScene1Controller : MonoBehaviour
     // Stat 변경 시 화면에 표시
     private void StatChanged(string str)
     {
-        statText.text = str;
-        StartCoroutine(ShowStatChangePopup());
+        // statText.text = str;
+        // StartCoroutine(ShowStatChangePopup());
+
+        statChangeQueue.Enqueue(str);
+        if (!isShowing)
+        {
+            StartCoroutine(StatChangePopupQueue());
+        }
+    }
+
+
+    private IEnumerator StatChangePopupQueue()
+    {
+        isShowing = true;
+
+        while (statChangeQueue.Count > 0)
+        {
+            string str = statChangeQueue.Dequeue();
+            statText.text = str;
+            yield return ShowStatChangePopup();
+        }
+
+        isShowing = false;
     }
 
     private IEnumerator ShowStatChangePopup()
