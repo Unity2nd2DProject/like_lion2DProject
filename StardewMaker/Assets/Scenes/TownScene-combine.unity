@@ -11503,17 +11503,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
---- !u!114 &531966061 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4557722558996436188, guid: 88f00abe27c89e64ab4dd294adbf7724, type: 3}
-  m_PrefabInstance: {fileID: 527863648}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &534465862
 GameObject:
   m_ObjectHideFlags: 0
@@ -19541,19 +19530,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 744417535}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: InventoryUI, Assembly-CSharp
-        m_MethodName: ToggleInventory
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &744417535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -112066,8 +112043,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2ad7ba2c813f5c04c86b0a0281197268, type: 2}
   - {fileID: 11400000, guid: f7027825e95d8474e910cf6749b7aa86, type: 2}
   - {fileID: 11400000, guid: 4ed94e4cebc966244964835b4d80c6c6, type: 2}
-  playerMoney: 10000
-  moneyText: {fileID: 531966061}
+  startMoney: 0
 --- !u!4 &1691080402
 Transform:
   m_ObjectHideFlags: 0
@@ -125455,6 +125431,7 @@ GameObject:
   - component: {fileID: 2052427085}
   - component: {fileID: 2052427087}
   - component: {fileID: 2052427086}
+  - component: {fileID: 2052427088}
   m_Layer: 5
   m_Name: ButtonSet
   m_TagString: Untagged
@@ -125515,6 +125492,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2052427084}
   m_CullTransparentMesh: 1
+--- !u!114 &2052427088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2052427084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff41e03e69ee8fc44a66619d24691727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryButton: {fileID: 744417534}
+  optionButton: {fileID: 1834331750}
 --- !u!1001 &2055308906
 PrefabInstance:
   m_ObjectHideFlags: 0

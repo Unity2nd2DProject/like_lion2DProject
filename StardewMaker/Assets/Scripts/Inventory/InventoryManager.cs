@@ -14,14 +14,24 @@ public class InventoryManager : Singleton<InventoryManager>
     public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
     [Header("Player Money")]
-    public int playerMoney;
-    public TextMeshProUGUI moneyText;  // Inspector에 드래그할 머니 표시용 UI
+    public int startMoney;
+    private int playerMoney;
+    public int PlayerMoney
+    {
+        get { return playerMoney; }
+        set
+        {
+            playerMoney = value;
+            UIManager.Instance.UpdateMoneyUI();
+        }
+    }
 
     protected override void Awake()
     {
         base.Awake();
 
         InitializeInventory();
+        InitializeMoney();
     }
 
     private void Update()
@@ -44,6 +54,12 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             AddItem(starterItems[i], 4);
         }        
+    }
+
+    private void InitializeMoney()
+    {
+        PlayerMoney = startMoney;
+        UIManager.Instance.UpdateMoneyUI();
     }
 
     public bool AddItem(ItemData newItem, int amount = 1)

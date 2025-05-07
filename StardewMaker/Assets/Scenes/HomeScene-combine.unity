@@ -3264,7 +3264,7 @@ GameObject:
   - component: {fileID: 1037602428}
   - component: {fileID: 1037602427}
   m_Layer: 5
-  m_Name: Setting
+  m_Name: Option
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3519,6 +3519,7 @@ GameObject:
   - component: {fileID: 1072749248}
   - component: {fileID: 1072749250}
   - component: {fileID: 1072749251}
+  - component: {fileID: 1072749252}
   m_Layer: 5
   m_Name: ButtonSet
   m_TagString: Untagged
@@ -3579,6 +3580,20 @@ MonoBehaviour:
   m_Spacing: {x: 24, y: 0}
   m_Constraint: 0
   m_ConstraintCount: 2
+--- !u!114 &1072749252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1072749247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff41e03e69ee8fc44a66619d24691727, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryButton: {fileID: 457797302}
+  optionButton: {fileID: 1037602427}
 --- !u!1 &1099242352
 GameObject:
   m_ObjectHideFlags: 0
@@ -5369,17 +5384,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1462293121}
   m_CullTransparentMesh: 1
---- !u!114 &1492951347 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4557722558996436188, guid: 88f00abe27c89e64ab4dd294adbf7724, type: 3}
-  m_PrefabInstance: {fileID: 1450192904}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1499902866
 GameObject:
   m_ObjectHideFlags: 0
@@ -5824,8 +5828,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2d1dbaf408a7ee045980b9091c5cb17c, type: 2}
   - {fileID: 11400000, guid: 941407753e45862479bab8672cbf3b7d, type: 2}
   - {fileID: 11400000, guid: b8f69550de451a54cadf8e6bc28911e2, type: 2}
-  playerMoney: 2000
-  moneyText: {fileID: 1492951347}
+  startMoney: 20000
 --- !u!1 &1635154092
 GameObject:
   m_ObjectHideFlags: 0
@@ -5919,6 +5922,7 @@ MonoBehaviour:
   cookingUI: {fileID: 0}
   giftUIPrefab: {fileID: 7091486289791395331, guid: 6de9bd1ea756c704ca4a42e374e930a9, type: 3}
   giftUI: {fileID: 0}
+  soundSettingUIPrefab: {fileID: 2260107242825021347, guid: c0f913c82f182424c843e57209a71202, type: 3}
 --- !u!4 &1648060267
 Transform:
   m_ObjectHideFlags: 0

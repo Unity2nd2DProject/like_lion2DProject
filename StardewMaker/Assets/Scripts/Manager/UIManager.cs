@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting.Antlr3.Runtime.Misc;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -34,6 +33,12 @@ public class UIManager : Singleton<UIManager>
     public GameObject giftUIPrefab;
     [HideInInspector]
     public GiftUI giftUI;
+
+    [Header("Setting UI")]
+    public GameObject soundSettingUIPrefab;
+    private SoundSettingUI SoundSettingUIInstance;
+
+    private BaseUI baseUI;
 
     // Normal Menu띄우기 액션
     public static event Action<bool> OnNormalMenuRequested;
@@ -100,20 +105,18 @@ public class UIManager : Singleton<UIManager>
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
     }
 
-    public void ToggleInventoryAndQuickSlotForTest()
+    public void ToggleInventoryByButton()
     {
-
-        if (quickSlotUI.gameObject.activeSelf != inventoryUI.gameObject.activeSelf)
+        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 퀵슬롯도 키고 위치 조정
         {
-            quickSlotUI.gameObject.SetActive(true);
-            inventoryUI.gameObject.SetActive(true);
-        }
-        else
-        {
+            inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
             quickSlotUI.gameObject.SetActive(!quickSlotUI.gameObject.activeSelf);
+            quickSlotUI.transform.position = inventoryUI.transform.position + new Vector3(-500, -550, 0); // 퀵슬롯 위치 조정
+        }
+        else if(GameManager.Instance.currentMode == GameMode.TOWN) // 타운모드일때는 인벤토리만 토글
+        {
             inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
         }
-
     }
 
     public void ShowQuickSlotUI()
@@ -123,8 +126,6 @@ public class UIManager : Singleton<UIManager>
             quickSlotUI.gameObject.SetActive(true);
         }
     }
-
-
 
     public void InitializeCookingUI()
     {
@@ -209,6 +210,27 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    public void UpdateMoneyUI()
+    {
+        if (baseUI == null)
+        {
+            baseUI = GameObject.FindGameObjectWithTag("MainCanvas").GetComponentInChildren<BaseUI>();
+        }
+        baseUI.SetMoneyText(InventoryManager.Instance.PlayerMoney.ToString("#,0"));
+    }
 
+    public void ToggleSoundSettingUI()
+    {
+        Debug.Log("ToggleSoundSettingUI");
+        if (SoundSettingUIInstance == null)
+        {
+            Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+            SoundSettingUIInstance = Instantiate(soundSettingUIPrefab, canvas.transform).GetComponent<SoundSettingUI>();
+            SoundSettingUIInstance.gameObject.SetActive(false);
+        }
+
+        SoundSettingUIInstance.gameObject.SetActive(!SoundSettingUIInstance.gameObject.activeSelf);
+
+    }
 }
 

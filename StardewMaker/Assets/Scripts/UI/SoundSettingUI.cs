@@ -14,7 +14,7 @@ public class SoundSettingUI : MonoBehaviour
     [SerializeField] private Image sfxMuteIcon;
 
     [Header("UI Control")]
-    [SerializeField] private GameObject soundSettingPanel;    // 사운드 설정 패널
+    [SerializeField] private GameObject soundSettingPanel;    // 사운드 설정 패널 -> 사실상 this.gameObject와 동일. 
     [SerializeField] private Button openButton;               // 설정 열기 버튼
     [SerializeField] private Button closeButton;              // 설정 닫기 버튼
 
@@ -49,14 +49,17 @@ public class SoundSettingUI : MonoBehaviour
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseSoundSetting);
 
+        /*
         // 초기에는 설정 패널 비활성화
         if (soundSettingPanel != null)
             soundSettingPanel.SetActive(false);
+        */
     }
 
     private void OnBGMVolumeChanged(float value)
     {
         SoundManager.Instance.SetBGMVolumeBySlider(value);
+        Debug.Log("BGM Volume Changed: " + value);
         UpdateBGMText(value);
         PlayerPrefs.SetFloat("BGMVolume", value);
         PlayerPrefs.Save();
@@ -117,10 +120,11 @@ public class SoundSettingUI : MonoBehaviour
         {
             soundSettingPanel.SetActive(false);
             // 설정값 저장
-            PlayerPrefs.Save();
+            PlayerPrefs.Save(); // 필요한가?
         }
     }
 
+    /*
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) && soundSettingPanel.activeSelf)
@@ -128,4 +132,5 @@ public class SoundSettingUI : MonoBehaviour
             CloseSoundSetting();
         }
     }
+    */
 }

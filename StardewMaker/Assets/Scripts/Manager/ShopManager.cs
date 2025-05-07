@@ -23,23 +23,13 @@ public class ShopManager : MonoBehaviour
 
     private void Start()
     {
-        UpdateMoneyUI();  // 처음 한 번 초기화
         playerInventory = InventoryManager.Instance; // 플레이어 인벤토리 참조
-    }
-
-    // 머니가 바뀔 때마다 이 함수를 호출
-    private void UpdateMoneyUI()
-    {
-        if (InventoryManager.Instance.moneyText != null)
-        {
-            InventoryManager.Instance.moneyText.text = InventoryManager.Instance.playerMoney.ToString("#,0");
-        }
     }
 
     // 아이템을 구매할 수 있는지 확인
     public bool CanAfford(ItemData item, int qty)
     {
-        return InventoryManager.Instance.playerMoney >= item.buyPrice * qty;
+        return InventoryManager.Instance.PlayerMoney >= item.buyPrice * qty;
     }
     
     // 아이템 구매 처리
@@ -61,11 +51,10 @@ public class ShopManager : MonoBehaviour
         }
 
         // 금액 차감
-        InventoryManager.Instance.playerMoney -= item.buyPrice * qty;
+        InventoryManager.Instance.PlayerMoney -= item.buyPrice * qty;
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();
-        UpdateMoneyUI();
 
         return true;
     }
@@ -98,11 +87,10 @@ public class ShopManager : MonoBehaviour
         }
 
         playerInventory.RemoveItem(itemData, qty);
-        InventoryManager.Instance.playerMoney += itemData.sellPrice * qty;
+        InventoryManager.Instance.PlayerMoney += itemData.sellPrice * qty;
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();
-        UpdateMoneyUI();
 
         return true;
     }
