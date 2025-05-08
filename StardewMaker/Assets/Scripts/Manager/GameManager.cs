@@ -53,6 +53,7 @@ public class GameManager : Singleton<GameManager>
             {
                 EndingResult ending = CropManager.Instance.GetEndingResult();
                 GoToEnding(ending);
+                return;
             }
         }
         else if (sceneName.Contains("Home"))
@@ -83,9 +84,11 @@ public class GameManager : Singleton<GameManager>
                 SceneManager.LoadScene("EndingScene");
                 break;
             case EndingResult.NORMAL:
+                SceneManager.LoadScene("EndingScene");
                 // Normal Scene 전환
                 break;
             case EndingResult.BAD:
+                SceneManager.LoadScene("EndingScene");
                 // Bad Scene 전환
                 break;
         }
