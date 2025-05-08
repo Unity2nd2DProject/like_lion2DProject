@@ -203,7 +203,17 @@ public class PrincessScene1Controller : MonoBehaviour
         if (currentDay == 1 && isDay)
         {
             // 게임 처음 시작 시 대화
-            npcDialog.currentDialogId = introDialogId;
+            // npcDialog.currentDialogId = introDialogId;
+            List<Dialog> dayDialogList = DialogTool.GetDialogListBySituation(SituationType.INTRO, DaughterManager.Instance.GetStats());
+            npcDialog.currentDialogId = dayDialogList[UnityEngine.Random.Range(0, dayDialogList.Count)].id;
+            return;
+        }
+
+        // todo ENDING날 실행
+        if (false)
+        {
+            List<Dialog> dayDialogList = DialogTool.GetDialogListBySituation(SituationType.ENDING, DaughterManager.Instance.GetStats());
+            npcDialog.currentDialogId = dayDialogList[UnityEngine.Random.Range(0, dayDialogList.Count)].id;
             return;
         }
 

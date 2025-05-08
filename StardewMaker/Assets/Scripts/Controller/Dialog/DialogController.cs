@@ -129,7 +129,7 @@ public class DialogController : MonoBehaviour
                         if (currentNPCDialog.nameType == NameType.PRINCESS) ChangeEmotionImage(EmotionType.IDLE);
                         else dialogView.EnableNPCImage(false);
 
-                        // Debug.Log($"{TAG} ExtType.ACT");
+                        Debug.Log($"{TAG} ExtType.ACT");
                         OnNormalMenuRequested?.Invoke(true);
                         break;
                     case ExtType.EXIT: // 집에서 나가기 -> 스케줄 메뉴
@@ -247,8 +247,32 @@ public class DialogController : MonoBehaviour
     // 옵션 클릭시 실행
     private void OnClickOption(int i)
     {
-        // Debug.Log($"{TAG} OnClickOption {i}");
+        isNextDialogReady = true;
         selectedOptionNum = i;
+        Dialog selectedOptionDialog = DialogTool.dialogDic[currentDialog.optionIdList[i]];
+        // Debug.Log($"{TAG} OnClickOption {selectedOptionDialog.ext1}");
+
+        if (selectedOptionDialog.ext1 != ExtType.WILL) selectedOptionDialog.SetTarget(DaughterManager.Instance.GetStats());
+
+        switch (selectedOptionDialog.ext1)
+        {
+            case ExtType.ACT: // 집에서 행동
+                // Debug.Log($"{TAG} ExtType.ACT");
+
+                // PRINCESS인 경우 캐릭터 이미지 IDLE로 지속
+                if (currentNPCDialog.nameType == NameType.PRINCESS) ChangeEmotionImage(EmotionType.IDLE);
+                else dialogView.EnableNPCImage(false);
+
+                OnNormalMenuRequested?.Invoke(true);
+                break;
+            case ExtType.EXIT: // 집에서 나가기
+                // Debug.Log($"{TAG} ExtType.EXIT");
+
+                // if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
+                if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
+                break;
+        }
+
         OnClickSpaceInput();
     }
 
@@ -267,7 +291,7 @@ public class DialogController : MonoBehaviour
     private void OnStopTextPrint()
     {
         SoundManager.Instance.StopSfx();
-        isNextDialogReady = true;
+        if (currentDialog.type != DialogType.CHOICE) isNextDialogReady = true;
         isTextSkipEnabled = false;
         if (currentDialog.type != DialogType.CHOICE) // 옵션 선택 대사일 경우 NextDialogBtn 안나옴
             dialogView.EnableNextDialogBtn(true);
