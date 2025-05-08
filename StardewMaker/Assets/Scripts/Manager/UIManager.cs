@@ -111,6 +111,9 @@ public class UIManager : Singleton<UIManager>
 
     public void ToggleInventoryByButton()
     {
+        UpdateInventoryUI();
+        UpdateQuickSlotUI();
+
         if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 퀵슬롯도 키고 위치 조정
         {
             inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);

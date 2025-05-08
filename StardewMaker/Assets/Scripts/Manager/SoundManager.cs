@@ -49,8 +49,8 @@ public class SoundManager : Singleton<SoundManager>
 
     private void SetVolume()
     {
-        audioMixer.SetFloat(bgm, PlayerPrefs.GetFloat("BGMVolume")); // 저장된 BGM 볼륨으로 복원
-        audioMixer.SetFloat(sfx, PlayerPrefs.GetFloat("SFXVolume")); // 저장된 SFX 볼륨으로 복원
+        SetBGMVolumeBySlider(PlayerPrefs.GetFloat("BGMVolume")); // 저장된 BGM 볼륨으로 복원
+        SetSFXVolumeBySlider(PlayerPrefs.GetFloat("SFXVolume")); // 저장된 SFX 볼륨으로 복원
 
         if (isBGMMuted)
         {
