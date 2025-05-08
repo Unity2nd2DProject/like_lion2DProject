@@ -137,6 +137,12 @@ public class WeatherManager : MonoBehaviour
                 break;
         }
 
+        // 날씨 변경에 맞춰 사운드 업데이트
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.UpdateWeatherSound(weatherType);
+        }
+
         Debug.Log($"날씨 변경: {weatherType}");
     }
 
