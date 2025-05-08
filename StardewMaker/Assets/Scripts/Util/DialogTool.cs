@@ -112,7 +112,8 @@ public enum ExtType
     WILL,
     SLEEP,
     COOK,
-    GIFT
+    GIFT,
+    ENDING
 }
 
 public enum ScheduleType
