@@ -280,6 +280,13 @@ public class PlayerController : Singleton<PlayerController>
                                 {
                                     var crop = CropManager.Instance.GetCropAt(curFarmLand.GetPosition());
 
+                                    if (crop != null && crop.cropData.id == 7 && TimeManager.Instance.IsLastDay())
+                                    {
+                                        EndingResult ending = CropManager.Instance.GetEndingResult();
+                                        GameManager.Instance.GoToEnding(ending);
+                                        return;
+                                    }
+
                                     if (crop != null && curFarmLand.CanHarvest())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Harvest);

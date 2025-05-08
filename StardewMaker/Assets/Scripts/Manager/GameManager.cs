@@ -48,13 +48,6 @@ public class GameManager : Singleton<GameManager>
         if (sceneName.Contains("Town"))
         {
             currentMode = GameMode.TOWN;
-
-            if (TimeManager.Instance.IsLastDay()) // ending
-            {
-                EndingResult ending = CropManager.Instance.GetEndingResult();
-                GoToEnding(ending);
-                return;
-            }
         }
         else if (sceneName.Contains("Home"))
         {
@@ -80,16 +73,13 @@ public class GameManager : Singleton<GameManager>
         switch (ending)
         {
             case EndingResult.GOOD:
-                // Good Scene 전환
                 SceneManager.LoadScene("EndingScene");
                 break;
             case EndingResult.NORMAL:
                 SceneManager.LoadScene("EndingScene");
-                // Normal Scene 전환
                 break;
             case EndingResult.BAD:
                 SceneManager.LoadScene("EndingScene");
-                // Bad Scene 전환
                 break;
         }
     }
