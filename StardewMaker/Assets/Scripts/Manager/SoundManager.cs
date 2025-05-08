@@ -59,12 +59,12 @@ public class SoundManager : Singleton<SoundManager>
     private void PlaySceneBGM(string sceneName)
     {
         var bgmData = sceneBGMs.Find(x => x.sceneName == sceneName);
-        if (bgmData != null)
+        if (bgmAudioSource != null && bgmAudioSource.enabled && bgmAudioSource.gameObject.activeInHierarchy)
         {
             bgmAudioSource.Stop();
             bgmAudioSource.clip = bgmData.bgmClip;
             bgmAudioSource.Play();
-        }        
+        }
     }
 
     private const float MIN_VOLUME_DB = -80f;
