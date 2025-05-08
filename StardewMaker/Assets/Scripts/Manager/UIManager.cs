@@ -149,6 +149,7 @@ public class UIManager : Singleton<UIManager>
         {
             InitializeCookingUI();
         }
+        cookingUI.cookingInventory.UpdateIngredientInventoryUI();
         cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
         cookingUI.transform.SetAsLastSibling();
     }

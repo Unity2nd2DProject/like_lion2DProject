@@ -69,6 +69,7 @@ public enum SituationType
     SLEEP,
     GIFT,
     GIFT_RECEIVED,
+    FOOD_RECEIVED,
     ENTER_HOME,
     ENDING
 }

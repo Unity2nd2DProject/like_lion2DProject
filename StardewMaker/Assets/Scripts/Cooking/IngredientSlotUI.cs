@@ -23,6 +23,7 @@ public class IngredientSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExi
     public void SetSlot(ItemData _item, int quantity)
     {
         itemData = _item;
+
         if (_item != null)
         {
             icon.enabled = true;

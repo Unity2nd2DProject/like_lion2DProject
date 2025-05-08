@@ -30,7 +30,7 @@ public class DeparturePoint : MonoBehaviour
         {
             // Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
             dialogUI.SetActive(true);
-            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
+            SoundManager.Instance.PlaySfxDialog();
         }
         else
         {

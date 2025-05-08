@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class CookingManager : Singleton<CookingManager>
 {
@@ -9,8 +11,10 @@ public class CookingManager : Singleton<CookingManager>
     {
         base.Awake();
 
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
+
+
 
     private void Start()
     {
@@ -26,6 +30,11 @@ public class CookingManager : Singleton<CookingManager>
         recipes[3].UnlockRecipe(); 
         recipes[4].UnlockRecipe(); 
         recipes[5].UnlockRecipe();        
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        InitRecipe();
     }
 
     private void InitRecipe()
@@ -58,6 +67,7 @@ public class CookingManager : Singleton<CookingManager>
         InventoryManager.Instance.AddItem(currentRecipe.finishedDish); // 요리 결과 아이템 추가
         // 요리 완료 후 결과 UI 표시
         UIManager.Instance.ShowPopup("요리 완성!.");
+
         UIManager.Instance.cookingUI.cookingInventory.UpdateIngredientInventoryUI();
 
     }

@@ -2,14 +2,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;  // SceneManager 사용을 위해 추가
 using System.Collections.Generic;
-
-public enum Volume
-{
-    LOW = 1,
-    MEDIUM = 5,
-    HIGH = 10
-
-}
+using System;
 
 [System.Serializable]
 public class SceneBGMData
@@ -50,51 +43,62 @@ public class SoundManager : Singleton<SoundManager>
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        PlaySceneBGM(scene.name, Volume.MEDIUM); // 기본 볼륨으로 재생
+        SetVolume();
+        PlaySceneBGM(scene.name);
+    }
+
+    private void SetVolume()
+    {
+        SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume"));
+        SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
     }
 
     // 씬별 BGM 재생 (볼륨 조절 가능)
-    private void PlaySceneBGM(string sceneName, Volume volume = Volume.MEDIUM)
+    private void PlaySceneBGM(string sceneName)
     {
         var bgmData = sceneBGMs.Find(x => x.sceneName == sceneName);
         if (bgmData != null)
         {
             bgmAudioSource.Stop();
             bgmAudioSource.clip = bgmData.bgmClip;
-            SetBGMVolume(volume);
             bgmAudioSource.Play();
-        }
+        }        
     }
 
-    // BGM 볼륨 조절
-    public void SetBGMVolume(Volume volume)
+    private const float MIN_VOLUME_DB = -80f;
+    private const float MAX_VOLUME_DB = 20f;
+
+
+    private void SetBGMVolume(float volume)
     {
-        float normalizedVolume = Mathf.Clamp((int)volume, 1f, 100f) * 0.1f;
-        audioMixer.SetFloat(bgm, Mathf.Log10(normalizedVolume) * 20);
+        audioMixer.SetFloat(bgm, volume);
     }
+
+    private void SetSFXVolume(float volume)
+    {
+        audioMixer.SetFloat(sfx, volume);
+    }
+
+   
 
     // 슬라이더용 BGM 볼륨 조절 (0~1 값)
     public void SetBGMVolumeBySlider(float sliderValue)
     {
-        float volume = Mathf.Lerp(1f, 100f, sliderValue);
-        SetBGMVolume((Volume)volume);
+        float dB = Mathf.Lerp(MIN_VOLUME_DB, MAX_VOLUME_DB, sliderValue);
+        SetBGMVolume(dB);
     }
-
-    // 효과음 재생 (볼륨 조절 가능)
-    public void PlaySfxDialog(Volume volume = Volume.MEDIUM)
-    {
-        float normalizedVolume = Mathf.Clamp((int)volume, 1f, 100f) * 0.1f;
-        audioMixer.SetFloat(sfx, Mathf.Log10(normalizedVolume) * 20);
-        sfxAudioSource.clip = sfxDialog;
-        sfxAudioSource.Play();
-    }
-
     // 슬라이더용 효과음 볼륨 조절 (0~1 값)
     public void SetSFXVolumeBySlider(float sliderValue)
     {
-        float volume = Mathf.Lerp(1f, 100f, sliderValue);
-        float normalizedVolume = Mathf.Clamp(volume, 1f, 100f) * 0.1f;
-        audioMixer.SetFloat(sfx, Mathf.Log10(normalizedVolume) * 20);
+        float dB = Mathf.Lerp(MIN_VOLUME_DB, MAX_VOLUME_DB, sliderValue);
+        SetSFXVolume(dB);
+    }
+
+    // 효과음 재생 (볼륨 조절 가능)
+    public void PlaySfxDialog()
+    {
+        sfxAudioSource.clip = sfxDialog;
+        sfxAudioSource.Play();
     }
 
     public void StopSfx()

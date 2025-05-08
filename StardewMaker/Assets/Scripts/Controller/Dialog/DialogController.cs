@@ -279,7 +279,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 시작
     private void OnStartTextPrint()
     {
-        SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
+        SoundManager.Instance.PlaySfxDialog();
         selectedOptionNum = 0; // 선택된 옵션 초기화
         isNextDialogReady = false;
         isTextSkipEnabled = true;
