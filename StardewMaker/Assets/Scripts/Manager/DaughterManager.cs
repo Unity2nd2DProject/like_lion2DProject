@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public class DaughterManager : Singleton<DaughterManager>
 {
@@ -43,6 +44,21 @@ public class DaughterManager : Singleton<DaughterManager>
         if (!isValid) return;
 
         Initialize();
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
+    {
+        UIManager.Instance.InitializeStatUI(stats);
+        if(GameManager.Instance.currentMode == GameMode.TOWN)
+        {
+            UIManager.Instance.statUIInstance.gameObject.SetActive(false);
+        }
+        else if (GameManager.Instance.currentMode == GameMode.HOME)
+        {
+            UIManager.Instance.statUIInstance.gameObject.SetActive(true);
+        }
     }
 
     private void Initialize()

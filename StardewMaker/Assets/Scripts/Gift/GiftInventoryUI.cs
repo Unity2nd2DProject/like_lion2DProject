@@ -24,7 +24,7 @@ public class GiftInventoryUI : MonoBehaviour
         {
             if (inventoryManager.slots[i].IsEmpty() || inventoryManager.slots[i].itemData.itemType == ItemType.Seed || inventoryManager.slots[i].itemData.itemType == ItemType.Tool)
             {
-                continue; // 빈 슬롯이거나 씨앗, 도구인 경우 건너뜀                
+                giftSlots[giftInventoryIndex].SetSlot(null,0);
             }
             else
             {

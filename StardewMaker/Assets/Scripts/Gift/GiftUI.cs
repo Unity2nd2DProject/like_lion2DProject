@@ -18,6 +18,7 @@ public class GiftUI : MonoBehaviour
         quitButton.onClick.AddListener(CloseUI);
         // quitButton.onClick.AddListener(OnQuickButtonClicked);
         GiftInventoryUI.GetComponent<GiftInventoryUI>().InitializeGiftInventoryUI(); // 선물 인벤토리 UI 초기화
+        GiftInfoUI.GetComponent<GiftInfoUI>().InitializeGiftInfoUI(); // 선물 정보 UI 초기화
     }
 
     // private void OnQuickButtonClicked()
@@ -29,5 +30,7 @@ public class GiftUI : MonoBehaviour
     {
         GiftInfoUI.GetComponent<GiftInfoUI>().UpdateGiftInfo(gift); // 선물 정보 UI 업데이트
     }
+
+    
 
 }
