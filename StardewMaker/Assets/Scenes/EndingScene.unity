@@ -323,6 +323,8 @@ MonoBehaviour:
   highStatThreshold: 80
   mediumStatThreshold: 40
   endingConditions:
+  - endingType: 5
+    requiredStats: []
   - endingType: 1
     requiredStats:
     - statType: 1
@@ -334,8 +336,6 @@ MonoBehaviour:
   - endingType: 3
     requiredStats: []
   - endingType: 4
-    requiredStats: []
-  - endingType: 5
     requiredStats: []
 --- !u!1 &519420028
 GameObject:
@@ -1173,7 +1173,7 @@ GameObject:
   - component: {fileID: 1499877472}
   m_Layer: 5
   m_Name: Canvas
-  m_TagString: Untagged
+  m_TagString: MainCanvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1524,7 +1524,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e6b6bf40c0eb7469f47c6800e6898c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sfxLibrary: {fileID: 0}
   bgmAudioSource: {fileID: 1521088052}
+  sfxDialogAudioSource: {fileID: 0}
   sfxAudioSource: {fileID: 1521088051}
   audioMixer: {fileID: 24100000, guid: 75587cdf0e05f6945a1131c458fc4841, type: 2}
   sfxDialog: {fileID: 8300000, guid: 265c182233deb864ba7264b3113b55d2, type: 3}
@@ -1539,6 +1541,8 @@ MonoBehaviour:
     bgmClip: {fileID: 8300000, guid: 6e2c98971068b694894aaf3a06382529, type: 3}
   - sceneName: EndingScene
     bgmClip: {fileID: 8300000, guid: 246f7291be7ce364a953fded4dd6a34c, type: 3}
+  weatherSounds: []
+  weatherAmbientSource: {fileID: 0}
 --- !u!4 &1521088054
 Transform:
   m_ObjectHideFlags: 0
