@@ -70,4 +70,49 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
     }
+
+    private void PickSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Pick");
+    }
+
+    private void WaterSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Watering");
+    }
+
+    private void HarvestSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Harvest");
+    }
+
+    private void ThrowFloatSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Throw");
+    }
+
+    private void WindingReelSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Reel");
+    }
+
+    private void FishSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Fishing");
+    }
+
+    private void AxeSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Axe");
+    }
+
+    private void GetWaterSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("GetWater");
+    }
+
+    private void SeedSoundTrigger()
+    {
+        SoundManager.Instance.PlaySFX("Seed");
+    }
 }

@@ -6,6 +6,7 @@ public class FadeManager : Singleton<FadeManager>
 {
     [SerializeField] private Image fadeImage;
     [SerializeField] public float fadeDuration;
+    public bool IsFading { get; private set; } // 추가
 
     protected override void Awake()
     {
@@ -24,6 +25,7 @@ public class FadeManager : Singleton<FadeManager>
 
     private IEnumerator Fade(float startAlpha, float endAlpha, System.Action onComplete)
     {
+        IsFading = true; // 페이드 시작
         fadeImage.raycastTarget = true; // 시작 시 차단
 
         float time = 0f;
@@ -45,6 +47,7 @@ public class FadeManager : Singleton<FadeManager>
         fadeImage.color = color;
 
         fadeImage.raycastTarget = false; // 끝나면 클릭 허용
+        IsFading = false; // 페이드 종료
         onComplete?.Invoke();
     }
 }

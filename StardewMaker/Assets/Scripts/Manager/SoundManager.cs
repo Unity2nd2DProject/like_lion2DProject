@@ -3,6 +3,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;  // SceneManager 사용을 위해 추가
 using System.Collections.Generic;
 using System;
+using UnityEngine.Rendering;
 
 [System.Serializable]
 public class SceneBGMData
@@ -13,7 +14,7 @@ public class SceneBGMData
 
 public class SoundManager : Singleton<SoundManager>
 {
-
+    [SerializeField] private SFXLibrary sfxLibrary; // ScriptableObject 참조
     [SerializeField] private AudioSource bgmAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
     [SerializeField] private AudioMixer audioMixer;
@@ -79,8 +80,6 @@ public class SoundManager : Singleton<SoundManager>
         audioMixer.SetFloat(sfx, volume);
     }
 
-   
-
     // 슬라이더용 BGM 볼륨 조절 (0~1 값)
     public void SetBGMVolumeBySlider(float sliderValue)
     {
@@ -94,11 +93,27 @@ public class SoundManager : Singleton<SoundManager>
         SetSFXVolume(dB);
     }
 
-    // 효과음 재생 (볼륨 조절 가능)
+    // 외부에서 사운드만 가져다 쓸 수 있게 하는 함수
+    public AudioClip GetSFXClip(string sfxName)
+    {
+        return sfxLibrary?.GetClip(sfxName);
+    }
+
+    // 다이얼로그 효과음 재생 (볼륨 조절 가능)
     public void PlaySfxDialog()
     {
         sfxAudioSource.clip = sfxDialog;
         sfxAudioSource.Play();
+    }
+
+    // 효과음 재생 (볼륨 조절 가능)
+    public void PlaySFX(string sfxName)
+    {
+        AudioClip clip = GetSFXClip(sfxName);
+        if (clip != null)
+        {
+            sfxAudioSource.PlayOneShot(clip);
+        }
     }
 
     public void StopSfx()
