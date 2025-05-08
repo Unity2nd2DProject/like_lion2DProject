@@ -181,18 +181,24 @@ public class CropManager : Singleton<CropManager>
 
     public void GotoLastDay(EndingResult ending) // Debug
     {
-            foreach (var crop in crops)
+        foreach (var crop in crops)
+        {
+            if (crop.Value.cropData.id == 7)
             {
-                if (crop.Value.cropData.id == 7)
+                switch(ending)
                 {
-                    if (ending == EndingResult.GOOD)
-                    {
-                        LegendCrop legendCrop = (LegendCrop)crop.Value;
-                        legendCrop.currentGrowthStage = 25;
-                        legendCrop.UpdateGrowth();
-                    }
+                    case EndingResult.GOOD:
+                        crop.Value.currentGrowthStage = 25;
+                        break;
+                    case EndingResult.NORMAL:
+                        break;
+                    case EndingResult.BAD:
+                        break;
                 }
+
+                crop.Value.UpdateGrowth();
             }
+        }
     }
 }
 
