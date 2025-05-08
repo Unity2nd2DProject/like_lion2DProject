@@ -271,6 +271,12 @@ public class DialogController : MonoBehaviour
                 // if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
                 if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
                 break;
+            case ExtType.ENDING: // 엔딩
+                // 이거 안 쓰고 EXIT으로 나가기
+                Debug.Log($"{TAG} ExtType.ENDING");
+
+                // GameManager.Instance.changeScene("EndingScene");
+                break;
         }
 
         OnClickSpaceInput();

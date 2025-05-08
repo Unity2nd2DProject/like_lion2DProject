@@ -26,7 +26,7 @@ public class Crop : MonoBehaviour
         isWatered = true;
     }
 
-    public void Fertlize()
+    public virtual void Fertlize()
     {
         currentGrowthStage = cropData.maxGrowthStage;
         isWatered = true;

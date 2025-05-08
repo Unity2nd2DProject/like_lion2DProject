@@ -48,6 +48,12 @@ public class GameManager : Singleton<GameManager>
         if (sceneName.Contains("Town"))
         {
             currentMode = GameMode.TOWN;
+
+            if (TimeManager.Instance.IsLastDay()) // ending
+            {
+                EndingResult ending = CropManager.Instance.GetEndingResult();
+                GoToEnding(ending);
+            }
         }
         else if (sceneName.Contains("Home"))
         {
@@ -58,5 +64,30 @@ public class GameManager : Singleton<GameManager>
 
         // todo 데이터 저장
         SaveManager.Instance.Save();
+    }
+
+    public void GoToEnding(EndingResult ending, bool isTest = false)
+    {
+        if (isTest)
+        {
+            TimeManager.Instance.GoToLastDay();
+            CropManager.Instance.GotoLastDay(ending);
+        }
+
+        TimeManager.Instance.PauseTime();
+
+        switch (ending)
+        {
+            case EndingResult.GOOD:
+                // Good Scene 전환
+                SceneManager.LoadScene("EndingScene");
+                break;
+            case EndingResult.NORMAL:
+                // Normal Scene 전환
+                break;
+            case EndingResult.BAD:
+                // Bad Scene 전환
+                break;
+        }
     }
 }
