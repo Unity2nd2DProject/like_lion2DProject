@@ -863,7 +863,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29e6b6bf40c0eb7469f47c6800e6898c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundLibrary: {fileID: 11400000, guid: 715f7f8ac374e564798f2be53e2e19e2, type: 2}
   bgmAudioSource: {fileID: 481162917}
   sfxAudioSource: {fileID: 481162916}
   audioMixer: {fileID: 24100000, guid: 75587cdf0e05f6945a1131c458fc4841, type: 2}
@@ -877,6 +876,8 @@ MonoBehaviour:
     bgmClip: {fileID: 8300000, guid: bd20949cc1750ed4db2e312e0fffdd23, type: 3}
   - sceneName: TownScene-combine
     bgmClip: {fileID: 8300000, guid: 6e2c98971068b694894aaf3a06382529, type: 3}
+  - sceneName: EndingScene
+    bgmClip: {fileID: 8300000, guid: 246f7291be7ce364a953fded4dd6a34c, type: 3}
 --- !u!4 &481162919
 Transform:
   m_ObjectHideFlags: 0
