@@ -271,6 +271,12 @@ public class DialogController : MonoBehaviour
                 // if (currentNPCDialog.nameType == NameType.PRINCESS) OnScheduleMenuRequested?.Invoke(true);
                 if (currentNPCDialog.nameType == NameType.PRINCESS) OnExitRequested?.Invoke();
                 break;
+            case ExtType.ENDING: // 엔딩
+                // 이거 안 쓰고 EXIT으로 나가기
+                Debug.Log($"{TAG} ExtType.ENDING");
+
+                // GameManager.Instance.changeScene("EndingScene");
+                break;
         }
 
         OnClickSpaceInput();
@@ -279,7 +285,7 @@ public class DialogController : MonoBehaviour
     // 대사 출력 시작
     private void OnStartTextPrint()
     {
-        SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
+        SoundManager.Instance.PlaySfxDialog();
         selectedOptionNum = 0; // 선택된 옵션 초기화
         isNextDialogReady = false;
         isTextSkipEnabled = true;

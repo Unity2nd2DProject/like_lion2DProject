@@ -21,7 +21,8 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Stat UI")]
     [SerializeField] private GameObject statUIPrefab;
-    private StatUI statUIInstance;
+    [HideInInspector]
+    public StatUI statUIInstance;
 
 
     [Header("Cooking UI")]
@@ -51,10 +52,13 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeStatUI(List<Stat> stats)
     {
-        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
-        statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
-        statUIInstance.Initialize(stats);
-        Debug.Log(statUIInstance);
+        if(statUIInstance == null) // 이미 StatUI가 존재하면 초기화 하지 않음
+        {
+            Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+            statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
+            statUIInstance.Initialize(stats);
+        }
+        
     }
 
     public void InitializeInventoryAndQuickSlot()
@@ -145,6 +149,7 @@ public class UIManager : Singleton<UIManager>
         {
             InitializeCookingUI();
         }
+        cookingUI.cookingInventory.UpdateIngredientInventoryUI();
         cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
         cookingUI.transform.SetAsLastSibling();
     }
@@ -167,8 +172,8 @@ public class UIManager : Singleton<UIManager>
         {
             giftUI = Instantiate(giftUIPrefab, canvas.transform).GetComponent<GiftUI>();
             giftUI.gameObject.SetActive(false);
-            giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().InitializeGiftInventoryUI(); // 선물 인벤토리 UI 초기화
             giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().UpdateGiftInventory();
+            giftUI.GetComponent<GiftUI>().GiftInfoUI.GetComponent<GiftInfoUI>().InitializeGiftInfoUI();
         }
     }
 
@@ -178,6 +183,8 @@ public class UIManager : Singleton<UIManager>
         {
             InitializeGiftUI();
         }
+        giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().UpdateGiftInventory();
+        giftUI.GetComponent<GiftUI>().GiftInfoUI.GetComponent<GiftInfoUI>().InitializeGiftInfoUI();
         giftUI.gameObject.SetActive(!giftUI.gameObject.activeSelf);
         giftUI.transform.SetAsLastSibling();
     }
