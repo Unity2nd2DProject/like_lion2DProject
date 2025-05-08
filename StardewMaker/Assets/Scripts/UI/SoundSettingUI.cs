@@ -49,28 +49,22 @@ public class SoundSettingUI : MonoBehaviour
         if (closeButton != null)
             closeButton.onClick.AddListener(CloseSoundSetting);
 
-        /*
-        // 초기에는 설정 패널 비활성화
-        if (soundSettingPanel != null)
-            soundSettingPanel.SetActive(false);
-        */
     }
 
     private void OnBGMVolumeChanged(float value)
     {
         SoundManager.Instance.SetBGMVolumeBySlider(value);
         Debug.Log("BGM Volume Changed: " + value);
-        UpdateBGMText(value);
         PlayerPrefs.SetFloat("BGMVolume", value);
-        PlayerPrefs.Save();
+        UpdateBGMText(value);   
     }
 
     private void OnSFXVolumeChanged(float value)
     {
         SoundManager.Instance.SetSFXVolumeBySlider(value);
-        UpdateSFXText(value);
         PlayerPrefs.SetFloat("SFXVolume", value);
-        PlayerPrefs.Save();
+        UpdateSFXText(value);
+
     }
 
     private void OnBGMMuteButtonClicked()
@@ -119,18 +113,7 @@ public class SoundSettingUI : MonoBehaviour
         if (soundSettingPanel != null)
         {
             soundSettingPanel.SetActive(false);
-            // 설정값 저장
-            PlayerPrefs.Save(); // 필요한가?
+            PlayerPrefs.Save();
         }
     }
-
-    /*
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape) && soundSettingPanel.activeSelf)
-        {
-            CloseSoundSetting();
-        }
-    }
-    */
 }

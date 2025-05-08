@@ -29,8 +29,6 @@ public class SoundManager : Singleton<SoundManager>
 
     private bool isBGMMuted = false;
     private bool isSFXMuted = false;
-    private float lastBGMVolume = 1f;
-    private float lastSFXVolume = 1f;
 
     protected override void Awake()
     {
@@ -51,8 +49,17 @@ public class SoundManager : Singleton<SoundManager>
 
     private void SetVolume()
     {
-        SetBGMVolume(PlayerPrefs.GetFloat("BGMVolume"));
-        SetSFXVolume(PlayerPrefs.GetFloat("SFXVolume"));
+        audioMixer.SetFloat(bgm, PlayerPrefs.GetFloat("BGMVolume")); // 저장된 BGM 볼륨으로 복원
+        audioMixer.SetFloat(sfx, PlayerPrefs.GetFloat("SFXVolume")); // 저장된 SFX 볼륨으로 복원
+
+        if (isBGMMuted)
+        {
+            audioMixer.SetFloat(bgm, -80f); // 음소거
+        }
+        if (isSFXMuted)
+        {
+            audioMixer.SetFloat(sfx, -80f); // 음소거
+        }           
     }
 
     // 씬별 BGM 재생 (볼륨 조절 가능)
@@ -68,30 +75,36 @@ public class SoundManager : Singleton<SoundManager>
     }
 
     private const float MIN_VOLUME_DB = -80f;
-    private const float MAX_VOLUME_DB = 20f;
-
-
-    private void SetBGMVolume(float volume)
-    {
-        audioMixer.SetFloat(bgm, volume);
-    }
-
-    private void SetSFXVolume(float volume)
-    {
-        audioMixer.SetFloat(sfx, volume);
-    }
+    private const float MAX_VOLUME_DB = 0f;   
 
     // 슬라이더용 BGM 볼륨 조절 (0~1 값)
     public void SetBGMVolumeBySlider(float sliderValue)
     {
-        float dB = Mathf.Lerp(MIN_VOLUME_DB, MAX_VOLUME_DB, sliderValue);
-        SetBGMVolume(dB);
+        if (isBGMMuted)
+        {
+            return; // 음소거 상태일 때는 볼륨 조절 무시
+        }
+        float dB = Mathf.Log10(sliderValue) * 20f;
+        if (sliderValue <= 0.0001f)
+        {
+            dB = MIN_VOLUME_DB; // 0에 가까운 값은 음소거로 처리
+        }
+        audioMixer.SetFloat(bgm, dB);
     }
+
     // 슬라이더용 효과음 볼륨 조절 (0~1 값)
     public void SetSFXVolumeBySlider(float sliderValue)
     {
-        float dB = Mathf.Lerp(MIN_VOLUME_DB, MAX_VOLUME_DB, sliderValue);
-        SetSFXVolume(dB);
+        if (isSFXMuted)
+        {
+            return; // 음소거 상태일 때는 볼륨 조절 무시
+        }
+        float dB = Mathf.Log10(sliderValue) * 20f;
+        if (sliderValue <= 0.0001f)
+        {
+            dB = MIN_VOLUME_DB; // 0에 가까운 값은 음소거로 처리
+        }        
+        audioMixer.SetFloat(sfx, dB);
     }
 
     // 외부에서 사운드만 가져다 쓸 수 있게 하는 함수
@@ -133,15 +146,11 @@ public class SoundManager : Singleton<SoundManager>
         isBGMMuted = !isBGMMuted;
         if (isBGMMuted)
         {
-            // 현재 볼륨 저장 후 음소거
-            audioMixer.GetFloat(bgm, out float currentVolume);
-            lastBGMVolume = currentVolume;
             audioMixer.SetFloat(bgm, -80f); // -80dB는 실질적인 음소거
         }
         else
         {
-            // 저장된 볼륨으로 복구
-            audioMixer.SetFloat(bgm, lastBGMVolume);
+            audioMixer.SetFloat(bgm, PlayerPrefs.GetFloat("BGMVolume")); // 저장된 볼륨으로 복원
         }
     }
 
@@ -151,13 +160,11 @@ public class SoundManager : Singleton<SoundManager>
         isSFXMuted = !isSFXMuted;
         if (isSFXMuted)
         {
-            audioMixer.GetFloat(sfx, out float currentVolume);
-            lastSFXVolume = currentVolume;
             audioMixer.SetFloat(sfx, -80f);
         }
         else
         {
-            audioMixer.SetFloat(sfx, lastSFXVolume);
+            audioMixer.SetFloat(sfx, PlayerPrefs.GetFloat("SFXVolume")); // 저장된 볼륨으로 복원
         }
     }
 
