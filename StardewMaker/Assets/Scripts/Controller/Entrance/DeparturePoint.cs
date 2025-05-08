@@ -35,7 +35,7 @@ public class DeparturePoint : MonoBehaviour
         else
         {
             if (collision.gameObject.GetComponent<PlayerController>()) Departure();
-            SoundManager.Instance.PlaySFX("HomeEnter");
+            SoundManager.Instance.PlaySFX("DoorOpen");
         }
     }
 
@@ -46,7 +46,7 @@ public class DeparturePoint : MonoBehaviour
         {
             TimeManager.Instance.currentHour = 19;
         }
-        SoundManager.Instance.PlaySFX("HomeEnter");
+        SoundManager.Instance.PlaySFX("DoorOpen");
         GameManager.Instance.arrivalPointName = arrivalPointName;
         FadeManager.Instance.FadeOut();
         StartCoroutine(LoadSceneRoutine());

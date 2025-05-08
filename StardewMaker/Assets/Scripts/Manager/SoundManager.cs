@@ -16,6 +16,7 @@ public class SoundManager : Singleton<SoundManager>
 {
     [SerializeField] private SFXLibrary sfxLibrary; // ScriptableObject 참조
     [SerializeField] private AudioSource bgmAudioSource;
+    [SerializeField] private AudioSource sfxDialogAudioSource;
     [SerializeField] private AudioSource sfxAudioSource;
     [SerializeField] private AudioMixer audioMixer;
     [SerializeField] private AudioClip sfxDialog;
@@ -102,8 +103,13 @@ public class SoundManager : Singleton<SoundManager>
     // 다이얼로그 효과음 재생 (볼륨 조절 가능)
     public void PlaySfxDialog()
     {
-        sfxAudioSource.clip = sfxDialog;
-        sfxAudioSource.Play();
+        sfxDialogAudioSource.clip = sfxDialog;
+        sfxDialogAudioSource.Play();
+    }
+
+    public void StopSfxDialog()
+    {
+        sfxDialogAudioSource.Stop();
     }
 
     // 효과음 재생 (볼륨 조절 가능)
