@@ -30,11 +30,12 @@ public class DeparturePoint : MonoBehaviour
         {
             // Debug.Log($"{TAG} 19시 전에는 들어올 수 없음");
             dialogUI.SetActive(true);
-            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
+            SoundManager.Instance.PlaySfxDialog();
         }
         else
         {
             if (collision.gameObject.GetComponent<PlayerController>()) Departure();
+            SoundManager.Instance.PlaySFX("DoorOpen");
         }
     }
 
@@ -45,6 +46,7 @@ public class DeparturePoint : MonoBehaviour
         {
             TimeManager.Instance.currentHour = 19;
         }
+        SoundManager.Instance.PlaySFX("DoorOpen");
         GameManager.Instance.arrivalPointName = arrivalPointName;
         FadeManager.Instance.FadeOut();
         StartCoroutine(LoadSceneRoutine());
@@ -55,6 +57,5 @@ public class DeparturePoint : MonoBehaviour
     {
         yield return new WaitForSeconds(FadeManager.Instance.fadeDuration);
         GameManager.Instance.changeScene(sceneNameToLoad);
-
     }
 }

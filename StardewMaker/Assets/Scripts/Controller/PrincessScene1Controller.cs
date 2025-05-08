@@ -209,8 +209,7 @@ public class PrincessScene1Controller : MonoBehaviour
             return;
         }
 
-        // todo ENDING날 실행
-        if (false)
+        if (TimeManager.Instance.IsLastDay())
         {
             List<Dialog> dayDialogList = DialogTool.GetDialogListBySituation(SituationType.ENDING, DaughterManager.Instance.GetStats());
             npcDialog.currentDialogId = dayDialogList[UnityEngine.Random.Range(0, dayDialogList.Count)].id;
@@ -468,6 +467,8 @@ public class PrincessScene1Controller : MonoBehaviour
 
         statChangePopup.SetActive(true);
         rect.anchoredPosition = originalPos;
+
+        SoundManager.Instance.PlaySFX("StatPopup");
 
         CanvasGroup cg = statChangePopup.GetComponent<CanvasGroup>();
         if (cg == null)

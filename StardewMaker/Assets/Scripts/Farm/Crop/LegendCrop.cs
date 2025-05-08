@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class LegendCrop : Crop
 {
+    public int fertilizerCount = 0;
 
     public override void UpdateGrowth()
     {
@@ -17,18 +18,29 @@ public class LegendCrop : Crop
         {
             sr.sprite = cropData.growthSprites[2];
         }
-        else if (currentGrowthStage >= 15 && currentGrowthStage < 20) 
+        else if (currentGrowthStage >= 15 && currentGrowthStage < 21) 
         {
             sr.sprite = cropData.growthSprites[3];
         }
-        else if (currentGrowthStage >= 20 && IsHarvestable())
+        else if (currentGrowthStage >= 21 && IsHarvestable())
         {
             sr.sprite = cropData.growthSprites[4];
         }
     }
 
+    public override void Fertlize()
+    {
+        fertilizerCount += 1;
+        Debug.Log("fertilCount : " + fertilizerCount);
+    }
+
+    public int GetFertilizerCount()
+    {
+        return fertilizerCount;
+    }
+
     public override bool IsHarvestable()
     {
-        return base.IsHarvestable(); // + 딸 스탯 조건 추가, 게임 일수 추가
+        return base.IsHarvestable() && TimeManager.Instance.IsLastDay(); 
     }
 }

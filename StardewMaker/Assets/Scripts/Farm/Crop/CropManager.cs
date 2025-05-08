@@ -147,4 +147,64 @@ public class CropManager : Singleton<CropManager>
         crops[position] = crop;
     }
 
+    public EndingResult GetEndingResult()
+    {
+        foreach (var crop in crops)
+        {
+            if (crop.Value.cropData.id == 7)
+            {
+                LegendCrop legendCrop = (LegendCrop)crop.Value;
+                int maxCount = 27;
+                int growthCount = legendCrop.GetGrowthStage();
+                int fertilizerCount = legendCrop.GetFertilizerCount();
+
+                float waterRatio = growthCount / (float)maxCount;
+                float fertilizerRatio = fertilizerCount / (float)maxCount;
+
+                if (waterRatio >= 0.8f && fertilizerRatio >= 0.3f)
+                {
+                    return EndingResult.GOOD;
+                }
+                else if (waterRatio >= 0.5f && fertilizerRatio >= 0f && fertilizerRatio < 0.3f)
+                {
+                    return EndingResult.NORMAL;
+                }
+                else if (waterRatio < 0.5f && fertilizerRatio == 0f)
+                {
+                    return EndingResult.BAD;
+                }
+            }
+        }
+
+        return EndingResult.BAD;
+    }
+
+    public void GotoLastDay(EndingResult ending) // Debug
+    {
+        foreach (var crop in crops)
+        {
+            if (crop.Value.cropData.id == 7)
+            {
+                switch(ending)
+                {
+                    case EndingResult.GOOD:
+                        crop.Value.currentGrowthStage = 25;
+                        break;
+                    case EndingResult.NORMAL:
+                        break;
+                    case EndingResult.BAD:
+                        break;
+                }
+
+                crop.Value.UpdateGrowth();
+            }
+        }
+    }
+}
+
+public enum EndingResult
+{
+    GOOD,
+    NORMAL,
+    BAD
 }

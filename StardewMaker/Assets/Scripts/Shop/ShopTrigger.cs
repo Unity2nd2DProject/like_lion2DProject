@@ -21,7 +21,7 @@ public class ShopTrigger : MonoBehaviour
         {
             dialogUI.SetActive(true);
 
-            SoundManager.Instance.PlaySfxDialog(Volume.MEDIUM);
+            SoundManager.Instance.PlaySfxDialog();
         }
     }
 

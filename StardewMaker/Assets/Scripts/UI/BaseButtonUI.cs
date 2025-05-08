@@ -9,7 +9,6 @@ public class BaseButtonUI : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("BaseButtonUI Start");
         inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
         optionButton.onClick.AddListener(OnOptionButtonClicked);
     }
@@ -21,9 +20,6 @@ public class BaseButtonUI : MonoBehaviour
 
     private void OnInventoryButtonClicked()
     {
-        Debug.Log("OnInventoryButtonClicked");
-        Debug.Log("GameManager.Instance.currentMode: " + GameManager.Instance.currentMode);
-        Debug.Log("UIManager.Instance: " + UIManager.Instance);
         UIManager.Instance.ToggleInventoryByButton();
     }
 }

@@ -86,6 +86,7 @@ GameObject:
   - component: {fileID: 6421784982179997245}
   - component: {fileID: 5371776815292392882}
   - component: {fileID: 6306231684711505805}
+  - component: {fileID: -5068816762047993503}
   m_Layer: 5
   m_Name: ToggleButton
   m_TagString: Untagged
@@ -128,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   text: {fileID: 2310418094664525797}
   toggle: {fileID: 0}
+  scheduleType: 0
   targetGraphic: {fileID: 3366058009651270760}
 --- !u!114 &6306231684711505805
 MonoBehaviour:
@@ -177,6 +179,18 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_IsOn: 0
+--- !u!114 &-5068816762047993503
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4077881074139651632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: efb6857c204ed4542b0ee819dc3039af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8368527285682033038
 GameObject:
   m_ObjectHideFlags: 0

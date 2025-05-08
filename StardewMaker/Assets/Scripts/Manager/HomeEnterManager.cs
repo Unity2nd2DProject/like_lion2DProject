@@ -11,7 +11,6 @@ public class HomeEnterManager : MonoBehaviour
 
     private bool hasShownButtons = false;
 
-
     void Start()
     {
         if (dialogUI != null)

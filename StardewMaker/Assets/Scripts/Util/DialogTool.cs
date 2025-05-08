@@ -69,6 +69,7 @@ public enum SituationType
     SLEEP,
     GIFT,
     GIFT_RECEIVED,
+    FOOD_RECEIVED,
     ENTER_HOME,
     ENDING
 }
@@ -112,7 +113,8 @@ public enum ExtType
     WILL,
     SLEEP,
     COOK,
-    GIFT
+    GIFT,
+    ENDING
 }
 
 public enum ScheduleType

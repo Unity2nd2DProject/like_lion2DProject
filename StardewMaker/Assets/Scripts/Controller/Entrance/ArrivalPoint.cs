@@ -26,6 +26,8 @@ public class ArrivalPoint : MonoBehaviour
                     CinemachineCamera virtualCamera = cameraObject.GetComponent<CinemachineCamera>();
                     GameObject playerObject = GameObject.Find("Player");
                     virtualCamera.Follow = playerObject.transform;
+
+                    SoundManager.Instance.PlaySFX("DoorClose");
                 }
                 else
                 {

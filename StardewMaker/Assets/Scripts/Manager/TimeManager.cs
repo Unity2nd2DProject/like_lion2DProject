@@ -211,4 +211,18 @@ public class TimeManager : Singleton<TimeManager>
 
         return $"{period} {displayHour:D2}:{currentMinute:D2}";
     }
+
+    public bool IsLastDay()
+    {
+        return currentSeason == Season.Winter && currentDay == 7;
+    }
+
+    public void GoToLastDay() // Debug
+    {
+        currentSeason = Season.Winter;
+        currentDay = 7;
+        currentHour = 7;
+        currentMinute = 0;
+        UpdateUI();
+    }
 }

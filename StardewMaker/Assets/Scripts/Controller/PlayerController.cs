@@ -182,11 +182,11 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    private void F1Input() // Save
+    private void F1Input() // ending test
     {
         if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
         {
-            SaveManager.Instance.Save();
+            GameManager.Instance.GoToEnding(EndingResult.GOOD, true);
         }
     }
 

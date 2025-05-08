@@ -27,6 +27,10 @@ public class IngredientInventory : MonoBehaviour
                 ingredientSlots[cookInventoryIndex].SetSlot(inventoryManager.slots[i].itemData, inventoryManager.slots[i].quantity);
                 cookInventoryIndex++;
             }
+            else
+            {
+                ingredientSlots[cookInventoryIndex].SetSlot(null, 0); // 슬롯 비우기
+            }
         }
     }
 }
