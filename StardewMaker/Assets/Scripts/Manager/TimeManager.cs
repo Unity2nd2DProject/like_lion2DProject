@@ -29,6 +29,8 @@ public class TimeManager : Singleton<TimeManager>
     public int currentHour = 7; // AM 07:00 시작
     public int currentMinute = 0;
 
+    public event System.Action OnDayChanged;
+
     protected override void Awake()
     {
         base.Awake();
@@ -121,6 +123,7 @@ public class TimeManager : Singleton<TimeManager>
 
         UpdateUI(); // 업데이트 한 번 해 줌
         CheckCurrentScene(); // 홈씬이면 시간 멈춤
+        OnDayChanged?.Invoke();
     }
 
     public void OnNextDay()
