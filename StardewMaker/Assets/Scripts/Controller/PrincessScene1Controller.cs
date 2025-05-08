@@ -209,8 +209,7 @@ public class PrincessScene1Controller : MonoBehaviour
             return;
         }
 
-        // todo ENDING날 실행
-        if (true)
+        if (TimeManager.Instance.IsLastDay())
         {
             List<Dialog> dayDialogList = DialogTool.GetDialogListBySituation(SituationType.ENDING, DaughterManager.Instance.GetStats());
             npcDialog.currentDialogId = dayDialogList[UnityEngine.Random.Range(0, dayDialogList.Count)].id;
