@@ -13,6 +13,9 @@ public class LightManager : MonoBehaviour
     public Color sunsetColor = new Color(1f, 0.7f, 0.5f, 1f);
     public Color nightColor = new Color(0.2f, 0.3f, 0.6f, 1f);
 
+    // 날씨 효과를 위한 필드 추가
+    [HideInInspector] public float weatherMultiplier = 1.0f;
+
     private void Awake()
     {
         if (Instance == null)
@@ -46,6 +49,14 @@ public class LightManager : MonoBehaviour
             float t = currentTime / 7f;
             targetColor = Color.Lerp(nightColor, morningColor, t);
         }
+
+        // 날씨 효과 적용 - 여기서 weatherMultiplier 사용
+        targetColor = new Color(
+            targetColor.r * weatherMultiplier,
+            targetColor.g * weatherMultiplier,
+            targetColor.b * weatherMultiplier,
+            targetColor.a
+        );
 
         directionalLight.color = targetColor;
     }

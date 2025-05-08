@@ -35,7 +35,7 @@ public class HomeEnterManager : MonoBehaviour
             dialogueText.text == typewriterEffect.fullText)
         {
             ShowButtons();
-            SoundManager.Instance.StopSfx();
+            SoundManager.Instance.StopSfxDialog();
         }
     }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Rendering;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -296,11 +297,11 @@ public class DialogController : MonoBehaviour
     // 대사 출력 끝
     private void OnStopTextPrint()
     {
-        SoundManager.Instance.StopSfx();
         if (currentDialog.type != DialogType.CHOICE) isNextDialogReady = true;
         isTextSkipEnabled = false;
         if (currentDialog.type != DialogType.CHOICE) // 옵션 선택 대사일 경우 NextDialogBtn 안나옴
             dialogView.EnableNextDialogBtn(true);
         isSkipRequested = false;
+        SoundManager.Instance.StopSfxDialog();
     }
 }

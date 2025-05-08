@@ -1663,6 +1663,7 @@ GameObject:
   - component: {fileID: 6124147271449455324}
   - component: {fileID: 6938010209606997861}
   - component: {fileID: 8777628101258578284}
+  - component: {fileID: 7875496070727425811}
   m_Layer: 5
   m_Name: CookingButton
   m_TagString: Untagged
@@ -1772,6 +1773,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7875496070727425811
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5678774742774646932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfdfaf6b547392547bbfe313adf402d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxName: Click
 --- !u!1 &5720233898907538595
 GameObject:
   m_ObjectHideFlags: 0
@@ -2232,6 +2246,7 @@ GameObject:
   - component: {fileID: 167711393298956372}
   - component: {fileID: 4329766425117579421}
   - component: {fileID: 4422560259972545671}
+  - component: {fileID: 1536440301539301265}
   m_Layer: 5
   m_Name: Exit
   m_TagString: Untagged
@@ -2340,6 +2355,19 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &1536440301539301265
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9077382284637916588}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfdfaf6b547392547bbfe313adf402d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sfxName: Cancel
 --- !u!1001 &74500173104726601
 PrefabInstance:
   m_ObjectHideFlags: 0

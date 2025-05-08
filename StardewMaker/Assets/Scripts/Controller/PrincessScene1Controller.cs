@@ -468,6 +468,8 @@ public class PrincessScene1Controller : MonoBehaviour
         statChangePopup.SetActive(true);
         rect.anchoredPosition = originalPos;
 
+        SoundManager.Instance.PlaySFX("StatPopup");
+
         CanvasGroup cg = statChangePopup.GetComponent<CanvasGroup>();
         if (cg == null)
             cg = statChangePopup.AddComponent<CanvasGroup>();
