@@ -199,8 +199,9 @@ public class PrincessScene1Controller : MonoBehaviour
     private void SetStartDialog()
     {
         int currentDay = TimeManager.Instance.currentDay;
+        Season currentSeason = TimeManager.Instance.currentSeason;
 
-        if (currentDay == 1 && isDay)
+        if (currentDay == 1 && currentSeason == Season.Spring && isDay)
         {
             // 게임 처음 시작 시 대화
             // npcDialog.currentDialogId = introDialogId;

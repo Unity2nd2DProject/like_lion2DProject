@@ -36,6 +36,8 @@ public class EndingVideoPlayer : MonoBehaviour
         videoPlayer.loopPointReached += OnVideoEnd;  // 영상 종료 이벤트 등록
         StartCoroutine(PrepareAndPlayVideo());       // 첫 번째 영상 준비 및 재생
         skipButton.onClick.AddListener(SkipVideo);   // 스킵 버튼 이벤트 등록
+
+        GameObject.FindGameObjectWithTag("Player").SetActive(false); // 플레이어 없애기
     }
     public void CheckEnding()
     {

@@ -17,7 +17,8 @@ public class SlotUI : MonoBehaviour, IDropHandler
             this.itemSlot = inventorySlot;
         }
 
-        item.GetComponent<SlotedItemUI>().SetSlot(inventorySlot.itemData, inventorySlot.quantity, inventorySlot);
+        if (item != null && inventorySlot != null)
+            item.GetComponent<SlotedItemUI>().SetSlot(inventorySlot.itemData, inventorySlot.quantity, inventorySlot);
     }
 
     public void SetSellMode(bool enable, SellPopupUI popup = null)
