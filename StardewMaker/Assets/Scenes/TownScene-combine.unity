@@ -6711,6 +6711,14 @@ MonoBehaviour:
     weatherBGM: {fileID: 8300000, guid: 56ae9c933c0ccc747b0af65f67171379, type: 3}
     weatherAmbientSFX: {fileID: 8300000, guid: 52f4e69105334804b800100ca2349eb3, type: 3}
     ambientVolume: 1
+  - weatherType: 3
+    weatherBGM: {fileID: 8300000, guid: e12f876086968e741a2e4453b81fb642, type: 3}
+    weatherAmbientSFX: {fileID: 0}
+    ambientVolume: 1
+  - weatherType: 2
+    weatherBGM: {fileID: 8300000, guid: 5e3deff0f030fd04097995f2aa92e5ef, type: 3}
+    weatherAmbientSFX: {fileID: 0}
+    ambientVolume: 1
   weatherAmbientSource: {fileID: 303647965}
 --- !u!4 &303647970
 Transform:
@@ -36158,18 +36166,49 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rainPrefab: {fileID: 1757023920902947411, guid: 3ccdbcf8f7bec6541b9b12c93803f51e, type: 3}
-  cloudyPrefab: {fileID: 1757023920902947411, guid: 3ccdbcf8f7bec6541b9b12c93803f51e, type: 3}
-  snowPrefab: {fileID: 1757023920902947411, guid: 3ccdbcf8f7bec6541b9b12c93803f51e, type: 3}
+  cloudyPrefab: {fileID: 8175982361353453652, guid: da88ad9d9c152e744a1894fe4537e2d5, type: 3}
+  snowPrefab: {fileID: 1757023920902947411, guid: 104f664b206540748a43c3ca02d07893, type: 3}
   weatherEffectsParent: {fileID: 1262764493}
   weatherDates:
   - season: 0
     day: 2
     weatherType: 1
   - season: 0
+    day: 3
+    weatherType: 2
+  - season: 0
     day: 4
     weatherType: 1
+  - season: 0
+    day: 5
+    weatherType: 2
+  - season: 1
+    day: 4
+    weatherType: 1
+  - season: 1
+    day: 5
+    weatherType: 1
+  - season: 1
+    day: 6
+    weatherType: 1
+  - season: 1
+    day: 7
+    weatherType: 2
+  - season: 2
+    day: 7
+    weatherType: 1
+  - season: 3
+    day: 1
+    weatherType: 3
+  - season: 3
+    day: 2
+    weatherType: 3
+  - season: 3
+    day: 3
+    weatherType: 2
   rainyDarknessIntensity: 0.3
-  snowyBrightnessBoost: 1.2
+  cloudyDarknessIntensity: 0.5
+  snowyBrightnessBoost: 1.5
 --- !u!4 &981050488
 Transform:
   m_ObjectHideFlags: 0
