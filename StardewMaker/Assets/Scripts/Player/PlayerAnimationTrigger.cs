@@ -61,6 +61,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.GetWater();
         PlayerController.Instance.anim.SetBool("GetWater", false);
         PlayerController.Instance.SetCanMove(true);
+        StaminaManager.Instance.ConsumeStamina();
     }
 
     private void FertlizeFinishTrigger()

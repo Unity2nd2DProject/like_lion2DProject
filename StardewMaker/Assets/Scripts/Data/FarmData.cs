@@ -30,6 +30,7 @@ public class SavedCrop
     public Vector2 position;
     public int cropId;
     public int currentGrowthStage;
+    public int fertlizerCount;
     public bool isWatered;
 }
 

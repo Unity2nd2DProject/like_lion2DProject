@@ -229,7 +229,7 @@ public class PlayerController : Singleton<PlayerController>
                         case ItemType.Etc:
                             if (curItem.name == "Fertilizer" && curFarmLand != null)
                             {
-                                if (curFarmLand.CanFertilze())
+                                if (curFarmLand.CanFertilze() && StaminaManager.Instance.CanConsumeStamina())
                                 {
                                     SetInteractAnimation(PlayerInteraction.Fertilize);
                                 }
@@ -240,7 +240,7 @@ public class PlayerController : Singleton<PlayerController>
                             {
                                 if (curFarmLand != null)
                                 {
-                                    if (curFarmLand.CanPick())
+                                    if (curFarmLand.CanPick() && StaminaManager.Instance.CanConsumeStamina())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Pick);
                                     }
@@ -250,26 +250,26 @@ public class PlayerController : Singleton<PlayerController>
                             {
                                 if (curFarmLand != null)
                                 {
-                                    if (curFarmLand.CanWater())
+                                    if (curFarmLand.CanWater() && StaminaManager.Instance.CanConsumeStamina())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Water);
                                     }
                                 }
-                                else if (curPond != null)
+                                else if (curPond != null && StaminaManager.Instance.CanConsumeStamina())
                                 {
                                     SetInteractAnimation(PlayerInteraction.GetWater);
                                 }
                             }
                             else if (curItem.name == "ToolAxe")
                             {
-                                if (curTree != null)
+                                if (curTree != null && StaminaManager.Instance.CanConsumeStamina())
                                 {
                                     SetInteractAnimation(PlayerInteraction.Axe);
                                 }
                             }
                             else if (curItem.name == "ToolFishingRod")
                             {
-                                if (curPond != null)
+                                if (curPond != null && StaminaManager.Instance.CanConsumeStamina())
                                 {
                                     SetInteractAnimation(PlayerInteraction.Fish);
                                 }
@@ -287,7 +287,7 @@ public class PlayerController : Singleton<PlayerController>
                                         return;
                                     }
 
-                                    if (crop != null && curFarmLand.CanHarvest())
+                                    if (crop != null && crop.cropData.id != 7 && curFarmLand.CanHarvest())
                                     {
                                         SetInteractAnimation(PlayerInteraction.Harvest);
                                     }

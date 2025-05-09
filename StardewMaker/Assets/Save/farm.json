@@ -194,14 +194,14 @@
                 "x": -0.5,
                 "y": 1.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
                 "x": 0.5,
                 "y": 1.5
             },
-            "landState": 1
+            "landState": 0
         },
         {
             "position": {
@@ -250,28 +250,28 @@
                 "x": -2.5,
                 "y": 0.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
                 "x": -1.5,
                 "y": 0.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
                 "x": -0.5,
                 "y": 0.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
                 "x": 0.5,
                 "y": 0.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
@@ -418,7 +418,7 @@
                 "x": 1.5,
                 "y": -1.5
             },
-            "landState": 1
+            "landState": 0
         },
         {
             "position": {
@@ -460,7 +460,7 @@
                 "x": -2.5,
                 "y": -2.5
             },
-            "landState": 0
+            "landState": 1
         },
         {
             "position": {
@@ -488,7 +488,7 @@
                 "x": 1.5,
                 "y": -2.5
             },
-            "landState": 1
+            "landState": 0
         },
         {
             "position": {
@@ -704,83 +704,112 @@
     "savedCrops": [
         {
             "position": {
-                "x": 1.5,
-                "y": -1.5
-            },
-            "cropId": 2,
-            "currentGrowthStage": 2,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": 0.5,
-                "y": -1.5
-            },
-            "cropId": 6,
-            "currentGrowthStage": 2,
-            "isWatered": false
-        },
-        {
-            "position": {
                 "x": -0.5,
-                "y": -1.5
-            },
-            "cropId": 0,
-            "currentGrowthStage": 2,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": -1.5,
-                "y": -1.5
-            },
-            "cropId": 1,
-            "currentGrowthStage": 2,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": 0.5,
-                "y": -2.5
-            },
-            "cropId": 2,
-            "currentGrowthStage": 1,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": 1.5,
-                "y": -2.5
-            },
-            "cropId": 6,
-            "currentGrowthStage": 1,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": -0.5,
-                "y": -2.5
-            },
-            "cropId": 0,
-            "currentGrowthStage": 1,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": -1.5,
-                "y": -2.5
-            },
-            "cropId": 1,
-            "currentGrowthStage": 1,
-            "isWatered": false
-        },
-        {
-            "position": {
-                "x": 0.5,
                 "y": 1.5
             },
             "cropId": 7,
+            "currentGrowthStage": 2,
+            "fertlizerCount": 2,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": 0.5,
+                "y": 0.5
+            },
+            "cropId": 2,
+            "currentGrowthStage": 2,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -0.5,
+                "y": 0.5
+            },
+            "cropId": 6,
+            "currentGrowthStage": 2,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -1.5,
+                "y": 0.5
+            },
+            "cropId": 0,
+            "currentGrowthStage": 2,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -2.5,
+                "y": 0.5
+            },
+            "cropId": 1,
+            "currentGrowthStage": 2,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -1.5,
+                "y": -0.5
+            },
+            "cropId": 3,
+            "currentGrowthStage": 1,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -0.5,
+                "y": -0.5
+            },
+            "cropId": 4,
+            "currentGrowthStage": 1,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": 0.5,
+                "y": -0.5
+            },
+            "cropId": 5,
+            "currentGrowthStage": 1,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": 0.5,
+                "y": -1.5
+            },
+            "cropId": 5,
             "currentGrowthStage": 0,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -0.5,
+                "y": -1.5
+            },
+            "cropId": 4,
+            "currentGrowthStage": 0,
+            "fertlizerCount": 0,
+            "isWatered": false
+        },
+        {
+            "position": {
+                "x": -1.5,
+                "y": -1.5
+            },
+            "cropId": 3,
+            "currentGrowthStage": 0,
+            "fertlizerCount": 0,
             "isWatered": false
         }
     ],

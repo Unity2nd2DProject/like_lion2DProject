@@ -422,6 +422,10 @@ public class PrincessScene1Controller : MonoBehaviour
     {
         // Debug.Log($"{TAG} text {situationType}");
 
+        if (!StaminaManager.Instance.CanConsumeStamina())
+        {
+            return;
+        }
         StaminaManager.Instance.ConsumeStamina();
         DisableDialogMenuPanel();
 
@@ -560,6 +564,10 @@ public class PrincessScene1Controller : MonoBehaviour
 
     public void DialogTest()
     {
+        if (!StaminaManager.Instance.CanConsumeStamina())
+        {
+            return;
+        }
         StaminaManager.Instance.ConsumeStamina();
         //npcDialog.currentDialogId = testIndex;
 
