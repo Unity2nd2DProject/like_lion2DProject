@@ -69,7 +69,11 @@ public class QuickSlotUI : MonoBehaviour
 
     private void UpdateSelectedSlot()
     {
-        currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedQuickSlotIndex].transform);
-        currentSelectedCursor.transform.localPosition = new Vector3(0, 0, 0);
+        if (currentSelectedCursor != null && quickSlotSlotUIs != null)
+        {
+            currentSelectedCursor.transform.SetParent(quickSlotSlotUIs[inventoryManager.currentSelectedQuickSlotIndex].transform);
+            currentSelectedCursor.transform.localPosition = new Vector3(0, 0, 0);
+        }
+
     }
 }
