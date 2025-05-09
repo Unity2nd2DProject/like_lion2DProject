@@ -72,7 +72,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             return;
         }
-
         PlayerMoveInput();
         SpaceInput();
         // ESCInput();
@@ -197,7 +196,10 @@ public class PlayerController : Singleton<PlayerController>
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            InteractWithObject(mouseHit, playerHits);
+            if(UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
+            {
+                InteractWithObject(mouseHit, playerHits);
+            }            
         }
     }
 
