@@ -4,6 +4,7 @@ public class PopupTrigger : MonoBehaviour
 {
     private bool isPlayerNearby = false;
 
+    public GameObject dialogUI; // 인스펙터에서 참조 연결
     public string popupText;
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -11,7 +12,12 @@ public class PopupTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            UIManager.Instance.ShowPopup(popupText, new Vector3(Screen.width / 2f, Screen.height / 1.2f));
+
+            if (dialogUI == null || !dialogUI.activeSelf)
+            {
+                isPlayerNearby = false;
+                UIManager.Instance.ShowPopup(popupText, new Vector3(Screen.width / 2f, Screen.height / 1.2f));
+            }
         }
     }
 
@@ -27,7 +33,7 @@ public class PopupTrigger : MonoBehaviour
                 return;
             }
 
-            if (UIManager.Instance.currentPopup != null)
+            if (UIManager.Instance.currentPopup != null || dialogUI.activeSelf)
             {
                 UIManager.Instance.HidePopupImmediately();
             }

@@ -7,6 +7,7 @@ public class DialogManager : MonoBehaviour
     [SerializeField] private GameObject dialogUI;
     [SerializeField] private GameObject shopUI;
     [SerializeField] private GameObject buttonPanel;
+    [SerializeField] private GameObject shopTriggerObject;
 
     [SerializeField] private TypewriterEffect typewriterEffect;
     [SerializeField] private TextMeshProUGUI dialogueText;
@@ -112,5 +113,15 @@ public class DialogManager : MonoBehaviour
 
         // 버튼 표시가 이미 안 되도록 상태 초기화
         hasShownButtons = false;
+
+        // ShopTrigger에 대화창이 닫혔음을 알림 (여기서 팝업을 다시 띄움)
+        if (shopTriggerObject != null)
+        {
+            ShopTrigger trigger = shopTriggerObject.GetComponent<ShopTrigger>();
+            if (trigger != null)
+            {
+                trigger.TryShowPopup();
+            }
+        }
     }
 }

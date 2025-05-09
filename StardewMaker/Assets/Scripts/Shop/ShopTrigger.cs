@@ -25,8 +25,11 @@ public class ShopTrigger : MonoBehaviour
 
             SoundManager.Instance.PlaySfxDialog();
         }
+    }
 
-        if (!dialogUI.activeSelf)
+    public void TryShowPopup()
+    {
+        if (isPlayerNearby && !dialogUI.activeSelf && UIManager.Instance.currentPopup == null && !ShopUI.Instance.isActiveAndEnabled)
         {
             UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
@@ -37,7 +40,11 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
+
+            if (!dialogUI.activeSelf && UIManager.Instance.currentPopup == null)
+            {
+                UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
+            }
         }
     }
 
