@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using TMPro;
+using NUnit.Framework.Interfaces;
 
 public class ShopManager : MonoBehaviour
 {
@@ -50,8 +51,15 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
+        var prevMoney = InventoryManager.Instance.PlayerMoney;
+
         // 금액 차감
         InventoryManager.Instance.PlayerMoney -= item.buyPrice * qty;
+
+        if (prevMoney != InventoryManager.Instance.PlayerMoney)
+        {
+            SoundManager.Instance.PlaySFX("Coin");
+        }
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();
@@ -87,7 +95,14 @@ public class ShopManager : MonoBehaviour
         }
 
         playerInventory.RemoveItem(itemData, qty);
+
+        var prevMoney = InventoryManager.Instance.PlayerMoney;
         InventoryManager.Instance.PlayerMoney += itemData.sellPrice * qty;
+
+        if (prevMoney != InventoryManager.Instance.PlayerMoney)
+        {
+            SoundManager.Instance.PlaySFX("Coin");
+        }
 
         // UI 업데이트
         UIManager.Instance.UpdateInventoryUI();
