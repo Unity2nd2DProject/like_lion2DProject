@@ -21,12 +21,12 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
             {
                 instance = FindFirstObjectByType<T>(); // 씬에서 해당 타입의 첫 번째 오브젝트를 찾음
 
-                //if (instance == null) // 찾지 못하면 새로운 GameObject를 만들어서 추가
-                //{
-                //    GameObject singletonObject = new GameObject(typeof(T).Name); // 게임 오브젝트를 새로 생성
-                //    instance = singletonObject.AddComponent<T>(); // 해당 타입의 컴포넌트를 추가하여 인스턴스 할당
-                //    DontDestroyOnLoad(singletonObject); // 씬 전환 시에도 오브젝트가 파괴되지 않도록 설정
-                //}
+                if (instance == null) // 찾지 못하면 새로운 GameObject를 만들어서 추가
+                {
+                    // GameObject singletonObject = new GameObject(typeof(T).Name); // 게임 오브젝트를 새로 생성
+                    // instance = singletonObject.AddComponent<T>(); // 해당 타입의 컴포넌트를 추가하여 인스턴스 할당
+                    // DontDestroyOnLoad(singletonObject); // 씬 전환 시에도 오브젝트가 파괴되지 않도록 설정
+                }
             }
 
             return instance; // 인스턴스 반환
