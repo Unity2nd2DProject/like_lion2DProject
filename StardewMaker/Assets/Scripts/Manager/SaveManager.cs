@@ -6,10 +6,10 @@ public class SaveManager : Singleton<SaveManager>
 {
     public float autoSaveInterval = 30f;
 
-    private string farmPath => Application.dataPath + "/Save/farm.json";
-    private string baseDataPath => Application.dataPath + "/Save/baseData.json";
-    private string inventroyPath => Application.dataPath + "/Save/inventory.json";
-    private string statsPath => Application.dataPath + "/Save/stats.json";
+    private string farmPath => Application.persistentDataPath + "/Save/farm.json"; // Application.dataPath
+    private string baseDataPath => Application.persistentDataPath + "/Save/baseData.json";
+    private string inventroyPath => Application.persistentDataPath + "/Save/inventory.json";
+    private string statsPath => Application.persistentDataPath + "/Save/stats.json";
 
     private void Start()
     {
@@ -158,7 +158,7 @@ public class SaveManager : Singleton<SaveManager>
     {
         if (!System.IO.File.Exists(inventroyPath))
         {
-            Debug.LogWarning("inventory.json 파일이 존재하지 않습니다.");
+            Debug.LogWarning("inventory.json 파일이 존재하지 않습니다." + farmPath);
             return;
         }
 

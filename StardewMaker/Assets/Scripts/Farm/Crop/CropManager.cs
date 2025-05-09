@@ -124,7 +124,7 @@ public class CropManager : Singleton<CropManager>
                 nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
             }
 
-            Debug.Log(TimeManager.Instance.currentDay + "일 날씨 : " + WeatherManager.Instance.GetCurrentWeather());
+            //Debug.Log(TimeManager.Instance.currentDay + "일 날씨 : " + WeatherManager.Instance.GetCurrentWeather());
             if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
             {
                 newIsWatered = true;

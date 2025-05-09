@@ -1,10 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-/// <summary>
-/// 날씨 효과(파티클, 사운드, 조명)를 처리하는 컴포넌트
-/// 각 씬에 필요한 경우에만 배치하여 사용합니다.
-/// </summary>
+
 public class WeatherEffectsController : MonoBehaviour
 {
     [Header("날씨 효과 프리팹")]
