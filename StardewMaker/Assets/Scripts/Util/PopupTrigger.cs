@@ -11,7 +11,6 @@ public class PopupTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
-            Debug.Log(isPlayerNearby);
             UIManager.Instance.ShowPopup(popupText, new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
     }
@@ -21,8 +20,17 @@ public class PopupTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
-            Debug.Log(isPlayerNearby);
-            UIManager.Instance.HidePopupImmediately();
+
+            if (UIManager.Instance == null)
+            {
+                Debug.LogWarning("UIManager.Instance is null on OnTriggerExit2D");
+                return;
+            }
+
+            if (UIManager.Instance.currentPopup != null)
+            {
+                UIManager.Instance.HidePopupImmediately();
+            }
         }
     }
 }

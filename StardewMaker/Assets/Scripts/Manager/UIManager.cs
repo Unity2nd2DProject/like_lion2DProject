@@ -15,7 +15,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Popup Message")]
     public GameObject popupMessagePrefab;
-    private GameObject currentPopup; // 현재 팝업 메시지를 저장
+    [HideInInspector] public GameObject currentPopup; // 현재 팝업 메시지를 저장
     public GameObject toolTipPrefab;
     private TooltipUI toolTipInstance;
 
