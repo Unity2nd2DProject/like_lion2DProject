@@ -132,11 +132,10 @@ public class UIManager : Singleton<UIManager>
         UpdateInventoryUI();
         UpdateQuickSlotUI();
 
-        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 퀵슬롯도 키고 위치 조정
+        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 둘 다 토글 + 위치조정 이상해져서 그냥 제거. 
         {
             inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
             quickSlotUI.gameObject.SetActive(!quickSlotUI.gameObject.activeSelf);
-            quickSlotUI.transform.position = inventoryUI.transform.position + new Vector3(-500, -550, 0); // 퀵슬롯 위치 조정
         }
         else if(GameManager.Instance.currentMode == GameMode.TOWN) // 타운모드일때는 인벤토리만 토글
         {

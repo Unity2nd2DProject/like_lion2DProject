@@ -54,8 +54,7 @@ public class SoundManager : Singleton<SoundManager>
     protected override void Awake()
     {
         base.Awake();
-
-
+        SetVolume();
         SceneManager.sceneLoaded += OnSceneLoaded;  // 이벤트 구독
     }
 
