@@ -123,11 +123,12 @@ public class TimeManager : Singleton<TimeManager>
 
         UpdateUI(); // 업데이트 한 번 해 줌
         CheckCurrentScene(); // 홈씬이면 시간 멈춤
-        OnDayChanged?.Invoke();
+        //OnDayChanged?.Invoke();
     }
 
     public void OnNextDay()
     {
+        OnDayChanged?.Invoke();
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name.Contains("TownScene"))
         {
