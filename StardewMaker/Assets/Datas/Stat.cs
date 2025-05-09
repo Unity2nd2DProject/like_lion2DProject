@@ -62,9 +62,10 @@ public class Stat : ScriptableObject
         get { return currentValue; }
         set
         {
-            if (currentValue != value)
+            float clampedValue = Mathf.Clamp(value, 0f, maxValue);
+            if (clampedValue != currentValue)
             {
-                currentValue = value;
+                currentValue = clampedValue;
                 OnValueChanged?.Invoke(currentValue); // 값이 바뀌었을 때만 호출
             }
         }
