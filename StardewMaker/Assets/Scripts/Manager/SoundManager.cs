@@ -106,6 +106,15 @@ public class SoundManager : Singleton<SoundManager>
     {
         currentWeather = weatherType;
 
+        // GameManager가 HOME 모드인 경우 날씨 사운드 적용 안함
+        if (GameManager.Instance != null && GameManager.Instance.currentMode == GameMode.HOME)
+        {
+            // HOME 모드에서는 날씨 사운드 리셋 (기본 BGM 사용)
+            ResetWeatherSound();
+            return;
+        }
+
+        // TOWN 모드이거나 GameManager가 없는 경우 날씨 사운드 적용
         // 날씨 타입에 맞는 사운드 데이터 찾기
         WeatherSoundData soundData = weatherSounds.Find(data => data.weatherType == weatherType);
 
