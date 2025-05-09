@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopTrigger : MonoBehaviour
@@ -20,8 +21,14 @@ public class ShopTrigger : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             dialogUI.SetActive(true);
+            UIManager.Instance.HidePopupImmediately();
 
             SoundManager.Instance.PlaySfxDialog();
+        }
+
+        if (!dialogUI.activeSelf)
+        {
+            UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
     }
 
@@ -30,6 +37,7 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
+            UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
     }
 
@@ -38,6 +46,17 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+            
+            if (UIManager.Instance == null)
+            {
+                Debug.LogWarning("UIManager.Instance is null on OnTriggerExit2D");
+                return;
+            }
+
+            if (UIManager.Instance.currentPopup != null)
+            {
+                UIManager.Instance.HidePopupImmediately();
+            }
         }
     }
 }

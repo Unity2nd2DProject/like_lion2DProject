@@ -43,4 +43,9 @@ public class LegendCrop : Crop
     {
         return base.IsHarvestable() && TimeManager.Instance.IsLastDay(); 
     }
+
+    public void SetFertilizerCount(int count)
+    {
+        fertilizerCount = count;
+    }
 }

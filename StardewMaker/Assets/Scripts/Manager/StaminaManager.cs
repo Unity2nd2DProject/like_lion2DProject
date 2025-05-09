@@ -33,7 +33,7 @@ public class StaminaManager : Singleton<StaminaManager>
     }
 
     // 스태미나 소모 (반칸씩)
-    public void ConsumeStamina()
+    public bool ConsumeStamina()
     {
         // 마지막(오른쪽)부터 Full/Half 중 첫 칸 찾기
         for (int i = staminaStates.Length - 1; i >= 0; i--)
@@ -42,17 +42,18 @@ public class StaminaManager : Singleton<StaminaManager>
             {
                 staminaStates[i] = StaminaState.Half;
                 UpdateStaminaUI();
-                return;
+                return true;
             }
             else if (staminaStates[i] == StaminaState.Half)
             {
                 staminaStates[i] = StaminaState.Empty;
                 UpdateStaminaUI();
-                return;
+                return true;
             }
         }
 
         StaminaUI.Instance.ShakeUI();
+        return false;
     }
 
     // 스태미나 amount 칸(반칸 단위) 회복
@@ -92,6 +93,21 @@ public class StaminaManager : Singleton<StaminaManager>
     {
         StaminaUI.Instance.UpdateStaminaUI(staminaStates);
     }
+
+    public bool CanConsumeStamina()
+    {
+        for (int i = staminaStates.Length - 1; i >= 0; i--)
+        {
+            if (staminaStates[i] == StaminaState.Full || staminaStates[i] == StaminaState.Half)
+            {
+                return true;
+            }
+        }
+
+        StaminaUI.Instance.ShakeUI();
+        return false;
+    }
+
 
     //// 테스트용 입력
     //private void Update()

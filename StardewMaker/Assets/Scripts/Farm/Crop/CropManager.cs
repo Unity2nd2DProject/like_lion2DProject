@@ -91,11 +91,19 @@ public class CropManager : Singleton<CropManager>
         foreach (var kv in crops)
         {
             var crop = kv.Value;
+            var newFertlizerCount = 0;
+            if (crop.cropData.id == 7)
+            {
+                var legendCrop = (LegendCrop)crop;
+                newFertlizerCount = legendCrop.fertilizerCount;
+            }
+
             list.Add(new SavedCrop
             {
                 position = kv.Key,
                 cropId = crop.cropData.id,
                 currentGrowthStage = crop.GetGrowthStage(),
+                fertlizerCount = newFertlizerCount,
                 isWatered = crop.isWatered
             });
         }
@@ -110,17 +118,25 @@ public class CropManager : Singleton<CropManager>
         {
             var nextGrowthStage = saved.currentGrowthStage;
             var maxGrowthStage = cropDatabase.Find(c => c.id == saved.cropId).maxGrowthStage;
-            if (saved.isWatered)
+            var newIsWatered = false;
+            if (newIsWatered)
             {
                 nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
             }
+
+            //Debug.Log(TimeManager.Instance.currentDay + "일 날씨 : " + WeatherManager.Instance.GetCurrentWeather());
+            //if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
+            //{
+            //    newIsWatered = true;
+            //}
 
             list.Add(new SavedCrop
             {
                 position = saved.position,
                 cropId = saved.cropId,
                 currentGrowthStage = nextGrowthStage,
-                isWatered = false
+                fertlizerCount = saved.fertlizerCount,
+                isWatered = newIsWatered
             });
         }
         return list;
@@ -137,6 +153,11 @@ public class CropManager : Singleton<CropManager>
             Crop crop = obj.GetComponent<Crop>();
             crop.Initialize(cropData, saved.isWatered);
             crop.SetGrowthStage(saved.currentGrowthStage);
+
+            if (saved.cropId == 7 && crop is LegendCrop legendCrop)
+            {
+                legendCrop.SetFertilizerCount(saved.fertlizerCount);
+            }
 
             crops[saved.position] = crop;
         }

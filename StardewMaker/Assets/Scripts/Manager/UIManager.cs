@@ -13,9 +13,9 @@ public class UIManager : Singleton<UIManager>
     public InventoryUI inventoryUI;
     private QuickSlotUI quickSlotUI;
 
-
     [Header("Popup Message")]
     public GameObject popupMessagePrefab;
+    [HideInInspector] public GameObject currentPopup; // 현재 팝업 메시지를 저장
     public GameObject toolTipPrefab;
     private TooltipUI toolTipInstance;
 
@@ -23,7 +23,6 @@ public class UIManager : Singleton<UIManager>
     [SerializeField] private GameObject statUIPrefab;
     [HideInInspector]
     public StatUI statUIInstance;
-
 
     [Header("Cooking UI")]
     public GameObject cookingUIPrefab;
@@ -103,10 +102,29 @@ public class UIManager : Singleton<UIManager>
         {
             position = Input.mousePosition;
         }
+
+        // 이전 팝업이 있다면 제거
+        if (currentPopup != null)
+        {
+            Destroy(currentPopup);
+            currentPopup = null;
+        }
+
         Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         GameObject popup = Instantiate(popupMessagePrefab, canvas.transform);
         popup.transform.position = position;
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
+
+        currentPopup = popup;
+    }
+
+    public void HidePopupImmediately()
+    {
+        if (currentPopup != null)
+        {
+            Destroy(currentPopup);
+            currentPopup = null;
+        }
     }
 
     public void ToggleInventoryByButton()
@@ -211,6 +229,7 @@ public class UIManager : Singleton<UIManager>
         toolTipInstance.ShowTooltip(itemdata, position);
         toolTipInstance.gameObject.SetActive(true);
     }
+
     public void HideTooltip()
     {
         if (toolTipInstance != null)
