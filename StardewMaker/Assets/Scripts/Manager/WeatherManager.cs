@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 // 날씨 유형 열거형
@@ -18,9 +19,9 @@ public class WeatherDate
     public WeatherType weatherType; // 날씨 유형
 }
 
-public class WeatherManager : MonoBehaviour
+public class WeatherManager : Singleton<WeatherManager>
 {
-    public static WeatherManager Instance { get; private set; }
+
 
     [Header("날씨 효과")]
     [SerializeField] private GameObject rainPrefab;      // 비 파티클 프리팹
@@ -35,28 +36,26 @@ public class WeatherManager : MonoBehaviour
 
     [Header("날씨 설정")]
     [SerializeField] private List<WeatherDate> weatherDates = new List<WeatherDate>();
-    [SerializeField] private float rainyDarknessIntensity = 0.7f; // 비 올 때 어두워지는 정도
+    [SerializeField] private float rainyDarknessIntensity = 0.3f; // 비 올 때 어두워지는 정도
+    [SerializeField] private float cloudyDarknessIntensity = 0.7f; // 비 올 때 어두워지는 정도
     [SerializeField] private float snowyBrightnessBoost = 1.2f;   // 눈 올 때 밝아지는 정도
 
     // 현재 날씨
     private WeatherType currentWeather = WeatherType.Sunny;
     private Color originalLightColor;
 
-    private void Awake()
-    {
-        // 인스턴스 설정 (DontDestroyOnLoad 없음)
-        if (Instance == null)
-        {
-            Instance = this;
-        }
-        else if (Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
+    private bool isSubscribedToSceneLoad = false;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (!isValid) return;
         // 파티클 효과 초기화 (모두 비활성화)
         DestroyCurrentWeatherEffect();
+
+
+
     }
 
     private void Start()
@@ -69,6 +68,8 @@ public class WeatherManager : MonoBehaviour
         {
             TimeManager.Instance.OnDayChanged += UpdateWeather;
         }
+
+
     }
 
     private void OnDestroy()
@@ -150,11 +151,12 @@ public class WeatherManager : MonoBehaviour
     {
         if (prefab == null) return;
 
-        // 부모 오브젝트가 없으면 생성
+        // 부모 오브젝트가 없으면 찾아보고 없으면 리턴
         if (weatherEffectsParent == null)
         {
-            GameObject parent = new GameObject("WeatherEffects");
-            weatherEffectsParent = parent.transform;
+            GameObject effectObj = GameObject.Find("Effect");
+            if (effectObj == null)
+                return;
         }
 
         // 날씨 효과 생성하고 부모 아래에 배치
