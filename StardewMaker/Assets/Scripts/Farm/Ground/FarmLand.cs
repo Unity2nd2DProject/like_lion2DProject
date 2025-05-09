@@ -60,7 +60,14 @@ public class FarmLand : MonoBehaviour
         {
             if (landState == LandState.Normal)
             {
-                landState = LandState.Fertile;
+                if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
+                {
+                    landState = LandState.Watered;
+                }
+                else
+                {
+                    landState = LandState.Fertile;
+                }
                 UpdateTileSprite();
                 return true;
             }

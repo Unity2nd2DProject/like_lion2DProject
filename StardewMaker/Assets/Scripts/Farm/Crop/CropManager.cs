@@ -119,12 +119,12 @@ public class CropManager : Singleton<CropManager>
             var nextGrowthStage = saved.currentGrowthStage;
             var maxGrowthStage = cropDatabase.Find(c => c.id == saved.cropId).maxGrowthStage;
             var newIsWatered = false;
-            if (newIsWatered)
+
+            if (saved.isWatered)
             {
                 nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
             }
 
-            //Debug.Log(TimeManager.Instance.currentDay + "일 날씨 : " + WeatherManager.Instance.GetCurrentWeather());
             if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
             {
                 newIsWatered = true;
