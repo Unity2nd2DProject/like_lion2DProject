@@ -12,6 +12,7 @@ public class GiftSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Image icon;
     public TextMeshProUGUI quantityText;
     public Button slotButton;
+    public GameObject quantityTextBox;
 
     private Transform originalParent;
 
@@ -26,13 +27,20 @@ public class GiftSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
             icon.enabled = true;
             icon.sprite = itemData.icon;
             quantityText.text = itemData.isStackable ? quantity.ToString() : "";
+
+            if (itemData.isStackable)
+            {
+                quantityTextBox.SetActive(true);
+            }
         }
         else
         {
             icon.enabled = false;
             quantityText.text = "";
+            quantityTextBox.SetActive(false);
         }
     }
+
     public ItemData GetItemData()
     {
         return itemData;
