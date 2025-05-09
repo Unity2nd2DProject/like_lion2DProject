@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ShopTrigger : MonoBehaviour
@@ -30,6 +31,7 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = true;
+            UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
     }
 
@@ -38,6 +40,7 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerNearby = false;
+            UIManager.Instance.HidePopupImmediately();
         }
     }
 }
