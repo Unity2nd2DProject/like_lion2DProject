@@ -125,10 +125,10 @@ public class CropManager : Singleton<CropManager>
             }
 
             //Debug.Log(TimeManager.Instance.currentDay + "일 날씨 : " + WeatherManager.Instance.GetCurrentWeather());
-            //if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
-            //{
-            //    newIsWatered = true;
-            //}
+            if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
+            {
+                newIsWatered = true;
+            }
 
             list.Add(new SavedCrop
             {

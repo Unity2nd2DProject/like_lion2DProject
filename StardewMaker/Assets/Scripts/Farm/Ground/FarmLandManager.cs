@@ -80,9 +80,17 @@ public class FarmLandManager : Singleton<FarmLandManager>
         foreach (var saved in savedList)
         {
             LandState newState = saved.landState;
-            if (newState == LandState.Watered)
+
+            if (newState == LandState.Watered || newState == LandState.Fertile)
             {
-                newState = LandState.Fertile;
+                if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
+                {
+                    newState = LandState.Watered;
+                }
+                else
+                {
+                    newState = LandState.Fertile;
+                }
             }
 
             list.Add(new SavedFarmLand
