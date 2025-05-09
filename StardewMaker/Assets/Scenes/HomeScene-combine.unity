@@ -5400,10 +5400,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3699efc55d69574c88145c82277700c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rainPrefab: {fileID: 1757023920902947411, guid: 3ccdbcf8f7bec6541b9b12c93803f51e, type: 3}
-  cloudyPrefab: {fileID: 8175982361353453652, guid: da88ad9d9c152e744a1894fe4537e2d5, type: 3}
-  snowPrefab: {fileID: 1757023920902947411, guid: 104f664b206540748a43c3ca02d07893, type: 3}
-  weatherEffectsParent: {fileID: 0}
   weatherDates:
   - season: 0
     day: 2
@@ -5441,9 +5437,6 @@ MonoBehaviour:
   - season: 3
     day: 3
     weatherType: 2
-  rainyDarknessIntensity: 0.3
-  cloudyDarknessIntensity: 0.5
-  snowyBrightnessBoost: 1.5
 --- !u!1 &1432381479
 GameObject:
   m_ObjectHideFlags: 0
@@ -6400,6 +6393,7 @@ MonoBehaviour:
   quickSlotUIPrefab: {fileID: 6122598617353136204, guid: 10a6342ba5cb622418ff3196f888790e, type: 3}
   inventoryUI: {fileID: 0}
   popupMessagePrefab: {fileID: 9141062335628843681, guid: d5639b1fac4925d46bf425eda8812242, type: 3}
+  currentPopup: {fileID: 0}
   toolTipPrefab: {fileID: 4353072439217799593, guid: 4c711148218408f43b9a80c2ea5f849c, type: 3}
   statUIPrefab: {fileID: 5536101893936133495, guid: d095921d65ac6b141bf8a251351797c2, type: 3}
   statUIInstance: {fileID: 0}
