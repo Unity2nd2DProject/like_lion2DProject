@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 // 날씨 유형 열거형
 public enum WeatherType
@@ -54,13 +55,14 @@ public class WeatherManager : Singleton<WeatherManager>
         // 파티클 효과 초기화 (모두 비활성화)
         DestroyCurrentWeatherEffect();
 
-
-
+        // 씬 로드 이벤트 구독
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        isSubscribedToSceneLoad = true;
     }
 
     private void Start()
     {
-        // 초기 날씨 설정
+        // 초기 날씨 설정 (GameMode 확인 후 적용)
         UpdateWeather();
 
         // TimeManager의 날짜 변경 이벤트에 구독
@@ -68,8 +70,6 @@ public class WeatherManager : Singleton<WeatherManager>
         {
             TimeManager.Instance.OnDayChanged += UpdateWeather;
         }
-
-
     }
 
     private void OnDestroy()
@@ -79,6 +79,26 @@ public class WeatherManager : Singleton<WeatherManager>
         {
             TimeManager.Instance.OnDayChanged -= UpdateWeather;
         }
+
+        // 씬 로드 이벤트 구독 해제
+        if (isSubscribedToSceneLoad)
+        {
+            SceneManager.sceneLoaded -= OnSceneLoaded;
+        }
+    }
+
+    // 씬 로드 이벤트 핸들러 추가
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // 씬 전환 후 현재 GameMode에 따라 날씨 효과 업데이트
+        ApplyCurrentWeather();
+
+    }
+
+    // TOWN 모드 체크
+    private bool IsTownMode()
+    {
+        return GameManager.Instance != null && GameManager.Instance.currentMode == GameMode.TOWN;
     }
 
     public void UpdateWeather()
@@ -105,18 +125,36 @@ public class WeatherManager : Singleton<WeatherManager>
         {
             ChangeWeather(newWeather);
         }
+        else
+        {
+            // 날씨는 같지만 모드가 바뀌었을 수 있으므로 효과 적용 확인
+            ApplyCurrentWeather();
+        }
     }
 
-    private void ChangeWeather(WeatherType weatherType)
+    // 현재 날씨 효과 적용 (모드 확인 후)
+    private void ApplyCurrentWeather()
     {
-        // 이전 날씨 효과 비활성화
+        // 기존 효과 제거
         DestroyCurrentWeatherEffect();
 
-        // 새 날씨 설정
-        currentWeather = weatherType;
+        // TOWN 모드일 때만 날씨 효과 적용
+        if (IsTownMode())
+        {
+            ApplyWeatherEffects();
+        }
+        else
+        {
+            // HOME 모드에서는 모든 효과 비활성화
+            DisableAllWeatherEffects();
+        }
+    }
 
-        // 날씨에 따른 효과 활성화
-        switch (weatherType)
+    // 날씨 효과 적용
+    private void ApplyWeatherEffects()
+    {
+        // 날씨에 따른 파티클 및 조명 효과 활성화
+        switch (currentWeather)
         {
             case WeatherType.Rainy:
                 InstantiateWeatherEffect(rainPrefab);
@@ -138,13 +176,41 @@ public class WeatherManager : Singleton<WeatherManager>
                 break;
         }
 
-        // 날씨 변경에 맞춰 사운드 업데이트
+        // 날씨 사운드 업데이트
         if (SoundManager.Instance != null)
         {
-            SoundManager.Instance.UpdateWeatherSound(weatherType);
+            SoundManager.Instance.UpdateWeatherSound(currentWeather);
         }
+    }
 
-        Debug.Log($"날씨 변경: {weatherType}");
+    // 모든 날씨 효과 비활성화
+    private void DisableAllWeatherEffects()
+    {
+        // 파티클 효과 제거
+        DestroyCurrentWeatherEffect();
+
+        // 조명 효과 초기화
+        ResetLighting();
+
+        // 날씨 사운드 초기화 (기본 BGM으로 복원)
+        if (SoundManager.Instance != null)
+        {
+            SoundManager.Instance.ResetWeatherSound();
+        }
+    }
+
+    private void ChangeWeather(WeatherType weatherType)
+    {
+        // 이전 날씨 효과 비활성화
+        DestroyCurrentWeatherEffect();
+
+        // 새 날씨 설정
+        currentWeather = weatherType;
+
+        // 현재 모드에 따라 날씨 효과 적용
+        ApplyCurrentWeather();
+
+        Debug.Log($"날씨 변경: {weatherType}, Town 모드: {IsTownMode()}");
     }
 
     private void InstantiateWeatherEffect(GameObject prefab)
@@ -217,5 +283,11 @@ public class WeatherManager : Singleton<WeatherManager>
     public void SetWeather(WeatherType weatherType)
     {
         ChangeWeather(weatherType);
+    }
+
+    // 수동으로 날씨 효과 강제 적용 (TOWN 모드가 아닐 때도 적용 가능)
+    public void ForceApplyWeatherEffects()
+    {
+        ApplyWeatherEffects();
     }
 }
