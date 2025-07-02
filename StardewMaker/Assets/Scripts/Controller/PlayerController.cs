@@ -42,6 +42,9 @@ public class PlayerController : Singleton<PlayerController>
 
     public bool justTeleported = false;
 
+    private bool isStunned = false;
+    private float stunTimer = 0f;
+
     protected override void Awake()
     {
         base.Awake();
@@ -49,17 +52,6 @@ public class PlayerController : Singleton<PlayerController>
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
-
-    //void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-
-    //    anim = GetComponentInChildren<Animator>();
-    //    rb = GetComponent<Rigidbody2D>();
-    //}
 
     private void OnEnable()
     {
@@ -72,6 +64,17 @@ public class PlayerController : Singleton<PlayerController>
         {
             return;
         }
+
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+            }
+            return;
+        }
+
         PlayerMoveInput();
         SpaceInput();
         // ESCInput();
@@ -404,6 +407,17 @@ public class PlayerController : Singleton<PlayerController>
     public void SetCanMove(bool _canMove)
     {
         canMove = _canMove;
+    }
+
+    public void TakeDamage()
+    {
+
+    }
+
+    public void Stun(float duration = 0.3f)
+    {
+        isStunned = true;
+        stunTimer = duration;
     }
 
     private void OnDrawGizmos()
