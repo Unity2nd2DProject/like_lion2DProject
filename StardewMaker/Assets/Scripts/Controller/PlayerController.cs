@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public enum PlayerInteraction
 {
@@ -44,6 +45,12 @@ public class PlayerController : Singleton<PlayerController>
 
     private bool isStunned = false;
     private float stunTimer = 0f;
+
+    [Header("AttackPoint")]
+    [SerializeField] Transform leftPoint;
+    [SerializeField] Transform rightPoint;
+    [SerializeField] Transform downPoint;
+    [SerializeField] Transform upPoint;
 
     protected override void Awake()
     {
@@ -92,7 +99,6 @@ public class PlayerController : Singleton<PlayerController>
         curPos = rb.position;
 
         mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //playerToMouse = (mouseWorldPos - curPos).normalized;
 
         Vector2 direction = mouseWorldPos - curPos;
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
@@ -104,6 +110,7 @@ public class PlayerController : Singleton<PlayerController>
             playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
         }
     }
+
 
     private void PlayerMoveInput()
     {
@@ -188,7 +195,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
         {
-            GameManager.Instance.GoToEnding(EndingResult.GOOD, true);
+            ShootArrow();
+
         }
     }
 
@@ -367,6 +375,26 @@ public class PlayerController : Singleton<PlayerController>
     public void Fertlize()
     {
         curFarmLand.Fertilize();
+    }
+
+    private void ShootArrow()
+    {
+        if (playerToMouse == Vector2.left)
+        {
+            AttackManager.Instance.ShootArrow(leftPoint, playerToMouse);
+        } 
+        else if (playerToMouse == Vector2.right)
+        {
+            AttackManager.Instance.ShootArrow(rightPoint, playerToMouse);
+        }
+        else if (playerToMouse == Vector2.down)
+        {
+            AttackManager.Instance.ShootArrow(downPoint, playerToMouse);
+        }
+        else if (playerToMouse == Vector2.up)
+        {
+            AttackManager.Instance.ShootArrow(upPoint, playerToMouse);
+        }
     }
 
     private void SetInteractAnimation(PlayerInteraction interaction)

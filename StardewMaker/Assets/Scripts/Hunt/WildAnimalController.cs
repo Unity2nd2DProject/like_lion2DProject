@@ -294,4 +294,26 @@ public class WildAnimalController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectRange);
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("NPC"))
+        {
+            ReverseDirection();
+        }
+    }
+
+    private void ReverseDirection()
+    {
+        switch (curState)
+        {
+            case AnimalState.Walk:
+                walkDirection = -walkDirection;
+                break;
+            case AnimalState.Chase:
+                dirToPlayer = -dirToPlayer;
+                break;
+        }
+        spriteRenderer.flipX = !spriteRenderer.flipX;
+    }
+
 }
