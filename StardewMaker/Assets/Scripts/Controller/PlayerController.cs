@@ -64,7 +64,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Start()
     {
         curHp = maxHp;
-        PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
+        //PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
     }
 
     private void OnEnable()

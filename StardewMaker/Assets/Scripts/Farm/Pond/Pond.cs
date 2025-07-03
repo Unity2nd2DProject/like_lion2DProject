@@ -19,6 +19,7 @@ public class Pond : MonoBehaviour
         Debug.Log($"get {caughtFish.itemName}!");
         UIManager.Instance.ShowPopup($"{caughtFish.itemName}을(를) 잡았다!", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         InventoryManager.Instance.AddItem(caughtFish, 1);
+        QuestManager.Instance.ReportAction(QuestTargetType.FishCaught);
     }
 
     //IEnumerator FishingRoutine()
