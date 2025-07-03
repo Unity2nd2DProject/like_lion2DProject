@@ -27,6 +27,7 @@ public class ArrowController : MonoBehaviour
 
         if (Vector3.Distance(startPos, transform.position) >= maxDistance)
         {
+            AttackManager.Instance.SetArrowActive(false);
             Destroy(gameObject);
         }
     }
@@ -62,6 +63,21 @@ public class ArrowController : MonoBehaviour
             spriteRenderer.flipY = true;
         }
 
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("WildAnimal"))
+        {
+            WildAnimalController animal = collision.GetComponent<WildAnimalController>();
+            if (animal != null)
+            {
+                Debug.Log("arrow hit!");
+                animal.TakeDamage(10); 
+            }
+            AttackManager.Instance.SetArrowActive(false);
+            Destroy(gameObject);
+        }
     }
 
 }

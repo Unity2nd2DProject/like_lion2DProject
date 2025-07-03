@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum AnimalType { Rabbit, Deer, WildBoar, Bear }
 public enum AnimalState { Idle, Walk, Chase, Attack }
@@ -12,7 +13,6 @@ public class WildAnimalController : MonoBehaviour
     [Header("Info")]
     [SerializeField] private AnimalType animalType;
     [SerializeField] private int maxHP;
-    [SerializeField] private List<DropItem> dropItems = new List<DropItem>();
     [SerializeField] private int curHp;
     [SerializeField] private bool isDead = false;
 
@@ -25,6 +25,10 @@ public class WildAnimalController : MonoBehaviour
     [SerializeField] private float moveSpeed = 1f;
     [SerializeField] private float stateDuration = 3f;
 
+    [Header("UI")]
+    [SerializeField] private WildAnimalHpBarUI hpBarPrefab; 
+    private WildAnimalHpBarUI hpBarInstance;
+
     [Header("Check")]
     [SerializeField] private float stateTimer;
     [SerializeField] private float distanceToPlayer;
@@ -32,6 +36,7 @@ public class WildAnimalController : MonoBehaviour
     [SerializeField] private Vector3 walkDirection;
     [SerializeField] private Vector3 dirToPlayer;
     [SerializeField] private float lastAttackTime = -Mathf.Infinity;
+    [SerializeField] private List<DropItem> dropItems = new List<DropItem>();
 
     private void Awake()
     {
@@ -43,6 +48,35 @@ public class WildAnimalController : MonoBehaviour
     {
         curHp = maxHP;
         ChangeState(AnimalState.Idle);
+        WildAnimalManager.Instance.RegisterAnimal(animalType);
+        SetupDropItems();
+        SetupHealthBar();
+    }
+
+    private void SetupHealthBar()
+    {
+        if (hpBarPrefab != null)
+        {
+            Canvas canvas = FindFirstObjectByType<Canvas>();
+            if (canvas == null)
+            {
+                Debug.LogError("Canvas not found in scene!");
+                return;
+            }
+
+            hpBarInstance = Instantiate(hpBarPrefab, canvas.transform);
+            hpBarInstance.Initialize(transform, maxHP, curHp);
+        }
+        else
+        {
+            Debug.LogWarning("hpBarPrefab not assigned in WildAnimalController!");
+        }
+    }
+
+
+    private void SetupDropItems()
+    {
+        dropItems = WildAnimalManager.Instance.GetDropItems(animalType);
     }
 
     private void Update()
@@ -244,13 +278,13 @@ public class WildAnimalController : MonoBehaviour
     {
         List<Vector3> directions = new List<Vector3>();
 
-        if (lastFacingDirection == 1) // right
+        if (lastFacingDirection == 1) 
         {
             directions.Add(Vector3.right);                       
             directions.Add((Vector3.right + Vector3.up).normalized);
             directions.Add((Vector3.right + Vector3.down).normalized);   
         }
-        else // left
+        else
         {
             directions.Add(Vector3.left);                        
             directions.Add((Vector3.left + Vector3.up).normalized); 
@@ -263,6 +297,7 @@ public class WildAnimalController : MonoBehaviour
     public void TakeDamage(int amount)
     {
         curHp -= amount;
+        hpBarInstance.UpdateHealthBar(curHp, maxHP);
 
         if (curHp <= 0 && !isDead)
         {
@@ -274,7 +309,9 @@ public class WildAnimalController : MonoBehaviour
     {
         isDead = true;
         DropItems();
+        WildAnimalManager.Instance.UnregisterAnimal(animalType);
         Destroy(gameObject);
+        hpBarInstance.Destroy();
     }
 
     private void DropItems()
@@ -294,13 +331,13 @@ public class WildAnimalController : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, detectRange);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Obstacle") || collision.gameObject.CompareTag("NPC"))
-        {
-            ReverseDirection();
-        }
-    }
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Player"))
+    //    {
+    //        ReverseDirection();
+    //    }
+    //}
 
     private void ReverseDirection()
     {
