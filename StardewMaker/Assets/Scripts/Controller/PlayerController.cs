@@ -15,7 +15,8 @@ public enum PlayerInteraction
     Fish,
     GetWater,
     Axe,
-    Fertilize
+    Fertilize,
+    Shoot
 }
 
 public class PlayerController : Singleton<PlayerController>
@@ -195,8 +196,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
         {
-            ShootArrow();
-
+            //SetInteractAnimation(PlayerInteraction.Shoot);
         }
     }
 
@@ -207,17 +207,24 @@ public class PlayerController : Singleton<PlayerController>
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            if(UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
+            if (UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
             {
-                InteractWithObject(mouseHit, playerHits);
+                curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
+
+                if (curItem.name == "ToolBow") // or 사냥터일 때
+                {
+                    SetInteractAnimation(PlayerInteraction.Shoot);
+                }
+                else
+                {
+                    InteractWithObject(mouseHit, playerHits);
+                }
             }            
         }
     }
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
-
         foreach (Collider2D hit in playerHits)
         {
             if (hit == mouseHit)
@@ -377,7 +384,7 @@ public class PlayerController : Singleton<PlayerController>
         curFarmLand.Fertilize();
     }
 
-    private void ShootArrow()
+    public void ShootArrow()
     {
         if (playerToMouse == Vector2.left)
         {
@@ -424,6 +431,9 @@ public class PlayerController : Singleton<PlayerController>
                 break;
             case PlayerInteraction.Fertilize:
                 anim.SetBool("Fertilize", true);
+                break;
+            case PlayerInteraction.Shoot:
+                anim.SetBool("Shoot", true);
                 break;
         }
 
