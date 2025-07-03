@@ -21,14 +21,13 @@ public enum PlayerInteraction
 
 public class PlayerController : Singleton<PlayerController>
 {
-    //public static PlayerController Instance;
-
     private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
 
+    [Header("Move")]
     private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
     private Vector2 lastMove;
@@ -36,18 +35,19 @@ public class PlayerController : Singleton<PlayerController>
     public float moveSpeed = 5f;
     private Vector2 curPos;
     private bool canMove = true;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
+    public bool justTeleported = false;
 
+    [Header("Interact")]
     private FarmLand curFarmLand;
     private Pond curPond;
     private Tree curTree;
     private ItemData curItem;
 
-    public bool justTeleported = false;
-
-    private bool isStunned = false;
-    private float stunTimer = 0f;
-
-    [Header("AttackPoint")]
+    [Header("Attack")]
+    [SerializeField] int maxHp = 100;
+    [SerializeField] int curHp;
     [SerializeField] Transform leftPoint;
     [SerializeField] Transform rightPoint;
     [SerializeField] Transform downPoint;
@@ -59,6 +59,12 @@ public class PlayerController : Singleton<PlayerController>
 
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        curHp = maxHp;
+        PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
     }
 
     private void OnEnable()
@@ -447,7 +453,18 @@ public class PlayerController : Singleton<PlayerController>
         canMove = _canMove;
     }
 
-    public void TakeDamage()
+    public void TakeDamage(int damage)
+    {
+        curHp -= damage;
+        PlayerHpBarUI.Instance.UpdateHealthBar(curHp, maxHp);
+
+        if (curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
     {
 
     }

@@ -189,6 +189,7 @@ public class WildAnimalController : MonoBehaviour
         if (distanceToPlayer < hitRange)
         {
             Debug.Log("Player took damage by deer!");
+            PlayerController.Instance.TakeDamage(5);
             ChangeState(AnimalState.Idle);
             return;
         }
@@ -201,6 +202,7 @@ public class WildAnimalController : MonoBehaviour
         if (distanceToPlayer < hitRange)
         {
             Debug.Log("Player took damage by wildboar!");
+            PlayerController.Instance.TakeDamage(7);
             PlayerController.Instance.Stun();
             ChangeState(AnimalState.Idle);
             return;
@@ -213,6 +215,7 @@ public class WildAnimalController : MonoBehaviour
         if (distanceToPlayer < hitRange)
         {
             Debug.Log("Player took damage by Bear!");
+            PlayerController.Instance.TakeDamage(10);
             PlayerController.Instance.Stun();
             ChangeState(AnimalState.Idle);
             return;
@@ -294,9 +297,9 @@ public class WildAnimalController : MonoBehaviour
         walkDirection = directions[Random.Range(0, directions.Count)];
     }
 
-    public void TakeDamage(int amount)
+    public void TakeDamage(int damage)
     {
-        curHp -= amount;
+        curHp -= damage;
         hpBarInstance.UpdateHealthBar(curHp, maxHP);
 
         if (curHp <= 0 && !isDead)

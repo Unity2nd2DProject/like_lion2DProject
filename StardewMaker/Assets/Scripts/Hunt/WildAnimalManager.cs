@@ -4,12 +4,20 @@ using UnityEngine;
 
 public class WildAnimalManager : Singleton<WildAnimalManager>
 {
-    [Header("Wild Animals")]
+    [Header("Animals")]
     [SerializeField] private Dictionary<AnimalType, int> animals = new Dictionary<AnimalType, int>();
+
+    [Header("Items")]
     [SerializeField] private List<ItemData> rabbitDropItems = new List<ItemData>();
     [SerializeField] private List<ItemData> deerDropItems = new List<ItemData>();
     [SerializeField] private List<ItemData> wildBoarDropItems = new List<ItemData>();
     [SerializeField] private List<ItemData> bearDropItems = new List<ItemData>();
+
+    [Header("Spawn")]
+    [SerializeField] private List<GameObject> animalPrefabbs = new List<GameObject>();
+    [SerializeField] private List<Transform> spawnerTransfomrs = new List<Transform>();
+    [SerializeField] private float spawnTimerInterval = 10f;
+    [SerializeField] private float spawnTimer;
 
     protected override void Awake()
     {
