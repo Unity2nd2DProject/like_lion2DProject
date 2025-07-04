@@ -24,6 +24,9 @@ public class QuestManager : Singleton<QuestManager>
 
     private QuestData currentQuest => quests.Count > currentQuestIndex ? quests[currentQuestIndex] : null;
 
+    private HashSet<string> completedQuestIDs = new HashSet<string>();
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -86,6 +89,8 @@ public class QuestManager : Singleton<QuestManager>
         {
             InventoryManager.Instance.AddItem(currentQuest.rewardItem, currentQuest.rewardQuantity);
         }
+
+        completedQuestIDs.Add(currentQuest.questID);
 
         currentQuestIndex++;
         StartQuest();
