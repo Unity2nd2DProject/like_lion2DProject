@@ -16,11 +16,15 @@ public class ItemData : ScriptableObject
     public string itemName;
     public ItemType itemType;
     public Sprite icon;
-    public string itemDescription;
-    public bool isStackable; // Tool -> false
+    [TextArea] public string itemDescription;
+    public bool isStackable; // Tool, Weapon -> false
     public CropData cropToGrow; // only Seed
+
     [Header("Shop Info")]
     public int buyPrice;
     public int sellPrice;
     public bool isSellable; // Tool -> false
+
+    [Header("Weapon")]
+    public int damage; 
 }

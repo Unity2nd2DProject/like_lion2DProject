@@ -46,6 +46,7 @@ public class FarmLand : MonoBehaviour
                 InventoryManager.Instance.RemoveItem(itemData);
             }
 
+            QuestManager.Instance.ReportAction(QuestTargetType.SeedPlanted);
             return true;
         }
         else
@@ -69,6 +70,7 @@ public class FarmLand : MonoBehaviour
                     landState = LandState.Fertile;
                 }
                 UpdateTileSprite();
+                QuestManager.Instance.ReportAction(QuestTargetType.TrilledSoil);
                 return true;
             }
             else
@@ -96,6 +98,7 @@ public class FarmLand : MonoBehaviour
             InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물"));
 
             UpdateTileSprite();
+            QuestManager.Instance.ReportAction(QuestTargetType.Watered);
             return true;
         }
         else

@@ -71,6 +71,13 @@ public class PlayerAnimationTrigger : MonoBehaviour
         StaminaManager.Instance.ConsumeStamina();
     }
 
+    private void ShootFinishTrigger()
+    {
+        PlayerController.Instance.ShootArrow();
+        PlayerController.Instance.anim.SetBool("Shoot", false);
+        PlayerController.Instance.SetCanMove(true);
+    }
+
     private void PickSoundTrigger()
     {
         SoundManager.Instance.PlaySFX("Pick");

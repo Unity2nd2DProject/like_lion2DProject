@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public enum PlayerInteraction
 {
@@ -14,19 +15,19 @@ public enum PlayerInteraction
     Fish,
     GetWater,
     Axe,
-    Fertilize
+    Fertilize,
+    Shoot
 }
 
 public class PlayerController : Singleton<PlayerController>
 {
-    //public static PlayerController Instance;
-
     private string TAG = "[PlayerController]";
     private UserInputManager inputManager;
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
 
+    [Header("Move")]
     private Vector2 mouseWorldPos;
     private Vector2 moveInput, move;
     private Vector2 lastMove;
@@ -34,13 +35,23 @@ public class PlayerController : Singleton<PlayerController>
     public float moveSpeed = 5f;
     private Vector2 curPos;
     private bool canMove = true;
+    private bool isStunned = false;
+    private float stunTimer = 0f;
+    public bool justTeleported = false;
 
+    [Header("Interact")]
     private FarmLand curFarmLand;
     private Pond curPond;
     private Tree curTree;
     private ItemData curItem;
 
-    public bool justTeleported = false;
+    [Header("Attack")]
+    [SerializeField] int maxHp = 100;
+    [SerializeField] int curHp;
+    [SerializeField] Transform leftPoint;
+    [SerializeField] Transform rightPoint;
+    [SerializeField] Transform downPoint;
+    [SerializeField] Transform upPoint;
 
     protected override void Awake()
     {
@@ -50,16 +61,11 @@ public class PlayerController : Singleton<PlayerController>
         rb = GetComponent<Rigidbody2D>();
     }
 
-    //void Awake()
-    //{
-    //    if (Instance == null)
-    //    {
-    //        Instance = this;
-    //    }
-
-    //    anim = GetComponentInChildren<Animator>();
-    //    rb = GetComponent<Rigidbody2D>();
-    //}
+    private void Start()
+    {
+        curHp = maxHp;
+        //PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
+    }
 
     private void OnEnable()
     {
@@ -72,6 +78,17 @@ public class PlayerController : Singleton<PlayerController>
         {
             return;
         }
+
+        if (isStunned)
+        {
+            stunTimer -= Time.deltaTime;
+            if (stunTimer <= 0f)
+            {
+                isStunned = false;
+            }
+            return;
+        }
+
         PlayerMoveInput();
         SpaceInput();
         // ESCInput();
@@ -89,7 +106,6 @@ public class PlayerController : Singleton<PlayerController>
         curPos = rb.position;
 
         mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        //playerToMouse = (mouseWorldPos - curPos).normalized;
 
         Vector2 direction = mouseWorldPos - curPos;
         if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
@@ -101,6 +117,7 @@ public class PlayerController : Singleton<PlayerController>
             playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
         }
     }
+
 
     private void PlayerMoveInput()
     {
@@ -185,7 +202,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
         {
-            GameManager.Instance.GoToEnding(EndingResult.GOOD, true);
+            //SetInteractAnimation(PlayerInteraction.Shoot);
         }
     }
 
@@ -196,17 +213,24 @@ public class PlayerController : Singleton<PlayerController>
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            if(UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
+            if (UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
             {
-                InteractWithObject(mouseHit, playerHits);
+                curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
+
+                if (curItem.name == "ToolBow") // or 사냥터일 때
+                {
+                    SetInteractAnimation(PlayerInteraction.Shoot);
+                }
+                else
+                {
+                    InteractWithObject(mouseHit, playerHits);
+                }
             }            
         }
     }
 
     private void InteractWithObject(Collider2D mouseHit, Collider2D[] playerHits)
     {
-        curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
-
         foreach (Collider2D hit in playerHits)
         {
             if (hit == mouseHit)
@@ -366,6 +390,26 @@ public class PlayerController : Singleton<PlayerController>
         curFarmLand.Fertilize();
     }
 
+    public void ShootArrow()
+    {
+        if (playerToMouse == Vector2.left)
+        {
+            AttackManager.Instance.ShootArrow(leftPoint, playerToMouse);
+        } 
+        else if (playerToMouse == Vector2.right)
+        {
+            AttackManager.Instance.ShootArrow(rightPoint, playerToMouse);
+        }
+        else if (playerToMouse == Vector2.down)
+        {
+            AttackManager.Instance.ShootArrow(downPoint, playerToMouse);
+        }
+        else if (playerToMouse == Vector2.up)
+        {
+            AttackManager.Instance.ShootArrow(upPoint, playerToMouse);
+        }
+    }
+
     private void SetInteractAnimation(PlayerInteraction interaction)
     {
         switch (interaction)
@@ -394,6 +438,9 @@ public class PlayerController : Singleton<PlayerController>
             case PlayerInteraction.Fertilize:
                 anim.SetBool("Fertilize", true);
                 break;
+            case PlayerInteraction.Shoot:
+                anim.SetBool("Shoot", true);
+                break;
         }
 
         anim.SetFloat("MouseX", playerToMouse.x);
@@ -404,6 +451,28 @@ public class PlayerController : Singleton<PlayerController>
     public void SetCanMove(bool _canMove)
     {
         canMove = _canMove;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        curHp -= damage;
+        PlayerHpBarUI.Instance.UpdateHealthBar(curHp, maxHp);
+
+        if (curHp <= 0)
+        {
+            Die();
+        }
+    }
+
+    private void Die()
+    {
+
+    }
+
+    public void Stun(float duration = 0.3f)
+    {
+        isStunned = true;
+        stunTimer = duration;
     }
 
     private void OnDrawGizmos()
