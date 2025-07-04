@@ -37,7 +37,7 @@ public class QuestManager : Singleton<QuestManager>
     {
         if (currentQuest != null)
         {
-            Debug.Log($"[Quest] ==== 시작! {currentQuest.questName} - {currentQuest.description} ====");
+            Debug.Log($"[Quest] 시작! ==== {currentQuest.questName} - {currentQuest.description} ====");
             foreach (var goal in currentQuest.goals)
             {
                 goal.currentAmount = 0;
@@ -80,7 +80,7 @@ public class QuestManager : Singleton<QuestManager>
 
     private void CompleteQuest()
     {
-        Debug.Log($"[Quest] 퀘스트 완료! {currentQuest.questName}");
+        Debug.Log($"[Quest] 완료! {currentQuest.questName}");
 
         if (currentQuest.rewardItem != null)
         {
