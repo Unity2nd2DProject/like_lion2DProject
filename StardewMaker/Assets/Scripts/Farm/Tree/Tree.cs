@@ -1,10 +1,33 @@
 using UnityEngine;
 
+public enum TreeType
+{
+    Normal,
+    Fruit
+}
+
 public class Tree : MonoBehaviour
 {
-    private int maxHits = 3;
-    private int currentHits = 0;
-    public ItemData woodData;
+    [Header("Info")]
+    [SerializeField] private TreeType treeType;
+    [SerializeField] private int maxHits = 3;
+    [SerializeField] private ItemData woodData;
+
+    [Header("Sprites")]
+    [SerializeField] private Sprite normalTreeSprite;
+    [SerializeField] private Sprite fruitTreeSprite;
+    [SerializeField] private Sprite stumpSprite;
+
+    [Header("Check")]
+    [SerializeField] private int currentHits = 0;
+    [SerializeField] private bool hasFruit = false;
+    [SerializeField] private SpriteRenderer spriteRenderer;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        UpdateTreeSprite();
+    }
 
     public void Chop()
     {
@@ -13,22 +36,66 @@ public class Tree : MonoBehaviour
 
         if (currentHits >= maxHits)
         {
-            gameObject.SetActive(false);
+            BecomeStump();
+        }
+    }
+
+    private void BecomeStump()
+    {
+        spriteRenderer.sprite = stumpSprite;
+    }
+
+    public void PickFruit()
+    {
+        if (treeType == TreeType.Fruit && hasFruit)
+        {
+            hasFruit = false;
+            treeType = TreeType.Normal;
+            UpdateTreeSprite();
+            // 인벤토리에 과일 추가
         }
     }
 
     public void NexDay()
     {
         currentHits = 0;
-        gameObject.SetActive(true);
+        //gameObject.SetActive(true);
+
+        if (treeType == TreeType.Fruit)
+        {
+            hasFruit = true;
+        }
+
+        UpdateTreeSprite();
     }
 
-    public int GetCurrentHits() => currentHits;
-
-    public void SetState(int hits, bool active)
+    public void SetState(TreeType type, int hits, bool fruitPresent)
     {
+        treeType = type;
         currentHits = hits;
-        gameObject.SetActive(active);
+        hasFruit = fruitPresent;
+        UpdateTreeSprite();
+    }
+
+    private void UpdateTreeSprite()
+    {
+        if (currentHits >= maxHits)
+        {
+            spriteRenderer.sprite = stumpSprite;
+        }
+        else if (treeType == TreeType.Fruit && hasFruit)
+        {
+            spriteRenderer.sprite = fruitTreeSprite;
+        }
+        else
+        {
+            spriteRenderer.sprite = normalTreeSprite;
+        }
+    }
+
+    public (TreeType, int, bool) GetState()
+    {
+        return (treeType, currentHits, hasFruit);
     }
 
 }

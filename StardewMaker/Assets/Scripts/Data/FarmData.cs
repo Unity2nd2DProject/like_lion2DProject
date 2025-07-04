@@ -14,7 +14,9 @@ public class SavedTree
 {
     public Vector2 position;
     public int currentHits;
-    public bool isActive;
+    //public bool isActive;
+    public TreeType treeType;
+    public bool hasFruit;
 }
 
 [System.Serializable]

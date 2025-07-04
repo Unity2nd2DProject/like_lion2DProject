@@ -26,11 +26,13 @@ public class TreeManager : Singleton<TreeManager>
         List<SavedTree> list = new List<SavedTree>();
         foreach (var tree in trees)
         {
+            var (type, hits, hasFruit) = tree.GetState();
             list.Add(new SavedTree
             {
                 position = tree.transform.position,
-                currentHits = tree.GetCurrentHits(),
-                isActive = tree.gameObject.activeSelf
+                currentHits = hits,
+                treeType = type,
+                hasFruit = hasFruit
             });
         }
         return list;
@@ -46,7 +48,8 @@ public class TreeManager : Singleton<TreeManager>
             {
                 position = saved.position,
                 currentHits = 0,
-                isActive = true
+                treeType = saved.treeType,
+                hasFruit = saved.treeType == TreeType.Fruit // 다음 날 과일 다시 자라게
             });
         }
         return list;
@@ -59,10 +62,11 @@ public class TreeManager : Singleton<TreeManager>
         foreach (var data in savedTrees)
         {
             GameObject prefab = Random.value < 0.5f ? treeDarkPrefab : treeLightPrefab;
-
             GameObject obj = Instantiate(prefab, data.position, Quaternion.identity);
+
             Tree tree = obj.GetComponent<Tree>();
-            tree.SetState(data.currentHits, data.isActive);
+            tree.SetState(data.treeType, data.currentHits, data.hasFruit);
+            Debug.Log($"{data.treeType}");
             trees.Add(tree);
         }
     }

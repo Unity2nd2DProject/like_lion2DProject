@@ -3816,7 +3816,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &149221314
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3919,6 +3927,7 @@ MonoBehaviour:
   dialogUI: {fileID: 2119287322}
   shopUI: {fileID: 344886217}
   buttonPanel: {fileID: 481162915}
+  shopTriggerObject: {fileID: 0}
   typewriterEffect: {fileID: 321095472}
   dialogueText: {fileID: 321095470}
 --- !u!1 &168386343
@@ -6101,7 +6110,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &285517808
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9517,7 +9534,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &441849147
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11894,7 +11919,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &531567474
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13846,6 +13879,50 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 1
+--- !u!1 &619880037
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 619880039}
+  - component: {fileID: 619880038}
+  m_Layer: 0
+  m_Name: InputManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &619880038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619880037}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a36e957931367d43999187fe6d6b3fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &619880039
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 619880037}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &621351980
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14203,6 +14280,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   treeDarkPrefab: {fileID: 7074923028809407180, guid: c8b7cafcf510a364a8132e95a11b08ee, type: 3}
   treeLightPrefab: {fileID: 17808308951893288, guid: a468af920e0b84548bfe98a306a8c856, type: 3}
+  treeFruitPrefab: {fileID: 0}
   trees: []
 --- !u!4 &657249519
 Transform:
@@ -22133,7 +22211,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &793592341
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -22759,7 +22845,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &830104375
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -23127,7 +23221,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &841525356
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -24524,7 +24626,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &930773855
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -44982,7 +45092,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1064110081
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -55869,7 +55987,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1217660758
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -59739,6 +59865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33270976d1013de4aa8e059870425908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogUI: {fileID: 0}
   popupText: "\uC9D1"
 --- !u!1001 &1315499842
 PrefabInstance:
@@ -71132,7 +71259,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1377671407
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -72947,7 +73082,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1442572610
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -74177,6 +74320,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33270976d1013de4aa8e059870425908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogUI: {fileID: 0}
   popupText: "\uC9D1"
 --- !u!1 &1529576476
 GameObject:
@@ -113866,7 +114010,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1712866874
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -119081,6 +119233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33270976d1013de4aa8e059870425908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogUI: {fileID: 0}
   popupText: "\uB18D\uC7A5\uC73C\uB85C \uC774\uB3D9"
 --- !u!61 &1790762460
 BoxCollider2D:
@@ -119664,7 +119817,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1822482888
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -121308,7 +121469,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1900737124
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -125601,7 +125770,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: 0}
+  fruitTreeSprite: {fileID: 0}
+  stumpSprite: {fileID: 0}
+  currentHits: 0
+  hasFruit: 0
+  spriteRenderer: {fileID: 0}
 --- !u!212 &2018037800
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -127242,6 +127419,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33270976d1013de4aa8e059870425908, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogUI: {fileID: 0}
   popupText: "\uB9C8\uC744\uB85C \uC774\uB3D9"
 --- !u!61 &2087776433
 BoxCollider2D:
@@ -136064,6 +136242,7 @@ SceneRoots:
   - {fileID: 927840834}
   - {fileID: 2124212773}
   - {fileID: 589087619}
+  - {fileID: 619880039}
   - {fileID: 1363108824}
   - {fileID: 2110928739}
   - {fileID: 1982314607}

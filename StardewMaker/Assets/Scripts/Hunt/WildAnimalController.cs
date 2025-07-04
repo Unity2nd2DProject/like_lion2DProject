@@ -185,13 +185,16 @@ public class WildAnimalController : MonoBehaviour
 
     private void DeerAttack()
     {
-        // animation finished
-        if (distanceToPlayer < hitRange)
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        if (stateInfo.IsName("DeerAttack") && stateInfo.normalizedTime >= 0.9f)
         {
-            Debug.Log("Player took damage by deer!");
-            PlayerController.Instance.TakeDamage(5);
-            ChangeState(AnimalState.Idle);
-            return;
+            if (distanceToPlayer < hitRange)
+            {
+                Debug.Log("Player took damage by deer!");
+                PlayerController.Instance.TakeDamage(5);
+                ChangeState(AnimalState.Idle);
+                return;
+            }
         }
     }
 
