@@ -91,12 +91,21 @@ public class TimeManager : Singleton<TimeManager>
                 currentHour = 0;
                 AdvanceDay();
             }
+            else
+            {
+                OnHourChange(currentHour);
+            }
         }
 
         if (currentMinute % 10 == 0)
         {
             UpdateUI();
         }
+    }
+
+    private void OnHourChange(int hour)
+    {
+        NPCManager.Instance.OnHourChanged(hour);
     }
 
     public void AdvanceDay()
