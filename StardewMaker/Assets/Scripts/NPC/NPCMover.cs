@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class NPCMover : MonoBehaviour
 {
+    private Animator animator;
+
     [Header("Info")]
     [SerializeField] private float speed = 2f;
 
@@ -10,6 +12,11 @@ public class NPCMover : MonoBehaviour
     private int index = 0;
     [SerializeField] private NpcActionType arrivalAction = NpcActionType.None;
     [SerializeField] private bool isMoving = false;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     public void SetRoute(Transform[] newRoute, NpcActionType action)
     {
@@ -37,6 +44,15 @@ public class NPCMover : MonoBehaviour
         Transform target = route[index];
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
+        //Vector2 moveDir = (target.position - transform.position).normalized;
+        //bool stillMoving = Vector2.Distance(transform.position, target.position) > 0.05f;
+        //animator.SetBool("IsMoving", stillMoving);
+        //if (stillMoving)
+        //{
+        //    animator.SetFloat("MoveX", moveDir.x);
+        //    animator.SetFloat("MoveY", moveDir.y);
+        //}
+
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
             index++;
@@ -56,7 +72,8 @@ public class NPCMover : MonoBehaviour
         switch (arrivalAction)
         {
             case NpcActionType.None:
-
+                break;
+            case NpcActionType.Teleport:
                 break;
             case NpcActionType.Idle:
                 break;
@@ -68,5 +85,4 @@ public class NPCMover : MonoBehaviour
                 break;
         }
     }
-
 }

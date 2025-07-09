@@ -442,8 +442,8 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDamping: 0
+  m_Mass: 70
+  m_LinearDamping: 10
   m_AngularDamping: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -560,6 +560,7 @@ MonoBehaviour:
   rightCollider: {fileID: 6090046658610652708}
   upCollider: {fileID: 3177248001513908062}
   downCollider: {fileID: 1490254478202466004}
+  attackCooldown: 0.2
 --- !u!114 &2916865488584486716
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -5,10 +5,11 @@ using UnityEngine;
 public enum NpcActionType
 {
     None,
+    Teleport,
     Idle,
     Walk,
     Fish,
-    Chat
+    Chat,
 }
 
 public class NPCController : MonoBehaviour
