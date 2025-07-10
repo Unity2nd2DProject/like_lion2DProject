@@ -10,6 +10,7 @@ public class QuestUI : Singleton<QuestUI>
     [SerializeField] private Transform completedListParent;
     [SerializeField] private GameObject questSlotPrefab; 
     [SerializeField] private RectTransform scrollRectTransform;
+    [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
 
     [Header("Scroll")]
     [SerializeField] private RectTransform scrollViewport;
@@ -50,7 +51,7 @@ public class QuestUI : Singleton<QuestUI>
             {
                 continue;
             }
-            ui.Setup(quest.questData.questName, false);
+            ui.Setup(quest.questData.questName, false, quest, quest.questData);
         }
 
         foreach (var quest in QuestManager.Instance.CompletedQuestDatas)
@@ -61,12 +62,17 @@ public class QuestUI : Singleton<QuestUI>
             {
                 continue;
             }
-            ui.Setup(quest.questName, true);
+            ui.Setup(quest.questName, true, null, quest);
         }
     }
 
     public void ShowQuestDetail(QuestInstance quest)
     {
+        questDetailPopupUI.Show(quest);
+    }
 
+    public void ShowQuestDetail(QuestData quest)
+    {
+        questDetailPopupUI.Show(quest);
     }
 }
