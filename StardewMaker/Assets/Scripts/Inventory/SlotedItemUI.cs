@@ -130,10 +130,10 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             return;
         }
 
-        SlotUI targetSlot = dropTarget.GetComponentInParent<SlotUI>();
+        ItemSlotUI targetSlot = dropTarget.GetComponentInParent<ItemSlotUI>();
         if (targetSlot != null)
         {
-            SlotUI currentSlot = originalParent.GetComponent<SlotUI>();
+            ItemSlotUI currentSlot = originalParent.GetComponent<ItemSlotUI>();
             SwapSlotData(currentSlot, targetSlot);
         }
         else
@@ -164,7 +164,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
     }
 
-    private void SwapSlotData(SlotUI currentSlot, SlotUI targetSlot)
+    private void SwapSlotData(ItemSlotUI currentSlot, ItemSlotUI targetSlot)
     {
         InventoryManager inventoryManager = InventoryManager.Instance;
 

@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 public class InventoryUI : MonoBehaviour
 {
-    public List<SlotUI> inventorySlotUIs = new List<SlotUI>();
+    public List<ItemSlotUI> inventorySlotUIs = new List<ItemSlotUI>();
     public Button cancelButton;
 
     private InventoryManager inventoryManager;

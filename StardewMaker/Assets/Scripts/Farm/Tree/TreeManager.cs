@@ -66,7 +66,6 @@ public class TreeManager : Singleton<TreeManager>
 
             Tree tree = obj.GetComponent<Tree>();
             tree.SetState(data.treeType, data.currentHits, data.hasFruit);
-            Debug.Log($"{data.treeType}");
             trees.Add(tree);
         }
     }

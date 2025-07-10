@@ -98,6 +98,7 @@ public class PlayerController : Singleton<PlayerController>
         ZInput();
         XInput();
         IInput();
+        QInput();
         F1Input();
         NInput();
         MouseLeftInput();
@@ -190,6 +191,14 @@ public class PlayerController : Singleton<PlayerController>
         if (inputManager.inputActions.Player.I.WasPressedThisFrame())
         {
             UIManager.Instance.inventoryUI.ToggleInventory();
+        }
+    }
+
+    private void QInput()
+    {
+        if (inputManager.inputActions.Player.Q.WasPressedThisFrame())
+        {
+            QuestUI.Instance.ToggleQuestPanel();
         }
     }
 

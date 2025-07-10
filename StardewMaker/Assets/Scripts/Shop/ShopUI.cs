@@ -19,7 +19,7 @@ public class ShopUI : MonoBehaviour
 
     [Header("Inventory Reference")]
     // [SerializeField] private Transform inventoryParent;
-    private SlotUI[] inventorySlots;
+    private ItemSlotUI[] inventorySlots;
     
     [Header("Scroll")]
     public RectTransform scrollViewport;
@@ -35,7 +35,7 @@ public class ShopUI : MonoBehaviour
         Instance = this;
 
         // 인벤토리 슬롯 자동 수집
-        inventorySlots = UIManager.Instance.inventoryUI.GetComponentsInChildren<SlotUI>(true);
+        inventorySlots = UIManager.Instance.inventoryUI.GetComponentsInChildren<ItemSlotUI>(true);
     }
 
     void OnEnable()
