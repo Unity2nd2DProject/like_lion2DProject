@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
@@ -26,6 +27,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+    private PlayerAttackCollider playerAttackCollider;
 
     [Header("Move")]
     private Vector2 mouseWorldPos;
@@ -46,12 +48,12 @@ public class PlayerController : Singleton<PlayerController>
     private ItemData curItem;
 
     [Header("Attack")]
-    [SerializeField] int maxHp = 100;
-    [SerializeField] int curHp;
-    [SerializeField] Transform leftPoint;
-    [SerializeField] Transform rightPoint;
-    [SerializeField] Transform downPoint;
-    [SerializeField] Transform upPoint;
+    [SerializeField] private int maxHp = 100;
+    [SerializeField] private int curHp;
+    [SerializeField] private Transform leftPoint;
+    [SerializeField] private Transform rightPoint;
+    [SerializeField] private Transform downPoint;
+    [SerializeField] private Transform upPoint;
 
     protected override void Awake()
     {
@@ -59,6 +61,7 @@ public class PlayerController : Singleton<PlayerController>
 
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        playerAttackCollider = GetComponent<PlayerAttackCollider>();
     }
 
     private void Start()
@@ -95,6 +98,7 @@ public class PlayerController : Singleton<PlayerController>
         ZInput();
         XInput();
         IInput();
+        QInput();
         F1Input();
         NInput();
         MouseLeftInput();
@@ -190,6 +194,14 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
+    private void QInput()
+    {
+        if (inputManager.inputActions.Player.Q.WasPressedThisFrame())
+        {
+            QuestUI.Instance.ToggleQuestPanel();
+        }
+    }
+
     private void NInput() // NextDay (Test)
     {
         if (inputManager.inputActions.Player.N.WasPressedThisFrame())
@@ -216,10 +228,18 @@ public class PlayerController : Singleton<PlayerController>
             if (UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
             {
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
+                playerAttackCollider.SetCurItem(curItem);
 
-                if (curItem.name == "ToolBow") // or 사냥터일 때
+                if (SceneManager.GetActiveScene().name.Contains("Forest"))
                 {
-                    SetInteractAnimation(PlayerInteraction.Shoot);
+                    if (curItem.name == "ToolBow")
+                    {
+                        SetInteractAnimation(PlayerInteraction.Shoot);
+                    }
+                    else if (curItem.name == "ToolAxe")
+                    {
+                        SetInteractAnimation(PlayerInteraction.Axe);
+                    }
                 }
                 else
                 {
@@ -362,7 +382,11 @@ public class PlayerController : Singleton<PlayerController>
 
     public void Chop()
     {
-        curTree.Chop();
+        if (curTree != null)
+        {
+            curTree.Chop();
+            return;
+        }
     }
 
     public void GetWater()
@@ -480,5 +504,4 @@ public class PlayerController : Singleton<PlayerController>
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(curPos, 1f);
     }
-
 }

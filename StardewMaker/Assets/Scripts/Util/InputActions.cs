@@ -180,6 +180,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Q"",
+                    ""type"": ""Button"",
+                    ""id"": ""5d9b9ebf-9374-4968-9f9b-d74e925dda94"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -378,6 +387,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""F1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""703ad020-039e-4843-8567-ae24169f31a8"",
+                    ""path"": ""<Keyboard>/q"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Q"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -594,6 +614,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_N = m_Player.FindAction("N", throwIfNotFound: true);
         m_Player_MouseLeft = m_Player.FindAction("MouseLeft", throwIfNotFound: true);
         m_Player_F1 = m_Player.FindAction("F1", throwIfNotFound: true);
+        m_Player_Q = m_Player.FindAction("Q", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Move = m_UI.FindAction("Move", throwIfNotFound: true);
@@ -692,6 +713,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_N;
     private readonly InputAction m_Player_MouseLeft;
     private readonly InputAction m_Player_F1;
+    private readonly InputAction m_Player_Q;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -743,6 +765,10 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/F1".
         /// </summary>
         public InputAction @F1 => m_Wrapper.m_Player_F1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Q".
+        /// </summary>
+        public InputAction @Q => m_Wrapper.m_Player_Q;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -799,6 +825,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @F1.started += instance.OnF1;
             @F1.performed += instance.OnF1;
             @F1.canceled += instance.OnF1;
+            @Q.started += instance.OnQ;
+            @Q.performed += instance.OnQ;
+            @Q.canceled += instance.OnQ;
         }
 
         /// <summary>
@@ -840,6 +869,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @F1.started -= instance.OnF1;
             @F1.performed -= instance.OnF1;
             @F1.canceled -= instance.OnF1;
+            @Q.started -= instance.OnQ;
+            @Q.performed -= instance.OnQ;
+            @Q.canceled -= instance.OnQ;
         }
 
         /// <summary>
@@ -1090,6 +1122,13 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnF1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Q" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnQ(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

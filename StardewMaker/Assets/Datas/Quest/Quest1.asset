@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3b9b7b8547f597409b7a842791ad0d2, type: 3}
   m_Name: Quest1
   m_EditorClassIdentifier: 
+  questID: 1
   questName: "\uCCAB \uC0BD\uC744 \uB4E4\uB2E4"
   description: "\uAD2D\uC774\uB97C \uC774\uC6A9\uD574 \uBC2D\uC744 \uC138 \uBC88
     \uAC08\uC544 \uC5CE\uC5B4\uBCF4\uC790."
@@ -19,6 +20,6 @@ MonoBehaviour:
   goals:
   - targetType: 0
     requiredAmount: 3
-    currentAmount: 1
+    currentAmount: 0
   rewardItem: {fileID: 11400000, guid: d5bf6f41441fb304d925e6441effa25d, type: 2}
   rewardQuantity: 3

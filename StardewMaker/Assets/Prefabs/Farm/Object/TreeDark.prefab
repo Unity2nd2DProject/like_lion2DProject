@@ -78,7 +78,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -915736819
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -3673374025851618906, guid: 4091c14f9785c804e8e1033ae9f57f14, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103,7 +103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38f58bd732ef0e5469653044730b30f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  treeType: 0
+  maxHits: 3
   woodData: {fileID: 11400000, guid: 0879951ccaa0c2c42a5542ac9ae19978, type: 2}
+  normalTreeSprite: {fileID: -3673374025851618906, guid: 4091c14f9785c804e8e1033ae9f57f14, type: 3}
+  fruitTreeSprite: {fileID: 3944910578010767700, guid: 5f2101b119263c241b0398a774bfb0fa, type: 3}
+  stumpSprite: {fileID: -7889658162171757577, guid: 9505631eec06a0a4a84496668090fd0f, type: 3}
 --- !u!70 &3113710651798614275
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

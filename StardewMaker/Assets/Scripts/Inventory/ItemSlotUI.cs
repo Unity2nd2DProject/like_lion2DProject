@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class SlotUI : MonoBehaviour, IDropHandler
+public class ItemSlotUI : MonoBehaviour, IDropHandler
 {
     public GameObject item;
     [HideInInspector]

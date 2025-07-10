@@ -5,6 +5,7 @@ using UnityEngine;
 public class QuestData : ScriptableObject
 {
     [Header("Info")]
+    public string questID;
     public string questName;
     [TextArea] public string description;
     public string goalDescrpition;

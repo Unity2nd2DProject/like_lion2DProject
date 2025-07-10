@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class QuickSlotUI : MonoBehaviour
 {
     InventoryManager inventoryManager;
-    public List<SlotUI> quickSlotSlotUIs = new List<SlotUI>();
+    public List<ItemSlotUI> quickSlotSlotUIs = new List<ItemSlotUI>();
     public GameObject currentSelectedCursor;
 
     private void Awake()
