@@ -40,7 +40,14 @@ public class QuestDetailPopupUI : MonoBehaviour
         string goals = "";
         foreach (var goal in questData.goals)
         {
-            goals += $"- {GetTarget(goal.targetType)}: {goal.requiredAmount}\n";
+            //goals += $"- {GetTarget(goal.targetType)}: {goal.requiredAmount}\n";
+            string targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
+            bool isComplete = goal.IsComplete;
+
+            if (isComplete)
+                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText 체크하기
+            else
+                goals += $"- {targetText}\n";
         }
         goalText.text = goals;
     }

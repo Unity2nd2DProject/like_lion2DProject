@@ -14,14 +14,84 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
     [SerializeField] private List<ItemData> bearDropItems = new List<ItemData>();
 
     [Header("Spawn")]
-    [SerializeField] private List<GameObject> animalPrefabbs = new List<GameObject>();
-    [SerializeField] private List<Transform> spawnerTransfomrs = new List<Transform>();
-    [SerializeField] private float spawnTimerInterval = 10f;
+    [SerializeField] private int animalCount = 3;
+    [SerializeField] private GameObject rabbitPrefab;
+    [SerializeField] private GameObject deerPrefab;
+    [SerializeField] private GameObject wildBoarPrefab;
+    [SerializeField] private GameObject bearPrefab;
+    private Dictionary<AnimalType, GameObject> animalPrefabDict;
+    [SerializeField] private List<Transform> rabbitSpawners = new List<Transform>();
+    [SerializeField] private List<Transform> deerSpawners = new List<Transform>();
+    [SerializeField] private List<Transform> wildBoarSpawners = new List<Transform>();
+    [SerializeField] private List<Transform> bearSpawners = new List<Transform>();
+    private Dictionary<AnimalType, List<Transform>> spawnPointDict;
+    [SerializeField] private float spawnTimerInterval = 5f;
     [SerializeField] private float spawnTimer;
 
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    private void Start()
+    {
+        animalPrefabDict = new Dictionary<AnimalType, GameObject>
+        {
+            { AnimalType.Rabbit, rabbitPrefab },
+            { AnimalType.Deer, deerPrefab },
+            { AnimalType.WildBoar, wildBoarPrefab },
+            { AnimalType.Bear, bearPrefab }
+        };
+
+        spawnPointDict = new Dictionary<AnimalType, List<Transform>>
+        {
+            { AnimalType.Rabbit, rabbitSpawners },
+            { AnimalType.Deer, deerSpawners },
+            { AnimalType.WildBoar, wildBoarSpawners },
+            { AnimalType.Bear, bearSpawners }
+        };
+    }
+
+    private void Update()
+    {
+        spawnTimer += Time.deltaTime;
+        if (spawnTimer >= spawnTimerInterval)
+        {
+            TrySpawnAllAnimals();
+            spawnTimer = 0f;
+        }
+    }
+
+    private void TrySpawnAllAnimals()
+    {
+        foreach (AnimalType type in System.Enum.GetValues(typeof(AnimalType)))
+        {
+            int count = GetAnimalCount(type);
+            if (count <= animalCount)
+            {
+                SpawnAnimal(type);
+            }
+        }
+    }
+
+
+    public void SpawnAnimal(AnimalType type)
+    {
+        if (!animalPrefabDict.ContainsKey(type) || !spawnPointDict.ContainsKey(type))
+        {
+            return;
+        }
+
+        var prefab = animalPrefabDict[type];
+        var spawners = spawnPointDict[type];
+        if (spawners.Count == 0)
+        {
+            return;
+        }
+
+        var spawnPoint = spawners[Random.Range(0, spawners.Count)];
+        Instantiate(prefab, spawnPoint.position, Quaternion.identity);
+        RegisterAnimal(type);
     }
 
     public void RegisterAnimal(AnimalType type)
