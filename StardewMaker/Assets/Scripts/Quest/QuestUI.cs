@@ -4,16 +4,16 @@ using UnityEngine.UI;
 public class QuestUI : Singleton<QuestUI>
 {
     [Header("UI")]
-    [SerializeField] private GameObject questPanel; 
-    [SerializeField] private CanvasGroup canvasGroup;
+    [SerializeField] private GameObject questPanel;
+    // [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Transform ongoingListParent;
     [SerializeField] private Transform completedListParent;
-    [SerializeField] private GameObject questSlotPrefab; 
-    [SerializeField] private RectTransform scrollRectTransform;
+    [SerializeField] private GameObject questSlotPrefab;
+    // [SerializeField] private RectTransform scrollRectTransform;
     [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
 
-    [Header("Scroll")]
-    [SerializeField] private RectTransform scrollViewport;
+    // [Header("Scroll")]
+    // [SerializeField] private RectTransform scrollViewport;
 
     protected override void Awake()
     {
