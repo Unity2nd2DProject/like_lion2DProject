@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 public class NPCMover : MonoBehaviour
 {
@@ -12,18 +13,20 @@ public class NPCMover : MonoBehaviour
     private int index = 0;
     [SerializeField] private NpcActionType arrivalAction = NpcActionType.None;
     [SerializeField] private bool isMoving = false;
+    [SerializeField] private string teleportWp;
 
     private void Awake()
     {
-        animator = GetComponent<Animator>();
+        //animator = GetComponent<Animator>();
     }
 
-    public void SetRoute(Transform[] newRoute, NpcActionType action)
+    public void SetRoute(Transform[] newRoute, NpcActionType action, string _teleportWp = null)
     {
         route = newRoute;
         arrivalAction = action;
         index = 0;
         isMoving = true;
+        teleportWp = _teleportWp;
     }
 
     public void ClearRoute()
@@ -74,6 +77,7 @@ public class NPCMover : MonoBehaviour
             case NpcActionType.None:
                 break;
             case NpcActionType.Teleport:
+                Teleport();
                 break;
             case NpcActionType.Idle:
                 break;
@@ -83,6 +87,15 @@ public class NPCMover : MonoBehaviour
                 break;
             case NpcActionType.Chat:
                 break;
+        }
+    }
+
+    private void Teleport()
+    {
+        Transform target = WaypointManager.Instance.GetPosition(teleportWp);
+        if (target != null)
+        {
+            transform.position = target.position;
         }
     }
 }

@@ -230,7 +230,7 @@ public class PlayerController : Singleton<PlayerController>
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
                 playerAttackCollider.SetCurItem(curItem);
 
-                if (SceneManager.GetActiveScene().name.Contains("Forest"))
+                if (SceneManager.GetActiveScene().name.Contains("Forest")) // TODO: 위치 기준으로 변경
                 {
                     if (curItem.name == "ToolBow")
                     {
