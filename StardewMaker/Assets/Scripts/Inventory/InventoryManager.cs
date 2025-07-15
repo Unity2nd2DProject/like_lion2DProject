@@ -79,6 +79,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.quantity += amount; // 수량 증가
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
+                    QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -90,6 +91,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.quantity = amount; // 수량 설정
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
+                    QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -104,6 +106,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.quantity = amount; // 수량 설정
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
+                    QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 추가 완료
                 }
             }
@@ -128,6 +131,7 @@ public class InventoryManager : Singleton<InventoryManager>
                         slot.Clear();
                     }
                     UIManager.Instance.UpdateInventoryAndQuickSlot();
+                    QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 제거 성공
                 }
             }

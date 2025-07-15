@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -16,4 +17,12 @@ public class QuestData : ScriptableObject
     [Header("Reward")]
     public ItemData rewardItem;
     public int rewardQuantity;
+    public int rewardMoney;
+    public string npcName;
+    public int friendshipPointReward;
+
+    [Header("Condition")]
+    public int availableFromHour;
+    public int availableToHour;
+    public List<int> availableDays;
 }

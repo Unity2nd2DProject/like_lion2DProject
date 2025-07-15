@@ -16,7 +16,9 @@ public class QuestInstance
         {
             goals.Add(new QuestGoal
             {
+                goalType = goal.goalType,
                 targetType = goal.targetType,
+                targetItem = goal.targetItem,
                 requiredAmount = goal.requiredAmount,
                 currentAmount = 0
             });
