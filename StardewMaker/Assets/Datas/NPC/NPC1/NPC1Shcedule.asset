@@ -15,20 +15,12 @@ MonoBehaviour:
   npcName: NPC1
   defaultSchedule:
   - hour: 8
-    routeNames:
-    - wp2
-    - wp3
-    - wp5
-    - wp7
-    - wp9
-    actionOnArrival: 4
-  - hour: 11
-    routeNames:
-    - wp8
-    - wp6
-    - wp4
-    - wp3
-    - wp2
-    - wp1
-    actionOnArrival: 1
+    routes:
+    - twp1
+    - twp2
+    - twp3
+    - twp4
+    - twp5
+    actionOnArrival: 0
+    teleportTarget: h1wp1
   overrideSchedules: []

@@ -12,32 +12,32 @@ public class FriendshipManager : Singleton<FriendshipManager>
         base.Awake();
     }
 
-    public FriendshipData GetFriendship(string npcId)
+    public FriendshipData GetFriendship(string npcName)
     {
-        return friendships.Find(f => f.npcName == npcId);
+        return friendships.Find(f => f.npcName == npcName);
     }
 
-    public FriendshipData GetOrCreateFriendship(string npcId)
+    public FriendshipData GetOrCreateFriendship(string npcName)
     {
-        var data = GetFriendship(npcId);
+        var data = GetFriendship(npcName);
         if (data == null)
         {
-            data = new FriendshipData(npcId);
+            data = new FriendshipData(npcName);
             friendships.Add(data);
         }
         return data;
     }
 
-    public void AddPoints(string npcId, int amount)
+    public void AddPoints(string npcName, int amount)
     {
-        var data = GetOrCreateFriendship(npcId);
+        var data = GetOrCreateFriendship(npcName);
         data.points = Mathf.Clamp(data.points + amount, 0, data.maxPoints);
-        Debug.Log($"[FriendshipManager] {npcId} 호감도: {data.points}/{data.maxPoints}");
+        Debug.Log($"[FriendshipManager] {npcName} 호감도: {data.points}/{data.maxPoints}");
     }
 
-    public int GetHeartLevel(string npcId)
+    public int GetHeartLevel(string npcName)
     {
-        var data = GetFriendship(npcId);
+        var data = GetFriendship(npcName);
         return data != null ? data.GetHeartLevel() : 0;
     }
 

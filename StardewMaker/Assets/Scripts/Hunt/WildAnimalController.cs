@@ -12,6 +12,7 @@ public class WildAnimalController : MonoBehaviour
 
     [Header("Info")]
     [SerializeField] private AnimalType animalType;
+    [SerializeField] private WildAnimalZone myZone;
     [SerializeField] private int maxHP;
     [SerializeField] private int curHp;
     [SerializeField] private bool isDead = false;
@@ -51,6 +52,21 @@ public class WildAnimalController : MonoBehaviour
         WildAnimalManager.Instance.RegisterAnimal(animalType);
         SetupDropItems();
         SetupHealthBar();
+        myZone = FindMyZone();
+    }
+
+    private WildAnimalZone FindMyZone()
+    {
+        foreach (var zone in FindObjectsOfType<WildAnimalZone>())
+        {
+            if (zone.areaType.ToString() == animalType.ToString())
+            {
+                if (zone.GetBounds().Contains(transform.position))
+                    return zone;
+            }
+        }
+        Debug.LogWarning($"Zone not found for animal: {animalType}");
+        return null;
     }
 
     private void SetupHealthBar()
@@ -139,7 +155,15 @@ public class WildAnimalController : MonoBehaviour
             return;
         }
 
-        transform.position += walkDirection * moveSpeed * Time.deltaTime;
+        Vector3 nextPos = transform.position + walkDirection * moveSpeed * Time.deltaTime;
+        if (!IsNextPositionInsideZone(nextPos))
+        {
+            ReverseDirection();
+            ChangeState(AnimalState.Idle);
+            return;
+        }
+
+        transform.position = nextPos;
     }
     
     private void ChaseUpdate()
@@ -150,7 +174,14 @@ public class WildAnimalController : MonoBehaviour
             return;
         }
 
-        transform.position += dirToPlayer * moveSpeed * 1.1f * Time.deltaTime;
+        Vector3 nextPos = transform.position + dirToPlayer.normalized * moveSpeed * 1.1f * Time.deltaTime;
+        if (!IsNextPositionInsideZone(nextPos))
+        {
+            ChangeState(AnimalState.Idle);
+            return;
+        }
+
+        transform.position = nextPos;
     }
 
     private void AttackUpdate()
@@ -180,7 +211,14 @@ public class WildAnimalController : MonoBehaviour
 
     private void RabbitAttack()
     {
-        transform.position += -dirToPlayer * moveSpeed * Time.deltaTime;
+        Vector3 nextPos = transform.position - dirToPlayer.normalized * moveSpeed * Time.deltaTime;
+        if (!IsNextPositionInsideZone(nextPos))
+        {
+            ChangeState(AnimalState.Idle);
+            return;
+        }
+
+        transform.position = nextPos;
     }
 
     private void DeerAttack()
@@ -227,6 +265,17 @@ public class WildAnimalController : MonoBehaviour
             }
         }
     }
+
+    private bool IsNextPositionInsideZone(Vector3 nextPosition)
+    {
+        if (myZone == null)
+        {
+            return true;
+        }
+
+        return myZone.GetBounds().Contains(nextPosition);
+    }
+
 
     private void ChangeState(AnimalState newState)
     {
@@ -339,14 +388,6 @@ public class WildAnimalController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, detectRange);
     }
-
-    //private void OnCollisionEnter2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Player"))
-    //    {
-    //        ReverseDirection();
-    //    }
-    //}
 
     private void ReverseDirection()
     {

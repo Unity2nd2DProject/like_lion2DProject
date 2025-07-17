@@ -33,10 +33,10 @@ public class QuestManager : Singleton<QuestManager>
     private void Start()
     {
         // test
-        foreach (var quest in quests)
-        {
-            AcceptQuest(quest.questID);
-        }
+        //foreach (var quest in quests)
+        //{
+        //    AcceptQuest(quest.questID);
+        //}
     }
 
     public void AcceptQuest(string questID)
@@ -69,10 +69,12 @@ public class QuestManager : Singleton<QuestManager>
 
             foreach (var goal in quest.goals)
             {
-                if (goal.targetType == actionType && !goal.IsComplete)
+                if (goal.goalType == QuestGoalType.Action &&
+                    goal.targetType == actionType && !goal.IsComplete)
                 {
                     goal.Report();
                     updated = true;
+
                     Debug.Log($"[Quest] {quest.questData.questName} - ({actionType} {goal.currentAmount}/{goal.requiredAmount})");
                 }
             }
@@ -90,19 +92,86 @@ public class QuestManager : Singleton<QuestManager>
         }
     }
 
-    private void CompleteQuest(QuestInstance quest)
+    public void UpdateItemCollectGoals()
+    {
+        List<QuestInstance> completed = new();
+
+        foreach (var quest in activeQuests)
+        {
+            bool updated = false;
+
+            foreach (var goal in quest.goals)
+            {
+                if (goal.goalType == QuestGoalType.ItemCollect && !goal.IsComplete)
+                {
+                    int ownedAmount = GetItemCount(goal.targetItem);
+                    int newAmount = Mathf.Min(goal.requiredAmount, ownedAmount);
+
+                    if (goal.currentAmount != newAmount)
+                    {
+                        goal.currentAmount = newAmount;
+                        updated = true;
+
+                        Debug.Log($"[Quest] {quest.questData.questName} - {goal.targetItem.itemName}: {goal.currentAmount}/{goal.requiredAmount}");
+                    }
+                }
+            }
+
+            if (updated && quest.IsComplete)
+            {
+                CompleteQuest(quest);
+                completed.Add(quest);
+            }
+        }
+
+        foreach (var quest in completed)
+        {
+            activeQuests.Remove(quest);
+        }
+    }
+
+    private int GetItemCount(ItemData item)
+    {
+        int count = 0;
+        foreach (var slot in InventoryManager.Instance.slots)
+        {
+            if (slot.itemData == item)
+            {
+                count += slot.quantity;
+            }
+        }
+        return count;
+    }
+
+
+    public void CompleteQuest(QuestInstance quest)
     {
         Debug.Log($"[Quest] {quest.questData.questName} 완료!");
 
-        if (quest.questData.rewardItem != null)
+        var q = quest.questData;
+        if (q.rewardItem != null)
         {
-            InventoryManager.Instance.AddItem(quest.questData.rewardItem, quest.questData.rewardQuantity);
+            InventoryManager.Instance.AddItem(q.rewardItem, q.rewardQuantity);
+        }
+        if (q.rewardMoney > 0)
+        {
+            // money
+            InventoryManager.Instance.PlayerMoney += q.rewardMoney;
+        }
+        if (q.friendshipPointReward > 0)
+        {
+            FriendshipManager.Instance.AddPoints(q.npcName, q.friendshipPointReward);
         }
 
         completedQuestIDs.Add(quest.questData.questID);
     }
 
     public List<QuestInstance> ActiveQuests => activeQuests;
+
+    public bool IsQuestActive(string questID)
+    {
+        return activeQuests.Exists(q => q.questData.questID == questID);
+    }
 
     public List<QuestData> CompletedQuestDatas
     {
@@ -117,5 +186,10 @@ public class QuestManager : Singleton<QuestManager>
             }
             return list;
         }
+    }
+
+    public bool HasCompletedQuest(string questID)
+    {
+        return completedQuestIDs.Contains(questID);
     }
 }

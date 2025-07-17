@@ -1,5 +1,6 @@
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum NpcActionType
@@ -41,8 +42,15 @@ public class NPCController : MonoBehaviour
         {
             if (entry.hour == hour)
             {
-                var route = ResolveRouteFromNames(entry.routeNames);
-                mover.SetRoute(route, entry.actionOnArrival);
+                var route = ResolveRouteFromId(entry.routes);
+                if (entry.teleportTarget != null)
+                {
+                    mover.SetRoute(route, entry.actionOnArrival, entry.teleportTarget);
+                }
+                else
+                {
+                    mover.SetRoute(route, entry.actionOnArrival);
+                }
                 break;
             }
         }
@@ -63,22 +71,13 @@ public class NPCController : MonoBehaviour
         return schedule.defaultSchedule;
     }
 
-    private Transform[] ResolveRouteFromNames(string[] names)
+    private Transform[] ResolveRouteFromId(string[] ids)
     {
         List<Transform> list = new List<Transform>();
-        foreach (string name in names)
+        foreach (string id in ids)
         {
-            GameObject go = GameObject.Find(name);
-            if (go != null)
-            {
-                list.Add(go.transform);
-            }
-            else
-            {
-                Debug.LogWarning($"❌ Waypoint '{name}' not found in scene.");
-            }
+            list.Add(WaypointManager.Instance.GetPosition(id));
         }
         return list.ToArray();
     }
-
 }

@@ -26,7 +26,7 @@ public class QuestDetailPopupUI : MonoBehaviour
         string goals = "";
         foreach (var goal in quest.goals)
         {
-            goals += $"- {goal.targetType}: {goal.currentAmount}/{goal.requiredAmount}\n";
+            goals += $"- {GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}\n";
         }
         goalText.text = goals;
     }
@@ -40,9 +40,47 @@ public class QuestDetailPopupUI : MonoBehaviour
         string goals = "";
         foreach (var goal in questData.goals)
         {
-            goals += $"- {goal.targetType}: {goal.requiredAmount}\n";
+            //goals += $"- {GetTarget(goal.targetType)}: {goal.requiredAmount}\n";
+            string targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
+            bool isComplete = goal.IsComplete;
+
+            if (isComplete)
+                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText 체크하기
+            else
+                goals += $"- {targetText}\n";
         }
         goalText.text = goals;
+    }
+
+    private string GetTarget(QuestTargetType targetType)
+    {
+        switch (targetType)
+        {
+            case QuestTargetType.TrilledSoil:
+                return "밭 갈기";
+            case QuestTargetType.SeedPlanted:
+                return "씨앗 심기";
+            case QuestTargetType.Watered:
+                return "물 주기";
+            case QuestTargetType.Fertilized:
+                return "비료 주기";
+            case QuestTargetType.Harvested:
+                return "수확하기";
+            case QuestTargetType.TreeChopped:
+                return "나무 베기";
+            case QuestTargetType.FishCaught:
+                return "낚시하기";
+            case QuestTargetType.StoneBroken:
+                return "돌 캐기";
+            case QuestTargetType.GaveToDaughter:
+                return "딸에게 선물 주기";
+            case QuestTargetType.CookedFood:
+                return "요리하기";
+            case QuestTargetType.GreetedToNPC:
+                return "npc에게 인사하기";
+            default:
+                return "";
+        }
     }
 
     public void Hide()

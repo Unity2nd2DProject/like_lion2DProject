@@ -41,12 +41,6 @@ public class PlayerController : Singleton<PlayerController>
     private float stunTimer = 0f;
     public bool justTeleported = false;
 
-    [Header("Interact")]
-    private FarmLand curFarmLand;
-    private Pond curPond;
-    private Tree curTree;
-    private ItemData curItem;
-
     [Header("Attack")]
     [SerializeField] private int maxHp = 100;
     [SerializeField] private int curHp;
@@ -54,6 +48,13 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Transform rightPoint;
     [SerializeField] private Transform downPoint;
     [SerializeField] private Transform upPoint;
+
+    [Header("Interact Check")]
+    [SerializeField] private FarmLand curFarmLand;
+    [SerializeField] private Pond curPond;
+    [SerializeField] private Tree curTree;
+    [SerializeField] private ItemData curItem;
+    [SerializeField] private MapArea curMapArea;
 
     protected override void Awake()
     {
@@ -119,6 +120,11 @@ public class PlayerController : Singleton<PlayerController>
         else
         {
             playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
+        }
+
+        if (!SceneManager.GetActiveScene().name.Contains("Home"))
+        {
+            curMapArea = MapManager.Instance.GetArea(transform.position);
         }
     }
 
@@ -230,7 +236,7 @@ public class PlayerController : Singleton<PlayerController>
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
                 playerAttackCollider.SetCurItem(curItem);
 
-                if (SceneManager.GetActiveScene().name.Contains("Forest"))
+                if (curMapArea == MapArea.Forest)
                 {
                     if (curItem.name == "ToolBow")
                     {
