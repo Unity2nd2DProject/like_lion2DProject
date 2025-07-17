@@ -5,6 +5,7 @@ using UnityEngine;
 public enum QuestType
 {
     Tutorial,
+    DailyQuest,
     Quest
 }
 

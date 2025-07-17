@@ -150,6 +150,7 @@ public class TimeManager : Singleton<TimeManager>
             SaveManager.Instance.NextDayFarm();
         }
         StaminaManager.Instance.RecoverStamina(20);
+        QuestManager.Instance.NextDay();
         UpdateUI();
     }
 

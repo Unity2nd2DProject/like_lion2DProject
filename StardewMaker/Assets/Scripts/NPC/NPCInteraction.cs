@@ -27,48 +27,47 @@ public class NPCInteraction : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if (questGiver == null || questGiver.questPool == null)
+        // 1. 퀘스트 진행 여부 우선 확인
+        QuestInstance instance = QuestManager.Instance.ActiveQuests
+            .Find(q => questGiver.questPool.dailyQuests.Contains(q.questData));
+
+        if (instance != null)
         {
-            ShowDialogue(defaultText);
-            return;
-        }
-
-        int hour = TimeManager.Instance.currentHour;
-        int day = TimeManager.Instance.currentDay;
-        QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
-
-        if (quest == null)
-        {
-            ShowDialogue(defaultText);
-            return;
-        }
-
-        //// 이미 완료한 퀘스트
-        //if (QuestManager.Instance.HasCompletedQuest(quest.questID))
-        //{
-        //    ShowDialogue("이미 이 퀘스트를 완료했어요.");
-        //    return;
-        //}
-
-        if (QuestManager.Instance.IsQuestActive(quest.questID)) // 퀘스트 진행중
-        {
-            QuestInstance instance = QuestManager.Instance.ActiveQuests.Find(q => q.questData.questID == quest.questID);
-
             if (instance.IsComplete)
             {
-                ShowDialogue(questCompleteText);
+                if (instance.giverNpcName == npcName)
+                {
+                    ShowDialogue(questCompleteText, null, () => {
+                        QuestManager.Instance.CompleteQuest(instance);
+                    });
+                }
+                else
+                {
+                    ShowDialogue(defaultText);
+                }
             }
             else
             {
                 ShowDialogue(questProgressText);
             }
+
+            return;
         }
-        else // 퀘스트 진행전
+
+        // 2. 아직 수락 안 한 경우 (수락 가능한 시간 체크)
+        int hour = TimeManager.Instance.currentHour;
+        int day = TimeManager.Instance.currentDay;
+        QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
+
+        if (quest != null)
         {
-            //var fullText = $"{questOfferText} ({quest.questName})";
             ShowDialogue(questOfferText, quest, () => {
-                QuestManager.Instance.AcceptQuest(quest.questID);
+                QuestManager.Instance.AcceptQuest(quest.questID, npcName);
             });
+        }
+        else
+        {
+            ShowDialogue(defaultText);
         }
     }
 

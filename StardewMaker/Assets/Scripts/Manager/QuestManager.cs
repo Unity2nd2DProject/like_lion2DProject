@@ -39,7 +39,7 @@ public class QuestManager : Singleton<QuestManager>
         }
     }
 
-    public void AcceptQuest(string questID)
+    public void AcceptQuest(string questID, string giverNpcName = null)
     {
         if (completedQuestIDs.Contains(questID))
         {
@@ -53,9 +53,10 @@ public class QuestManager : Singleton<QuestManager>
         QuestData questToAccept = quests.Find(q => q.questID == questID);
         if (questToAccept != null)
         {
-            QuestInstance instance = new QuestInstance(questToAccept);
+            QuestInstance instance = new QuestInstance(questToAccept, giverNpcName);
             activeQuests.Add(instance);
             Debug.Log($"========== [Quest] {questToAccept.questName} 시작! ==========");
+            UpdateItemCollectGoals();
         }
     }
 
@@ -74,21 +75,22 @@ public class QuestManager : Singleton<QuestManager>
                 {
                     goal.Report();
                     updated = true;
-
                     Debug.Log($"[Quest] {quest.questData.questName} - ({actionType} {goal.currentAmount}/{goal.requiredAmount})");
                 }
             }
 
             if (updated && quest.IsComplete)
             {
-                CompleteQuest(quest);
-                completed.Add(quest);
+                if (quest.questData.questType == QuestType.Tutorial)
+                {
+                    CompleteQuest(quest);
+                    completed.Add(quest);
+                }
+                else
+                {
+                    Debug.Log($"[Quest] {quest.questData.questName} 조건 완료, NPC와 대화를 하세요");
+                }
             }
-        }
-
-        foreach (var quest in completed)
-        {
-            activeQuests.Remove(quest);
         }
     }
 
@@ -111,7 +113,6 @@ public class QuestManager : Singleton<QuestManager>
                     {
                         goal.currentAmount = newAmount;
                         updated = true;
-
                         Debug.Log($"[Quest] {quest.questData.questName} - {goal.targetItem.itemName}: {goal.currentAmount}/{goal.requiredAmount}");
                     }
                 }
@@ -119,14 +120,16 @@ public class QuestManager : Singleton<QuestManager>
 
             if (updated && quest.IsComplete)
             {
-                CompleteQuest(quest);
-                completed.Add(quest);
+                if (quest.questData.questType == QuestType.Tutorial)
+                {
+                    CompleteQuest(quest);
+                    completed.Add(quest);
+                }
+                else
+                {
+                    Debug.Log($"[Quest] {quest.questData.questName} 조건 완료, NPC와 대화를 하세요");
+                }
             }
-        }
-
-        foreach (var quest in completed)
-        {
-            activeQuests.Remove(quest);
         }
     }
 
@@ -148,6 +151,18 @@ public class QuestManager : Singleton<QuestManager>
     {
         Debug.Log($"[Quest] {quest.questData.questName} 완료!");
 
+        foreach (var goal in quest.goals)
+        {
+            if (goal.goalType == QuestGoalType.ItemCollect && goal.targetItem != null)
+            {
+                bool success = InventoryManager.Instance.RemoveItem(goal.targetItem, goal.requiredAmount);
+                if (!success)
+                {
+                    Debug.LogWarning($"[Quest] {goal.targetItem.itemName} 제거 실패! 수량 부족");
+                }
+            }
+        }
+
         var q = quest.questData;
         if (q.rewardItem != null)
         {
@@ -155,7 +170,6 @@ public class QuestManager : Singleton<QuestManager>
         }
         if (q.rewardMoney > 0)
         {
-            // money
             InventoryManager.Instance.PlayerMoney += q.rewardMoney;
         }
         if (q.friendshipPointReward > 0)
@@ -163,6 +177,7 @@ public class QuestManager : Singleton<QuestManager>
             FriendshipManager.Instance.AddPoints(q.npcName, q.friendshipPointReward);
         }
 
+        activeQuests.Remove(quest);
         completedQuestIDs.Add(quest.questData.questID);
     }
 
@@ -191,5 +206,38 @@ public class QuestManager : Singleton<QuestManager>
     public bool HasCompletedQuest(string questID)
     {
         return completedQuestIDs.Contains(questID);
+    }
+
+    public void NextDay()
+    {
+        List<QuestInstance> activeToRemove = new();
+        List<string> completedToRemove = new();
+
+        foreach (var questInstance in activeQuests)
+        {
+            if (questInstance.questData.questType == QuestType.DailyQuest)
+            {
+                activeToRemove.Add(questInstance);
+            }
+        }
+
+        foreach (var questID in completedQuestIDs)
+        {
+            var quest = quests.Find(q => q.questID == questID);
+            if (quest != null && quest.questType == QuestType.DailyQuest)
+            {
+                completedToRemove.Add(questID);
+            }
+        }
+
+        foreach (var quest in activeToRemove)
+        {
+            activeQuests.Remove(quest);
+        }
+
+        foreach (var id in completedToRemove)
+        {
+            completedQuestIDs.Remove(id);
+        }
     }
 }
