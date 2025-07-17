@@ -29,4 +29,21 @@ public class NPCQuestGiver : MonoBehaviour
             Debug.Log("[NPCQuestGiver] 지금은 퀘스트를 받을 수 없습ㄴ디ㅏ");
         }
     }
+
+    public bool CanGiveQuest()
+    {
+        int hour = TimeManager.Instance.currentHour;
+        int today = TimeManager.Instance.currentDay;
+
+        QuestData availableQuest = questPool.GetRandomAvailableQuest(hour, today);
+
+        if (availableQuest != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

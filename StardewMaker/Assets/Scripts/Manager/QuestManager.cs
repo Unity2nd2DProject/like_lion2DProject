@@ -144,7 +144,7 @@ public class QuestManager : Singleton<QuestManager>
     }
 
 
-    private void CompleteQuest(QuestInstance quest)
+    public void CompleteQuest(QuestInstance quest)
     {
         Debug.Log($"[Quest] {quest.questData.questName} 완료!");
 
