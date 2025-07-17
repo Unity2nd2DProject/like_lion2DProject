@@ -19,6 +19,7 @@ public enum QuestTargetType
 public class QuestManager : Singleton<QuestManager>
 {
     [Header("Quests")]
+    [SerializeField] private List<QuestData> tutorials;
     [SerializeField] private List<QuestData> quests;
 
     [Header("Check")]
@@ -32,11 +33,10 @@ public class QuestManager : Singleton<QuestManager>
 
     private void Start()
     {
-        // test
-        //foreach (var quest in quests)
-        //{
-        //    AcceptQuest(quest.questID);
-        //}
+        foreach (var quest in tutorials)
+        {
+            AcceptQuest(quest.questID);
+        }
     }
 
     public void AcceptQuest(string questID)

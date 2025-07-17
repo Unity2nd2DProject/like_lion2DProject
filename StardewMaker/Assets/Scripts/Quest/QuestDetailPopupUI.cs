@@ -22,11 +22,35 @@ public class QuestDetailPopupUI : MonoBehaviour
         popupPanel.SetActive(true);
         nameText.text = quest.questData.questName;
         descriptionText.text = quest.questData.description;
-
         string goals = "";
+
+        if (QuestManager.Instance.HasCompletedQuest(quest.questData.questID))
+        {
+            goalText.text = goals;
+            return;
+        }
+
         foreach (var goal in quest.goals)
         {
-            goals += $"- {GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}\n";
+            string targetText = "";
+
+            if (goal.goalType == QuestGoalType.Action)
+            {
+                targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
+            }
+            else if (goal.goalType == QuestGoalType.ItemCollect)
+            {
+                targetText = $"{goal.targetItem.itemName}: {goal.currentAmount}/{goal.requiredAmount}";
+            }
+
+            if (goal.IsComplete)
+            {
+                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText
+            }
+            else
+            {
+                goals += $"- {targetText}\n";
+            }
         }
         goalText.text = goals;
     }
@@ -36,18 +60,35 @@ public class QuestDetailPopupUI : MonoBehaviour
         popupPanel.SetActive(true);
         nameText.text = questData.questName;
         descriptionText.text = questData.description;
-
         string goals = "";
+
+        if (QuestManager.Instance.HasCompletedQuest(questData.questID))
+        {
+            goalText.text = goals;
+            return;
+        }
+
         foreach (var goal in questData.goals)
         {
-            //goals += $"- {GetTarget(goal.targetType)}: {goal.requiredAmount}\n";
-            string targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
-            bool isComplete = goal.IsComplete;
+            string targetText = "";
 
-            if (isComplete)
-                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText 체크하기
+            if (goal.goalType == QuestGoalType.Action)
+            {
+                targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
+            }
+            else if (goal.goalType == QuestGoalType.ItemCollect)
+            {
+                targetText = $"{goal.targetItem.itemName}: {goal.currentAmount}/{goal.requiredAmount}";
+            }
+
+            if (goal.IsComplete)
+            {
+                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText
+            }
             else
+            {
                 goals += $"- {targetText}\n";
+            }
         }
         goalText.text = goals;
     }

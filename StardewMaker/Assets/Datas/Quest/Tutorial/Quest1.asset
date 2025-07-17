@@ -18,8 +18,16 @@ MonoBehaviour:
     \uAC08\uC544 \uC5CE\uC5B4\uBCF4\uC790."
   goalDescrpition: 
   goals:
-  - targetType: 0
+  - goalType: 0
+    targetType: 0
+    targetItem: {fileID: 0}
     requiredAmount: 3
     currentAmount: 0
   rewardItem: {fileID: 11400000, guid: d5bf6f41441fb304d925e6441effa25d, type: 2}
   rewardQuantity: 3
+  rewardMoney: 0
+  npcName: 
+  friendshipPointReward: 0
+  availableFromHour: 0
+  availableToHour: 24
+  availableDays: 01000000020000000300000004000000050000000600000007000000

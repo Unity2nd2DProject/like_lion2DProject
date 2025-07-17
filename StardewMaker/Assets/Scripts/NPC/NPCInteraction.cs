@@ -65,16 +65,16 @@ public class NPCInteraction : MonoBehaviour
         }
         else // 퀘스트 진행전
         {
-            var fullText = $"{questOfferText} ({quest.questName})";
-            ShowDialogue(fullText, () => {
+            //var fullText = $"{questOfferText} ({quest.questName})";
+            ShowDialogue(questOfferText, quest, () => {
                 QuestManager.Instance.AcceptQuest(quest.questID);
             });
         }
     }
 
-    private void ShowDialogue(string text, System.Action onOK = null)
+    private void ShowDialogue(string text, QuestData questData = null, System.Action onOK = null)
     {
-        NPCDialgoueUI.Instance.Show(npcName, text, onOK);
+        NPCDialgoueUI.Instance.Show(npcName, text, questData, onOK);
         UIManager.Instance.HidePopupImmediately();
     }
 }

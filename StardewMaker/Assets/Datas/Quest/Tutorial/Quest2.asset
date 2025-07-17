@@ -19,11 +19,21 @@ MonoBehaviour:
     \uBB3C\uC744 \uAE37\uACE0 \uC791\uBB3C\uC5D0 \uBB3C\uC744 \uC904 \uC218 \uC788\uB2E4."
   goalDescrpition: 
   goals:
-  - targetType: 1
+  - goalType: 0
+    targetType: 1
+    targetItem: {fileID: 0}
     requiredAmount: 3
     currentAmount: 3
-  - targetType: 2
+  - goalType: 0
+    targetType: 2
+    targetItem: {fileID: 0}
     requiredAmount: 3
     currentAmount: 3
   rewardItem: {fileID: 11400000, guid: f7027825e95d8474e910cf6749b7aa86, type: 2}
   rewardQuantity: 1
+  rewardMoney: 0
+  npcName: 
+  friendshipPointReward: 0
+  availableFromHour: 0
+  availableToHour: 24
+  availableDays: 01000000020000000300000004000000050000000600000007000000

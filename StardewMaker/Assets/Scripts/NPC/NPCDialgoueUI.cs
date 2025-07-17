@@ -2,11 +2,14 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using System;
+using UnityEditor.PackageManager.Requests;
+using Unity.VisualScripting;
 
 public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonGrid;
+    [SerializeField] private GameObject questPopup;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Button okButton;
@@ -25,14 +28,19 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
             onCancel?.Invoke();
             Hide();
         });
-
         Hide();
     }
 
-    public void Show(string npcName, string text, Action onOK, Action onCancel = null)
+    public void Show(string npcName, string text, QuestData questData = null, Action onOK = null, Action onCancel = null)
     {
         panel.SetActive(true);
         buttonGrid.SetActive(true);
+        if (questData != null)
+        {
+            questPopup.SetActive(true);
+            QuestDetailPopupUI detailUI = questPopup.GetComponentInChildren<QuestDetailPopupUI>();
+            detailUI.Show(questData);
+        }
 
         nameText.text = npcName;
         TypewriterEffect typewriter = dialogueText.GetComponent<TypewriterEffect>();
@@ -59,5 +67,6 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
     {
         buttonGrid.SetActive(false);
         panel.SetActive(false);
+        questPopup.SetActive(false);
     }
 }
