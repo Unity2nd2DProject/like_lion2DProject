@@ -17,8 +17,10 @@ public class NPCController : MonoBehaviour
 {
     public string npcName;
     public NPCSchedule schedule;
-
     private NPCMover mover;
+
+    [Header("position")]
+    [SerializeField] string defaultPosition;
 
     private void Awake()
     {
@@ -79,5 +81,10 @@ public class NPCController : MonoBehaviour
             list.Add(WaypointManager.Instance.GetPosition(id));
         }
         return list.ToArray();
+    }
+
+    public void ResetToDefaultPosition()
+    {
+        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
     }
 }

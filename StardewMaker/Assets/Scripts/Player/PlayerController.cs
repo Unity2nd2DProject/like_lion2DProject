@@ -40,6 +40,8 @@ public class PlayerController : Singleton<PlayerController>
     private bool isStunned = false;
     private float stunTimer = 0f;
     public bool justTeleported = false;
+    private bool isTeleporting = false;
+    private Transform cameraTransform;
 
     [Header("Attack")]
     [SerializeField] private int maxHp = 100;
@@ -63,6 +65,11 @@ public class PlayerController : Singleton<PlayerController>
         anim = GetComponentInChildren<Animator>();
         rb = GetComponent<Rigidbody2D>();
         playerAttackCollider = GetComponent<PlayerAttackCollider>();
+
+        if (Camera.main != null)
+        {
+            cameraTransform = Camera.main.transform;
+        }
     }
 
     private void Start()
@@ -486,18 +493,76 @@ public class PlayerController : Singleton<PlayerController>
     public void TakeDamage(int damage)
     {
         curHp -= damage;
-        PlayerHpBarUI.Instance.UpdateHealthBar(curHp, maxHp);
+        HpUI.Instance.UpdateHearts(curHp);
+    }
 
-        if (curHp <= 0)
+
+    public void TeleportToTown()
+    {
+        if (!isTeleporting)
         {
-            Die();
+            Transform targetPoint = WaypointManager.Instance.GetPosition("twp0");
+            StartCoroutine(FadeTeleport(targetPoint));
         }
     }
 
-    private void Die()
+    private IEnumerator FadeTeleport(Transform destination)
     {
+        isTeleporting = true;
 
+        // 이동 및 애니메이션 차단
+        SetCanMove(false);
+        if (anim != null)
+        {
+            anim.SetBool("Move", false);
+            anim.speed = 0f;
+        }
+
+        UserInputManager.Instance.inputActions.Player.Disable();
+
+        // 이동 벡터 수동 초기화
+        var moveField = typeof(PlayerController).GetField("move", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        if (moveField != null)
+        {
+            moveField.SetValue(this, Vector2.zero);
+        }
+
+        // 페이드 아웃
+        FadeManager.Instance.FadeOut();
+        yield return new WaitForSeconds(1f);
+
+        // 플레이어 이동
+        transform.position = destination.position;
+
+        // 카메라 이동 대기
+        if (cameraTransform != null)
+        {
+            Vector3 targetCamPos = new Vector3(destination.position.x, destination.position.y, cameraTransform.position.z);
+            float elapsed = 0f;
+            while (Vector2.Distance(cameraTransform.position, targetCamPos) > 0.1f && elapsed < 1f)
+            {
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        // 페이드 인
+        FadeManager.Instance.FadeIn();
+        yield return new WaitForSeconds(1f);
+
+        // 복구
+        if (anim != null)
+        {
+            anim.SetBool("Move", false);
+            anim.speed = 1f;
+        }
+        UserInputManager.Instance.inputActions.Player.Enable();
+        SetCanMove(true);
+
+        isTeleporting = false;
     }
+
+
 
     public void Stun(float duration = 0.3f)
     {

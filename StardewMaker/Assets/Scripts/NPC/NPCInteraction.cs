@@ -6,9 +6,12 @@ public class NPCInteraction : MonoBehaviour
     private NPCQuestGiver questGiver;
     private NPCController npcController;
 
+    [Header("Interaction")]
+    [SerializeField] private float interactionRange = 2.5f;
+
     [Header("Dialogue")]
-    [SerializeField] private string npcName;
-    [SerializeField] private QuestData npcQuest;
+    private string npcName;
+    private QuestData npcQuest;
     [TextArea] public string defaultText = "안녕하세요!";
     [TextArea] public string questCompleteText = "수고하셨어요!";
     [TextArea] public string questProgressText = "아직 다 못했군요. 계속 노력해봐요!";
@@ -27,7 +30,15 @@ public class NPCInteraction : MonoBehaviour
 
     private void OnMouseDown()
     {
-        // 1. 퀘스트 진행 여부 우선 확인
+        Transform playerTransform = PlayerController.Instance.transform;
+        float distance = Vector2.Distance(transform.position, playerTransform.position);
+
+        if (distance > interactionRange)
+        {
+            return;
+        }
+
+        // 퀘스트 진행 여부 우선 확인
         QuestInstance instance = QuestManager.Instance.ActiveQuests
             .Find(q => questGiver.questPool.dailyQuests.Contains(q.questData));
 
@@ -54,7 +65,7 @@ public class NPCInteraction : MonoBehaviour
             return;
         }
 
-        // 2. 아직 수락 안 한 경우 (수락 가능한 시간 체크)
+        // 아직 수락 안 한 경우 (수락 가능한 시간 체크)
         int hour = TimeManager.Instance.currentHour;
         int day = TimeManager.Instance.currentDay;
         QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);

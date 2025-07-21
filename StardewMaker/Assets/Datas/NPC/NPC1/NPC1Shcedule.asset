@@ -14,13 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: NPC1
   defaultSchedule:
-  - hour: 8
+  - hour: 10
     routes:
-    - twp1
-    - twp2
-    - twp3
+    - h1wp1
+    actionOnArrival: 1
+    teleportTarget: twp5
+  - hour: 11
+    routes:
     - twp4
-    - twp5
-    actionOnArrival: 0
-    teleportTarget: h1wp1
+    - twp3
+    - twp2
+    - twp1
+    actionOnArrival: 2
+    teleportTarget: 
   overrideSchedules: []

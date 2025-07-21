@@ -31,4 +31,12 @@ public class NPCManager : Singleton<NPCManager>
             npc.OnHourChanged(hour);
         }
     }
+
+    public void NextDay()
+    {
+        foreach (var npc in npcs)
+        {
+            npc.ResetToDefaultPosition();
+        }
+    }
 }
