@@ -49,7 +49,6 @@ public class WildAnimalController : MonoBehaviour
     {
         curHp = maxHP;
         ChangeState(AnimalState.Idle);
-        WildAnimalManager.Instance.RegisterAnimal(animalType);
         SetupDropItems();
         SetupHealthBar();
         myZone = FindMyZone();
@@ -367,7 +366,6 @@ public class WildAnimalController : MonoBehaviour
     {
         isDead = true;
         DropItems();
-        WildAnimalManager.Instance.UnregisterAnimal(animalType);
         Destroy(gameObject);
         hpBarInstance.Destroy();
     }
@@ -401,6 +399,12 @@ public class WildAnimalController : MonoBehaviour
                 break;
         }
         spriteRenderer.flipX = !spriteRenderer.flipX;
+    }
+
+    private void OnDestroy()
+    {
+        //Debug.Log($"WildAnimalController {gameObject.name} ondestroy! ");
+        WildAnimalManager.Instance.UnregisterAnimal(animalType);
     }
 
 }

@@ -20,13 +20,13 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
     {
         Debug.Log($"{scene.name} is loaded...");
 
-        if (scene.name.Contains("TownScene"))
+        if (scene.name.Contains("Town"))
         {
             TimeManager.Instance.ResumeTime();
             StartCoroutine(DelayedUpdateUI(scene));
             
         }
-        else if (scene.name.Contains("HomeScene"))
+        else if (scene.name.Contains("Home"))
         {
             TimeManager.Instance.PauseTime();
             StartCoroutine(DelayedUpdateUI(scene));
@@ -41,9 +41,14 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
             TimeManager.Instance.UpdateUI();
             StaminaManager.Instance.UpdateStaminaUI();
 
-            if (scene.name.Contains("TownScene"))
+            if (scene.name.Contains("Town"))
             {
                 SaveManager.Instance.LoadFarm();
+                WaypointManager.Instance.GetWaypoints();
+
+                // 나중에 save로 변경
+                NPCManager.Instance.SpawnNPCs();
+                WildAnimalManager.Instance.SetSpawners();
             }
         }
         else

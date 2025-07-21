@@ -3,30 +3,48 @@ using UnityEngine;
 
 public class NPCManager : Singleton<NPCManager>
 {
-    [Header("npcs")]
-    [SerializeField] private List<NPCController> npcs = new List<NPCController>();
+    [Header("NPC")]
+    [SerializeField] private List<GameObject> npcPrefabs;
+
+    [Header("Check")]
+    [SerializeField] private List<NPCController> activeNPCs = new List<NPCController>();
 
     protected override void Awake()
     {
         base.Awake();
     }
 
-    public void Register(NPCController npc)
+    public void SpawnNPCs()
     {
-        if (!npcs.Contains(npc))
+        ClearAllNPCs();
+
+        foreach (var prefab in npcPrefabs)
         {
-            npcs.Add(npc);
+            GameObject npcObj = Instantiate(prefab);
+            NPCController npc = npcObj.GetComponent<NPCController>();
+
+            if (npc != null)
+            {
+                activeNPCs.Add(npc);
+            }
         }
     }
 
-    public void Unregister(NPCController npc)
+    private void ClearAllNPCs()
     {
-        npcs.Remove(npc);
+        foreach (var npc in activeNPCs)
+        {
+            if (npc != null)
+            {
+                Destroy(npc.gameObject);
+            }
+        }
+        activeNPCs.Clear();
     }
 
     public void OnHourChanged(int hour)
     {
-        foreach (var npc in npcs)
+        foreach (var npc in activeNPCs)
         {
             npc.OnHourChanged(hour);
         }
@@ -34,7 +52,7 @@ public class NPCManager : Singleton<NPCManager>
 
     public void NextDay()
     {
-        foreach (var npc in npcs)
+        foreach (var npc in activeNPCs)
         {
             npc.ResetToDefaultPosition();
         }

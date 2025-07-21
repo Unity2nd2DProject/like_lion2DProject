@@ -3,22 +3,22 @@ using UnityEngine;
 
 public class WaypointManager : Singleton<WaypointManager>
 {
-
     [SerializeField] private Dictionary<string, Transform> waypoints = new Dictionary<string, Transform>();
 
     protected override void Awake()
     {
         base.Awake();
+        //GetWaypoints();
+    }
+
+    public void GetWaypoints()
+    {
+        waypoints.Clear();
 
         foreach (var marker in FindObjectsOfType<Waypoint>())
         {
             waypoints[marker.id] = marker.transform;
         }
-
-        //foreach (var wp in waypoints)
-        //{
-        //    Debug.Log($"{wp.Key} : {wp.Value}");
-        //}
     }
 
     public Transform GetPosition(string id)

@@ -20,7 +20,7 @@ public class NPCController : MonoBehaviour
     private NPCMover mover;
 
     [Header("position")]
-    [SerializeField] string defaultPosition;
+    public string defaultPosition;
 
     private void Awake()
     {
@@ -29,6 +29,7 @@ public class NPCController : MonoBehaviour
 
     private void Start()
     {
+        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
         OnHourChanged(TimeManager.Instance.currentHour);
     }
 

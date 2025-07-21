@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,14 +20,20 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
     [SerializeField] private GameObject deerPrefab;
     [SerializeField] private GameObject wildBoarPrefab;
     [SerializeField] private GameObject bearPrefab;
-    private Dictionary<AnimalType, GameObject> animalPrefabDict;
+    [SerializeField] private List<string> rabbitSpawnerNames = new List<string>();
+    [SerializeField] private List<string> deerSpawnerNames = new List<string>();
+    [SerializeField] private List<string> wildBoarSpawnerNames = new List<string>();
+    [SerializeField] private List<string> bearSpawnerNames = new List<string>();
+    [SerializeField] private float spawnTimerInterval = 5f;
+    [SerializeField] private float spawnTimer;
+
+    [Header("Check")]
+    [SerializeField] private Dictionary<AnimalType, GameObject> animalPrefabDict;
+    [SerializeField] private Dictionary<AnimalType, List<Transform>> spawnPointDict;
     [SerializeField] private List<Transform> rabbitSpawners = new List<Transform>();
     [SerializeField] private List<Transform> deerSpawners = new List<Transform>();
     [SerializeField] private List<Transform> wildBoarSpawners = new List<Transform>();
     [SerializeField] private List<Transform> bearSpawners = new List<Transform>();
-    private Dictionary<AnimalType, List<Transform>> spawnPointDict;
-    [SerializeField] private float spawnTimerInterval = 5f;
-    [SerializeField] private float spawnTimer;
 
     protected override void Awake()
     {
@@ -35,6 +42,16 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
 
     private void Start()
     {
+        //SetSpawners();
+    }
+
+    public void SetSpawners()
+    {
+        rabbitSpawners = FindSpawnersByName(rabbitSpawnerNames);
+        deerSpawners = FindSpawnersByName(deerSpawnerNames);
+        wildBoarSpawners = FindSpawnersByName(wildBoarSpawnerNames);
+        bearSpawners = FindSpawnersByName(bearSpawnerNames);
+
         animalPrefabDict = new Dictionary<AnimalType, GameObject>
         {
             { AnimalType.Rabbit, rabbitPrefab },
@@ -52,6 +69,26 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         };
     }
 
+    private List<Transform> FindSpawnersByName(List<string> spawnerNames)
+    {
+        var found = new List<Transform>();
+
+        foreach (string name in spawnerNames)
+        {
+            var wp = WaypointManager.Instance.GetPosition(name);
+            if (wp != null)
+            {
+                found.Add(wp);
+            }
+            else
+            {
+                Debug.LogWarning($"Spawner not found: {name}");
+            }
+        }
+
+        return found;
+    }
+
     private void Update()
     {
         spawnTimer += Time.deltaTime;
@@ -67,13 +104,12 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         foreach (AnimalType type in System.Enum.GetValues(typeof(AnimalType)))
         {
             int count = GetAnimalCount(type);
-            if (count <= animalCount)
+            if (count < animalCount)
             {
                 SpawnAnimal(type);
             }
         }
     }
-
 
     public void SpawnAnimal(AnimalType type)
     {
@@ -89,7 +125,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
             return;
         }
 
-        var spawnPoint = spawners[Random.Range(0, spawners.Count)];
+        var spawnPoint = spawners[UnityEngine.Random.Range(0, spawners.Count)];
         Instantiate(prefab, spawnPoint.position, Quaternion.identity);
         RegisterAnimal(type);
     }
@@ -104,7 +140,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         {
             animals[type] = 1;
         }
-        //Debug.Log($"Registered {type}. Current count: {animals[type]}");
+        Debug.Log($"Registered {type}. Current count: {animals[type]}");
     }
 
     public void UnregisterAnimal(AnimalType type)
@@ -112,7 +148,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         if (animals.ContainsKey(type) && animals[type] > 0)
         {
             animals[type]--;
-            //Debug.Log($"Unregistered {type}. Current count: {animals[type]}");
+            Debug.Log($"Unregistered {type}. Current count: {animals[type]}");
         }
     }
 
