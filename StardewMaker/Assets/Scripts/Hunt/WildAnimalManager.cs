@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class WildAnimalManager : Singleton<WildAnimalManager>
 {
@@ -91,6 +92,11 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
 
     private void Update()
     {
+        if (SceneManager.GetActiveScene().name.Contains("Home"))
+        {
+            return;
+        }
+
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnTimerInterval)
         {

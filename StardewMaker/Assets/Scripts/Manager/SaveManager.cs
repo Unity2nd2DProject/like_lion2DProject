@@ -23,6 +23,7 @@ public class SaveManager : Singleton<SaveManager>
             savedFarmLands = FarmLandManager.Instance.SaveFarmLands(),
             savedCrops = CropManager.Instance.SaveCrops(),
             savedTrees = TreeManager.Instance.SaveTrees(),
+            savedBushes = BushManager.Instance.SaveBushes()
         };
 
         string json = JsonUtility.ToJson(data, true);
@@ -40,6 +41,7 @@ public class SaveManager : Singleton<SaveManager>
             savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(data.savedFarmLands),
             savedCrops = CropManager.Instance.NextDayCrops(data.savedCrops),
             savedTrees = TreeManager.Instance.NextDayTrees(data.savedTrees),
+            savedBushes = BushManager.Instance.NextDayBushes(data.savedBushes)    
         };
 
         json = JsonUtility.ToJson(data, true);
@@ -61,6 +63,7 @@ public class SaveManager : Singleton<SaveManager>
         FarmLandManager.Instance.LoadFarmLands(data.savedFarmLands);
         CropManager.Instance.LoadCrops(data.savedCrops);
         TreeManager.Instance.LoadTrees(data.savedTrees);
+        BushManager.Instance.LoadBushes(data.savedBushes);
     }
 
     public void SaveBase()

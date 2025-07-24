@@ -144,6 +144,7 @@ public class TimeManager : Singleton<TimeManager>
             CropManager.Instance.NextDay();
             FarmLandManager.Instance.NextDay();
             TreeManager.Instance.NextDay();
+            BushManager.Instance.NextDay();
         }
         else
         {

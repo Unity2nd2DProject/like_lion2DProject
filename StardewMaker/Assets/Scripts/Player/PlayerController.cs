@@ -55,6 +55,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private FarmLand curFarmLand;
     [SerializeField] private Pond curPond;
     [SerializeField] private Tree curTree;
+    [SerializeField] private Bush curBush;
     [SerializeField] private ItemData curItem;
     [SerializeField] private MapArea curMapArea;
 
@@ -253,6 +254,10 @@ public class PlayerController : Singleton<PlayerController>
                     {
                         SetInteractAnimation(PlayerInteraction.Axe);
                     }
+                    else
+                    {
+                        InteractWithObject(mouseHit, playerHits);
+                    }
                 }
                 else
                 {
@@ -268,6 +273,11 @@ public class PlayerController : Singleton<PlayerController>
         {
             if (hit == mouseHit)
             {
+                if (hit.CompareTag("Area"))
+                {
+                    continue;
+                }
+
                 SetTarget(hit);
 
                 if (curItem != null)
@@ -350,6 +360,9 @@ public class PlayerController : Singleton<PlayerController>
                                     {
                                         SetInteractAnimation(PlayerInteraction.Harvest);
                                     }
+                                } else if (curBush != null)
+                                {
+                                    curBush.PickFruit();
                                 }
                             }
                             break;
@@ -368,6 +381,9 @@ public class PlayerController : Singleton<PlayerController>
         curFarmLand = null;
         curPond = null;
         curTree = null;
+        curBush = null;
+
+        Debug.Log("Hit object: " + hit.gameObject.name);
 
         if (hit.TryGetComponent(out FarmLand farmLand))
         {
@@ -380,6 +396,10 @@ public class PlayerController : Singleton<PlayerController>
         else if (hit.TryGetComponent(out Pond pond))
         {
             curPond = pond;
+        }
+        else if (hit.TryGetComponent(out Bush bush))
+        {
+            curBush = bush;
         }
     }
 

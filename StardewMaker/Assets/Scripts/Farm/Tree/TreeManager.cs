@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 public class TreeManager : Singleton<TreeManager>
@@ -17,7 +16,7 @@ public class TreeManager : Singleton<TreeManager>
     {
         foreach(var tree in trees)
         {
-            tree.NexDay();
+            tree.NextDay();
         }
     }
 
@@ -26,13 +25,13 @@ public class TreeManager : Singleton<TreeManager>
         List<SavedTree> list = new List<SavedTree>();
         foreach (var tree in trees)
         {
-            var (type, hits, hasFruit) = tree.GetState();
+            var hits = tree.GetCurrentHits();
             list.Add(new SavedTree
             {
                 position = tree.transform.position,
                 currentHits = hits,
-                treeType = type,
-                hasFruit = hasFruit
+                //treeType = type,
+                //hasFruit = hasFruit
             });
         }
         return list;
@@ -48,8 +47,8 @@ public class TreeManager : Singleton<TreeManager>
             {
                 position = saved.position,
                 currentHits = 0,
-                treeType = saved.treeType,
-                hasFruit = saved.treeType == TreeType.Fruit // 다음 날 과일 다시 자라게
+                //treeType = saved.treeType,
+                //hasFruit = saved.treeType == TreeType.Fruit // 다음 날 과일 다시 자라게
             });
         }
         return list;
@@ -65,7 +64,7 @@ public class TreeManager : Singleton<TreeManager>
             GameObject obj = Instantiate(prefab, data.position, Quaternion.identity);
 
             Tree tree = obj.GetComponent<Tree>();
-            tree.SetState(data.treeType, data.currentHits, data.hasFruit);
+            tree.SetState(data.currentHits);
             trees.Add(tree);
         }
     }

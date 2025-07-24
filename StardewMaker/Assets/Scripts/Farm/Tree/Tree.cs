@@ -1,27 +1,28 @@
 using UnityEngine;
 
-public enum TreeType
-{
-    Normal,
-    Fruit
-}
+//public enum TreeType
+//{
+//    Normal,
+//    Fruit
+//}
 
 public class Tree : MonoBehaviour
 {
+    private SpriteRenderer spriteRenderer;
+
     [Header("Info")]
-    [SerializeField] private TreeType treeType;
+    //[SerializeField] private TreeType treeType;
     [SerializeField] private int maxHits = 3;
     [SerializeField] private ItemData woodData;
 
     [Header("Sprites")]
     [SerializeField] private Sprite normalTreeSprite;
-    [SerializeField] private Sprite fruitTreeSprite;
+    //[SerializeField] private Sprite fruitTreeSprite;
     [SerializeField] private Sprite stumpSprite;
 
     [Header("Check")]
     [SerializeField] private int currentHits = 0;
-    [SerializeField] private bool hasFruit = false;
-    [SerializeField] private SpriteRenderer spriteRenderer;
+    //[SerializeField] private bool hasFruit = false;
 
     private void Awake()
     {
@@ -45,35 +46,41 @@ public class Tree : MonoBehaviour
         spriteRenderer.sprite = stumpSprite;
     }
 
-    public void PickFruit()
-    {
-        if (treeType == TreeType.Fruit && hasFruit)
-        {
-            hasFruit = false;
-            treeType = TreeType.Normal;
-            UpdateTreeSprite();
-            // 인벤토리에 과일 추가
-        }
-    }
+    //public void PickFruit()
+    //{
+    //    if (treeType == TreeType.Fruit && hasFruit)
+    //    {
+    //        hasFruit = false;
+    //        treeType = TreeType.Normal;
+    //        UpdateTreeSprite();
+    //        // 인벤토리에 과일 추가
+    //    }
+    //}
 
-    public void NexDay()
+    public void NextDay()
     {
         currentHits = 0;
         //gameObject.SetActive(true);
 
-        if (treeType == TreeType.Fruit)
-        {
-            hasFruit = true;
-        }
+        //if (treeType == TreeType.Fruit)
+        //{
+        //    hasFruit = true;
+        //}
 
         UpdateTreeSprite();
     }
 
-    public void SetState(TreeType type, int hits, bool fruitPresent)
+    //public void SetState(TreeType type, int hits, bool fruitPresent)
+    //{
+    //    treeType = type;
+    //    currentHits = hits;
+    //    hasFruit = fruitPresent;
+    //    UpdateTreeSprite();
+    //}
+
+    public void SetState(int hits)
     {
-        treeType = type;
         currentHits = hits;
-        hasFruit = fruitPresent;
         UpdateTreeSprite();
     }
 
@@ -83,19 +90,23 @@ public class Tree : MonoBehaviour
         {
             spriteRenderer.sprite = stumpSprite;
         }
-        else if (treeType == TreeType.Fruit && hasFruit)
-        {
-            spriteRenderer.sprite = fruitTreeSprite;
-        }
+        //else if (treeType == TreeType.Fruit && hasFruit)
+        //{
+        //    spriteRenderer.sprite = fruitTreeSprite;
+        //}
         else
         {
             spriteRenderer.sprite = normalTreeSprite;
         }
     }
 
-    public (TreeType, int, bool) GetState()
-    {
-        return (treeType, currentHits, hasFruit);
-    }
+    //public (TreeType, int, bool) GetState()
+    //{
+    //    return (treeType, currentHits, hasFruit);
+    //}
 
+    public int GetCurrentHits()
+    {
+        return currentHits;
+    }
 }

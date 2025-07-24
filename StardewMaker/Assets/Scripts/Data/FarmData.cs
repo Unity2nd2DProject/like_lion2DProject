@@ -7,6 +7,7 @@ public class FarmData
     public List<SavedFarmLand> savedFarmLands = new List<SavedFarmLand>();
     public List<SavedCrop> savedCrops = new List<SavedCrop>();
     public List<SavedTree> savedTrees = new List<SavedTree>();
+    public List<SavedBush> savedBushes = new List<SavedBush>();
 }
 
 [System.Serializable]
@@ -15,8 +16,16 @@ public class SavedTree
     public Vector2 position;
     public int currentHits;
     //public bool isActive;
-    public TreeType treeType;
+    //public TreeType treeType;
+    //public bool hasFruit;
+}
+
+[System.Serializable]
+public class SavedBush
+{
+    public Vector2 position;
     public bool hasFruit;
+    public FruitType fruitType;
 }
 
 [System.Serializable]
