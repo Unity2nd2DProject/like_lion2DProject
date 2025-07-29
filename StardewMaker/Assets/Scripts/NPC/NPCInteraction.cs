@@ -12,6 +12,7 @@ public class NPCInteraction : MonoBehaviour
     [Header("Dialogue")]
     private string npcName;
     private QuestData npcQuest;
+    [SerializeField] Sprite npcImage;
     [TextArea] public string defaultText = "안녕하세요!";
     [TextArea] public string questCompleteText = "수고하셨어요!";
     [TextArea] public string questProgressText = "아직 다 못했군요. 계속 노력해봐요!";
@@ -36,6 +37,11 @@ public class NPCInteraction : MonoBehaviour
         if (distance > interactionRange)
         {
             return;
+        }
+
+        if (questGiver.questPool == null )
+        {
+            ShowDialogue(defaultText);
         }
 
         // 퀘스트 진행 여부 우선 확인
@@ -84,7 +90,7 @@ public class NPCInteraction : MonoBehaviour
 
     private void ShowDialogue(string text, QuestData questData = null, System.Action onOK = null)
     {
-        NPCDialgoueUI.Instance.Show(npcName, text, questData, onOK);
+        NPCDialgoueUI.Instance.Show(npcImage, npcName, text, questData, onOK);
         UIManager.Instance.HidePopupImmediately();
     }
 }
