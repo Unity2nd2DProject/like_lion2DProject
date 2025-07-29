@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 859701988087739537}
   - component: {fileID: 3398515114749962580}
   m_Layer: 0
-  m_Name: NPC1
+  m_Name: Milen
   m_TagString: NPC
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,8 +86,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0321abe4c76c3154c8546b246cdab5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: NPC1
-  schedule: {fileID: 11400000, guid: 17ee56ad0a55f9c4f99393ea87b9952e, type: 2}
+  npcName: Milen
+  schedule: {fileID: 0}
   defaultPosition: h1wp2
 --- !u!114 &4563721649055173696
 MonoBehaviour:
@@ -136,7 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942ffc1dee70cf547863555a89bf8016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questPool: {fileID: 11400000, guid: fd06746c5d0ba6542825c43c97bf134c, type: 2}
+  questPool: {fileID: 0}
 --- !u!1 &6616665278769280980
 GameObject:
   m_ObjectHideFlags: 0
@@ -147,6 +147,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5937583675012327157}
   - component: {fileID: 1019109121078400735}
+  - component: {fileID: 5596898471996784118}
   m_Layer: 0
   m_Name: Animator
   m_TagString: Untagged
@@ -213,7 +214,7 @@ SpriteRenderer:
   m_SortingLayerID: -915736819
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: -1361537554499065674, guid: 7f4aa004f0f40a946ab041fb176351ab, type: 3}
+  m_Sprite: {fileID: 3218415181331306902, guid: d03fef98740a71945b00e1874732c640, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -224,3 +225,25 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &5596898471996784118
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6616665278769280980}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 9556bcd2e13df07478c4dba59f3ebe88, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

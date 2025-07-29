@@ -82,7 +82,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -96,7 +96,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -174,10 +174,10 @@ TextureImporter:
       name: Ellen-Move_0
       rect:
         serializedVersion: 2
-        x: 22
-        y: 204
-        width: 18
-        height: 36
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -196,10 +196,10 @@ TextureImporter:
       name: Ellen-Move_1
       rect:
         serializedVersion: 2
-        x: 86
-        y: 205
-        width: 19
-        height: 36
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -218,10 +218,10 @@ TextureImporter:
       name: Ellen-Move_2
       rect:
         serializedVersion: 2
-        x: 151
-        y: 205
-        width: 19
-        height: 36
+        x: 128
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -240,10 +240,10 @@ TextureImporter:
       name: Ellen-Move_3
       rect:
         serializedVersion: 2
-        x: 216
-        y: 205
-        width: 18
-        height: 35
+        x: 192
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -262,10 +262,10 @@ TextureImporter:
       name: Ellen-Move_4
       rect:
         serializedVersion: 2
-        x: 23
-        y: 141
-        width: 19
-        height: 37
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -284,10 +284,10 @@ TextureImporter:
       name: Ellen-Move_5
       rect:
         serializedVersion: 2
-        x: 87
-        y: 142
-        width: 19
-        height: 37
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -306,10 +306,10 @@ TextureImporter:
       name: Ellen-Move_6
       rect:
         serializedVersion: 2
-        x: 150
-        y: 142
-        width: 20
-        height: 37
+        x: 128
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -328,10 +328,10 @@ TextureImporter:
       name: Ellen-Move_7
       rect:
         serializedVersion: 2
-        x: 214
-        y: 141
-        width: 19
-        height: 37
+        x: 192
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -350,10 +350,10 @@ TextureImporter:
       name: Ellen-Move_8
       rect:
         serializedVersion: 2
-        x: 17
-        y: 77
-        width: 24
-        height: 37
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -372,10 +372,10 @@ TextureImporter:
       name: Ellen-Move_9
       rect:
         serializedVersion: 2
-        x: 87
-        y: 77
-        width: 19
-        height: 38
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -394,10 +394,10 @@ TextureImporter:
       name: Ellen-Move_10
       rect:
         serializedVersion: 2
-        x: 151
-        y: 77
-        width: 19
-        height: 38
+        x: 128
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -416,10 +416,10 @@ TextureImporter:
       name: Ellen-Move_11
       rect:
         serializedVersion: 2
-        x: 214
-        y: 77
-        width: 20
-        height: 38
+        x: 192
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -438,10 +438,10 @@ TextureImporter:
       name: Ellen-Move_12
       rect:
         serializedVersion: 2
-        x: 23
-        y: 13
-        width: 24
-        height: 37
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -460,10 +460,10 @@ TextureImporter:
       name: Ellen-Move_13
       rect:
         serializedVersion: 2
-        x: 86
-        y: 13
-        width: 19
-        height: 38
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -482,10 +482,10 @@ TextureImporter:
       name: Ellen-Move_14
       rect:
         serializedVersion: 2
-        x: 150
-        y: 13
-        width: 19
-        height: 38
+        x: 128
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -504,10 +504,10 @@ TextureImporter:
       name: Ellen-Move_15
       rect:
         serializedVersion: 2
-        x: 214
-        y: 13
-        width: 20
-        height: 38
+        x: 192
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -526,7 +526,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7349d89fd0aeff14f9e72f07e20d475a
     internalID: 0
     vertices: []
     indices: 
@@ -535,7 +535,23 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Ellen-Move_0: 1305775820297338292
+      Ellen-Move_1: -4036272037904735275
+      Ellen-Move_10: -5235492949487527213
+      Ellen-Move_11: 4889750659192854006
+      Ellen-Move_12: 5828728879963688748
+      Ellen-Move_13: -2765326015218910828
+      Ellen-Move_14: -7379233835166142115
+      Ellen-Move_15: 2758653265339327331
+      Ellen-Move_2: 7984493745150574233
+      Ellen-Move_3: 7664371275696641622
+      Ellen-Move_4: -8124205847196977913
+      Ellen-Move_5: -4419876271067759403
+      Ellen-Move_6: -1310446194407128080
+      Ellen-Move_7: 3729582517844778752
+      Ellen-Move_8: -965261649887540971
+      Ellen-Move_9: -7789702371671916731
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -17,7 +17,7 @@ public class NPCMover : MonoBehaviour
 
     private void Awake()
     {
-        //animator = GetComponent<Animator>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     public void SetRoute(Transform[] newRoute, NpcActionType action, string _teleportWp = null)
@@ -47,14 +47,14 @@ public class NPCMover : MonoBehaviour
         Transform target = route[index];
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
-        //Vector2 moveDir = (target.position - transform.position).normalized;
-        //bool stillMoving = Vector2.Distance(transform.position, target.position) > 0.05f;
-        //animator.SetBool("IsMoving", stillMoving);
-        //if (stillMoving)
-        //{
-        //    animator.SetFloat("MoveX", moveDir.x);
-        //    animator.SetFloat("MoveY", moveDir.y);
-        //}
+        Vector2 moveDir = (target.position - transform.position).normalized;
+        bool stillMoving = Vector2.Distance(transform.position, target.position) > 0.05f;
+        animator.SetBool("IsMoving", stillMoving);
+        if (stillMoving)
+        {
+            animator.SetFloat("MoveX", moveDir.x);
+            animator.SetFloat("MoveY", moveDir.y);
+        }
 
         if (Vector2.Distance(transform.position, target.position) < 0.1f)
         {
@@ -70,7 +70,10 @@ public class NPCMover : MonoBehaviour
     private void OnArrival()
     {
         isMoving = false;
-        Debug.Log($"[NPCMover] {gameObject.name} 도착! -> {arrivalAction}");
+        animator.SetBool("IsMoving", false);
+        animator.SetFloat("MoveX", 0);
+        animator.SetFloat("MoveY", 0);
+        //Debug.Log($"[NPCMover] {gameObject.name} 도착! -> {arrivalAction}");
 
         switch (arrivalAction)
         {

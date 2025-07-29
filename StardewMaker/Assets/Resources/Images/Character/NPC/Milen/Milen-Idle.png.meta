@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,10 +150,10 @@ TextureImporter:
       name: Milen-Idle_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 207
-        width: 16
-        height: 33
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +172,10 @@ TextureImporter:
       name: Milen-Idle_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 207
-        width: 16
-        height: 32
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: Milen-Idle_2
       rect:
         serializedVersion: 2
-        x: 25
-        y: 144
-        width: 16
-        height: 33
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +216,10 @@ TextureImporter:
       name: Milen-Idle_3
       rect:
         serializedVersion: 2
-        x: 89
-        y: 144
-        width: 16
-        height: 32
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,10 +238,10 @@ TextureImporter:
       name: Milen-Idle_4
       rect:
         serializedVersion: 2
-        x: 24
-        y: 80
-        width: 18
-        height: 33
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: Milen-Idle_5
       rect:
         serializedVersion: 2
-        x: 89
-        y: 80
-        width: 18
-        height: 32
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,10 +282,10 @@ TextureImporter:
       name: Milen-Idle_6
       rect:
         serializedVersion: 2
-        x: 23
-        y: 16
-        width: 18
-        height: 33
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,10 +304,10 @@ TextureImporter:
       name: Milen-Idle_7
       rect:
         serializedVersion: 2
-        x: 88
-        y: 16
-        width: 18
-        height: 32
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 1310df120981e9f42af497ac6bc30805
     internalID: 0
     vertices: []
     indices: 
@@ -335,7 +335,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Milen-Idle_0: 3218415181331306902
+      Milen-Idle_1: -8912126202141804482
+      Milen-Idle_2: -974907395407205110
+      Milen-Idle_3: 4658048954688173393
+      Milen-Idle_4: -2464954218761457667
+      Milen-Idle_5: -7583120582702563956
+      Milen-Idle_6: -2609843492365327584
+      Milen-Idle_7: -7680701821481075838
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

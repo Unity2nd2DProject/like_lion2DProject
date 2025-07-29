@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,10 +150,10 @@ TextureImporter:
       name: Barun-Idle_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 207
-        width: 16
-        height: 32
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +172,10 @@ TextureImporter:
       name: Barun-Idle_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 207
-        width: 16
-        height: 31
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: Barun-Idle_2
       rect:
         serializedVersion: 2
-        x: 25
-        y: 144
-        width: 16
-        height: 33
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +216,10 @@ TextureImporter:
       name: Barun-Idle_3
       rect:
         serializedVersion: 2
-        x: 89
-        y: 144
-        width: 16
-        height: 32
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,10 +238,10 @@ TextureImporter:
       name: Barun-Idle_4
       rect:
         serializedVersion: 2
-        x: 23
-        y: 80
-        width: 17
-        height: 35
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: Barun-Idle_5
       rect:
         serializedVersion: 2
-        x: 88
-        y: 80
-        width: 17
-        height: 34
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,10 +282,10 @@ TextureImporter:
       name: Barun-Idle_6
       rect:
         serializedVersion: 2
-        x: 25
-        y: 16
-        width: 17
-        height: 35
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,10 +304,10 @@ TextureImporter:
       name: Barun-Idle_7
       rect:
         serializedVersion: 2
-        x: 90
-        y: 16
-        width: 17
-        height: 34
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7318b5c192841b5478d68b4b3c9ae9b1
     internalID: 0
     vertices: []
     indices: 
@@ -335,7 +335,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Barun-Idle_0: -5460199538846809978
+      Barun-Idle_1: 5913997131968858253
+      Barun-Idle_2: -7950265078159657690
+      Barun-Idle_3: -6158633501260080908
+      Barun-Idle_4: -8800892056426872132
+      Barun-Idle_5: -6945971686562633632
+      Barun-Idle_6: -8444347366914115212
+      Barun-Idle_7: 3421781208682347779
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

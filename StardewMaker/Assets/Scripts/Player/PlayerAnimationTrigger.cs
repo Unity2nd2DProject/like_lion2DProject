@@ -71,6 +71,14 @@ public class PlayerAnimationTrigger : MonoBehaviour
         StaminaManager.Instance.ConsumeStamina();
     }
 
+    private void PickFruitFinishTrigger()
+    {
+        PlayerController.Instance.PickFruit();
+        PlayerController.Instance.anim.SetBool("PickFruit", false);
+        PlayerController.Instance.SetCanMove(true);
+        StaminaManager.Instance.ConsumeStamina();
+    }
+
     private void ShootFinishTrigger()
     {
         PlayerController.Instance.ShootArrow();

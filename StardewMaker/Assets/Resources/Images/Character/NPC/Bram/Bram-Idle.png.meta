@@ -58,7 +58,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -72,7 +72,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 24
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -150,10 +150,10 @@ TextureImporter:
       name: Bram-Idle_0
       rect:
         serializedVersion: 2
-        x: 25
-        y: 207
-        width: 16
-        height: 36
+        x: 0
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,10 +172,10 @@ TextureImporter:
       name: Bram-Idle_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 207
-        width: 16
-        height: 35
+        x: 64
+        y: 192
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -194,10 +194,10 @@ TextureImporter:
       name: Bram-Idle_2
       rect:
         serializedVersion: 2
-        x: 25
-        y: 144
-        width: 16
-        height: 32
+        x: 0
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -216,10 +216,10 @@ TextureImporter:
       name: Bram-Idle_3
       rect:
         serializedVersion: 2
-        x: 89
-        y: 144
-        width: 16
-        height: 31
+        x: 64
+        y: 128
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -238,10 +238,10 @@ TextureImporter:
       name: Bram-Idle_4
       rect:
         serializedVersion: 2
-        x: 22
-        y: 80
-        width: 17
-        height: 32
+        x: 0
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -260,10 +260,10 @@ TextureImporter:
       name: Bram-Idle_5
       rect:
         serializedVersion: 2
-        x: 87
-        y: 80
-        width: 17
-        height: 31
+        x: 64
+        y: 64
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -282,10 +282,10 @@ TextureImporter:
       name: Bram-Idle_6
       rect:
         serializedVersion: 2
-        x: 26
-        y: 16
-        width: 17
-        height: 32
+        x: 0
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -304,10 +304,10 @@ TextureImporter:
       name: Bram-Idle_7
       rect:
         serializedVersion: 2
-        x: 91
-        y: 16
-        width: 17
-        height: 31
+        x: 64
+        y: 0
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -326,7 +326,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: 7832e9f27da658a4eb2f0261778e5df2
     internalID: 0
     vertices: []
     indices: 
@@ -335,7 +335,15 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Bram-Idle_0: -6488891975500489869
+      Bram-Idle_1: -7317672873685907385
+      Bram-Idle_2: -6668748015511074682
+      Bram-Idle_3: -5761473541287977076
+      Bram-Idle_4: -1108038845199118742
+      Bram-Idle_5: 8607692606368235002
+      Bram-Idle_6: 6795588534522157177
+      Bram-Idle_7: 8407030109254220087
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
