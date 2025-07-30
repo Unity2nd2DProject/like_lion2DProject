@@ -22,6 +22,8 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
 
     protected override void Awake()
     {
+        base.Awake();
+
         if (npcImageObject != null)
         {
             npcImage = npcImageObject.GetComponent<Image>();
