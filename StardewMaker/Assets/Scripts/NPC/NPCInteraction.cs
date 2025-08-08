@@ -39,6 +39,8 @@ public class NPCInteraction : MonoBehaviour
             return;
         }
 
+        QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);
+
         if (questGiver.questPool == null )
         {
             ShowDialogue(defaultText);

@@ -33,20 +33,19 @@ public class QuestManager : Singleton<QuestManager>
 
     private void Start()
     {
-        foreach (var quest in tutorials)
-        {
-            AcceptQuest(quest.questID);
-        }
+        AcceptQuest(tutorials[0].questID);
     }
 
     public void AcceptQuest(string questID, string giverNpcName = null)
     {
         if (completedQuestIDs.Contains(questID))
         {
+            //Debug.Log($"[Quest] {questID} 수락 실패 1");
             return;
         }
         if (activeQuests.Exists(q => q.questData.questID == questID))
         {
+            //Debug.Log($"[Quest] {questID} 수락 실패 2");
             return;
         }
 
@@ -158,7 +157,7 @@ public class QuestManager : Singleton<QuestManager>
                 bool success = InventoryManager.Instance.RemoveItem(goal.targetItem, goal.requiredAmount);
                 if (!success)
                 {
-                    Debug.LogWarning($"[Quest] {goal.targetItem.itemName} 제거 실패! 수량 부족");
+                    Debug.LogWarning($"[Quest] {goal.targetItem.itemName} 삭제 실패! 수량 부족");
                 }
             }
         }
@@ -179,6 +178,21 @@ public class QuestManager : Singleton<QuestManager>
 
         activeQuests.Remove(quest);
         completedQuestIDs.Add(quest.questData.questID);
+
+        if (q.questType == QuestType.Tutorial)
+        {
+            int currentIndex = tutorials.FindIndex(t => t.questID == q.questID);
+            int nextIndex = currentIndex + 1;
+
+            if (nextIndex < tutorials.Count)
+            {
+                AcceptQuest(tutorials[nextIndex].questID);
+            }
+            else
+            {
+                Debug.Log("[Quest] 튜토리얼 모두 완료!");
+            }
+        }
     }
 
     public List<QuestInstance> ActiveQuests => activeQuests;

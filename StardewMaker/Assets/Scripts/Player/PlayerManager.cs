@@ -40,7 +40,7 @@ public class PlayerManager : Singleton<PlayerManager>
         }
     }
 
-    public void AddExpToSkill(TraitType traitType, int amount = 1)
+    public void AddExpToSkill(TraitType traitType, float amount = 1)
     {
         foreach (var trait in traits)
         {
@@ -48,11 +48,11 @@ public class PlayerManager : Singleton<PlayerManager>
             if (data != null && data.skillType == traitType)
             {
                 bool leveledUp = trait.AddExp(amount);
-                Debug.Log($"[PlayerManager] {data.traitName} 경험치 획득! (Level: {trait.currentLevel}, EXP: {trait.currentExp}(+{amount}))");
+                //Debug.Log($"[PlayerManager] {data.traitName} 경험치 획득! (Level: {trait.currentLevel}, EXP: {trait.currentExp}/{trait.GetExpToLevelUp()}))");
 
                 if (leveledUp)
                 {
-                    Debug.Log($"[PlayerManager] {data.traitName} 레벨업!  (Level: {trait.currentLevel}");
+                    Debug.Log($"[PlayerManager] {data.traitName} 레벨업! (Level: {trait.currentLevel})");
                     UpdatePlayerStats();
                 }
             }
