@@ -10,25 +10,25 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3b9b7b8547f597409b7a842791ad0d2, type: 3}
-  m_Name: Quest3
+  m_Name: Quest5
   m_EditorClassIdentifier: 
-  questID: 3
+  questID: 5
   questType: 0
-  questName: "\uB538\uC758 \uCCAB \uC6C3\uC74C"
-  description: "\uB538\uC5D0\uAC8C \uC218\uD655\uD55C \uCC44\uC18C\uB85C \uC694\uB9AC\uB97C
-    \uD574 \uC8FC\uC138\uC694."
+  questName: "\uBB3C\uACE0\uAE30\uB97C \uBD80\uD0C1\uD574"
+  description: "\uB09A\uC2EF\uB300\uB97C \uC774\uC6A9\uD574 \uC5F0\uBABB\uC5D0\uC11C
+    \uBB3C\uACE0\uAE30\uB97C \uC138 \uB9C8\uB9AC \uB09A\uC544\uBCF4\uC790."
   goalDescrpition: 
   goals:
   - goalType: 0
-    targetType: 8
+    targetType: 6
     targetItem: {fileID: 0}
-    requiredAmount: 1
+    requiredAmount: 3
     currentAmount: 0
-  rewardItem: {fileID: 11400000, guid: df61fbaa6e5bea544b492c6e4b1f21e2, type: 2}
-  rewardQuantity: 1
+  rewardItem: {fileID: 0}
+  rewardQuantity: 0
   rewardMoney: 0
   npcName: 
   friendshipPointReward: 0
   availableFromHour: 0
-  availableToHour: 0
-  availableDays: 
+  availableToHour: 24
+  availableDays: 01000000020000000300000004000000050000000600000007000000

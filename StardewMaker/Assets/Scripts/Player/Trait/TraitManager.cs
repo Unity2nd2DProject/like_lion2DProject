@@ -4,7 +4,7 @@ using UnityEngine;
 public class TraitManager : Singleton<TraitManager>
 {
     [Header("traits")]
-    [SerializeField] private List<TraitData> allTraits;
+    [SerializeField] public List<TraitData> allTraits;
 
     public TraitData GetTraitById(int id)
     {

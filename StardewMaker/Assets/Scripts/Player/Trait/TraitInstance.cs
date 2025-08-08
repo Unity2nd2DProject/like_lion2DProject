@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class TraitInstance : MonoBehaviour
+public class TraitInstance
 {
     public int traitId;
     public float currentExp;
@@ -19,41 +19,94 @@ public class TraitInstance : MonoBehaviour
         return traitData.baseExpToLevelUp * Mathf.Pow(traitData.expMultiplier, currentLevel - 1);
     }
 
-    public float GetTraitEffectRatio()
+    public bool ApplyToPlayerStats()
     {
         TraitData traitData = TraitManager.Instance.GetTraitById(traitId);
 
         if (traitData == null || traitData.effects == null)
         {
-            return 1f;
+            return false;
         }
 
+        UpdateStats(traitData);
+        return false;
+    }
+
+    private void UpdateStats(TraitData traitData)
+    {
         foreach (var effect in traitData.effects)
         {
-
+            switch (effect.effectType)
+            {
+                case TraitEffectType.StatModifier:
+                    UpdateStatEffect(effect);
+                    break;
+                case TraitEffectType.EventUnlock:
+                    break;
+                case TraitEffectType.ItemUnlock:
+                    break;
+                case TraitEffectType.RecipeUnlock:
+                    break;
+                case TraitEffectType.InteractionBoost:
+                    break;
+                case TraitEffectType.CutsceneUnlock:
+                    break;
+            }
         }
-        return 1f;
-       
-        //if (level < 5)
-        //{
-        //    return 0f;
-        //}
-        //else if (level < 10)
-        //{
-        //    return traitData.maxEffectValue * 0.125f; // 1/8
-        //}
-        //else if (level < 15)
-        //{
-        //    return traitData.maxEffectValue * 0.25f;  // 1/4
-        //}
-        //else if (level < 20)
-        //{
-        //    return traitData.maxEffectValue * 0.5f;   // 1/2
-        //}
-        //else
-        //{
-        //    return traitData.maxEffectValue;          // 1.0
-        //}
+    }
+
+    private void UpdateStatEffect(TraitEffectData effect)
+    {
+        float ratio = GetTraitEffectRatio();
+        float value = effect.effectValue * ratio;
+
+        switch (effect.statTarget)
+        {
+            case StatEffectTarget.CropGrowthSpeed:
+                PlayerManager.Instance.cropGrowthSpeedBonus = value;
+                break;
+            case StatEffectTarget.FoodEffectiveness:
+                PlayerManager.Instance.foodEffectivenessBonus = value;
+                break;
+            case StatEffectTarget.FishingSuccessWindow:
+                break;
+            case StatEffectTarget.RareFishChance:
+                break;
+            case StatEffectTarget.CriticalChance:
+                break;
+            case StatEffectTarget.PickSpeed:
+                break;
+            case StatEffectTarget.MoveSpeed:
+                break;
+            case StatEffectTarget.DaughterRecovery:
+                break;
+            case StatEffectTarget.DaughterStatGainChance:
+                break;
+        }
+    }
+
+    private float GetTraitEffectRatio()
+    {
+        if (currentLevel < 5)
+        {
+            return 0f;
+        }
+        else if (currentLevel < 10) // 1/8
+        {
+            return 0.125f;
+        }
+        else if (currentLevel < 15) // 1/4
+        {
+            return 0.25f;
+        }
+        else if (currentLevel < 20) // 1/2
+        {
+            return 0.5f;
+        }
+        else // full effect at max level
+        {
+            return 1f;
+        }
     }
 
     public bool AddExp(float amount)

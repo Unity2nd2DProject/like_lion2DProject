@@ -146,7 +146,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         {
             animals[type] = 1;
         }
-        Debug.Log($"Registered {type}. Current count: {animals[type]}");
+        //Debug.Log($"Registered {type}. Current count: {animals[type]}");
     }
 
     public void UnregisterAnimal(AnimalType type)
@@ -154,7 +154,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         if (animals.ContainsKey(type) && animals[type] > 0)
         {
             animals[type]--;
-            Debug.Log($"Unregistered {type}. Current count: {animals[type]}");
+            //Debug.Log($"Unregistered {type}. Current count: {animals[type]}");
         }
     }
 

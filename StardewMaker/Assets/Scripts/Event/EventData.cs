@@ -1,19 +1,32 @@
 using UnityEngine;
 
-public enum EventCategory
+public enum EventType
 {
     Random,
-    Periodic,
+    Date,
     Statebased,
     Special
 }
 
-public class EventData : MonoBehaviour
+[CreateAssetMenu(fileName = "New Event", menuName = "Event/Create New Event")]
+
+public class EventData : ScriptableObject
 {
     [Header("Info")]
+    public int eventId;
     public string eventName;
+    public EventType eventType;
     [TextArea] public string description;
-    public EventCategory category;
-    [TextArea] public string conditionHint; // 이벤트 발동 조건
+    [TextArea] public string effect;
 
+    [Header("Debug")]
+    [TextArea] public string conditionHint;
+
+    [Header("Condition (Random)")]
+    public float triggerChance = 0.05f;
+
+    [Header("Condition (Date)")]
+    public Season season;
+    public int day;
+    public int year = -1; // -1은 매년 발생
 }

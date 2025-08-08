@@ -10,6 +10,19 @@ public enum TraitEffectType
     CutsceneUnlock    // 컷씬 등 연출 해금
 }
 
+public enum StatEffectTarget
+{
+    CropGrowthSpeed,
+    FoodEffectiveness,
+    FishingSuccessWindow,
+    RareFishChance,
+    CriticalChance,
+    PickSpeed,
+    MoveSpeed,
+    DaughterRecovery,
+    DaughterStatGainChance
+}
+
 [System.Serializable]
 public class TraitEffectData
 {
@@ -17,8 +30,11 @@ public class TraitEffectData
     public TraitEffectType effectType;
     [TextArea] public string description;      // 효과 설명용 (UI 표기용)
 
-    [Header("Effect")]
+    [Header("Stat Effect")]
+    public StatEffectTarget statTarget;
     public float effectValue;       // 수치 효과
-    public int unlockLevel;         // 해금형 효과
+
+    [Header("Event Effect")]
+    public int unlockLevel = 20;         // 해금형 효과
     public string targetId;         // 예: unlock할 아이템, 이벤트 id 등
 }

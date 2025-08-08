@@ -16,6 +16,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Pick", false);
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void PlantFinishTrigger()
@@ -23,6 +24,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.Plant();
         PlayerController.Instance.anim.SetBool("Plant", false);
         PlayerController.Instance.SetCanMove(true);
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void WaterFinishTrigger()
@@ -31,6 +33,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Water", false);
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void HarvestFinishTrigger()
@@ -38,6 +41,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.Harvest();
         PlayerController.Instance.anim.SetBool("Harvest", false);
         PlayerController.Instance.SetCanMove(true);
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void FishFinishTrigger()
@@ -46,6 +50,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Fish", false);
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
+        PlayerManager.Instance.AddExpToSkill(TraitType.Fishing);
     }
 
     private void AxeFinishTrigger()
@@ -54,6 +59,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Axe", false);
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
+        PlayerManager.Instance.AddExpToSkill(TraitType.Woodcutting);
     }
 
     private void GetWaterFinishTrigger()
@@ -61,6 +67,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.GetWater();
         PlayerController.Instance.anim.SetBool("GetWater", false);
         PlayerController.Instance.SetCanMove(true);
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void FertlizeFinishTrigger()
@@ -69,6 +76,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Fertilize", false);
         PlayerController.Instance.SetCanMove(true);
         StaminaManager.Instance.ConsumeStamina();
+        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void PickFruitFinishTrigger()
@@ -84,6 +92,7 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.ShootArrow();
         PlayerController.Instance.anim.SetBool("Shoot", false);
         PlayerController.Instance.SetCanMove(true);
+        PlayerManager.Instance.AddExpToSkill(TraitType.Hunting);
     }
 
     private void PickSoundTrigger()

@@ -10,22 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3b9b7b8547f597409b7a842791ad0d2, type: 3}
-  m_Name: Quest3
+  m_Name: Quest6
   m_EditorClassIdentifier: 
-  questID: 3
+  questID: 6
   questType: 0
-  questName: "\uB538\uC758 \uCCAB \uC6C3\uC74C"
-  description: "\uB538\uC5D0\uAC8C \uC218\uD655\uD55C \uCC44\uC18C\uB85C \uC694\uB9AC\uB97C
-    \uD574 \uC8FC\uC138\uC694."
+  questName: "\uB9C8\uC744 \uC0AC\uB78C\uB4E4\uACFC \uC778\uC0AC\uD558\uAE30"
+  description: "\uB9C8\uC744\uC758 NPC 3\uBA85\uACFC \uB300\uD654\uB97C \uD574\uBCF4\uC138\uC694. "
   goalDescrpition: 
   goals:
   - goalType: 0
-    targetType: 8
+    targetType: 10
     targetItem: {fileID: 0}
-    requiredAmount: 1
+    requiredAmount: 4
     currentAmount: 0
-  rewardItem: {fileID: 11400000, guid: df61fbaa6e5bea544b492c6e4b1f21e2, type: 2}
-  rewardQuantity: 1
+  rewardItem: {fileID: 11400000, guid: 883b11236efc2464794fe8758e1b9f91, type: 2}
+  rewardQuantity: 0
   rewardMoney: 0
   npcName: 
   friendshipPointReward: 0
