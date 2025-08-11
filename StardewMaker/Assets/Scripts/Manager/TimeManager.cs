@@ -152,7 +152,7 @@ public class TimeManager : Singleton<TimeManager>
         }
         StaminaManager.Instance.RecoverStamina(20);
         QuestManager.Instance.NextDay();
-        //NPCManager.Instance.NextDay(); 
+        EventManager.Instance.TriggerEvents();
         UpdateUI();
     }
 

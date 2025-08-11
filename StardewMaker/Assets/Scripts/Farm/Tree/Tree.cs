@@ -34,6 +34,7 @@ public class Tree : MonoBehaviour
     {
         currentHits++;
         InventoryManager.Instance.AddItem(woodData, 1);
+        QuestManager.Instance.ReportAction(QuestTargetType.TreeChopped);
 
         if (currentHits >= maxHits)
         {

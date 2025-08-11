@@ -10,6 +10,8 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonGrid;
     [SerializeField] private GameObject questPopup;
+    [SerializeField] private GameObject npcImageObject;
+    private Image npcImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Button okButton;
@@ -17,6 +19,16 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
 
     private Action onOK;
     private Action onCancel;
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        if (npcImageObject != null)
+        {
+            npcImage = npcImageObject.GetComponent<Image>();
+        }
+    }
 
     private void Start()
     {
@@ -31,10 +43,13 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
         Hide();
     }
 
-    public void Show(string npcName, string text, QuestData questData = null, Action onOK = null, Action onCancel = null)
+    public void Show(Sprite npcIllustration, string npcName, string text, QuestData questData = null, Action onOK = null, Action onCancel = null)
     {
         panel.SetActive(true);
         buttonGrid.SetActive(true);
+        npcImageObject.SetActive(true);
+        npcImage.sprite = npcIllustration;
+
         if (questData != null)
         {
             questPopup.SetActive(true);
@@ -66,6 +81,7 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
     public void Hide()
     {
         buttonGrid.SetActive(false);
+        npcImageObject.SetActive(false);
         panel.SetActive(false);
         questPopup.SetActive(false);
     }

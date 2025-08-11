@@ -17,6 +17,7 @@ public enum PlayerInteraction
     GetWater,
     Axe,
     Fertilize,
+    PickFruit,
     Shoot
 }
 
@@ -273,11 +274,6 @@ public class PlayerController : Singleton<PlayerController>
         {
             if (hit == mouseHit)
             {
-                if (hit.CompareTag("Area"))
-                {
-                    continue;
-                }
-
                 SetTarget(hit);
 
                 if (curItem != null)
@@ -362,7 +358,7 @@ public class PlayerController : Singleton<PlayerController>
                                     }
                                 } else if (curBush != null)
                                 {
-                                    curBush.PickFruit();
+                                    SetInteractAnimation(PlayerInteraction.PickFruit);
                                 }
                             }
                             break;
@@ -383,7 +379,7 @@ public class PlayerController : Singleton<PlayerController>
         curTree = null;
         curBush = null;
 
-        Debug.Log("Hit object: " + hit.gameObject.name);
+        //Debug.Log("Hit object: " + hit.gameObject.name);
 
         if (hit.TryGetComponent(out FarmLand farmLand))
         {
@@ -447,6 +443,11 @@ public class PlayerController : Singleton<PlayerController>
         curFarmLand.Fertilize();
     }
 
+    public void PickFruit()
+    {
+        curBush.PickFruit();
+    }
+
     public void ShootArrow()
     {
         if (playerToMouse == Vector2.left)
@@ -494,6 +495,9 @@ public class PlayerController : Singleton<PlayerController>
                 break;
             case PlayerInteraction.Fertilize:
                 anim.SetBool("Fertilize", true);
+                break;
+            case PlayerInteraction.PickFruit:
+                anim.SetBool("PickFruit", true);
                 break;
             case PlayerInteraction.Shoot:
                 anim.SetBool("Shoot", true);
