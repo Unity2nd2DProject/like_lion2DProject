@@ -67,4 +67,9 @@ public class Bush : MonoBehaviour
     {
         return (fruitType, hasFruit);
     }
+    
+    public bool CanPick()
+    {
+        return hasFruit;
+    }
 }
