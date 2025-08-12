@@ -12,87 +12,86 @@ public class PlayerAnimationTrigger : MonoBehaviour
 
     private void PickFinishTrigger()
     {
-        PlayerController.Instance.Pick();
         PlayerController.Instance.anim.SetBool("Pick", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Pick();
         StaminaManager.Instance.ConsumeStamina();
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void PlantFinishTrigger()
     {
-        PlayerController.Instance.Plant();
         PlayerController.Instance.anim.SetBool("Plant", false);
-        PlayerController.Instance.SetCanMove(true);
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Plant();
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void WaterFinishTrigger()
     {
         PlayerController.Instance.Water();
         PlayerController.Instance.anim.SetBool("Water", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
         StaminaManager.Instance.ConsumeStamina();
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void HarvestFinishTrigger()
     {
-        PlayerController.Instance.Harvest();
         PlayerController.Instance.anim.SetBool("Harvest", false);
-        PlayerController.Instance.SetCanMove(true);
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Harvest();
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void FishFinishTrigger()
     {
-        PlayerController.Instance.Fish();
         PlayerController.Instance.anim.SetBool("Fish", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Fish();
         StaminaManager.Instance.ConsumeStamina();
-        PlayerManager.Instance.AddExpToSkill(TraitType.Fishing);
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Fishing);
     }
 
     private void AxeFinishTrigger()
     {
-        PlayerController.Instance.Chop();
         PlayerController.Instance.anim.SetBool("Axe", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Chop();
         StaminaManager.Instance.ConsumeStamina();
-        PlayerManager.Instance.AddExpToSkill(TraitType.Woodcutting);
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Woodcutting);
     }
 
     private void GetWaterFinishTrigger()
     {
-        PlayerController.Instance.GetWater();
         PlayerController.Instance.anim.SetBool("GetWater", false);
-        PlayerController.Instance.SetCanMove(true);
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.GetWater();
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void FertlizeFinishTrigger()
     {
-        PlayerController.Instance.Fertlize();
         PlayerController.Instance.anim.SetBool("Fertilize", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Fertlize();
         StaminaManager.Instance.ConsumeStamina();
-        PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void PickFruitFinishTrigger()
     {
-        PlayerController.Instance.PickFruit();
         PlayerController.Instance.anim.SetBool("PickFruit", false);
-        PlayerController.Instance.SetCanMove(true);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.PickFruit();
         StaminaManager.Instance.ConsumeStamina();
     }
 
     private void ShootFinishTrigger()
     {
-        PlayerController.Instance.ShootArrow();
         PlayerController.Instance.anim.SetBool("Shoot", false);
-        PlayerController.Instance.SetCanMove(true);
-        PlayerManager.Instance.AddExpToSkill(TraitType.Hunting);
+        PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.ShootArrow();
+        //PlayerManager.Instance.AddExpToSkill(TraitType.Hunting);
     }
 
     private void PickSoundTrigger()

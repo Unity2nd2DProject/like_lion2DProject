@@ -59,6 +59,7 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] private Bush curBush;
     [SerializeField] private ItemData curItem;
     [SerializeField] private MapArea curMapArea;
+    private bool isInteracting = false;
 
     protected override void Awake()
     {
@@ -470,6 +471,11 @@ public class PlayerController : Singleton<PlayerController>
 
     private void SetInteractAnimation(PlayerInteraction interaction)
     {
+        if (isInteracting)
+        {
+            return;
+        }
+        isInteracting = true;
         switch (interaction)
         {
             case PlayerInteraction.Pick:
@@ -507,6 +513,12 @@ public class PlayerController : Singleton<PlayerController>
         anim.SetFloat("MouseX", playerToMouse.x);
         anim.SetFloat("MouseY", playerToMouse.y);
         SetCanMove(false);
+    }
+
+    public void OnFinishTrigger()
+    {
+        isInteracting = false;
+        SetCanMove(true);
     }
 
     public void SetCanMove(bool _canMove)
@@ -585,8 +597,6 @@ public class PlayerController : Singleton<PlayerController>
 
         isTeleporting = false;
     }
-
-
 
     public void Stun(float duration = 0.3f)
     {

@@ -11,13 +11,13 @@ public class MapManager : Singleton<MapManager>
         
         foreach(var zone in zones)
         {
-            Debug.Log($"[MapManager] {zone.areaType} : {zone.GetBounds()}");
+            //Debug.Log($"[MapManager] {zone.areaType} : {zone.GetBounds()}");
         }
     }
 
     public MapArea GetArea(Vector2 position)
     {
-        Debug.Log($"[MapManager] player : {position}");
+        //Debug.Log($"[MapManager] player : {position}");
         foreach (var zone in zones)
         {
             //if (zone.GetBounds().Contains(position))
