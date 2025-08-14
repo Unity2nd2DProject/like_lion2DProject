@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3b9b7b8547f597409b7a842791ad0d2, type: 3}
-  m_Name: Quest100
+  m_Name: Quest400
   m_EditorClassIdentifier: 
-  questID: 100
+  questID: 400
   questType: 1
-  questName: "\uC5F4\uB9E4\uAC00 \uD544\uC694\uD574"
-  description: "\uBE68\uAC04 \uC5F4\uB9E4 9\uAC1C\uB97C \uAD6C\uD574\uC8FC\uC138\uC694."
+  questName: "\uAC00\uC8FD\uC774 \uD544\uC694\uD574"
+  description: "\uB3D9\uBB3C \uAC00\uC8FD 3\uAC1C\uB97C \uAD6C\uD574\uC8FC\uC138\uC694."
   goalDescrpition: 
   goals:
   - goalType: 1
     targetType: 0
-    targetItem: {fileID: 11400000, guid: ae083f90517cde747a61b97e891b6bf0, type: 2}
-    requiredAmount: 9
+    targetItem: {fileID: 11400000, guid: d5b0fb49cd0278945bdf1659e63f4d26, type: 2}
+    requiredAmount: 3
     currentAmount: 0
   rewardItem: {fileID: 0}
   rewardQuantity: 0
-  rewardMoney: 50
-  npcName: Ellen
+  rewardMoney: 100
+  npcName: Bram
   friendshipPointReward: 1
-  availableFromHour: 8
-  availableToHour: 14
+  availableFromHour: 7
+  availableToHour: 21
   availableDays: 01000000020000000300000004000000050000000600000007000000

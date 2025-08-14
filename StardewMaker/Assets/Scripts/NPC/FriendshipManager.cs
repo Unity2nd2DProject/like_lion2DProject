@@ -32,7 +32,7 @@ public class FriendshipManager : Singleton<FriendshipManager>
     {
         var data = GetOrCreateFriendship(npcName);
         data.points = Mathf.Clamp(data.points + amount, 0, data.maxPoints);
-        Debug.Log($"[FriendshipManager] {npcName} 호감도: {data.points}/{data.maxPoints}");
+        Debug.Log($"========== [Friendship] {npcName} 호감도 {amount} 상승! ({data.points}/{data.maxPoints}) ==========");
     }
 
     public int GetHeartLevel(string npcName)

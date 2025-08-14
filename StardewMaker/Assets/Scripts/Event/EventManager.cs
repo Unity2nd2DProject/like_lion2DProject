@@ -65,7 +65,7 @@ public class EventManager : Singleton<EventManager>
     private void TriggerEvent(EventData eventData)
     {
         // TODO
-        Debug.Log($"[EventManager] Date 이벤트 발생! {eventData.eventName} ({eventData.season} {eventData.day}일)");
+        Debug.Log($"========== [Event] 이벤트 발생! {eventData.eventName} ==========");
         activeEvents.Add(eventData.eventId);
     }
 

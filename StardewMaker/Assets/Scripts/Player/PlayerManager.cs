@@ -52,7 +52,7 @@ public class PlayerManager : Singleton<PlayerManager>
 
                 if (leveledUp)
                 {
-                    Debug.Log($"[PlayerManager] {data.traitName} 레벨업! (Level: {trait.currentLevel})");
+                    Debug.Log($"========== [Trait] {data.traitName} 레벨업! (Level: {trait.currentLevel}) ==========");
                     UpdatePlayerStats();
                 }
             }

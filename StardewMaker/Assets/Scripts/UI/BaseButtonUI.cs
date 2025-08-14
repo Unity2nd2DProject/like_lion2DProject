@@ -4,13 +4,20 @@ using UnityEngine.UI;
 
 public class BaseButtonUI : MonoBehaviour
 {
+    public Button questButton;
     public Button inventoryButton;
     public Button optionButton;
 
     private void Start()
     {
+        //questButton.onClick.AddListener(OnQuestButtonClicked);
         inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
         optionButton.onClick.AddListener(OnOptionButtonClicked);
+    }
+
+    private void OnQuestButtonClicked()
+    {
+        QuestUI.Instance.ToggleQuestPanel();
     }
 
     private void OnOptionButtonClicked()

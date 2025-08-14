@@ -21,6 +21,7 @@ public class AttackManager : Singleton<AttackManager>
         {
             arrowCtrl.Init(direction);
         }
+        PlayerManager.Instance.AddExpToSkill(TraitType.Hunting);
     }
 
     public void SetArrowActive(bool isActive)

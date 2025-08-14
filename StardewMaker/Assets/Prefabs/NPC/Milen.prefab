@@ -87,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   npcName: Milen
-  schedule: {fileID: 0}
+  schedule: {fileID: 11400000, guid: 5d099cf8b7865624381e866e768b8458, type: 2}
   defaultPosition: twp6
 --- !u!114 &4563721649055173696
 MonoBehaviour:
@@ -120,11 +120,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactionRange: 3
   npcImage: {fileID: 8217461009511909699, guid: f8fc84852bce53d49a7e35e22513cd11, type: 3}
-  defaultText: "\uC548\uB155\uD558\uC138\uC694!"
-  questCompleteText: "\uC218\uACE0\uD588\uC5B4\uC694! \uC774\uAC74 \uBCF4\uC0C1\uC774\uC5D0\uC694!"
-  questProgressText: "\uC544\uC9C1 \uB2E4 \uBABB \uD588\uAD70\uC694. \uACC4\uC18D
-    \uB178\uB825\uD574\uBD10\uC694!"
-  questOfferText: "\uC624\uB298\uB3C4 \uC800\uB97C \uB3C4\uC640\uC904 \uC218 \uC788\uB098\uC694?"
+  defaultText: "\uB9C8\uC2E4 \uAC74? \uC544\uB2C8\uBA74 \uB9D0 \uBABB\uD560 \uACE0\uBBFC?"
+  questCompleteText: "\uC218\uACE0\uD588\uC5B4."
+  questProgressText: "\uC544\uC9C1 \uB2E4 \uBABB \uD55C \uAC83 \uAC19\uC740\uB370?"
+  questOfferText: "\uC624\uB298\uB3C4 \uB098\uB97C \uB3C4\uC640\uC8FC\uB824\uACE0
+    \uC628\uAC70\uC9C0?"
 --- !u!114 &3398515114749962580
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -137,7 +137,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 942ffc1dee70cf547863555a89bf8016, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  questPool: {fileID: 0}
+  questPool: {fileID: 11400000, guid: bc4565e55653c1a41bf0117e7391b7bd, type: 2}
 --- !u!1 &6616665278769280980
 GameObject:
   m_ObjectHideFlags: 0

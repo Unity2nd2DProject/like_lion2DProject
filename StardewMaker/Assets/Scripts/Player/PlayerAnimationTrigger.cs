@@ -23,7 +23,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Plant", false);
         PlayerController.Instance.OnFinishTrigger();
         PlayerController.Instance.Plant();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void WaterFinishTrigger()
@@ -32,7 +31,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Water", false);
         PlayerController.Instance.OnFinishTrigger();
         StaminaManager.Instance.ConsumeStamina();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void HarvestFinishTrigger()
@@ -40,7 +38,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.anim.SetBool("Harvest", false);
         PlayerController.Instance.OnFinishTrigger();
         PlayerController.Instance.Harvest();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void FishFinishTrigger()
@@ -49,7 +46,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.OnFinishTrigger();
         PlayerController.Instance.Fish();
         StaminaManager.Instance.ConsumeStamina();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Fishing);
     }
 
     private void AxeFinishTrigger()
@@ -58,7 +54,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.OnFinishTrigger();
         PlayerController.Instance.Chop();
         StaminaManager.Instance.ConsumeStamina();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Woodcutting);
     }
 
     private void GetWaterFinishTrigger()
@@ -75,7 +70,6 @@ public class PlayerAnimationTrigger : MonoBehaviour
         PlayerController.Instance.OnFinishTrigger();
         PlayerController.Instance.Fertlize();
         StaminaManager.Instance.ConsumeStamina();
-        //PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
     }
 
     private void PickFruitFinishTrigger()

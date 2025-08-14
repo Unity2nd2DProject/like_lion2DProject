@@ -46,6 +46,7 @@ public class FarmLand : MonoBehaviour
                 InventoryManager.Instance.RemoveItem(itemData);
             }
 
+            PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
             QuestManager.Instance.ReportAction(QuestTargetType.SeedPlanted);
             return true;
         }
@@ -99,6 +100,7 @@ public class FarmLand : MonoBehaviour
             InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("물"));
 
             UpdateTileSprite();
+            PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
             QuestManager.Instance.ReportAction(QuestTargetType.Watered);
             return true;
         }
@@ -114,6 +116,7 @@ public class FarmLand : MonoBehaviour
         {
             CropManager.Instance.HarvestCrop(position);
             UpdateTileSprite();
+            PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
             return true;
         }
         else
@@ -131,6 +134,7 @@ public class FarmLand : MonoBehaviour
             InventoryManager.Instance.RemoveItem(InventoryManager.Instance.GetItem("비료"));
 
             UpdateTileSprite();
+            PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
             return true;
         }
         else
