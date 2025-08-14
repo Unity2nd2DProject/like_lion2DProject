@@ -476,6 +476,7 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
         isInteracting = true;
+
         switch (interaction)
         {
             case PlayerInteraction.Pick:

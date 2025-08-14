@@ -71,6 +71,7 @@ public class FarmLand : MonoBehaviour
                 }
                 UpdateTileSprite();
                 QuestManager.Instance.ReportAction(QuestTargetType.TrilledSoil);
+                PlayerManager.Instance.AddExpToSkill(TraitType.Farming);
                 return true;
             }
             else
