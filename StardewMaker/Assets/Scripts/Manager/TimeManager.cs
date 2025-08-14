@@ -70,8 +70,6 @@ public class TimeManager : Singleton<TimeManager>
             timer -= 1f;
         }
 
-        ForceReturnHome();
-
         if (!isTimePaused)
         {
             LightManager.Instance.UpdateLighting(currentHour, currentMinute);
@@ -158,14 +156,7 @@ public class TimeManager : Singleton<TimeManager>
 
     private void ForceReturnHome()
     {
-        if (currentHour >= 22)
-        {
-            Debug.Log("🌙 시간이 늦었습니다 집으로 귀가합니다");
-            PauseTime();
 
-            Debug.Log("☀️ 아침이 되었습니다 하루를 시작합니다");
-            AdvanceDay();
-        }
     }
 
     public void PauseTime() // 집에 들어가면

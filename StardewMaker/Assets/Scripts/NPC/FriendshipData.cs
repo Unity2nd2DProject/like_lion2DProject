@@ -10,7 +10,7 @@ public class FriendshipData
     public FriendshipData(string name)
     {
         npcName = name;
-        points = 0;
+        points = 20;
     }
 
     public int GetHeartLevel(int heartPerPoint = 20)
