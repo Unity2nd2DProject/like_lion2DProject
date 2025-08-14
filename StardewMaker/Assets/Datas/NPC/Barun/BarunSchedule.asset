@@ -14,8 +14,48 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Barun
   defaultSchedule:
-  - hour: 0
-    routes: []
-    actionOnArrival: 0
+  - hour: 8
+    routes:
+    - h2wp1
+    actionOnArrival: 1
+    teleportTarget: twp23
+  - hour: 9
+    routes:
+    - twp22
+    - twp1
+    - twp9
+    - twp12
+    - twp2
+    - twp1
+    - twp9
+    - twp12
+    - twp2
+    - twp1
+    - twp22
+    - twp23
+    actionOnArrival: 3
     teleportTarget: 
+  - hour: 13
+    routes:
+    - twp22
+    - twp26
+    - twp3
+    - twp28
+    - twp27
+    actionOnArrival: 3
+    teleportTarget: 
+  - hour: 18
+    routes:
+    - twp28
+    - twp3
+    - twp26
+    - twp22
+    - twp23
+    actionOnArrival: 3
+    teleportTarget: h2wp1
+  - hour: 19
+    routes:
+    - twp23
+    actionOnArrival: 1
+    teleportTarget: h2wp1
   overrideSchedules: []
