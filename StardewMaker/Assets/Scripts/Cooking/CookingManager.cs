@@ -69,6 +69,6 @@ public class CookingManager : Singleton<CookingManager>
         UIManager.Instance.ShowPopup("요리 완성!.");
 
         UIManager.Instance.cookingUI.cookingInventory.UpdateIngredientInventoryUI();
-        QuestManager.Instance.ReportAction(QuestTargetType.CookedFood);
+        //QuestManager.Instance.ReportAction(QuestTargetType.CookedFood);
     }
 }

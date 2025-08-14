@@ -56,7 +56,6 @@ public class GameManager : Singleton<GameManager>
 
         SceneManager.LoadScene(sceneName);
 
-        // todo 데이터 저장
         SaveManager.Instance.Save();
     }
 

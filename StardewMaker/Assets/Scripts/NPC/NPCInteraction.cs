@@ -41,9 +41,10 @@ public class NPCInteraction : MonoBehaviour
 
         QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);
 
-        if (questGiver.questPool == null )
+        if (questGiver.questPool == null)
         {
             ShowDialogue(defaultText);
+            return;
         }
 
         // 퀘스트 진행 여부 우선 확인
@@ -77,6 +78,17 @@ public class NPCInteraction : MonoBehaviour
         int hour = TimeManager.Instance.currentHour;
         int day = TimeManager.Instance.currentDay;
         QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
+
+        // 오늘 이미 완료한 daily quest인지 먼저 확인
+        bool alreadyCompletedToday = questGiver.questPool.dailyQuests.Exists(q =>
+            QuestManager.Instance.HasCompletedQuest(q.questID)
+        );
+
+        if (alreadyCompletedToday)
+        {
+            ShowDialogue(defaultText);
+            return;
+        }
 
         if (quest != null)
         {

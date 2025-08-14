@@ -116,9 +116,9 @@ public class QuestDetailPopupUI : MonoBehaviour
             case QuestTargetType.GaveToDaughter:
                 return "딸에게 선물 주기";
             case QuestTargetType.CookedFood:
-                return "요리하기";
+                return "딸에게 요리해주기";
             case QuestTargetType.GreetedToNPC:
-                return "npc에게 인사하기";
+                return "마을 주민에게 인사하기";
             default:
                 return "";
         }

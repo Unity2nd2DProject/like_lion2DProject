@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a3b9b7b8547f597409b7a842791ad0d2, type: 3}
-  m_Name: Quest400
+  m_Name: Quest8
   m_EditorClassIdentifier: 
-  questID: 400
-  questType: 1
-  questName: "\uAC00\uC8FD\uC774 \uD544\uC694\uD574"
-  description: "\uB3D9\uBB3C \uAC00\uC8FD 3\uAC1C\uB97C \uAD6C\uD574\uC8FC\uC138\uC694."
+  questID: 8
+  questType: 0
+  questName: "\uAC00\uBB44 \uC18D \uD76C\uB9DD"
+  description: "\uB9C8\uB978 \uC791\uBB3C\uC5D0 \uBE44\uB8CC\uB97C \uC918\uBCF4\uC138\uC694.\r"
   goalDescrpition: 
   goals:
-  - goalType: 1
-    targetType: 0
-    targetItem: {fileID: 11400000, guid: df61fbaa6e5bea544b492c6e4b1f21e2, type: 2}
+  - goalType: 0
+    targetType: 3
+    targetItem: {fileID: 0}
     requiredAmount: 3
     currentAmount: 0
-  rewardItem: {fileID: 0}
-  rewardQuantity: 0
-  rewardMoney: 100
-  npcName: Milen
-  friendshipPointReward: 1
-  availableFromHour: 7
-  availableToHour: 21
+  rewardItem: {fileID: 11400000, guid: 087aa580fc40671468e4fad61a78f67f, type: 2}
+  rewardQuantity: 3
+  rewardMoney: 0
+  npcName: 
+  friendshipPointReward: 0
+  availableFromHour: 0
+  availableToHour: 24
   availableDays: 01000000020000000300000004000000050000000600000007000000

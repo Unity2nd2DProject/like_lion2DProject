@@ -380,7 +380,7 @@ public class PlayerController : Singleton<PlayerController>
         curTree = null;
         curBush = null;
 
-        Debug.Log("Hit object: " + hit.gameObject.name);
+        //Debug.Log("Hit object: " + hit.gameObject.name);
 
         if (hit.TryGetComponent(out FarmLand farmLand))
         {

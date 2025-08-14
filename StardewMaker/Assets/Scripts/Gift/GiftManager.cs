@@ -24,7 +24,7 @@ public class GiftManager : Singleton<GiftManager>
         }
         else
         {
-            Debug.Log("Gift received!");
+            //Debug.Log("Gift received!");
             InventoryManager.Instance.RemoveItem(giftItem);
 
             if(giftItem.itemType == ItemType.Food)
@@ -32,6 +32,7 @@ public class GiftManager : Singleton<GiftManager>
                 // 선물 아이템이 Food일 경우
                 OnDialogRequested?.Invoke(SituationType.FOOD_RECEIVED);
                 DaughterManager.Instance.AddStats(StatType.HUNGER, 5);
+                QuestManager.Instance.ReportAction(QuestTargetType.CookedFood);
             }
             else
             {
@@ -42,6 +43,7 @@ public class GiftManager : Singleton<GiftManager>
                 DaughterManager.Instance.AddStats(randomStat,1);
 
             }
+            QuestManager.Instance.ReportAction(QuestTargetType.GaveToDaughter);
             UIManager.Instance.ToggleGiftUI();
         }            
     }

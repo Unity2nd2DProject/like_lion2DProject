@@ -1,6 +1,7 @@
 using UnityEngine;
 
-public class FriendshipData : MonoBehaviour
+[System.Serializable]
+public class FriendshipData
 {
     public string npcName;
     public int points;

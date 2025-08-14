@@ -81,7 +81,7 @@ public class StaminaManager : Singleton<StaminaManager>
 
             if (!didRecover)
             {
-                Debug.Log("스태미나 풀임");
+                //Debug.Log("스태미나 풀임");
                 break;
             }
         }
