@@ -149,6 +149,7 @@ public class QuestManager : Singleton<QuestManager>
     public void CompleteQuest(QuestInstance quest)
     {
         Debug.Log($"[Quest] {quest.questData.questName} 완료!");
+        UIManager.Instance.ShowPopup($"\"{quest.questData.questName}\" 완료!", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
 
         foreach (var goal in quest.goals)
         {
