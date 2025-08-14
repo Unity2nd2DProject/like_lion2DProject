@@ -14,8 +14,47 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   npcName: Bram
   defaultSchedule:
-  - hour: 0
-    routes: []
-    actionOnArrival: 0
+  - hour: 9
+    routes:
+    - h3wp1
+    actionOnArrival: 1
+    teleportTarget: twp13
+  - hour: 10
+    routes:
+    - twp30
+    - twp29
+    actionOnArrival: 3
     teleportTarget: 
+  - hour: 11
+    routes:
+    - twp30
+    - twp7
+    - twp30
+    - twp29
+    actionOnArrival: 3
+    teleportTarget: 
+  - hour: 13
+    routes:
+    - twp30
+    - twp7
+    - twp30
+    - twp29
+    actionOnArrival: 3
+    teleportTarget: 
+  - hour: 15
+    routes:
+    - twp30
+    - twp14
+    actionOnArrival: 3
+    teleportTarget: 
+  - hour: 18
+    routes:
+    - twp13
+    actionOnArrival: 3
+    teleportTarget: 
+  - hour: 19
+    routes:
+    - twp13
+    actionOnArrival: 1
+    teleportTarget: h3wp1
   overrideSchedules: []

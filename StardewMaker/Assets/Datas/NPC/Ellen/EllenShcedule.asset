@@ -24,9 +24,39 @@ MonoBehaviour:
     - twp4
     - twp3
     - twp2
-    - twp1
+    - twp8
     actionOnArrival: 2
     teleportTarget: 
+  - hour: 13
+    routes:
+    - twp12
+    - twp15
+    - twp16
+    - twp17
+    - twp18
+    actionOnArrival: 2
+    teleportTarget: 
+  - hour: 16
+    routes:
+    - twp17
+    - twp16
+    - twp15
+    - twp12
+    - twp8
+    actionOnArrival: 2
+    teleportTarget: 
+  - hour: 18
+    routes:
+    - twp3
+    - twp4
+    - twp5
+    actionOnArrival: 2
+    teleportTarget: 
+  - hour: 19
+    routes:
+    - twp5
+    actionOnArrival: 1
+    teleportTarget: h1wp1
   overrideSchedules:
   - season: 0
     day: 0
