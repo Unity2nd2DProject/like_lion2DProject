@@ -27,9 +27,9 @@ public class PlayerAnimationTrigger : MonoBehaviour
 
     private void WaterFinishTrigger()
     {
-        PlayerController.Instance.Water();
         PlayerController.Instance.anim.SetBool("Water", false);
         PlayerController.Instance.OnFinishTrigger();
+        PlayerController.Instance.Water();
         StaminaManager.Instance.ConsumeStamina();
     }
 
