@@ -7,7 +7,6 @@ public class VideoIntroPlayer : MonoBehaviour
 {
     [SerializeField] private VideoPlayer videoPlayer;
 
-
     private void Start()
     {
         if (videoPlayer == null) videoPlayer = GetComponent<VideoPlayer>();

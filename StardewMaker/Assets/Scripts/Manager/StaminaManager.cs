@@ -10,7 +10,6 @@ public class StaminaManager : Singleton<StaminaManager>
     protected override void Awake()
     {
         base.Awake();
-        if (!isValid) return;
 
         InitializeStamina();
     }
