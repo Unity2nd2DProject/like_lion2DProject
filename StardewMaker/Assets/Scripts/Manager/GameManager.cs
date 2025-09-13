@@ -17,7 +17,6 @@ public enum GameMode
 
 public class GameManager : Singleton<GameManager>
 {
-    private string TAG = "[GameManager]";
     public bool isDebug = true;
 
     private GameState currentState;
