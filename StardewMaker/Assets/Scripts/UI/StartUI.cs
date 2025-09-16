@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartUIManager : MonoBehaviour
+public class StartScneneUIController : MonoBehaviour
 {
-    [Header("Button Link")]
+    [Header("Button")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button quitButton;

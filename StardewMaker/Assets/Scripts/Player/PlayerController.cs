@@ -1,10 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.Tilemaps;
-using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public enum PlayerInteraction
 {
@@ -28,6 +24,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+
     private PlayerAttackCollider playerAttackCollider;
 
     [Header("Move")]
