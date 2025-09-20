@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DialogController : MonoBehaviour
+public class DialogController_legacy : MonoBehaviour
 {
     private string TAG = "[DialogController]";
 

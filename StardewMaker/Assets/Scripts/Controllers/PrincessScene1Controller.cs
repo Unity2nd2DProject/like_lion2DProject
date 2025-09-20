@@ -11,7 +11,7 @@ public class PrincessScene1Controller : MonoBehaviour
     public static event Action OnExitRequested; // 홈에서 나가기
 
     [Header("GameObject들 관리")]
-    [SerializeField] private DialogController dialogController;
+    [SerializeField] private DialogController_legacy dialogController;
     [SerializeField] private GameObject normalMenu;
     [SerializeField] private GameObject scheduleMenu;
     [SerializeField] private GameObject dialogMenu;
@@ -72,12 +72,12 @@ public class PrincessScene1Controller : MonoBehaviour
     private void OnEnable()
     {
         inputManager = UserInputManager.Instance; // 사용자 입력 받는 용도
-        DialogController.OnNormalMenuRequested += EnableNormalMenuPanel;
-        DialogController.OnScheduleMenuRequested += EnableScheduleMenuPanel;
+        DialogController_legacy.OnNormalMenuRequested += EnableNormalMenuPanel;
+        DialogController_legacy.OnScheduleMenuRequested += EnableScheduleMenuPanel;
         ToggleButton.OnToggleChangeRequested += CheckScheduleMenu;
         DialogSubjectButton.OnDialogSubjectButtonRequested += OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested += StatChanged;
-        DialogController.OnNextDayRequested += CheckAtStart;
+        DialogController_legacy.OnNextDayRequested += CheckAtStart;
         UIManager.OnNormalMenuRequested += EnableNormalMenuPanel;
         GiftManager.OnDialogRequested += OnDialogStart;
         DaughterManager.OnStatChangeRequested += StatChanged;
@@ -112,12 +112,12 @@ public class PrincessScene1Controller : MonoBehaviour
 
     void OnDisable()
     {
-        DialogController.OnNormalMenuRequested -= EnableNormalMenuPanel;
-        DialogController.OnScheduleMenuRequested -= EnableScheduleMenuPanel;
+        DialogController_legacy.OnNormalMenuRequested -= EnableNormalMenuPanel;
+        DialogController_legacy.OnScheduleMenuRequested -= EnableScheduleMenuPanel;
         ToggleButton.OnToggleChangeRequested -= CheckScheduleMenu;
         DialogSubjectButton.OnDialogSubjectButtonRequested -= OnClickDialogSubjectButton;
         Dialog.OnStatChangeRequested -= StatChanged;
-        DialogController.OnNextDayRequested -= CheckAtStart;
+        DialogController_legacy.OnNextDayRequested -= CheckAtStart;
         UIManager.OnNormalMenuRequested -= EnableNormalMenuPanel;
         GiftManager.OnDialogRequested -= OnDialogStart;
         DaughterManager.OnStatChangeRequested -= StatChanged;
