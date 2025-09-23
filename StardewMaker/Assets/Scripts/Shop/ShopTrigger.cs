@@ -6,25 +6,21 @@ public class ShopTrigger : MonoBehaviour
     [Header("UI References")]
     public GameObject dialogUI;
 
+    [Header("Interaction")]
+    [SerializeField] private float interactionRange = 2.5f;
+
     private bool isPlayerNearby = false;
 
-    void Update()
+    private void OnMouseDown()
     {
-        ShowDialogUI();
-    }
-
-    // Enter 키로 다이얼로그 UI 띄움
-    private void ShowDialogUI()
-    {
-        if (!isPlayerNearby) return;
-
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (!CheckDistance())
         {
-            dialogUI.SetActive(true);
-            UIManager.Instance.HidePopupImmediately();
-
-            SoundManager.Instance.PlaySfxDialog();
+            return;
         }
+
+        dialogUI.SetActive(true);
+        UIManager.Instance.HidePopupImmediately();
+        SoundManager.Instance.PlaySfxDialog();
     }
 
     public void TryShowPopup()
@@ -64,6 +60,21 @@ public class ShopTrigger : MonoBehaviour
             {
                 UIManager.Instance.HidePopupImmediately();
             }
+        }
+    }
+
+    private bool CheckDistance()
+    {
+        Transform playerTransform = PlayerController.Instance.transform;
+        float distance = Vector2.Distance(transform.position, playerTransform.position);
+
+        if (distance > interactionRange)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
         }
     }
 }

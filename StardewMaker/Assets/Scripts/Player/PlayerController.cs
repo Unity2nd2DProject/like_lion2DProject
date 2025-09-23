@@ -19,12 +19,10 @@ public enum PlayerInteraction
 
 public class PlayerController : Singleton<PlayerController>
 {
-    private string TAG = "[PlayerController]";
-    private UserInputManager inputManager;
+        private string TAG = "[PlayerController]";
 
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
-
     private PlayerAttackCollider playerAttackCollider;
 
     [Header("Move")]
@@ -78,11 +76,6 @@ public class PlayerController : Singleton<PlayerController>
         //PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
     }
 
-    private void OnEnable()
-    {
-        inputManager = UserInputManager.Instance;
-    }
-
     void Update()
     {
         if (!canMove)
@@ -102,7 +95,6 @@ public class PlayerController : Singleton<PlayerController>
 
         PlayerMoveInput();
         SpaceInput();
-        // ESCInput();
         ZInput();
         XInput();
         IInput();
@@ -135,10 +127,11 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-
     private void PlayerMoveInput()
     {
-        moveInput = UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>();
+        float h = Input.GetAxisRaw("Horizontal");
+        float v = Input.GetAxisRaw("Vertical");
+        moveInput = new Vector2(h, v).normalized;
         move = moveInput;
 
         if (move != Vector2.zero)
@@ -160,24 +153,15 @@ public class PlayerController : Singleton<PlayerController>
 
     private void SpaceInput()
     {
-        if (inputManager.inputActions.Player.Space.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-
+            // Space 키 입력 처리
         }
     }
 
-    // private void ESCInput()
-    // {
-    //     if (inputManager.inputActions.Player.ESC.WasPressedThisFrame())
-    //     {
-    //         Debug.Log($"{TAG} ESCInput IsPressed. UI 인풋으로 전환");
-    //         GameManager.Instance.SetGameState(TAG, GameState.UI);
-    //     }
-    // }
-
     private void ZInput()
     {
-        if (inputManager.inputActions.Player.Z.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.Z))
         {
             //GameManager.Instance.changeScene("Connect1"); // 테스트용
         }
@@ -185,23 +169,16 @@ public class PlayerController : Singleton<PlayerController>
 
     private void XInput()
     {
-        if (inputManager.inputActions.Player.X.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.X))
         {
 
         }
-        if (inputManager.inputActions.Player.X.IsPressed())
-        {
-            // Debug.Log($"{TAG} EnterInput IsPressed");
-        }
-        if (inputManager.inputActions.Player.X.WasReleasedThisFrame())
-        {
-            // Debug.Log($"{TAG} EnterInput WasReleasedThisFrame");
-        }
+        // 필요하다면 IsPressed, WasReleasedThisFrame 등은 직접 구현 필요
     }
 
     private void IInput()
     {
-        if (inputManager.inputActions.Player.I.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.I))
         {
             UIManager.Instance.inventoryUI.ToggleInventory();
         }
@@ -209,23 +186,23 @@ public class PlayerController : Singleton<PlayerController>
 
     private void QInput()
     {
-        if (inputManager.inputActions.Player.Q.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.Q))
         {
             QuestUI.Instance.ToggleQuestPanel();
         }
     }
 
-    private void NInput() // NextDay (Test)
+    private void NInput()
     {
-        if (inputManager.inputActions.Player.N.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.N))
         {
             TimeManager.Instance.AdvanceDay();
         }
     }
 
-    private void F1Input() // ending test
+    private void F1Input()
     {
-        if (inputManager.inputActions.Player.F1.WasPressedThisFrame())
+        if (Input.GetKeyDown(KeyCode.F1))
         {
             //SetInteractAnimation(PlayerInteraction.Shoot);
         }
@@ -233,23 +210,23 @@ public class PlayerController : Singleton<PlayerController>
 
     private void MouseLeftInput()
     {
-        if (inputManager.inputActions.Player.MouseLeft.WasPressedThisFrame())
+        if (Input.GetMouseButtonDown(0))
         {
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            if (UserInputManager.Instance.inputActions.Player.Move.ReadValue<Vector2>() == Vector2.zero)
+            if (move == Vector2.zero)
             {
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
                 playerAttackCollider.SetCurItem(curItem);
 
                 if (curMapArea == MapArea.Forest)
                 {
-                    if (curItem.name == "ToolBow")
+                    if (curItem != null && curItem.name == "ToolBow")
                     {
                         SetInteractAnimation(PlayerInteraction.Shoot);
                     }
-                    else if (curItem.name == "ToolAxe")
+                    else if (curItem != null && curItem.name == "ToolAxe")
                     {
                         SetInteractAnimation(PlayerInteraction.Axe);
                     }
@@ -262,7 +239,7 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     InteractWithObject(mouseHit, playerHits);
                 }
-            }            
+            }
         }
     }
 
