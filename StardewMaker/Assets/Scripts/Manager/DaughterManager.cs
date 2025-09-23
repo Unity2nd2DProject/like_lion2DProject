@@ -41,7 +41,6 @@ public class DaughterManager : Singleton<DaughterManager>
     protected override void Awake()
     {
         base.Awake();
-        if (!isValid) return;
 
         Initialize();
 

@@ -15,7 +15,6 @@ public class TypewriterEffect : MonoBehaviour
     private void OnEnable()
     {
         StartTyping();
-
     }
 
     public void StartTyping()
@@ -35,6 +34,4 @@ public class TypewriterEffect : MonoBehaviour
             yield return new WaitForSeconds(typingSpeed);
         }
     }
-
-
 }

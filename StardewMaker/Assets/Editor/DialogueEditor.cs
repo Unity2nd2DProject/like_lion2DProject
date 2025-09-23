@@ -1,0 +1,329 @@
+using UnityEngine;
+using UnityEditor;
+using System.Collections.Generic;
+using System.IO;
+
+public class DialogueEditor : EditorWindow
+{
+    private NPCDialogue currentNPC;           // 현재 편집 중인 NPC
+    private int currentSequenceIndex = 0;     // 현재 보고 있는 시퀀스 인덱스
+
+    private static string dialogueFolder = "Assets/Datas/Dialogues/";
+
+    [MenuItem("Tools/Dialogue Editor")]
+    public static void ShowWindow()
+    {
+        GetWindow<DialogueEditor>("Dialogue Editor");
+    }
+
+    private void OnGUI()
+    {
+        GUILayout.Space(10);
+        DrawNPCControls();
+
+        if (currentNPC == null)
+            return;
+
+        GUILayout.Space(10);
+        DrawSequenceNavigator();
+
+        if (currentNPC.dialogues.Count > 0)
+        {
+            DrawCurrentSequence();
+        }
+
+        GUILayout.Space(10);
+        DrawSaveLoadButtons();
+    }
+
+    #region GUI Sections
+
+    private void DrawNPCControls()
+    {
+        if (currentNPC == null)
+        {
+            EditorGUILayout.HelpBox("JSON을 불러오거나 새 NPC를 생성하세요.", MessageType.Info);
+
+            if (GUILayout.Button("새 NPC 만들기"))
+            {
+                currentNPC = new NPCDialogue
+                {
+                    dialogueId = "npc_001",
+                    name = "새 NPC",
+                    dialogues = new List<DialogueSequence>()
+                };
+            }
+
+            if (GUILayout.Button("JSON 불러오기"))
+            {
+                string path = EditorUtility.OpenFilePanel("Load NPC Dialogue JSON", dialogueFolder, "json");
+                if (!string.IsNullOrEmpty(path))
+                {
+                    string json = File.ReadAllText(path);
+                    currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+                }
+            }
+
+            return;
+        }
+
+        currentNPC.dialogueId = EditorGUILayout.TextField("Dialogue ID", currentNPC.dialogueId);
+        currentNPC.name = EditorGUILayout.TextField("NPC Name", currentNPC.name);
+    }
+
+    private void DrawSequenceNavigator()
+    {
+        if (currentNPC.dialogues.Count == 0)
+        {
+            EditorGUILayout.HelpBox("시퀸스가 없습니다.", MessageType.Warning);
+            if (GUILayout.Button("시퀸스 추가"))
+            {
+                currentNPC.dialogues.Add(new DialogueSequence
+                {
+                    key = "new_sequence",
+                    lines = new List<DialogueLine>()
+                });
+                currentSequenceIndex = currentNPC.dialogues.Count - 1;
+            }
+            return;
+        }
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("<", GUILayout.Width(30)))
+        {
+            currentSequenceIndex = Mathf.Max(0, currentSequenceIndex - 1);
+        }
+
+        EditorGUILayout.LabelField($"{currentSequenceIndex + 1} / {currentNPC.dialogues.Count}", GUILayout.Width(60));
+
+        if (GUILayout.Button(">", GUILayout.Width(30)))
+        {
+            currentSequenceIndex = Mathf.Min(currentNPC.dialogues.Count - 1, currentSequenceIndex + 1);
+        }
+
+        if (GUILayout.Button("추가", GUILayout.Width(50)))
+        {
+            currentNPC.dialogues.Add(new DialogueSequence
+            {
+                key = "new_sequence",
+                lines = new List<DialogueLine>()
+            });
+            currentSequenceIndex = currentNPC.dialogues.Count - 1;
+        }
+
+        if (GUILayout.Button("삭제", GUILayout.Width(50)))
+        {
+            if (currentNPC.dialogues.Count > 0)
+            {
+                currentNPC.dialogues.RemoveAt(currentSequenceIndex);
+                currentSequenceIndex = Mathf.Clamp(currentSequenceIndex, 0, currentNPC.dialogues.Count - 1);
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+    }
+    private void DrawCurrentSequence()
+    {
+        DialogueSequence seq = currentNPC.dialogues[currentSequenceIndex];
+
+        // 시퀀스 키 선택
+        DrawSequenceKey(seq);
+
+        if (seq.lines.Count == 0)
+        {
+            if (GUILayout.Button("대사 추가"))
+            {
+                seq.lines.Add(new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+                seq.currentLineIndex = 0;
+            }
+            return;
+        }
+
+        // 대사 네비게이션
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("<", GUILayout.Width(30)))
+            seq.currentLineIndex = Mathf.Max(0, seq.currentLineIndex - 1);
+
+        EditorGUILayout.LabelField($"{seq.currentLineIndex + 1}/{seq.lines.Count}", GUILayout.Width(60));
+
+        if (GUILayout.Button(">", GUILayout.Width(30)))
+            seq.currentLineIndex = Mathf.Min(seq.lines.Count - 1, seq.currentLineIndex + 1);
+
+        EditorGUILayout.EndHorizontal();
+
+        // 현재 대사 표시
+        DialogueLine line = seq.lines[seq.currentLineIndex];
+        EditorGUILayout.BeginVertical("box");
+
+        // 발화자 체크박스
+        line.isSelf = EditorGUILayout.Toggle("본인", line.isSelf);
+
+        // 본인이면 speakerId를 고정
+        if (line.isSelf)
+        {
+            line.speakerId = currentNPC.name;
+        }
+
+        // TextField 활성/비활성 제어
+        GUI.enabled = !line.isSelf; // 본인이면 비활성화
+        line.speakerId = EditorGUILayout.TextField("발화자", line.speakerId);
+        GUI.enabled = true; // 원래 상태로 복구
+
+        EditorGUILayout.LabelField("대사");
+        line.text = EditorGUILayout.TextArea(line.text, GUILayout.Height(80));
+
+        // 표정 체크박스 + 드롭다운
+        line.actions.useExpression = EditorGUILayout.Toggle("표정 변화", line.actions.useExpression);
+        if (line.actions.useExpression)
+        {
+            string[] expressionOptions = new string[] { "Happy", "Sad", "Angry", "Neutral" };
+            int selectedExpr = Mathf.Max(0, System.Array.IndexOf(expressionOptions, line.actions.expression));
+            selectedExpr = EditorGUILayout.Popup("표정", selectedExpr, expressionOptions);
+            line.actions.expression = expressionOptions[selectedExpr];
+        }
+
+        // 효과음 체크박스 + 드롭다운
+        line.actions.useSFX = EditorGUILayout.Toggle("효과음", line.actions.useSFX);
+        if (line.actions.useSFX)
+        {
+            string[] sfxOptions = new string[] { "Click", "Ding", "Explosion", "None" };
+            int selectedSFX = Mathf.Max(0, System.Array.IndexOf(sfxOptions, line.actions.sfx));
+            selectedSFX = EditorGUILayout.Popup("효과음", selectedSFX, sfxOptions);
+            line.actions.sfx = sfxOptions[selectedSFX];
+        }
+
+        EditorGUILayout.EndVertical();
+
+        // 삭제/추가 버튼
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("삭제"))
+        {
+            seq.lines.RemoveAt(seq.currentLineIndex);
+            seq.currentLineIndex = Mathf.Clamp(seq.currentLineIndex, 0, seq.lines.Count - 1);
+        }
+        if (GUILayout.Button("대사 추가"))
+        {
+            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+            seq.currentLineIndex++;
+        }
+        EditorGUILayout.EndHorizontal();
+    }
+
+
+    private int customKeyPopupIndex = -1; // Popup에서 마지막으로 선택한 인덱스
+    private bool isCustomKeyMode = false;
+
+    private void DrawSequenceKey(DialogueSequence seq)
+    {
+        List<string> availableKeys = new List<string> { "greeting", "farewell" };
+        string[] options = new string[availableKeys.Count + 1];
+        availableKeys.CopyTo(options);
+        options[availableKeys.Count] = "직접 입력";
+
+        int selectedIndex = availableKeys.IndexOf(seq.key);
+        if (selectedIndex < 0) selectedIndex = options.Length - 1; // seq.key가 리스트에 없으면 직접입력 모드
+        if (customKeyPopupIndex != -1) selectedIndex = customKeyPopupIndex;
+
+        int newIndex = EditorGUILayout.Popup("시퀀스 키", selectedIndex, options);
+
+        if (newIndex != selectedIndex)
+        {
+            customKeyPopupIndex = newIndex;
+            isCustomKeyMode = (newIndex == options.Length - 1);
+
+            // 직접 입력 모드로 전환될 때 텍스트 필드를 비워줌
+            if (isCustomKeyMode)
+                seq.key = "";
+        }
+
+        if (isCustomKeyMode)
+        {
+            seq.key = EditorGUILayout.TextField("직접 입력", seq.key);
+        }
+        else
+        {
+            seq.key = options[newIndex];
+        }
+    }
+
+
+
+    private void DrawSaveLoadButtons()
+    {
+        EditorGUILayout.Space();
+        EditorGUILayout.BeginHorizontal();
+
+        if (GUILayout.Button("저장"))
+        {
+            SaveJson(currentNPC);
+        }
+
+        if (GUILayout.Button("불러오기"))
+        {
+            string path = EditorUtility.OpenFilePanel("Load NPC Dialogue JSON", dialogueFolder, "json");
+            if (!string.IsNullOrEmpty(path))
+            {
+                string json = File.ReadAllText(path);
+                currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+                currentSequenceIndex = 0;
+            }
+        }
+
+        EditorGUILayout.EndHorizontal();
+    }
+
+    #endregion
+
+    #region Save / Load
+
+    private void SaveJson(NPCDialogue dialogue)
+    {
+        if (!Directory.Exists(dialogueFolder))
+        {
+            Directory.CreateDirectory(dialogueFolder);
+        }
+
+        string json = JsonUtility.ToJson(dialogue, true);
+        string path = Path.Combine(dialogueFolder, $"{dialogue.dialogueId}.json");
+        File.WriteAllText(path, json);
+        AssetDatabase.Refresh();
+        Debug.Log($"Saved Dialogue: {path}");
+    }
+
+    #endregion
+}
+
+[System.Serializable]
+public class NPCDialogue
+{
+    public string dialogueId;
+    public string name;
+    public List<DialogueSequence> dialogues; // Dictionary -> List
+}
+
+[System.Serializable]
+public class DialogueSequence
+{
+    public string key;               // "intro", "quest_start" 등
+    public List<DialogueLine> lines; // 대사 리스트
+    public int currentLineIndex = 0; // 현재 편집 중인 대사
+}
+
+[System.Serializable]
+public class DialogueLine
+{
+    public bool isSelf = true;        // 체크박스 "본인"
+    public string speakerId;          // 발화자 ID
+    public string text;               // 대사 내용
+    public DialogueActions actions;   // 표정, 효과음 등
+}
+
+[System.Serializable]
+public class DialogueActions
+{
+    public bool useExpression = false;
+    public string expression;   // 존재하는 표정 리스트에서 선택
+    public bool useSFX = false;
+    public string sfx;          // 존재하는 효과음 리스트에서 선택
+}
+

@@ -2,9 +2,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class StartUIManager : MonoBehaviour
+public class StartScneneUIController : MonoBehaviour
 {
-    [Header("Button Link")]
+    [Header("Button")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button optionButton;
     [SerializeField] private Button quitButton;
@@ -34,7 +34,6 @@ public class StartUIManager : MonoBehaviour
         {
             cancelButton.onClick.AddListener(OnCancelButtonClick);
         }
-
         if (optionPopup != null)
         {
             optionPopup.SetActive(false); // 시작할 때는 팝업 꺼두기
@@ -43,7 +42,7 @@ public class StartUIManager : MonoBehaviour
 
     private void OnStartButtonClick()
     {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(gameSceneName);
+       SceneManager.LoadScene(gameSceneName);
     }
 
     private void OnOptionButtonClick()
