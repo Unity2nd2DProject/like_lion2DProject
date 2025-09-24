@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-public class DialogManager : MonoBehaviour
+public class NarrativeManager : MonoBehaviour
 {
     [SerializeField] private GameObject dialogUI;
     [SerializeField] private GameObject shopUI;

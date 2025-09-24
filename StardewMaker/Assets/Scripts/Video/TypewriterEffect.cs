@@ -5,10 +5,10 @@ using TMPro;
 
 public class TypewriterEffect : MonoBehaviour
 {
-    public TextMeshProUGUI uiText;              // 출력할 Text 컴포넌트
+    public TextMeshProUGUI uiText;
     [TextArea(3, 10)]
-    public string fullText;          // 전체 문장
-    public float typingSpeed = 0.05f; // 글자 하나 나오는 간격(초)
+    public string fullText;
+    public float typingSpeed = 0.05f;
 
     private Coroutine typingCoroutine;
 
