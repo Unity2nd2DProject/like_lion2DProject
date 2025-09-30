@@ -24,7 +24,6 @@ public class LightManager : MonoBehaviour
         }
     }
 
-
     public void UpdateLighting(int hour, int minute)
     {
         float currentTime = hour + (minute / 60f);

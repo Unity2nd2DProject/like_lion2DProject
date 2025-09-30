@@ -6,11 +6,11 @@ using UnityEngine;
 public class QuestPool : ScriptableObject
 {
     public string npcName;
-    public List<QuestData> dailyQuests;
+    public List<QuestDataSO> dailyQuests;
 
-    public QuestData GetRandomAvailableQuest(int currentHour, int day)
+    public QuestDataSO GetRandomAvailableQuest(int currentHour, int day)
     {
-        List<QuestData> candidates = dailyQuests.FindAll(q =>
+        List<QuestDataSO> candidates = dailyQuests.FindAll(q =>
             currentHour >= q.availableFromHour &&
             currentHour < q.availableToHour &&
             (q.availableDays == null || q.availableDays.Count == 0 || q.availableDays.Contains(day))

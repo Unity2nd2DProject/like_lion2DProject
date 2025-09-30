@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class QuestSlotUI : MonoBehaviour
 {
     private QuestInstance questInstance;
-    private QuestData questData;
+    private QuestDataSO questData;
 
     [Header("UI")]
     [SerializeField] private TextMeshProUGUI questNameText;
@@ -20,7 +20,7 @@ public class QuestSlotUI : MonoBehaviour
         }
     }
 
-    public void Setup(string questName, bool isCompleted, QuestInstance instance = null, QuestData data = null)
+    public void Setup(string questName, bool isCompleted, QuestInstance instance = null, QuestDataSO data = null)
     {
         questInstance = instance;
         questData = data;

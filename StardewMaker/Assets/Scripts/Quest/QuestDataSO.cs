@@ -10,7 +10,7 @@ public enum QuestType
 }
 
 [CreateAssetMenu(fileName = "New Quest", menuName = "Quest/Create New Quest")]
-public class QuestData : ScriptableObject
+public class QuestDataSO : ScriptableObject
 {
     [Header("Info")]
     public string questID;

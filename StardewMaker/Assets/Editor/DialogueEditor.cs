@@ -42,13 +42,13 @@ public class DialogueEditor : EditorWindow
     {
         if (currentNPC == null)
         {
-            EditorGUILayout.HelpBox("JSON을 불러오거나 새 NPC를 생성하세요.", MessageType.Info);
+            EditorGUILayout.HelpBox("JSON을 불러오거나 새 다이얼로그를 생성하세요.", MessageType.Info);
 
-            if (GUILayout.Button("새 NPC 만들기"))
+            if (GUILayout.Button("새 다이얼로그 만들기"))
             {
                 currentNPC = new NPCDialogue
                 {
-                    dialogueId = "npc_001",
+                    dialogueId = "dialogue_001",
                     name = "새 NPC",
                     dialogues = new List<DialogueSequence>()
                 };
@@ -133,7 +133,7 @@ public class DialogueEditor : EditorWindow
         {
             if (GUILayout.Button("대사 추가"))
             {
-                seq.lines.Add(new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+                seq.lines.Add(new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueAction() });
                 seq.currentLineIndex = 0;
             }
             return;
@@ -203,7 +203,7 @@ public class DialogueEditor : EditorWindow
         }
         if (GUILayout.Button("대사 추가"))
         {
-            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueAction() });
             seq.currentLineIndex++;
         }
         EditorGUILayout.EndHorizontal();
@@ -245,8 +245,6 @@ public class DialogueEditor : EditorWindow
             seq.key = options[newIndex];
         }
     }
-
-
 
     private void DrawSaveLoadButtons()
     {
@@ -293,37 +291,6 @@ public class DialogueEditor : EditorWindow
     #endregion
 }
 
-[System.Serializable]
-public class NPCDialogue
-{
-    public string dialogueId;
-    public string name;
-    public List<DialogueSequence> dialogues; // Dictionary -> List
-}
 
-[System.Serializable]
-public class DialogueSequence
-{
-    public string key;               // "intro", "quest_start" 등
-    public List<DialogueLine> lines; // 대사 리스트
-    public int currentLineIndex = 0; // 현재 편집 중인 대사
-}
 
-[System.Serializable]
-public class DialogueLine
-{
-    public bool isSelf = true;        // 체크박스 "본인"
-    public string speakerId;          // 발화자 ID
-    public string text;               // 대사 내용
-    public DialogueActions actions;   // 표정, 효과음 등
-}
-
-[System.Serializable]
-public class DialogueActions
-{
-    public bool useExpression = false;
-    public string expression;   // 존재하는 표정 리스트에서 선택
-    public bool useSFX = false;
-    public string sfx;          // 존재하는 효과음 리스트에서 선택
-}
 

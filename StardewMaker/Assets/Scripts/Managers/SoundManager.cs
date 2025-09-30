@@ -77,12 +77,8 @@ public class SoundManager : Singleton<SoundManager>
         }
         else
         {
-
             ResetWeatherSound();
-
         }
-
-
     }
 
     private void SetVolume()

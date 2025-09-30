@@ -4,13 +4,13 @@ using UnityEngine;
 [System.Serializable]
 public class QuestInstance
 {
-    public QuestData questData;
+    public QuestDataSO questData;
     public string giverNpcName;
     public List<QuestGoal> goals = new();
 
     public bool IsComplete => goals.TrueForAll(g => g.IsComplete);
 
-    public QuestInstance(QuestData data, string giverName)
+    public QuestInstance(QuestDataSO data, string giverName)
     {
         questData = data;
         giverNpcName = giverName;

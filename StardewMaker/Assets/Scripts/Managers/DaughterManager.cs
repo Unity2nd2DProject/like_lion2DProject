@@ -23,21 +23,6 @@ public class DaughterManager : Singleton<DaughterManager>
 
     public static event Action<string> OnStatChangeRequested;
 
-    public Dictionary<ConditionType, string> conditionStrDic = new(){
-        {ConditionType.MOOD, "기분"},
-        {ConditionType.VITALITY, "건강"},
-        {ConditionType.HUNGER, "배고픔"},
-        {ConditionType.TRUST, "신뢰도"},
-
-        {ConditionType.PYSICAL, "운동"},
-        {ConditionType.MUSIC, "음악"},
-        {ConditionType.ART, "미술"},
-        {ConditionType.SOCIAL, "사교"},
-        {ConditionType.ACADEMIC, "학문"},
-        {ConditionType.DOMESTIC, "생활"},
-    };
-
-
     protected override void Awake()
     {
         base.Awake();
@@ -120,6 +105,5 @@ public class DaughterManager : Singleton<DaughterManager>
             }
         }
         string op = (value > 0) ? "+" : "-";
-        OnStatChangeRequested?.Invoke($"{conditionStrDic[(ConditionType)statType]} {op} {Math.Abs(value)}");
     }
 }

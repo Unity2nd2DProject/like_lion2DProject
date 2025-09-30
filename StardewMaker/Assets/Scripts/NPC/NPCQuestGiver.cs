@@ -10,7 +10,7 @@ public class NPCQuestGiver : MonoBehaviour
         int hour = TimeManager.Instance.currentHour;
         int today = TimeManager.Instance.currentDay;
 
-        QuestData availableQuest = questPool.GetRandomAvailableQuest(hour, today);
+        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest(hour, today);
 
         if (availableQuest != null)
         {
@@ -35,7 +35,7 @@ public class NPCQuestGiver : MonoBehaviour
         int hour = TimeManager.Instance.currentHour;
         int today = TimeManager.Instance.currentDay;
 
-        QuestData availableQuest = questPool.GetRandomAvailableQuest(hour, today);
+        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest(hour, today);
 
         if (availableQuest != null)
         {

@@ -1,0 +1,34 @@
+{
+    "dialogueId": "dialogue_001",
+    "name": "새 NPC",
+    "dialogues": [
+        {
+            "key": "greeting",
+            "lines": [
+                {
+                    "isSelf": true,
+                    "speakerId": "새 NPC",
+                    "text": "안녕",
+                    "actions": {
+                        "useExpression": false,
+                        "expression": "",
+                        "useSFX": false,
+                        "sfx": ""
+                    }
+                },
+                {
+                    "isSelf": false,
+                    "speakerId": "Player",
+                    "text": "네 안녕하세요",
+                    "actions": {
+                        "useExpression": false,
+                        "expression": "",
+                        "useSFX": false,
+                        "sfx": ""
+                    }
+                }
+            ],
+            "currentLineIndex": 1
+        }
+    ]
+}

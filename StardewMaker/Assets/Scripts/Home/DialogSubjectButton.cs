@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class DialogSubjectButton : MonoBehaviour
 {
+    /*
     public static Action<SituationType> OnDialogSubjectButtonRequested;
 
     private Button button;
@@ -31,4 +32,5 @@ public class DialogSubjectButton : MonoBehaviour
     {
         this.situationType = situationType;
     }
+    */
 }

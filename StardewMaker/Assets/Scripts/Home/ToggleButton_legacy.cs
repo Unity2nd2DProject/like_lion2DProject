@@ -3,14 +3,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ToggleButton : MonoBehaviour
+public class ToggleButton_legacy : MonoBehaviour
 {
     private string TAG = "[ToggleButton]";
     [SerializeField] private TMP_Text text;
     public static event Action<string, bool> OnToggleChangeRequested;
 
     public Toggle toggle;
-    public ScheduleType scheduleType;
+    // public ScheduleType scheduleType;
 
     public Graphic targetGraphic;
     private Color onColor; // = Color.gray;
@@ -46,9 +46,11 @@ public class ToggleButton : MonoBehaviour
         text.text = t;
     }
 
+    /*
     public void SetScheduleType(ScheduleType st)
     {
         scheduleType = st;
     }
+    */
 
 }

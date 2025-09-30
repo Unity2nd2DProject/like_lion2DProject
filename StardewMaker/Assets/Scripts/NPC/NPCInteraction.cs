@@ -11,7 +11,7 @@ public class NPCInteraction : MonoBehaviour
 
     [Header("Dialogue")]
     private string npcName;
-    private QuestData npcQuest;
+    private QuestDataSO npcQuest;
     [SerializeField] Sprite npcImage;
     [TextArea] public string defaultText = "안녕하세요!";
     [TextArea] public string questCompleteText = "수고하셨어요!";
@@ -77,7 +77,7 @@ public class NPCInteraction : MonoBehaviour
         // 아직 수락 안 한 경우 (수락 가능한 시간 체크)
         int hour = TimeManager.Instance.currentHour;
         int day = TimeManager.Instance.currentDay;
-        QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
+        QuestDataSO quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
 
         // 오늘 이미 완료한 daily quest인지 먼저 확인
         bool alreadyCompletedToday = questGiver.questPool.dailyQuests.Exists(q =>
@@ -102,7 +102,7 @@ public class NPCInteraction : MonoBehaviour
         }
     }
 
-    private void ShowDialogue(string text, QuestData questData = null, System.Action onOK = null)
+    private void ShowDialogue(string text, QuestDataSO questData = null, System.Action onOK = null)
     {
         NPCDialgoueUI.Instance.Show(npcImage, npcName, text, questData, onOK);
         UIManager.Instance.HidePopupImmediately();

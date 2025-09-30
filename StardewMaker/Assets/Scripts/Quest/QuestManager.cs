@@ -19,8 +19,8 @@ public enum QuestTargetType
 public class QuestManager : Singleton<QuestManager>
 {
     [Header("Quests")]
-    [SerializeField] private List<QuestData> tutorials;
-    [SerializeField] private List<QuestData> quests;
+    [SerializeField] private List<QuestDataSO> tutorials;
+    [SerializeField] private List<QuestDataSO> quests;
 
     [Header("Check")]
     [SerializeField] private List<QuestInstance> activeQuests = new();
@@ -49,7 +49,7 @@ public class QuestManager : Singleton<QuestManager>
             return;
         }
 
-        QuestData questToAccept = quests.Find(q => q.questID == questID);
+        QuestDataSO questToAccept = quests.Find(q => q.questID == questID);
         if (questToAccept != null)
         {
             QuestInstance instance = new QuestInstance(questToAccept, giverNpcName);
@@ -203,11 +203,11 @@ public class QuestManager : Singleton<QuestManager>
         return activeQuests.Exists(q => q.questData.questID == questID);
     }
 
-    public List<QuestData> CompletedQuestDatas
+    public List<QuestDataSO> CompletedQuestDatas
     {
         get
         {
-            List<QuestData> list = new();
+            List<QuestDataSO> list = new();
             foreach (var id in completedQuestIDs)
             {
                 var quest = quests.Find(q => q.questID == id);

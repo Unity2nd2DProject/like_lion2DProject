@@ -2,6 +2,14 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EmotionType
+{
+    IDLE,
+    HAPPY,
+    ANGRY,
+    SAD
+}
+
 public class DialogView : MonoBehaviour
 {
     private string TAG = "[DialogView]";

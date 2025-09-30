@@ -1,13 +1,14 @@
 {
-    "npcId": "npc_001",
-    "name": "사이먼",
+    "dialogueId": "SERA",
+    "name": "세라",
     "dialogues": [
         {
             "key": "greeting",
             "lines": [
                 {
-                    "speakerId": "사이먼",
-                    "text": "어서오게나",
+                    "isSelf": true,
+                    "speakerId": "세라",
+                    "text": " \"어머, 오늘은 어떤 재료를 찾으시나요? 신선한 당근이 막 들어왔답니다.\"",
                     "actions": {
                         "useExpression": false,
                         "expression": "",

@@ -71,7 +71,7 @@ public class QuestUI : Singleton<QuestUI>
         questDetailPopupUI.Show(quest);
     }
 
-    public void ShowQuestDetail(QuestData quest)
+    public void ShowQuestDetail(QuestDataSO quest)
     {
         questDetailPopupUI.Show(quest);
     }

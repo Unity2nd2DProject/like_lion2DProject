@@ -15,34 +15,14 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
     [SerializeField] private Button okButton;
-    [SerializeField] private Button cancelButton;
 
-    private Action onOK;
-    private Action onCancel;
-
-    protected void Awake()
-    {
-
-        if (npcImageObject != null)
-        {
-            npcImage = npcImageObject.GetComponent<Image>();
-        }
-    }
 
     private void Start()
     {
-        okButton.onClick.AddListener(() => {
-            onOK?.Invoke();
-            Hide();
-        });
-        cancelButton.onClick.AddListener(() => {
-            onCancel?.Invoke();
-            Hide();
-        });
         Hide();
     }
 
-    public void Show(Sprite npcIllustration, string npcName, string text, QuestData questData = null, Action onOK = null, Action onCancel = null)
+    public void Show(Sprite npcIllustration, string npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
     {
         panel.SetActive(true);
         buttonGrid.SetActive(true);
@@ -68,13 +48,9 @@ public class DialogueController : MonoBehaviour
             dialogueText.text = text;
         }
 
-        this.onOK = onOK;
-        this.onCancel = onCancel;
-
         // 버튼 표시 여부 결정
         bool hasOkAction = onOK != null;
         okButton.gameObject.SetActive(hasOkAction);
-        cancelButton.gameObject.SetActive(true); // 항상 표시
     }
 
     public void Hide()

@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class GiftManager : Singleton<GiftManager>
 {
-    public static event Action<SituationType> OnDialogRequested;
 
     protected override void Awake()
     {
@@ -30,14 +29,11 @@ public class GiftManager : Singleton<GiftManager>
             if(giftItem.itemType == ItemType.Food)
             {
                 // 선물 아이템이 Food일 경우
-                OnDialogRequested?.Invoke(SituationType.FOOD_RECEIVED);
                 DaughterManager.Instance.AddStats(StatType.HUNGER, 5);
                 QuestManager.Instance.ReportAction(QuestTargetType.CookedFood);
             }
             else
             {
-                OnDialogRequested?.Invoke(SituationType.GIFT_RECEIVED);
-
                 Array values = Enum.GetValues(typeof(StatType));                
                 StatType randomStat = (StatType)values.GetValue(UnityEngine.Random.Range(5, 10));
                 DaughterManager.Instance.AddStats(randomStat,1);

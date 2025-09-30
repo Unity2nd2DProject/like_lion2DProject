@@ -11,17 +11,20 @@ public class DeparturePoint : MonoBehaviour
     [SerializeField] private string arrivalPointName; // 소환될 플레이어 위치 이름
     public GameObject dialogUI;
 
+    /*
     void OnEnable()
     {
-        PrincessScene1Controller.OnExitRequested += Departure;
+        
+        PrincessScene1Controller_legacy.OnExitRequested += Departure;
         DialogController_legacy.OnExitRequested += Departure;
     }
 
     void OnDisable()
     {
-        PrincessScene1Controller.OnExitRequested -= Departure;
+        PrincessScene1Controller_legacy.OnExitRequested -= Departure;
         DialogController_legacy.OnExitRequested -= Departure;
     }
+    */
 
     // 지정된 영역으로 들어온 경우
     void OnTriggerEnter2D(Collider2D collision)

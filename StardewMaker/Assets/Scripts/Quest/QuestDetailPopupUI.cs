@@ -55,7 +55,7 @@ public class QuestDetailPopupUI : MonoBehaviour
         goalText.text = goals;
     }
 
-    public void Show(QuestData questData)
+    public void Show(QuestDataSO questData)
     {
         popupPanel.SetActive(true);
         nameText.text = questData.questName;
