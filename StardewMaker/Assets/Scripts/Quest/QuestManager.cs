@@ -36,7 +36,7 @@ public class QuestManager : Singleton<QuestManager>
         AcceptQuest(tutorials[0].questID);
     }
 
-    public void AcceptQuest(string questID, string giverNpcName = null)
+    public void AcceptQuest(string questID, NPCID giverNpcName = NPCID.NONE)
     {
         if (completedQuestIDs.Contains(questID))
         {

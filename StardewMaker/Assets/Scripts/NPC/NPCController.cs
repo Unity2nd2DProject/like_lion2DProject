@@ -15,7 +15,7 @@ public enum NpcActionType
 
 public class NPCController : MonoBehaviour
 {
-    public NPCId npcName;
+    public NPCID npcName;
     public NPCSchedule schedule;
     private NPCMover mover;
 

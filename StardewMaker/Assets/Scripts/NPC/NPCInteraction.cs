@@ -10,7 +10,7 @@ public class NPCInteraction : MonoBehaviour
     [SerializeField] private float interactionRange = 2.5f;
 
     [Header("Dialogue")]
-    private string npcName;
+    private NPCID npcName;
     private QuestDataSO npcQuest;
     [SerializeField] Sprite npcImage;
     [TextArea] public string defaultText = "안녕하세요!";

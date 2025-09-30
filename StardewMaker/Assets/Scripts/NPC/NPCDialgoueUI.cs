@@ -43,7 +43,7 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
         Hide();
     }
 
-    public void Show(Sprite npcIllustration, string npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
+    public void Show(Sprite npcIllustration, NPCID npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
     {
         panel.SetActive(true);
         buttonGrid.SetActive(true);
@@ -57,7 +57,7 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
             detailUI.Show(questData);
         }
 
-        nameText.text = npcName;
+        nameText.text = npcName.ToString();
         TypewriterEffect typewriter = dialogueText.GetComponent<TypewriterEffect>();
         if (typewriter != null)
         {

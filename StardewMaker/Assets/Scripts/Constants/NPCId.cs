@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class NPCId : MonoBehaviour
+public enum NPCID
 {
-    public const string SERA = "SERA";
-}   
+    NONE,
+    SERA,
+
+}
