@@ -1,9 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ShopUI : MonoBehaviour
+public class ShopUIController : MonoBehaviour
 {
-    public static ShopUI Instance { get; private set; }
+    public static ShopUIController Instance { get; private set; }
 
     [Header("UI References")]
     public GameObject shopRoot; // 상점 UI 전체

@@ -13,7 +13,7 @@ public class SellPopupUI : MonoBehaviour
     public Button decreaseButton;
 
     private ShopManager shopManager;
-    private ShopUI shopUI;
+    private ShopUIController shopUI;
 
     private ItemSlot currentSlot;
     private int unitPrice;
@@ -21,7 +21,7 @@ public class SellPopupUI : MonoBehaviour
     private int currentQty;
 
     // 초기화 (상점 매니저 및 UI 참조)
-    public void Init(ShopManager manager, ShopUI ui)
+    public void Init(ShopManager manager, ShopUIController ui)
     {
         shopManager = manager;
         shopUI = ui;

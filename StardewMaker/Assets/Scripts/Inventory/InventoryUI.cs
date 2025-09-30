@@ -33,9 +33,9 @@ public class InventoryUI : MonoBehaviour
 
     private void OnCancelButtonClicked()
     {       
-        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
+        if (ShopUIController.Instance != null && ShopUIController.Instance.gameObject.activeSelf)
         {
-            ShopUI.Instance.Close();
+            ShopUIController.Instance.Close();
         }
         if(GameManager.Instance.currentMode == GameMode.HOME)
         {

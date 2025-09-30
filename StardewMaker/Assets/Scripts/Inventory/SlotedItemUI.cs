@@ -142,21 +142,21 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             ReturnToOriginalPosition();
         }
 
-        if (ShopUI.Instance != null)
+        if (ShopUIController.Instance != null)
         {
-            var scrollRect = ShopUI.Instance.scrollRectTransform;
+            var scrollRect = ShopUIController.Instance.scrollRectTransform;
 
             if (RectTransformUtility.RectangleContainsScreenPoint(scrollRect, eventData.position))
             {
-                var viewport = ShopUI.Instance.scrollViewport;
+                var viewport = ShopUIController.Instance.scrollViewport;
 
                 if (viewport != null &&
-                    RectTransformUtility.RectangleContainsScreenPoint(viewport, eventData.position, ShopUI.Instance.GetComponentInParent<Canvas>().worldCamera))
+                    RectTransformUtility.RectangleContainsScreenPoint(viewport, eventData.position, ShopUIController.Instance.GetComponentInParent<Canvas>().worldCamera))
                 {
                     // isSellable이 true인 경우에만 판매 팝업 띄움
                     if (itemData != null && itemData.isSellable)
                     {
-                        ShopUI.Instance.sellPopup.Show(itemSlot);
+                        ShopUIController.Instance.sellPopup.Show(itemSlot);
                     }
                     return;
                 }

@@ -27,7 +27,7 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     private ItemData itemData;
     private ShopManager shopManager;
     private ItemInfoPopupUI infoPopup;
-    private ShopUI shopUI;
+    private ShopUIController shopUI;
 
     private bool isPointerOverSlot = false;
 
@@ -38,7 +38,7 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     }
 
     // 슬롯 초기화
-    public void Setup(ItemData data, ShopManager manager, ItemInfoPopupUI popup, ShopUI ui)
+    public void Setup(ItemData data, ShopManager manager, ItemInfoPopupUI popup, ShopUIController ui)
     {
         itemData = data;
         shopManager = manager;

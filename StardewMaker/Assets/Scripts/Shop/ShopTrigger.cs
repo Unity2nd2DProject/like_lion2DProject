@@ -29,7 +29,7 @@ public class ShopTrigger : MonoBehaviour
 
     public void TryShowPopup()
     {
-        if (isPlayerNearby && !dialogUI.activeSelf && UIManager.Instance.currentPopup == null && !ShopUI.Instance.isActiveAndEnabled)
+        if (isPlayerNearby && !dialogUI.activeSelf && UIManager.Instance.currentPopup == null && !ShopUIController.Instance.isActiveAndEnabled)
         {
             UIManager.Instance.ShowPopup("상점", new Vector3(Screen.width / 2f, Screen.height / 1.2f));
         }
