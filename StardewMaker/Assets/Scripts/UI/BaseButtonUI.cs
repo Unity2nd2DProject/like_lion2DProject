@@ -10,7 +10,7 @@ public class BaseButtonUI : MonoBehaviour
 
     private void Start()
     {
-        //questButton.onClick.AddListener(OnQuestButtonClicked);
+        questButton.onClick.AddListener(OnQuestButtonClicked);
         inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
         optionButton.onClick.AddListener(OnOptionButtonClicked);
     }
