@@ -33,6 +33,21 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         base.Awake();
+        InitGameMode();
+    }
+
+    private void InitGameMode()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName.Contains("Town"))
+        {
+            currentMode = GameMode.TOWN;
+        }
+        else if (sceneName.Contains("Home"))
+        {
+            currentMode = GameMode.HOME;
+        }
     }
 
     public void SetGameState(string tag, GameState newState)
