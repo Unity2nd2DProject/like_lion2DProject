@@ -94,14 +94,11 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         PlayerMoveInput();
-        SpaceInput();
-        ZInput();
-        XInput();
         IInput();
         QInput();
-        F1Input();
-        NInput();
         MouseLeftInput();
+
+        // Test
     }
 
     private void FixedUpdate()
@@ -151,31 +148,6 @@ public class PlayerController : Singleton<PlayerController>
         anim.SetFloat("LastY", lastMove.y);
     }
 
-    private void SpaceInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            // Space 키 입력 처리
-        }
-    }
-
-    private void ZInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Z))
-        {
-            //GameManager.Instance.changeScene("Connect1"); // 테스트용
-        }
-    }
-
-    private void XInput()
-    {
-        if (Input.GetKeyDown(KeyCode.X))
-        {
-
-        }
-        // 필요하다면 IsPressed, WasReleasedThisFrame 등은 직접 구현 필요
-    }
-
     private void IInput()
     {
         if (Input.GetKeyDown(KeyCode.I))
@@ -192,19 +164,11 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    private void NInput()
+    private void NInput() // Test
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
             TimeManager.Instance.AdvanceDay();
-        }
-    }
-
-    private void F1Input()
-    {
-        if (Input.GetKeyDown(KeyCode.F1))
-        {
-            //SetInteractAnimation(PlayerInteraction.Shoot);
         }
     }
 
