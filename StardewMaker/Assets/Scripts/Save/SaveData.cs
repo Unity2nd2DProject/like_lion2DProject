@@ -2,6 +2,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
+public class SaveData
+{
+    public FarmData farmData = new FarmData();
+    public GameBaseData baseData = new GameBaseData();
+    public InventoryData inventoryData = new InventoryData();
+    public StatsData statsData = new StatsData();
+}
+
+// FarmData
+[System.Serializable]
 public class FarmData
 {
     public List<SavedFarmLand> savedFarmLands = new List<SavedFarmLand>();
@@ -45,6 +55,7 @@ public class SavedCrop
     public bool isWatered;
 }
 
+// GameBaseData
 [System.Serializable]
 public class GameBaseData
 {
@@ -58,6 +69,7 @@ public class GameBaseData
     public int money;
 }
 
+// InventoryData
 public class InventoryData
 {
     public List<savedInventroyItem> savedInventory = new List<savedInventroyItem>();
@@ -71,6 +83,7 @@ public class savedInventroyItem
     public int quantity;
 }
 
+// StatsData
 [System.Serializable]
 public class StatsData
 {

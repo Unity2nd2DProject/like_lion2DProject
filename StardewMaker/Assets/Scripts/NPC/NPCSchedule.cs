@@ -6,6 +6,7 @@ using UnityEngine;
 public class NPCScheduleEntry
 {
     public int hour;
+    public int minute;
     public string[] routes;
     public NpcActionType actionOnArrival;
     public string teleportTarget;

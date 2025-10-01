@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class SaveManager : Singleton<SaveManager>
 {
     public float autoSaveInterval = 30f;
+    private string savePath => Application.persistentDataPath + "/Save/save.json";
 
     private string farmPath => Application.persistentDataPath + "/Save/farm.json"; // Application.dataPath
     private string baseDataPath => Application.persistentDataPath + "/Save/baseData.json";

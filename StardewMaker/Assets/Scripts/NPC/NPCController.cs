@@ -30,10 +30,10 @@ public class NPCController : MonoBehaviour
     private void Start()
     {
         transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
-        OnHourChanged(TimeManager.Instance.currentHour);
+        OnTimeChanged(TimeManager.Instance.currentHour, TimeManager.Instance.currentMinute);
     }
 
-    public void OnHourChanged(int hour)
+    public void OnTimeChanged(int hour, int minute)
     {
         var entries = GetTodayScheduleEntries();
         if (entries == null)
@@ -43,7 +43,7 @@ public class NPCController : MonoBehaviour
 
         foreach (var entry in entries)
         {
-            if (entry.hour == hour)
+            if (entry.hour == hour && entry.minute == minute)
             {
                 var route = ResolveRouteFromId(entry.routes);
                 if (entry.teleportTarget != null)

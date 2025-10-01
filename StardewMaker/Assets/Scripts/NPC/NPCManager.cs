@@ -42,11 +42,11 @@ public class NPCManager : Singleton<NPCManager>
         activeNPCs.Clear();
     }
 
-    public void OnHourChanged(int hour)
+    public void OnTimeChanged(int hour, int minute)
     {
         foreach (var npc in activeNPCs)
         {
-            npc.OnHourChanged(hour);
+            npc.OnTimeChanged(hour, minute);
         }
     }
 

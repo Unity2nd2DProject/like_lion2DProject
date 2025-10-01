@@ -15,11 +15,13 @@ MonoBehaviour:
   npcName: Barun
   defaultSchedule:
   - hour: 8
+    minute: 0
     routes:
     - h2wp1
     actionOnArrival: 1
     teleportTarget: twp23
   - hour: 9
+    minute: 0
     routes:
     - twp22
     - twp1
@@ -36,6 +38,7 @@ MonoBehaviour:
     actionOnArrival: 3
     teleportTarget: 
   - hour: 13
+    minute: 0
     routes:
     - twp22
     - twp26
@@ -45,6 +48,7 @@ MonoBehaviour:
     actionOnArrival: 3
     teleportTarget: 
   - hour: 18
+    minute: 0
     routes:
     - twp28
     - twp3
@@ -54,6 +58,7 @@ MonoBehaviour:
     actionOnArrival: 3
     teleportTarget: h2wp1
   - hour: 19
+    minute: 0
     routes:
     - twp23
     actionOnArrival: 1
