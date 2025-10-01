@@ -5,12 +5,12 @@ using UnityEngine;
 public class QuestInstance
 {
     public QuestDataSO questData;
-    public NPCID giverNpcName;
+    public NPC.NpcId giverNpcName;
     public List<QuestGoal> goals = new();
 
     public bool IsComplete => goals.TrueForAll(g => g.IsComplete);
 
-    public QuestInstance(QuestDataSO data, NPCID giverName)
+    public QuestInstance(QuestDataSO data, NPC.NpcId giverName)
     {
         questData = data;
         giverNpcName = giverName;

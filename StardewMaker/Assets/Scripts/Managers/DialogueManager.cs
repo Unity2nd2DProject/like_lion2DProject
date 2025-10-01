@@ -9,11 +9,18 @@ public class DialogueManager : Singleton<DialogueManager>
     [SerializeField] private TypewriterEffect typewriterEffect;
     [SerializeField] private TextMeshProUGUI dialogueText;
 
+
+
     private bool hasShownButtons = false;
 
     protected override void Awake()
     {
         base.Awake();
+    }
+
+    public void StartDialogue(NPC.NpcId npcId)
+    {
+
     }
 
 }

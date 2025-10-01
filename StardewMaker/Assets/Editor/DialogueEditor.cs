@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using NPC;
 
 public class DialogueEditor : EditorWindow
 {
@@ -176,10 +177,8 @@ public class DialogueEditor : EditorWindow
         line.actions.useExpression = EditorGUILayout.Toggle("표정 변화", line.actions.useExpression);
         if (line.actions.useExpression)
         {
-            string[] expressionOptions = new string[] { "Happy", "Sad", "Angry", "Neutral" };
-            int selectedExpr = Mathf.Max(0, System.Array.IndexOf(expressionOptions, line.actions.expression));
-            selectedExpr = EditorGUILayout.Popup("표정", selectedExpr, expressionOptions);
-            line.actions.expression = expressionOptions[selectedExpr];
+            line.actions.expression =
+                (NpcEmotion)EditorGUILayout.EnumPopup("표정", line.actions.expression);
         }
 
         // 효과음 체크박스 + 드롭다운

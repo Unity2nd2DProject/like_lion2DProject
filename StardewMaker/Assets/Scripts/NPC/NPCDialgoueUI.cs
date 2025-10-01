@@ -43,7 +43,7 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
         Hide();
     }
 
-    public void Show(Sprite npcIllustration, NPCID npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
+    public void Show(Sprite npcIllustration, NPC.NpcId npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
     {
         panel.SetActive(true);
         buttonGrid.SetActive(true);
