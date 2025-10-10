@@ -14,43 +14,17 @@ public class DialogueController : MonoBehaviour
     private Image npcImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
-    [SerializeField] private Button okButton;
 
-
-    private void Start()
+    public void Start()
     {
         Hide();
     }
 
-    public void Show(Sprite npcIllustration, string npcName, string text, QuestDataSO questData = null, Action onOK = null, Action onCancel = null)
+    public void SetDialogue(NPC.NpcId npcId, Sprite npcImage)
     {
-        panel.SetActive(true);
-        buttonGrid.SetActive(true);
-        npcImageObject.SetActive(true);
-        npcImage.sprite = npcIllustration;
+        nameText.text = npcId.DisplayName();
+        this.npcImage.sprite = npcImage;
 
-        if (questData != null)
-        {
-            questPopup.SetActive(true);
-            QuestDetailPopupUI detailUI = questPopup.GetComponentInChildren<QuestDetailPopupUI>();
-            detailUI.Show(questData);
-        }
-
-        nameText.text = npcName;
-        TypewriterEffect typewriter = dialogueText.GetComponent<TypewriterEffect>();
-        if (typewriter != null)
-        {
-            typewriter.fullText = text;
-            typewriter.StartTyping();
-        }
-        else
-        {
-            dialogueText.text = text;
-        }
-
-        // 버튼 표시 여부 결정
-        bool hasOkAction = onOK != null;
-        okButton.gameObject.SetActive(hasOkAction);
     }
 
     public void Hide()

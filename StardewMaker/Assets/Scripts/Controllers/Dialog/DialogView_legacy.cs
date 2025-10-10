@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public enum EmotionType
+public enum EmotionType_legacy
 {
     IDLE,
     HAPPY,
@@ -10,7 +10,7 @@ public enum EmotionType
     SAD
 }
 
-public class DialogView : MonoBehaviour
+public class DialogView_legacy : MonoBehaviour
 {
     private string TAG = "[DialogView]";
 
@@ -23,7 +23,7 @@ public class DialogView : MonoBehaviour
     [SerializeField] private GameObject characterImage;
     [SerializeField] public TMP_Text characterName;
 
-    private NPCDialog npcDialog;
+    private NPCDialog_legacy npcDialog;
 
 
     // dialog 화면
@@ -45,21 +45,21 @@ public class DialogView : MonoBehaviour
     }
 
     // 대사 캐릭터 이미지 교체
-    public void ChangeCharaterImage(EmotionType emotionType)
+    public void ChangeCharaterImage(EmotionType_legacy emotionType)
     {
         Sprite newSprite = npcDialog.idleImg;
         switch (emotionType)
         {
-            case EmotionType.IDLE:
+            case EmotionType_legacy.IDLE:
                 newSprite = npcDialog.idleImg;
                 break;
-            case EmotionType.HAPPY:
+            case EmotionType_legacy.HAPPY:
                 newSprite = npcDialog.happyImg;
                 break;
-            case EmotionType.ANGRY:
+            case EmotionType_legacy.ANGRY:
                 newSprite = npcDialog.angryImg;
                 break;
-            case EmotionType.SAD:
+            case EmotionType_legacy.SAD:
                 newSprite = npcDialog.sadImg;
                 break;
         }
@@ -84,7 +84,7 @@ public class DialogView : MonoBehaviour
     }
 
     // NPC Dialog 설정(id, sprite)
-    public void SetNPCDialog(NPCDialog npcDialog)
+    public void SetNPCDialog(NPCDialog_legacy npcDialog)
     {
         this.npcDialog = npcDialog;
     }

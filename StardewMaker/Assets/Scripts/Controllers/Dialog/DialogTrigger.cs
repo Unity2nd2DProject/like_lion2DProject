@@ -7,9 +7,9 @@ public class DialogTrigger : MonoBehaviour
 
     private UserInputManager inputManager;
 
-    public static event Action<NPCDialog> OnDialogRequested;
+    public static event Action<NPCDialog_legacy> OnDialogRequested;
 
-    private NPCDialog currentNPC;
+    private NPCDialog_legacy currentNPC;
 
     void OnEnable()
     {
@@ -28,7 +28,7 @@ public class DialogTrigger : MonoBehaviour
     {
         if (other.CompareTag("NPC"))
         {
-            currentNPC = other.GetComponent<NPCDialog>();
+            currentNPC = other.GetComponent<NPCDialog_legacy>();
             Debug.Log($"{TAG} NPC meet, NPC dialogId : {currentNPC.currentDialogId}");
         }
     }

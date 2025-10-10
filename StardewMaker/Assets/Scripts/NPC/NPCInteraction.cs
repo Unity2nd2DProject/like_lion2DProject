@@ -31,6 +31,7 @@ public class NPCInteraction : MonoBehaviour
 
     private void OnMouseDown()
     {
+        Debug.Log($"[NPCInteraction] {npcName} 클릭됨");
         Transform playerTransform = PlayerController.Instance.transform;
         float distance = Vector2.Distance(transform.position, playerTransform.position);
 
@@ -38,7 +39,11 @@ public class NPCInteraction : MonoBehaviour
         {
             return;
         }
-
+        else
+        {
+            DialogueManager.Instance.StartDialogue(npcName);
+        }
+        /*
         QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);
 
         if (questGiver.questPool == null)
@@ -100,6 +105,7 @@ public class NPCInteraction : MonoBehaviour
         {
             ShowDialogue(defaultText);
         }
+        */
     }
 
     private void ShowDialogue(string text, QuestDataSO questData = null, System.Action onOK = null)

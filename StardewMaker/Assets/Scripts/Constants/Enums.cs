@@ -1,3 +1,5 @@
+using System;
+using System.Reflection;
 using UnityEngine;
 
 
@@ -16,4 +18,12 @@ namespace NPC
         Sad,
         Surprised
     }
+}
+
+public enum Season
+{
+    Spring,
+    Summer,
+    Fall,
+    Winter
 }

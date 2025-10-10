@@ -21,8 +21,6 @@ public class DaughterManager : Singleton<DaughterManager>
     [SerializeField] private Stat academicStat;
     [SerializeField] private Stat domesticStat;
 
-    public static event Action<string> OnStatChangeRequested;
-
     protected override void Awake()
     {
         base.Awake();

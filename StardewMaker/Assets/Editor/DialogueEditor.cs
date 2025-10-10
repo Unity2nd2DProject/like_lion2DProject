@@ -9,7 +9,10 @@ public class DialogueEditor : EditorWindow
     private NPCDialogue currentNPC;           // 현재 편집 중인 NPC
     private int currentSequenceIndex = 0;     // 현재 보고 있는 시퀀스 인덱스
 
-    private static string dialogueFolder = "Assets/Datas/Dialogues/";
+    private static string dialogueFolder = "Assets/Resources/Dialogues/";
+
+    private string currentFileName;
+    private string previousFileName;
 
     [MenuItem("Tools/Dialogue Editor")]
     public static void ShowWindow()
@@ -49,10 +52,12 @@ public class DialogueEditor : EditorWindow
             {
                 currentNPC = new NPCDialogue
                 {
-                    dialogueId = "dialogue_001",
-                    name = "새 NPC",
+                    name = "새 NPC(한글명)",
                     dialogues = new List<DialogueSequence>()
                 };
+                previousFileName = null;
+                currentFileName = "NewDialogue";
+                currentSequenceIndex = 0;
             }
 
             if (GUILayout.Button("JSON 불러오기"))
@@ -62,13 +67,17 @@ public class DialogueEditor : EditorWindow
                 {
                     string json = File.ReadAllText(path);
                     currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+
+                    previousFileName = Path.GetFileNameWithoutExtension(path);
+                    currentFileName = previousFileName;
+
+                    currentSequenceIndex = 0;
                 }
             }
 
             return;
         }
-
-        currentNPC.dialogueId = EditorGUILayout.TextField("Dialogue ID", currentNPC.dialogueId);
+        currentFileName = EditorGUILayout.TextField("JSON 파일명(ID)", currentFileName);
         currentNPC.name = EditorGUILayout.TextField("NPC Name", currentNPC.name);
     }
 
@@ -134,7 +143,7 @@ public class DialogueEditor : EditorWindow
         {
             if (GUILayout.Button("대사 추가"))
             {
-                seq.lines.Add(new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueAction() });
+                seq.lines.Add(new DialogueLine { isSelf = true, speaker = currentNPC.name, text = "", actions = new DialogueAction() });
                 seq.currentLineIndex = 0;
             }
             return;
@@ -159,15 +168,15 @@ public class DialogueEditor : EditorWindow
         // 발화자 체크박스
         line.isSelf = EditorGUILayout.Toggle("본인", line.isSelf);
 
-        // 본인이면 speakerId를 고정
+        // 본인이면 speaker를 고정
         if (line.isSelf)
         {
-            line.speakerId = currentNPC.name;
+            line.speaker = currentNPC.name;
         }
 
         // TextField 활성/비활성 제어
         GUI.enabled = !line.isSelf; // 본인이면 비활성화
-        line.speakerId = EditorGUILayout.TextField("발화자", line.speakerId);
+        line.speaker = EditorGUILayout.TextField("발화자", line.speaker);
         GUI.enabled = true; // 원래 상태로 복구
 
         EditorGUILayout.LabelField("대사");
@@ -202,7 +211,7 @@ public class DialogueEditor : EditorWindow
         }
         if (GUILayout.Button("대사 추가"))
         {
-            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueAction() });
+            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speaker = currentNPC.name, text = "", actions = new DialogueAction() });
             seq.currentLineIndex++;
         }
         EditorGUILayout.EndHorizontal();
@@ -260,6 +269,8 @@ public class DialogueEditor : EditorWindow
             string path = EditorUtility.OpenFilePanel("Load NPC Dialogue JSON", dialogueFolder, "json");
             if (!string.IsNullOrEmpty(path))
             {
+                previousFileName = Path.GetFileNameWithoutExtension(path);
+
                 string json = File.ReadAllText(path);
                 currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
                 currentSequenceIndex = 0;
@@ -280,11 +291,26 @@ public class DialogueEditor : EditorWindow
             Directory.CreateDirectory(dialogueFolder);
         }
 
+        string fileName = dialogue.name;
+        string newPath = Path.Combine(dialogueFolder, $"{fileName}.json");
+
         string json = JsonUtility.ToJson(dialogue, true);
-        string path = Path.Combine(dialogueFolder, $"{dialogue.dialogueId}.json");
-        File.WriteAllText(path, json);
+
+        if (!string.IsNullOrEmpty(previousFileName))
+        {
+            string oldPath = Path.Combine(dialogueFolder, $"{previousFileName}.json");
+            if (File.Exists(oldPath) && oldPath != newPath)
+            {
+                File.Delete(oldPath);
+                Debug.Log($"Renamed dialogue file from {oldPath} to {newPath}");
+            }
+        }
+
+        File.WriteAllText(newPath, json);
         AssetDatabase.Refresh();
-        Debug.Log($"Saved Dialogue: {path}");
+        Debug.Log($"Saved Dialogue: {newPath}");
+
+        previousFileName = fileName;
     }
 
     #endregion

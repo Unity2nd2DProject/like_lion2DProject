@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCDialog : MonoBehaviour
+public class NPCDialog_legacy : MonoBehaviour
 {
     public int currentDialogId { get; set; }
     public Sprite idleImg;

@@ -3,14 +3,6 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
-public enum Season
-{
-    Spring,
-    Summer,
-    Fall,
-    Winter
-}
-
 public class TimeManager : Singleton<TimeManager>
 {
     public int LAST_DAY_OF_SEASON = 7;
