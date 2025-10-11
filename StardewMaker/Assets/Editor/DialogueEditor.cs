@@ -90,7 +90,8 @@ public class DialogueEditor : EditorWindow
             {
                 currentNPC.dialogues.Add(new DialogueSequence
                 {
-                    key = "new_sequence",
+                    sequenceType = DialogueSequenceType.Greeting, // 기본값
+                    customSequenceType = string.Empty,
                     lines = new List<DialogueLine>()
                 });
                 currentSequenceIndex = currentNPC.dialogues.Count - 1;
@@ -115,7 +116,8 @@ public class DialogueEditor : EditorWindow
         {
             currentNPC.dialogues.Add(new DialogueSequence
             {
-                key = "new_sequence",
+                sequenceType = DialogueSequenceType.Greeting, // 기본값
+                customSequenceType = string.Empty,
                 lines = new List<DialogueLine>()
             });
             currentSequenceIndex = currentNPC.dialogues.Count - 1;
@@ -137,7 +139,7 @@ public class DialogueEditor : EditorWindow
         DialogueSequence seq = currentNPC.dialogues[currentSequenceIndex];
 
         // 시퀀스 키 선택
-        DrawSequenceKey(seq);
+        DrawSequence(seq);
 
         if (seq.lines.Count == 0)
         {
@@ -217,40 +219,20 @@ public class DialogueEditor : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-
-    private int customKeyPopupIndex = -1; // Popup에서 마지막으로 선택한 인덱스
-    private bool isCustomKeyMode = false;
-
-    private void DrawSequenceKey(DialogueSequence seq)
+    private void DrawSequence(DialogueSequence seq)
     {
-        List<string> availableKeys = new List<string> { "greeting", "farewell" };
-        string[] options = new string[availableKeys.Count + 1];
-        availableKeys.CopyTo(options);
-        options[availableKeys.Count] = "직접 입력";
+        EditorGUILayout.LabelField("시퀀스 키");
 
-        int selectedIndex = availableKeys.IndexOf(seq.key);
-        if (selectedIndex < 0) selectedIndex = options.Length - 1; // seq.key가 리스트에 없으면 직접입력 모드
-        if (customKeyPopupIndex != -1) selectedIndex = customKeyPopupIndex;
+        // EnumPopup으로 enum 값 선택
+        seq.sequenceType = (DialogueSequenceType)EditorGUILayout.EnumPopup(seq.sequenceType);
 
-        int newIndex = EditorGUILayout.Popup("시퀀스 키", selectedIndex, options);
-
-        if (newIndex != selectedIndex)
+        // Custom일 때만 직접 입력 필드 표시
+        if (seq.sequenceType == DialogueSequenceType.Custom)
         {
-            customKeyPopupIndex = newIndex;
-            isCustomKeyMode = (newIndex == options.Length - 1);
+            if (string.IsNullOrEmpty(seq.customSequenceType))
+                seq.customSequenceType = "";
 
-            // 직접 입력 모드로 전환될 때 텍스트 필드를 비워줌
-            if (isCustomKeyMode)
-                seq.key = "";
-        }
-
-        if (isCustomKeyMode)
-        {
-            seq.key = EditorGUILayout.TextField("직접 입력", seq.key);
-        }
-        else
-        {
-            seq.key = options[newIndex];
+            seq.customSequenceType = EditorGUILayout.TextField("직접 입력", seq.customSequenceType);
         }
     }
 
@@ -291,7 +273,7 @@ public class DialogueEditor : EditorWindow
             Directory.CreateDirectory(dialogueFolder);
         }
 
-        string fileName = dialogue.name;
+        string fileName = currentFileName;
         string newPath = Path.Combine(dialogueFolder, $"{fileName}.json");
 
         string json = JsonUtility.ToJson(dialogue, true);

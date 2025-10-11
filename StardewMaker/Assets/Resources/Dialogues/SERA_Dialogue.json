@@ -1,14 +1,50 @@
 {
-    "dialogueId": "Sera_Dialogue",
     "name": "세라",
     "dialogues": [
         {
-            "key": "greeting",
+            "sequenceType": 0,
+            "customSequenceType": "",
             "lines": [
                 {
                     "isSelf": true,
-                    "speakerId": "세라",
-                    "text": " \"어머, 오늘은 어떤 재료를 찾으시나요? 신선한 당근이 막 들어왔답니다.\"",
+                    "speaker": "세라",
+                    "text": "어머, 오늘은 어떤 재료를 찾으시나요? 신선한 당근이 막 들어왔답니다",
+                    "actions": {
+                        "useExpression": false,
+                        "expression": 0,
+                        "useSFX": false,
+                        "sfx": ""
+                    }
+                }
+            ],
+            "currentLineIndex": 0
+        },
+        {
+            "sequenceType": 0,
+            "customSequenceType": "",
+            "lines": [
+                {
+                    "isSelf": true,
+                    "speaker": "세라",
+                    "text": "어서오세요~ 신선한 과일들이 잔뜩 있답니다!",
+                    "actions": {
+                        "useExpression": false,
+                        "expression": 0,
+                        "useSFX": false,
+                        "sfx": ""
+                    }
+                }
+            ],
+            "currentLineIndex": 0
+        },
+        {
+            "sequenceType": 3,
+            "customSequenceType": "",
+            "lines": [
+                {
+                    "isSelf": true,
+                    "speaker": "세라",
+                    "text": "조심히들어가세요!",
                     "actions": {
                         "useExpression": false,
                         "expression": 0,

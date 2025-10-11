@@ -42,8 +42,9 @@ public class DialogueManager : Singleton<DialogueManager>
     private void SetDialogue(NpcId npcId)
     {
         var npcSet = npcExpressions.Find(x => x.npcId == npcId);
-        dialogUI.GetComponent<DialogueController>().SetDialogue(npcId, npcSet.neutral);
+        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npcId), npcSet);
     }
+
     NPCDialogue LoadDialogue(NpcId npcId)
     {
         TextAsset jsonFile = Resources.Load<TextAsset>($"Datas/Dialogues/{npcId.ToString() + "_dialogue"}");

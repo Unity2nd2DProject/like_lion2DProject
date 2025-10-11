@@ -18,6 +18,15 @@ namespace NPC
         Sad,
         Surprised
     }
+
+    public enum DialogueSequenceType
+    {
+        Greeting,
+        QuestOffer,
+        QuestCompletion,
+        Farewell,
+        Custom
+    }
 }
 
 public enum Season

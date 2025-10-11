@@ -9,22 +9,20 @@ public class DialogueController : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonGrid;
-    [SerializeField] private GameObject questPopup;
     [SerializeField] private GameObject npcImageObject;
-    private Image npcImage;
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI dialogueText;
+
+    private NPCDialogue currentDialogue;
 
     public void Start()
     {
         Hide();
     }
 
-    public void SetDialogue(NPC.NpcId npcId, Sprite npcImage)
+    public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet)
     {
-        nameText.text = npcId.DisplayName();
-        this.npcImage.sprite = npcImage;
-
+        currentDialogue = npcDialogue;
     }
 
     public void Hide()
@@ -32,6 +30,5 @@ public class DialogueController : MonoBehaviour
         buttonGrid.SetActive(false);
         npcImageObject.SetActive(false);
         panel.SetActive(false);
-        questPopup.SetActive(false);
     }
 }
