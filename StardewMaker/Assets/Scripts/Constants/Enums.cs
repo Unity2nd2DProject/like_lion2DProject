@@ -22,6 +22,7 @@ namespace NPC
     public enum DialogueSequenceType
     {
         Greeting,
+        Chat,
         QuestOffer,
         QuestCompletion,
         Farewell,

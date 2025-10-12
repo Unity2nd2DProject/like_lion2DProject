@@ -15,12 +15,17 @@ public enum NpcActionType
 
 public class NPCController : MonoBehaviour
 {
-    public NPC.NpcId npcName;
+    public NPC.NpcId npcID;
     public NPCSchedule schedule;
+
+    [Header("Movement")]
+    public string defaultPosition;
     private NPCMover mover;
 
-    [Header("position")]
-    public string defaultPosition;
+    [SerializeField] private float interactionRange = 2.5f;
+
+    public bool shopAvailable;
+    public bool questAvailable;
 
     private void Awake()
     {
@@ -32,6 +37,66 @@ public class NPCController : MonoBehaviour
         transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
         OnHourChanged(TimeManager.Instance.currentHour);
     }
+
+    private void OnMouseDown()
+    {
+        Debug.Log($"[NPCInteraction] {npcID} 클릭됨");
+        Transform playerTransform = PlayerController.Instance.transform;
+        float distance = Vector2.Distance(transform.position, playerTransform.position);
+
+        if (distance > interactionRange)
+        {
+            return;
+        }
+        else
+        {
+            DialogueManager.Instance.StartDialogue(this);
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public void OnHourChanged(int hour)
     {

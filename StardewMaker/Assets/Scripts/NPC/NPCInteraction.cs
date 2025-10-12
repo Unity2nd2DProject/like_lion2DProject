@@ -26,7 +26,7 @@ public class NPCInteraction : MonoBehaviour
 
     private void Start()
     {
-        npcName = npcController.npcName;
+        npcName = npcController.npcID;
     }
 
     private void OnMouseDown()
@@ -41,7 +41,7 @@ public class NPCInteraction : MonoBehaviour
         }
         else
         {
-            DialogueManager.Instance.StartDialogue(npcName);
+            // DialogueManager.Instance.StartDialogue();
         }
         /*
         QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);

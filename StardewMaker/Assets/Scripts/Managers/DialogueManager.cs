@@ -17,10 +17,6 @@ public class NpcSpritesSet
 public class DialogueManager : Singleton<DialogueManager>
 {
     [SerializeField] private GameObject dialogUI;
-
-    [SerializeField] private TypewriterEffect typewriterEffect;
-    [SerializeField] private TextMeshProUGUI dialogueText;
-
     [SerializeField] private List<NpcSpritesSet> npcExpressions;
 
     protected override void Awake()
@@ -28,21 +24,15 @@ public class DialogueManager : Singleton<DialogueManager>
         base.Awake();
     }
 
-    public void StartDialogue(NpcId npcId)
+    public void StartDialogue(NPCController npc)
     {
-        SetDialogue(npcId);
-        ShowDialogue();
+        SetDialogue(npc);
     }
 
-    public void ShowDialogue()
+    private void SetDialogue(NPCController npc)
     {
-        dialogUI.SetActive(true);
-    }
-
-    private void SetDialogue(NpcId npcId)
-    {
-        var npcSet = npcExpressions.Find(x => x.npcId == npcId);
-        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npcId), npcSet);
+        var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
+        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc.shopAvailable, npc.questAvailable);
     }
 
     NPCDialogue LoadDialogue(NpcId npcId)
