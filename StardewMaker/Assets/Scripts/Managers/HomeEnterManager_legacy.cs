@@ -1,12 +1,12 @@
 using TMPro;
 using UnityEngine;
 
-public class HomeEnterManager : MonoBehaviour
+public class HomeEnterManager_legacy : MonoBehaviour
 {
     [SerializeField] private GameObject dialogUI;
     [SerializeField] private GameObject buttonPanel;
 
-    [SerializeField] private TypewriterEffect typewriterEffect;
+    // [SerializeField] private TypewriterEffect typewriterEffect;
     [SerializeField] private TextMeshProUGUI dialogueText;
 
     private bool hasShownButtons = false;
@@ -29,14 +29,14 @@ public class HomeEnterManager : MonoBehaviour
     void Update()
     {
         // TypewriterEffect 내부에서 텍스트가 완전히 출력됐는지 감지
-        if (!hasShownButtons &&
-            typewriterEffect != null &&
-            dialogueText != null &&
-            dialogueText.text == typewriterEffect.fullText)
-        {
-            ShowButtons();
-            SoundManager.Instance.StopSfxDialog();
-        }
+        //if (!hasShownButtons &&
+        //    typewriterEffect != null &&
+        //    dialogueText != null &&
+        //    dialogueText.text == typewriterEffect.fullText)
+        //{
+        //    ShowButtons();
+        //    SoundManager.Instance.StopSfxDialog();
+        //}
     }
 
     private void ShowButtons()
@@ -63,10 +63,10 @@ public class HomeEnterManager : MonoBehaviour
 
         hasShownButtons = false;
 
-        if (typewriterEffect != null)
-        {
-            typewriterEffect.StartTyping(); // 텍스트 다시 시작
-        }
+        //if (typewriterEffect != null)
+        //{
+        //    typewriterEffect.StartTyping(); // 텍스트 다시 시작
+        //}
     }
 
     public void OnClickExit()
@@ -78,11 +78,11 @@ public class HomeEnterManager : MonoBehaviour
         }
 
         // 타이핑 텍스트 초기화 (null로 설정)
-        if (typewriterEffect != null)
-        {
-            // 텍스트 초기화
-            dialogueText.text = "";
-        }
+        //if (typewriterEffect != null)
+        //{
+        //    // 텍스트 초기화
+        //    dialogueText.text = "";
+        //}
 
         // 버튼 패널 초기화
         if (buttonPanel != null)

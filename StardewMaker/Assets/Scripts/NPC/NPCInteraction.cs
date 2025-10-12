@@ -29,6 +29,7 @@ public class NPCInteraction : MonoBehaviour
         npcName = npcController.npcID;
     }
 
+    /*
     private void OnMouseDown()
     {
         Debug.Log($"[NPCInteraction] {npcName} 클릭됨");
@@ -43,7 +44,7 @@ public class NPCInteraction : MonoBehaviour
         {
             // DialogueManager.Instance.StartDialogue();
         }
-        /*
+        
         QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);
 
         if (questGiver.questPool == null)
@@ -105,8 +106,9 @@ public class NPCInteraction : MonoBehaviour
         {
             ShowDialogue(defaultText);
         }
-        */
-    }
+       
+}
+     */
 
     private void ShowDialogue(string text, QuestDataSO questData = null, System.Action onOK = null)
     {

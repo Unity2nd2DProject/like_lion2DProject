@@ -14,11 +14,9 @@ public class DialogueController : MonoBehaviour
 
     [Header("Buttons")]
     [SerializeField] private GameObject buttonGrid;
-    [SerializeField] private GameObject leaveButtonPrefab;
-    [SerializeField] private GameObject talkButtonPrefab;
-    [SerializeField] private GameObject tradeButtonPrefab;
-    [SerializeField] private GameObject questButtonPrefab;
+    [SerializeField] private GameObject buttonPrefab;
 
+    [Header("Typing Effect")]
     private Coroutine typingCoroutine;
     private bool isTyping = false;
     [SerializeField] private Button skipButton; // 즉시 완성용 버튼
@@ -40,6 +38,8 @@ public class DialogueController : MonoBehaviour
         this.currentNpcSpriteSet = npcSpriteSet;
         this.shopAvailable = shopAvailable;
         this.questAvailable = questAvailable;
+
+        StartDialogue();
     }
 
     public void StartDialogue()
@@ -56,16 +56,19 @@ public class DialogueController : MonoBehaviour
         nameText.text = currentDialogue.name;
         npcImage.sprite = currentNpcSpriteSet.neutral;
 
-        // 첫 대화 출력
-        ShowRandomChat(DialogueSequenceType.Greeting);
+        StartCoroutine(StartDialogueCoroutine());
+    }
 
-        // 버튼들 생성 
+    private IEnumerator StartDialogueCoroutine()
+    {
+        yield return StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting));
+
+        // 인사말 끝난 후 버튼 생성
         CreateButtons();
     }
 
     private IEnumerator ShowRandomChat(DialogueSequenceType type)
     {
-        // chat 타입 시퀀스만 필터링
         List<DialogueSequence> chatSequences = currentDialogue.dialogues.FindAll(seq => seq.sequenceType == type);
 
         if (chatSequences.Count == 0)
@@ -101,18 +104,18 @@ public class DialogueController : MonoBehaviour
         }
 
         // 대화 버튼
-        CreateButton(talkButtonPrefab, "Talk", OnTalkButton);
+        CreateButton(buttonPrefab, "대화하기", OnTalkButton);
 
         // 상점 가능하면
         if (shopAvailable)
-            CreateButton(tradeButtonPrefab, "Trade", OnTradeButton);
+            CreateButton(buttonPrefab, "Trade", OnTradeButton);
 
         // 퀘스트 가능하면
         if (questAvailable)
-            CreateButton(questButtonPrefab, "Quest", OnQuestButton);
+            CreateButton(buttonPrefab, "Quest", OnQuestButton);
 
         // 떠나기 버튼
-        CreateButton(leaveButtonPrefab, "Leave", OnLeaveButton);
+        CreateButton(buttonPrefab, "나가기", OnLeaveButton);
     }
 
     private void CreateButton(GameObject prefab, string label, UnityEngine.Events.UnityAction onClick)
@@ -132,13 +135,12 @@ public class DialogueController : MonoBehaviour
     private void OnTradeButton()
     {
         Debug.Log("상점 열기 로직 호출");
-        // TODO: ShopManager.Instance.OpenShop(...)
     }
 
     private void OnQuestButton()
     {
         Debug.Log("퀘스트 대화 시작");
-        // TODO: QuestManager.Instance.StartQuestDialogue(...)
+        // NPCQuestGiver questGiver = ...; // 현재 NPC의 QuestGiver 컴포넌트 참조해야할듯..? 
     }
 
     private void OnLeaveButton()
@@ -182,12 +184,6 @@ public class DialogueController : MonoBehaviour
     {
         // 버튼 연타 방지: 잠깐 비활성화
         yield return new WaitForSeconds(0.2f);
-
-        // 클릭(마우스 or 스페이스 등) 대기
-        while (!Input.GetMouseButtonDown(0) && !Input.GetKeyDown(KeyCode.Space))
-        {
-            yield return null;
-        }
     }
 
     private Sprite GetExpressionSprite(NpcEmotion emotion)

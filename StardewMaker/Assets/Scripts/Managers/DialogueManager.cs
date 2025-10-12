@@ -32,12 +32,13 @@ public class DialogueManager : Singleton<DialogueManager>
     private void SetDialogue(NPCController npc)
     {
         var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
+        Debug.Log(npcSet);
         dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc.shopAvailable, npc.questAvailable);
     }
 
     NPCDialogue LoadDialogue(NpcId npcId)
     {
-        TextAsset jsonFile = Resources.Load<TextAsset>($"Datas/Dialogues/{npcId.ToString() + "_dialogue"}");
+        TextAsset jsonFile = Resources.Load<TextAsset>($"Dialogues/{npcId.ToString() + "_Dialogue"}");
         if (jsonFile == null)
         {
             Debug.LogError($"Dialogue JSON not found");

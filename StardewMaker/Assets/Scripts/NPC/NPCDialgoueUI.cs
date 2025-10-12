@@ -57,17 +57,17 @@ public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
             detailUI.Show(questData);
         }
 
-        nameText.text = npcName.ToString();
-        TypewriterEffect typewriter = dialogueText.GetComponent<TypewriterEffect>();
-        if (typewriter != null)
-        {
-            typewriter.fullText = text;
-            typewriter.StartTyping();
-        }
-        else
-        {
-            dialogueText.text = text;
-        }
+        //nameText.text = npcName.ToString();
+        //TypewriterEffect typewriter = dialogueText.GetComponent<TypewriterEffect>();
+        //if (typewriter != null)
+        //{
+        //    typewriter.fullText = text;
+        //    typewriter.StartTyping();
+        //}
+        //else
+        //{
+        //    dialogueText.text = text;
+        //}
 
         this.onOK = onOK;
         this.onCancel = onCancel;
