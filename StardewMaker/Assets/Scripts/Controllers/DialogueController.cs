@@ -61,13 +61,13 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator StartDialogueCoroutine()
     {
-        yield return StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting));
+        yield return StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting, CreateButtons));
 
         // 인사말 끝난 후 버튼 생성
-        CreateButtons();
+        
     }
 
-    private IEnumerator ShowRandomChat(DialogueSequenceType type)
+    private IEnumerator ShowRandomChat(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
     {
         List<DialogueSequence> chatSequences = currentDialogue.dialogues.FindAll(seq => seq.sequenceType == type);
 
@@ -108,11 +108,11 @@ public class DialogueController : MonoBehaviour
 
         // 상점 가능하면
         if (shopAvailable)
-            CreateButton(buttonPrefab, "Trade", OnTradeButton);
+            CreateButton(buttonPrefab, "상점", OnTradeButton);
 
         // 퀘스트 가능하면
         if (questAvailable)
-            CreateButton(buttonPrefab, "Quest", OnQuestButton);
+            CreateButton(buttonPrefab, "퀘스트", OnQuestButton);
 
         // 떠나기 버튼
         CreateButton(buttonPrefab, "나가기", OnLeaveButton);
@@ -129,7 +129,7 @@ public class DialogueController : MonoBehaviour
 
     private void OnTalkButton()
     {
-        StartCoroutine(ShowRandomChat(DialogueSequenceType.Chat));
+        StartCoroutine(ShowRandomChat(DialogueSequenceType.Chat,BackToMain));
     }
 
     private void OnTradeButton()
@@ -148,9 +148,10 @@ public class DialogueController : MonoBehaviour
         Hide();
     }
 
-    public void SetText(string text)
+    private void BackToMain()
     {
-        dialogueText.text = text;
+        // 메인 대화 화면으로 복귀
+        CreateButtons();
     }
 
     public void Hide()

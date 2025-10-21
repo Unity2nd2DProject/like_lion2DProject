@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class DialogTrigger : MonoBehaviour
+public class DialogTrigger_legacy : MonoBehaviour
 {
     private string TAG = "[DialogTrigger]";
 
