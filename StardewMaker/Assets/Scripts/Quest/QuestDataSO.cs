@@ -1,3 +1,4 @@
+using NPC;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -26,7 +27,7 @@ public class QuestDataSO : ScriptableObject
     public ItemData rewardItem;
     public int rewardQuantity;
     public int rewardMoney;
-    public string npcName;
+    public NpcId rewardGivenBy;
     public int friendshipPointReward;
 
     [Header("Condition")]

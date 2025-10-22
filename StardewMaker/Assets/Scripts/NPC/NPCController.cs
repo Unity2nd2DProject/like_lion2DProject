@@ -15,12 +15,13 @@ public enum NpcActionType
 
 public class NPCController : MonoBehaviour
 {
-    public NPC.NpcId npcID;
+    public NPC.NpcId npcID;    
     public NPCSchedule schedule;
 
-    [Header("Movement")]
-    public string defaultPosition;
-    private NPCMover mover;
+    // Components
+    [HideInInspector] public NPCMover mover;
+    [HideInInspector] public NPCQuestGiver questGiver;
+    [HideInInspector] public NPCVendor vendor;
 
     [SerializeField] private float interactionRange = 2.5f;
 
@@ -30,11 +31,19 @@ public class NPCController : MonoBehaviour
     private void Awake()
     {
         mover = GetComponent<NPCMover>();
-    }
 
+        if (!TryGetComponent(out vendor))
+        {
+            shopAvailable = false;
+        }
+
+        if (!TryGetComponent(out questGiver))
+        {
+            questAvailable = false;
+        }
+    }
     private void Start()
     {
-        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
         OnHourChanged(TimeManager.Instance.currentHour);
     }
 
@@ -53,51 +62,6 @@ public class NPCController : MonoBehaviour
             DialogueManager.Instance.StartDialogue(this);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     public void OnHourChanged(int hour)
     {
         var entries = GetTodayScheduleEntries();
@@ -147,10 +111,5 @@ public class NPCController : MonoBehaviour
             list.Add(WaypointManager.Instance.GetPosition(id));
         }
         return list.ToArray();
-    }
-
-    public void ResetToDefaultPosition()
-    {
-        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
     }
 }

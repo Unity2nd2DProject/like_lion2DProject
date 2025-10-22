@@ -54,7 +54,7 @@ public class NPCManager : Singleton<NPCManager>
     {
         foreach (var npc in activeNPCs)
         {
-            npc.ResetToDefaultPosition();
+            npc.mover.ResetToDefaultPosition();
         }
     }
 }

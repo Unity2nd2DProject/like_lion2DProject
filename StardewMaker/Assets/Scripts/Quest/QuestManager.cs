@@ -174,7 +174,7 @@ public class QuestManager : Singleton<QuestManager>
         }
         if (q.friendshipPointReward > 0)
         {
-            FriendshipManager.Instance.AddPoints(q.npcName, q.friendshipPointReward);
+            FriendshipManager.Instance.AddPoints(q.rewardGivenBy, q.friendshipPointReward);
         }
 
         activeQuests.Remove(quest);

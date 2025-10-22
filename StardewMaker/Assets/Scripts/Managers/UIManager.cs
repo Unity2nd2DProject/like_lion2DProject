@@ -40,6 +40,15 @@ public class UIManager : Singleton<UIManager>
 
     private BaseUI baseUI;
 
+    [Header("Shop UI")]
+    public GameObject shopUI;
+
+    [Header("Quest UI")]
+    public GameObject questUI;
+
+    [Header("Fade Image")]
+    public GameObject fadeImage;
+
     // Normal Menu띄우기 액션
     public static event Action<bool> OnNormalMenuRequested;
 
@@ -56,8 +65,7 @@ public class UIManager : Singleton<UIManager>
             Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
             statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
             statUIInstance.Initialize(stats);
-        }
-        
+        }        
     }
 
     public void InitializeInventoryAndQuickSlot()
