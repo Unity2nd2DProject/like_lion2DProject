@@ -30,8 +30,7 @@ public class TreeManager : Singleton<TreeManager>
             {
                 position = tree.transform.position,
                 currentHits = hits,
-                //treeType = type,
-                //hasFruit = hasFruit
+                daysSinceCut = tree.GetDaysSinceCut()
             });
         }
         return list;
@@ -64,7 +63,7 @@ public class TreeManager : Singleton<TreeManager>
             GameObject obj = Instantiate(prefab, data.position, Quaternion.identity);
 
             Tree tree = obj.GetComponent<Tree>();
-            tree.SetState(data.currentHits);
+            tree.SetState(data.currentHits, data.daysSinceCut);
             trees.Add(tree);
         }
     }

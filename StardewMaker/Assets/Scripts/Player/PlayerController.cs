@@ -99,6 +99,7 @@ public class PlayerController : Singleton<PlayerController>
         MouseLeftInput();
 
         // Test
+        NInput();
     }
 
     private void FixedUpdate()
@@ -266,7 +267,7 @@ public class PlayerController : Singleton<PlayerController>
                             }
                             else if (curItem.name == "ToolAxe")
                             {
-                                if (curTree != null && StaminaManager.Instance.CanConsumeStamina())
+                                if (curTree != null && curTree.CanChop() && StaminaManager.Instance.CanConsumeStamina())
                                 {
                                     SetInteractAnimation(PlayerInteraction.Axe);
                                 }

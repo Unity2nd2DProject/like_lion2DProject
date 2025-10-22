@@ -7,6 +7,7 @@ public class SaveManager : Singleton<SaveManager>
     public float autoSaveInterval = 30f;
     private string savePath => Application.persistentDataPath + "/Save/save.json";
 
+    // C:\Users\<사용자 이름>\AppData\LocalLow\<회사 이름>\<제품 이름>
     private string farmPath => Application.persistentDataPath + "/Save/farm.json"; // Application.dataPath
     private string baseDataPath => Application.persistentDataPath + "/Save/baseData.json";
     private string inventroyPath => Application.persistentDataPath + "/Save/inventory.json";
