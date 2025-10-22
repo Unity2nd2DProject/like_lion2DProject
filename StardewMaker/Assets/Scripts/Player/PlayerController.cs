@@ -190,10 +190,10 @@ public class PlayerController : Singleton<PlayerController>
                     {
                         SetInteractAnimation(PlayerInteraction.Shoot);
                     }
-                    else if (curItem != null && curItem.name == "ToolAxe")
-                    {
-                        SetInteractAnimation(PlayerInteraction.Axe);
-                    }
+                    //else if (curItem != null && curItem.name == "ToolAxe")
+                    //{
+                    //    SetInteractAnimation(PlayerInteraction.Axe);
+                    //}
                     else
                     {
                         InteractWithObject(mouseHit, playerHits);
