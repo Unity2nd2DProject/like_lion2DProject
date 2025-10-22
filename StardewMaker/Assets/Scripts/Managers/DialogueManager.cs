@@ -33,7 +33,7 @@ public class DialogueManager : Singleton<DialogueManager>
     {
         var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
         Debug.Log(npcSet);
-        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc.shopAvailable, npc.questAvailable);
+        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc);
     }
 
     NPCDialogue LoadDialogue(NpcId npcId)

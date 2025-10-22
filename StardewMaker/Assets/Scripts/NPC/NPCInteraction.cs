@@ -112,7 +112,7 @@ public class NPCInteraction : MonoBehaviour
 
     private void ShowDialogue(string text, QuestDataSO questData = null, System.Action onOK = null)
     {
-        NPCDialgoueUI.Instance.Show(npcImage, npcName, text, questData, onOK);
+        NPCDialgoueUI_legacy.Instance.Show(npcImage, npcName, text, questData, onOK);
         UIManager.Instance.HidePopupImmediately();
     }
 }

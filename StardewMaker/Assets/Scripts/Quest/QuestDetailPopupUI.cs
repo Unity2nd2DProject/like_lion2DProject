@@ -14,7 +14,7 @@ public class QuestDetailPopupUI : MonoBehaviour
     private void Awake()
     {
         popupPanel.SetActive(false);
-        closeButton.onClick.AddListener(Hide);
+        // closeButton.onClick.AddListener(Hide);
     }
 
     public void Show(QuestInstance quest)

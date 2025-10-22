@@ -14,6 +14,7 @@ public enum QuestTargetType
     GaveToDaughter,
     CookedFood,
     GreetedToNPC,
+    BuyItem,
 }
 
 public class QuestManager : Singleton<QuestManager>

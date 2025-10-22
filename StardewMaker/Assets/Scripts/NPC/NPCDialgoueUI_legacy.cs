@@ -5,7 +5,7 @@ using System;
 using UnityEditor.PackageManager.Requests;
 using Unity.VisualScripting;
 
-public class NPCDialgoueUI : Singleton<NPCDialgoueUI>
+public class NPCDialgoueUI_legacy : Singleton<NPCDialgoueUI_legacy>
 {
     [SerializeField] private GameObject panel;
     [SerializeField] private GameObject buttonGrid;

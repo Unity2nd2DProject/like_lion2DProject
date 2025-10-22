@@ -9,7 +9,7 @@ public class ShopManager : MonoBehaviour
 
     [Header("Shop Settings")]
     public List<ItemData> shopItems;
-    public InventoryManager playerInventory;
+    InventoryManager playerInventory;
 
     private void Awake()
     {

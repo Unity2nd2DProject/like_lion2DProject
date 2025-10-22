@@ -15,29 +15,35 @@ public class DialogueController : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] private GameObject buttonGrid;
     [SerializeField] private GameObject buttonPrefab;
+    private List<Button> dialogueButtons = new List<Button>();
 
     [Header("Typing Effect")]
     private Coroutine typingCoroutine;
     private bool isTyping = false;
-    [SerializeField] private Button skipButton; // 즉시 완성용 버튼
+    [SerializeField] private Button nextButton;
     [SerializeField] private float skipCooldown = 0.2f;
 
     private NPCDialogue currentDialogue;
     private NpcSpritesSet currentNpcSpriteSet;
-    private bool shopAvailable;
-    private bool questAvailable;
+    private NPCController currentNPC;
+
+    private bool waitingForNext = false;
 
     public void Start()
     {
-        Hide();
+        CloseDialogue();
+
+        nextButton.onClick.AddListener(OnNextButtonPressed);
+
+        foreach (var btn in dialogueButtons)
+            Destroy(btn.gameObject);
+        dialogueButtons.Clear();
     }
 
-    public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet, bool shopAvailable, bool questAvailable)
+    public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet, NPCController npc)
     {
         this.currentDialogue = npcDialogue;
         this.currentNpcSpriteSet = npcSpriteSet;
-        this.shopAvailable = shopAvailable;
-        this.questAvailable = questAvailable;
 
         StartDialogue();
     }
@@ -56,15 +62,7 @@ public class DialogueController : MonoBehaviour
         nameText.text = currentDialogue.name;
         npcImage.sprite = currentNpcSpriteSet.neutral;
 
-        StartCoroutine(StartDialogueCoroutine());
-    }
-
-    private IEnumerator StartDialogueCoroutine()
-    {
-        yield return StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting, CreateButtons));
-
-        // 인사말 끝난 후 버튼 생성
-        
+        StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting, ShowButtons));
     }
 
     private IEnumerator ShowRandomChat(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
@@ -94,6 +92,8 @@ public class DialogueController : MonoBehaviour
             // 다음 라인으로 넘어가기 전 플레이어 입력 대기 (예: 클릭 or 키 입력)
             yield return StartCoroutine(WaitForNextLineInput());
         }
+
+        doAfterTalk?.Invoke();
     }
     private void CreateButtons()
     {
@@ -107,11 +107,11 @@ public class DialogueController : MonoBehaviour
         CreateButton(buttonPrefab, "대화하기", OnTalkButton);
 
         // 상점 가능하면
-        if (shopAvailable)
+        if (currentNPC.shopAvailable)
             CreateButton(buttonPrefab, "상점", OnTradeButton);
 
         // 퀘스트 가능하면
-        if (questAvailable)
+        if (currentNPC.questAvailable)
             CreateButton(buttonPrefab, "퀘스트", OnQuestButton);
 
         // 떠나기 버튼
@@ -120,8 +120,9 @@ public class DialogueController : MonoBehaviour
 
     private void CreateButton(GameObject prefab, string label, UnityEngine.Events.UnityAction onClick)
     {
-        GameObject btnObj = Instantiate(prefab, buttonGrid.transform);
+        GameObject btnObj = Instantiate(prefab, buttonGrid.transform);        
         Button btn = btnObj.GetComponent<Button>();
+        dialogueButtons.Add(btn);
         TextMeshProUGUI text = btnObj.GetComponentInChildren<TextMeshProUGUI>();
         text.text = label;
         btn.onClick.AddListener(onClick);
@@ -135,26 +136,46 @@ public class DialogueController : MonoBehaviour
     private void OnTradeButton()
     {
         Debug.Log("상점 열기 로직 호출");
+        
+        // NPCVendor vendor = ...; // 현재 NPC의 Vendor 컴포넌트 참조해야할듯..?
     }
 
     private void OnQuestButton()
     {
         Debug.Log("퀘스트 대화 시작");
-        // NPCQuestGiver questGiver = ...; // 현재 NPC의 QuestGiver 컴포넌트 참조해야할듯..? 
+        // currentNPC.questGiver.GiveQuest();
     }
 
     private void OnLeaveButton()
     {
-        Hide();
+        HideButtons();
+        StartCoroutine(ShowRandomChat(DialogueSequenceType.Farewell, CloseDialogue));
+    }
+
+    private void ShowButtons()
+    {
+        Debug.Log("대화 버튼 표시");
+
+        if (dialogueButtons.Count == 0)
+        {
+            CreateButtons();
+        }
+
+        buttonGrid.SetActive(true);
+    }
+
+    private void HideButtons()
+    {
+        buttonGrid.SetActive(false);
     }
 
     private void BackToMain()
     {
         // 메인 대화 화면으로 복귀
-        CreateButtons();
+        // CreateButtons();
     }
 
-    public void Hide()
+    public void CloseDialogue()
     {
         gameObject.SetActive(false);
     }
@@ -183,7 +204,14 @@ public class DialogueController : MonoBehaviour
 
     private IEnumerator WaitForNextLineInput()
     {
-        // 버튼 연타 방지: 잠깐 비활성화
+        waitingForNext = true;
+        nextButton.interactable = true;
+
+        // 사용자가 버튼을 누를 때까지 대기
+        while (waitingForNext)
+            yield return null;
+
+        // 다음 라인으로 이동하기 전에 잠시 대기 (연타 방지)
         yield return new WaitForSeconds(0.2f);
     }
 
@@ -198,19 +226,20 @@ public class DialogueController : MonoBehaviour
         }
     }
 
-    public void OnSkipButtonPressed()
+    public void OnNextButtonPressed()
     {
-        if (!isTyping) return;
+        // 대사 타이핑 중이라면 → 즉시 완성
+        if (isTyping)
+        {
+            isTyping = false;
+            return;
+        }
 
-        isTyping = false; // TypeText 코루틴에서 감지 → 즉시 완성
-        skipButton.interactable = false; // 연타 방지
-
-        StartCoroutine(EnableSkipButtonAfterCooldown());
-    }
-
-    private IEnumerator EnableSkipButtonAfterCooldown()
-    {
-        yield return new WaitForSeconds(skipCooldown);
-        skipButton.interactable = true;
+        // 이미 완성된 상태라면 → 다음 문장으로 진행
+        if (waitingForNext)
+        {
+            waitingForNext = false;
+            nextButton.interactable = false;
+        }
     }
 }

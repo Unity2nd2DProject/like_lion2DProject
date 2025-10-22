@@ -103,6 +103,8 @@ public class DialogueEditor : EditorWindow
         if (GUILayout.Button("<", GUILayout.Width(30)))
         {
             currentSequenceIndex = Mathf.Max(0, currentSequenceIndex - 1);
+            GUI.FocusControl(null); // TextField 포커스 해제
+            Repaint();
         }
 
         EditorGUILayout.LabelField($"{currentSequenceIndex + 1} / {currentNPC.dialogues.Count}", GUILayout.Width(60));
@@ -110,6 +112,8 @@ public class DialogueEditor : EditorWindow
         if (GUILayout.Button(">", GUILayout.Width(30)))
         {
             currentSequenceIndex = Mathf.Min(currentNPC.dialogues.Count - 1, currentSequenceIndex + 1);
+            GUI.FocusControl(null); // TextField 포커스 해제
+            Repaint();
         }
 
         if (GUILayout.Button("추가", GUILayout.Width(50)))
@@ -154,13 +158,20 @@ public class DialogueEditor : EditorWindow
         // 대사 네비게이션
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("<", GUILayout.Width(30)))
+        {
             seq.currentLineIndex = Mathf.Max(0, seq.currentLineIndex - 1);
+            GUI.FocusControl(null); // 입력 포커스 해제 (TextArea 입력 중 변경 시 반영 안 되는 문제 방지)
+            Repaint();              // 강제 UI 갱신
+        }
 
         EditorGUILayout.LabelField($"{seq.currentLineIndex + 1}/{seq.lines.Count}", GUILayout.Width(60));
 
         if (GUILayout.Button(">", GUILayout.Width(30)))
+        {
             seq.currentLineIndex = Mathf.Min(seq.lines.Count - 1, seq.currentLineIndex + 1);
-
+            GUI.FocusControl(null);
+            Repaint();
+        }
         EditorGUILayout.EndHorizontal();
 
         // 현재 대사 표시
@@ -210,11 +221,13 @@ public class DialogueEditor : EditorWindow
         {
             seq.lines.RemoveAt(seq.currentLineIndex);
             seq.currentLineIndex = Mathf.Clamp(seq.currentLineIndex, 0, seq.lines.Count - 1);
+            Repaint();
         }
         if (GUILayout.Button("대사 추가"))
         {
             seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speaker = currentNPC.name, text = "", actions = new DialogueAction() });
             seq.currentLineIndex++;
+            Repaint();
         }
         EditorGUILayout.EndHorizontal();
     }
