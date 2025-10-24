@@ -23,8 +23,11 @@ namespace NPC
     {
         Greeting,
         Chat,
+        Shop,
+        ShopEnd,
         QuestOffer,
         QuestCompletion,
+        QuestDecline,
         Farewell,
         Custom
     }

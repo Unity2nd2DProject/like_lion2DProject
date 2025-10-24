@@ -25,21 +25,21 @@ public class NPCController : MonoBehaviour
 
     [SerializeField] private float interactionRange = 2.5f;
 
-    public bool shopAvailable;
-    public bool questAvailable;
+    public bool shopAvailable = false;
+    public bool questAvailable = false;
 
     private void Awake()
     {
         mover = GetComponent<NPCMover>();
 
-        if (!TryGetComponent(out vendor))
+        if (TryGetComponent(out vendor))
         {
-            shopAvailable = false;
+            shopAvailable = true;
         }
 
-        if (!TryGetComponent(out questGiver))
+        if (TryGetComponent(out questGiver))
         {
-            questAvailable = false;
+            questAvailable = true;
         }
     }
     private void Start()

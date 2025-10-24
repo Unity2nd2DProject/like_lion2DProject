@@ -18,7 +18,6 @@ public class DialogueController : MonoBehaviour
     private List<Button> dialogueButtons = new List<Button>();
 
     [Header("Typing Effect")]
-    private Coroutine typingCoroutine;
     private bool isTyping = false;
     [SerializeField] private Button nextButton;
     [SerializeField] private float skipCooldown = 0.2f;
@@ -29,43 +28,30 @@ public class DialogueController : MonoBehaviour
 
     private bool waitingForNext = false;
 
-    public void Start()
-    {
-        CloseDialogue();
 
-        nextButton.onClick.AddListener(OnNextButtonPressed);
-
-        foreach (var btn in dialogueButtons)
-            Destroy(btn.gameObject);
-        dialogueButtons.Clear();
-    }
 
     public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet, NPCController npc)
     {
         this.currentDialogue = npcDialogue;
         this.currentNpcSpriteSet = npcSpriteSet;
-
-        StartDialogue();
-    }
-
-    public void StartDialogue()
-    {
-        if (currentDialogue == null)
-        {
-            Debug.LogError("DialogueController: No dialogue set.");
-            return;
-        }
-
-        gameObject.SetActive(true);
+        currentNPC = npc;
 
         // NPC 이름, 기본 표정 세팅
         nameText.text = currentDialogue.name;
         npcImage.sprite = currentNpcSpriteSet.neutral;
 
-        StartCoroutine(ShowRandomChat(DialogueSequenceType.Greeting, ShowButtons));
-    }
+        nextButton.onClick.AddListener(OnNextButtonPressed);
 
-    private IEnumerator ShowRandomChat(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
+        foreach (var btn in dialogueButtons)
+            Destroy(btn.gameObject);
+
+        dialogueButtons.Clear();
+
+        gameObject.SetActive(true);
+
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Greeting, ShowButtons));
+    }
+    private IEnumerator PlayRandomDialogue(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
     {
         List<DialogueSequence> chatSequences = currentDialogue.dialogues.FindAll(seq => seq.sequenceType == type);
 
@@ -130,7 +116,7 @@ public class DialogueController : MonoBehaviour
 
     private void OnTalkButton()
     {
-        StartCoroutine(ShowRandomChat(DialogueSequenceType.Chat,BackToMain));
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Chat,BackToMain));
     }
 
     private void OnTradeButton()
@@ -149,7 +135,7 @@ public class DialogueController : MonoBehaviour
     private void OnLeaveButton()
     {
         HideButtons();
-        StartCoroutine(ShowRandomChat(DialogueSequenceType.Farewell, CloseDialogue));
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Farewell, CloseDialogue));
     }
 
     private void ShowButtons()
