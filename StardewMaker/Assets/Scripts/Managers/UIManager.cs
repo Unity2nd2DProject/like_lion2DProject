@@ -42,6 +42,7 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Shop UI")]
     public GameObject shopUI;
+    public ShopUIController shopUIController;
 
     [Header("Quest UI")]
     public GameObject questUI;

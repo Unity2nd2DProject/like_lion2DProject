@@ -5,17 +5,17 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public int inventorySize = 25;
-    public int quickSlotSize = 10;
+    public int inventorySize = 25; // 고정 값으로 해야 UI 작업 용이.
+    public int quickSlotSize = 10; // 고정 값으로 해야 UI 작업 용이.
     public List<ItemSlot> slots = new List<ItemSlot>();
 
     public int currentSelectedQuickSlotIndex;
 
-    public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
+    public List<ItemData> starterItemsForTest = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
     [Header("Player Money")]
     public int startMoney;
-    private int playerMoney;
+    [SerializeField] private int playerMoney;
     public int PlayerMoney
     {
         get { return playerMoney; }

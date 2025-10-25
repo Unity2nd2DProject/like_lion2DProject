@@ -116,18 +116,20 @@ public class DialogueController : MonoBehaviour
 
     private void OnTalkButton()
     {
+        HideButtons();
         StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Chat,BackToMain));
     }
 
     private void OnTradeButton()
     {
-        Debug.Log("상점 열기 로직 호출");
-        
+        HideButtons();
+        Debug.Log("상점 열기 로직 호출");        
         // NPCVendor vendor = ...; // 현재 NPC의 Vendor 컴포넌트 참조해야할듯..?
     }
 
     private void OnQuestButton()
     {
+        HideButtons();
         Debug.Log("퀘스트 대화 시작");
         // currentNPC.questGiver.GiveQuest();
     }
@@ -158,7 +160,7 @@ public class DialogueController : MonoBehaviour
     private void BackToMain()
     {
         // 메인 대화 화면으로 복귀
-        // CreateButtons();
+        ShowButtons();
     }
 
     public void CloseDialogue()

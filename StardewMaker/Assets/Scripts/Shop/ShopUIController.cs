@@ -18,25 +18,10 @@ public class ShopUIController : MonoBehaviour
     public ItemInfoPopupUI itemInfoPopup;
 
     [Header("Inventory Reference")]
-    // [SerializeField] private Transform inventoryParent;
     private ItemSlotUI[] inventorySlots;
     
     [Header("Scroll")]
     public RectTransform scrollViewport;
-
-    void Awake()
-    {
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        // 인벤토리 슬롯 자동 수집
-        inventorySlots = UIManager.Instance.inventoryUI.GetComponentsInChildren<ItemSlotUI>(true);
-    }
 
     void OnEnable()
     {

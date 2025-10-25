@@ -3,30 +3,8 @@ using System.Collections.Generic;
 using TMPro;
 using NUnit.Framework.Interfaces;
 
-public class ShopManager : MonoBehaviour
+public class ShopManager : Singleton<ShopManager>
 {
-    public static ShopManager Instance { get; private set; }
-
-    [Header("Shop Settings")]
-    public List<ItemData> shopItems;
-    InventoryManager playerInventory;
-
-    private void Awake()
-    {
-        // 싱글톤 설정
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-            return;
-        }
-        Instance = this;
-    }
-
-    private void Start()
-    {
-        playerInventory = InventoryManager.Instance; // 플레이어 인벤토리 참조
-    }
-
     // 아이템을 구매할 수 있는지 확인
     public bool CanAfford(ItemData item, int qty)
     {
@@ -43,7 +21,7 @@ public class ShopManager : MonoBehaviour
         }
 
         // 인벤토리에 아이템 추가가 가능한지 확인
-        bool itemAdded = playerInventory.AddItem(item, qty);
+        bool itemAdded = InventoryManager.Instance.AddItem(item, qty);
 
         // 아이템 추가 성공 여부 확인
         if (!itemAdded)
@@ -80,7 +58,7 @@ public class ShopManager : MonoBehaviour
 
         // 인벤토리에 충분한 수량이 있는지 확인
         bool hasEnough = false;
-        foreach (var slot in playerInventory.slots)
+        foreach (var slot in InventoryManager.Instance.slots)
         {
             if (slot.itemData == itemData && slot.quantity >= qty)
             {
@@ -94,7 +72,7 @@ public class ShopManager : MonoBehaviour
             return false;
         }
 
-        playerInventory.RemoveItem(itemData, qty);
+        InventoryManager.Instance.RemoveItem(itemData, qty);
 
         var prevMoney = InventoryManager.Instance.PlayerMoney;
         InventoryManager.Instance.PlayerMoney += itemData.sellPrice * qty;
@@ -108,17 +86,5 @@ public class ShopManager : MonoBehaviour
         UIManager.Instance.UpdateInventoryUI();
 
         return true;
-    }
-
-    // 특정 아이템의 판매 가격 반환
-    public int GetSellPrice(ItemData itemData)
-    {
-        return shopItems.Contains(itemData) ? itemData.sellPrice : 0;
-    }
-
-    // 상점에 등록된 아이템인지 반환
-    public ItemData GetShopItem(ItemData item)
-    {
-        return shopItems.Find(i => i == item);
     }
 }
