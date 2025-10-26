@@ -192,11 +192,8 @@ public class InventoryManager : Singleton<InventoryManager>
 
     private void GetMouseScroll()
     {
-        // 상점 UI가 켜져 있으면 스크롤 무시
-        if (ShopUIController.Instance != null && ShopUIController.Instance.gameObject.activeSelf)
-        {
-            return;
-        }
+        // UI가 켜져 있으면 스크롤 무시
+        // TODO : 다른 UI가 켜져 있는지도 체크 필요
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         int selectedIndex = currentSelectedQuickSlotIndex;

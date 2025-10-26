@@ -64,7 +64,7 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         // 성공하면 UI 갱신
         if (success)
         {
-            shopUI.UpdateUI();  // 상점 슬롯 갱신
+            // shopUI.UpdateUI();  // 상점 슬롯 갱신
             UIManager.Instance.UpdateInventoryUI();
         }
     }
@@ -249,7 +249,7 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
         // 성공하면 UI 갱신
         if (success)
         {
-            shopUI.UpdateUI();  // 상점 슬롯 갱신
+            // shopUI.UpdateUI();  // 상점 슬롯 갱신
             UIManager.Instance.UpdateInventoryUI();
         }
     }

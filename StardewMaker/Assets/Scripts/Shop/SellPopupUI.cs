@@ -45,9 +45,6 @@ public class SellPopupUI : MonoBehaviour
         AddButtonListener(confirmButton, OnConfirm);
         AddButtonListener(cancelButton, Hide);
 
-        // 판매 팝업 표시 시 상호작용 잠금
-        shopUI?.LockInteraction(); // 상점 UI 잠금
-
         gameObject.SetActive(true);
     }
     
@@ -114,7 +111,6 @@ public class SellPopupUI : MonoBehaviour
 
         if (success)
         {
-            shopUI.UpdateUI(); // 상점 슬롯 갱신
             UIManager.Instance.UpdateInventoryUI(); // 인벤토리 갱신
             Hide(); // 팝업 닫기
         }
@@ -124,6 +120,5 @@ public class SellPopupUI : MonoBehaviour
     public void Hide()
     {
         gameObject.SetActive(false);
-        shopUI?.UnlockInteraction();
     }
 }

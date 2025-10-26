@@ -3,6 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+public enum UIType
+{
+    None,
+    Inventory,
+    QuickSlot,
+    Cooking,
+    Gift,
+    Shop,
+    Dialogue,
+    Quest,
+    SoundSetting
+}
+
 public class UIManager : Singleton<UIManager>
 {
     [Header("Inventory and QuickSlot")]
@@ -43,6 +56,9 @@ public class UIManager : Singleton<UIManager>
     [Header("Shop UI")]
     public GameObject shopUI;
     public ShopUIController shopUIController;
+
+    [Header("Dialogue UI")]
+    public GameObject dialogueUI;
 
     [Header("Quest UI")]
     public GameObject questUI;

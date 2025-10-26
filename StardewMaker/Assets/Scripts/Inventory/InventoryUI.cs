@@ -32,12 +32,15 @@ public class InventoryUI : MonoBehaviour
     }
 
     private void OnCancelButtonClicked()
-    {       
+    {
+        // 상점 UI가 열려있다면 닫기?
+        /* 
         if (ShopUIController.Instance != null && ShopUIController.Instance.gameObject.activeSelf)
         {
             ShopUIController.Instance.Close();
         }
-        if(GameManager.Instance.currentMode == GameMode.HOME)
+        */
+        if (GameManager.Instance.currentMode == GameMode.HOME)
         {
             UIManager.Instance.ToggleInventoryByButton();
         }
