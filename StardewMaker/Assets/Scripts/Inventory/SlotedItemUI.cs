@@ -142,6 +142,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             ReturnToOriginalPosition();
         }
 
+        /*
         if (ShopUIController.Instance != null)
         {
             var scrollRect = ShopUIController.Instance.scrollRectTransform;
@@ -162,6 +163,7 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
                 }
             }
         }
+        */
     }
 
     private void SwapSlotData(ItemSlotUI currentSlot, ItemSlotUI targetSlot)

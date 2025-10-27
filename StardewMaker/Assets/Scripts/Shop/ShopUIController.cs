@@ -1,7 +1,7 @@
 using UnityEngine;
-using UnityEngine.UI;
+
 
 public class ShopUIController : MonoBehaviour
 {
-
+    public Transform shopItemParent;
 }
