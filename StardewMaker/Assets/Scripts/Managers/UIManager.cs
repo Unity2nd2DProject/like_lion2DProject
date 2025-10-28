@@ -1,20 +1,6 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
-
-public enum UIType
-{
-    None,
-    Inventory,
-    QuickSlot,
-    Cooking,
-    Gift,
-    Shop,
-    Dialogue,
-    Quest,
-    SoundSetting
-}
 
 public class UIManager : Singleton<UIManager>
 {
@@ -69,17 +55,21 @@ public class UIManager : Singleton<UIManager>
     // Normal Menu띄우기 액션
     public static event Action<bool> OnNormalMenuRequested;
 
+    [HideInInspector] public Canvas canvas;
+
 
     protected override void Awake()
     {
         base.Awake();
+
+        canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+
     }
 
     public void InitializeStatUI(List<Stat> stats)
     {
         if(statUIInstance == null) // 이미 StatUI가 존재하면 초기화 하지 않음
         {
-            Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
             statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
             statUIInstance.Initialize(stats);
         }        
@@ -87,7 +77,6 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeInventoryAndQuickSlot()
     {
-        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>(); // 씬에서 Canvas를 찾음
         inventoryUI = canvas.GetComponentInChildren<InventoryUI>();
         if (inventoryUI == null) // 인벤토리 UI가 null이면 새로 생성
         {
@@ -135,7 +124,6 @@ public class UIManager : Singleton<UIManager>
             currentPopup = null;
         }
 
-        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         GameObject popup = Instantiate(popupMessagePrefab, canvas.transform);
         popup.transform.position = position;
         popup.GetComponent<PopUpMessageUI>().SetMessage(message);
@@ -178,7 +166,6 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeCookingUI()
     {
-        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         cookingUI = canvas.GetComponentInChildren<CookingUI>();
         if (cookingUI == null)
         {
@@ -211,7 +198,6 @@ public class UIManager : Singleton<UIManager>
 
     public void InitializeGiftUI()
     {
-        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
         giftUI = canvas.GetComponentInChildren<GiftUI>();
         if (giftUI == null)
         {
@@ -285,5 +271,14 @@ public class UIManager : Singleton<UIManager>
         SoundSettingUIInstance.gameObject.SetActive(!SoundSettingUIInstance.gameObject.activeSelf);
 
     }
+
+    public void OpenShopUI()
+    {
+        inventoryUI.transform.parent = shopUI.transform;
+        shopUI.SetActive(true);
+        inventoryUI.ShowInventory();
+        inventoryUI.SetShopMode();
+    }
+    
 }
 

@@ -7,7 +7,6 @@ public class NPCVendor : MonoBehaviour
 
     public void OpenShop()
     {
-        // UIManager.Instance.OpenShopUI()
-        // (itemsForSale);
+        ShopManager.Instance.OpenShop(itemsForSale);
     }
 }

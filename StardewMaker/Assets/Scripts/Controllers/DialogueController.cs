@@ -123,8 +123,9 @@ public class DialogueController : MonoBehaviour
     private void OnTradeButton()
     {
         HideButtons();
-        Debug.Log("상점 열기 로직 호출");        
-        // NPCVendor vendor = ...; // 현재 NPC의 Vendor 컴포넌트 참조해야할듯..?
+        Debug.Log("상점 열기 로직 호출");     
+        gameObject.SetActive(false);
+        currentNPC.vendor.OpenShop();
     }
 
     private void OnQuestButton()
@@ -157,10 +158,15 @@ public class DialogueController : MonoBehaviour
         buttonGrid.SetActive(false);
     }
 
-    private void BackToMain()
+    public void BackToMain()
     {
         // 메인 대화 화면으로 복귀
         ShowButtons();
+    }
+
+    public void EndBuissness()
+    {
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.ShopEnd, BackToMain));
     }
 
     public void CloseDialogue()

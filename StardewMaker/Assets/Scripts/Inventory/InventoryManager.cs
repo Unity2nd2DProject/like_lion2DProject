@@ -23,6 +23,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             playerMoney = value;
             UIManager.Instance.UpdateMoneyUI();
+            SoundManager.Instance.PlaySFX("Coin");
         }
     }
 
