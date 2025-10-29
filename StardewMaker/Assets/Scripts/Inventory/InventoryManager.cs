@@ -1,6 +1,7 @@
 using NUnit.Framework.Interfaces;
 using System.Collections.Generic;
 using TMPro;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
@@ -79,6 +80,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.quantity += amount; // 수량 증가
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
+                    UIManager.Instance.PlayItemAddEffect(newItem);
                     QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 추가 완료
                 }
@@ -91,6 +93,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     inventorySlot.quantity = amount; // 수량 설정
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
+                    UIManager.Instance.PlayItemAddEffect(newItem);
                     QuestManager.Instance.UpdateItemCollectGoals();
                     return true; // 아이템 추가 완료
                 }
@@ -107,6 +110,7 @@ public class InventoryManager : Singleton<InventoryManager>
                     UIManager.Instance.UpdateInventoryUI();
                     UIManager.Instance.UpdateQuickSlotUI();
                     QuestManager.Instance.UpdateItemCollectGoals();
+                    UIManager.Instance.PlayItemAddEffect(newItem);
                     return true; // 아이템 추가 완료
                 }
             }

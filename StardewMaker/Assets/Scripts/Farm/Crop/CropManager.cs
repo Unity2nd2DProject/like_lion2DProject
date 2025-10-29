@@ -77,7 +77,6 @@ public class CropManager : Singleton<CropManager>
 
     private void OnTimeChanged()
     {
-        //Debug.Log("CropManager.OnTimeChanged"); // 이게 있어야 호출됨;
         foreach (var crop in crops.Values)
         {
             crop.OnTimeChanged();

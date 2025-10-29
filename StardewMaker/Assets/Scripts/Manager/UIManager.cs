@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEditorInternal.Profiling.Memory.Experimental;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,6 +38,10 @@ public class UIManager : Singleton<UIManager>
     [Header("Setting UI")]
     public GameObject soundSettingUIPrefab;
     private SoundSettingUI SoundSettingUIInstance;
+
+    [Header("Item Add Effect")]
+    public GameObject itemAddEffectPrefab;
+
 
     private BaseUI baseUI;
 
@@ -260,5 +265,21 @@ public class UIManager : Singleton<UIManager>
         SoundSettingUIInstance.gameObject.SetActive(!SoundSettingUIInstance.gameObject.activeSelf);
 
     }
+
+    public void PlayItemAddEffect(ItemData itemData)
+    {
+        Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+        if (itemAddEffectPrefab == null || canvas.transform == null)
+        {
+            return;
+        }
+
+        Vector3 screenPos = new Vector3(Screen.width / 2 + 100f, Screen.height / 2 + 100f, 0f);
+
+        GameObject effectObj = Instantiate(itemAddEffectPrefab, canvas.transform);
+        effectObj.transform.SetAsLastSibling(); 
+        effectObj.GetComponent<ItemAddEffect>().Play(itemData, screenPos);
+    }
+
 }
 
