@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -67,14 +68,23 @@ public class CropManager : Singleton<CropManager>
         }
     }
 
-    public void OnTimeChanged()
+    public IEnumerator DelayedTimeChange()
     {
-        Debug.Log("CropManager.OnTimeChanged");
+        yield return null; 
+        OnTimeChanged();
+    }
+
+
+    private void OnTimeChanged()
+    {
+        //Debug.Log("CropManager.OnTimeChanged"); // 이게 있어야 호출됨;
         foreach (var crop in crops.Values)
         {
             crop.OnTimeChanged();
         }
     }
+
+
 
     //public void NextDay()
     //{

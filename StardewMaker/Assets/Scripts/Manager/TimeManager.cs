@@ -101,7 +101,7 @@ public class TimeManager : Singleton<TimeManager>
     private void OnTimeChanged(int hour, int minute)
     {
         NPCManager.Instance.OnTimeChanged(hour, minute);
-        CropManager.Instance.OnTimeChanged();
+        StartCoroutine(CropManager.Instance.DelayedTimeChange());
     }
 
     public void AdvanceDay()
