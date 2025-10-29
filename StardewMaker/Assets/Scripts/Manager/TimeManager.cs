@@ -78,6 +78,8 @@ public class TimeManager : Singleton<TimeManager>
     private void AdvanceMinute()
     {
         currentMinute++;
+        OnTimeChanged(currentHour, currentMinute);
+
         if (currentMinute >= 60)
         {
             currentMinute = 0;
@@ -88,22 +90,18 @@ public class TimeManager : Singleton<TimeManager>
                 currentHour = 0;
                 AdvanceDay();
             }
-            //else
-            //{
-            //    OnTimeChanged(currentHour, currentMinute);
-            //}
         }
 
         if (currentMinute % 10 == 0)
         {
             UpdateUI();
-            OnTimeChanged(currentHour, currentMinute);
         }
     }
 
     private void OnTimeChanged(int hour, int minute)
     {
         NPCManager.Instance.OnTimeChanged(hour, minute);
+        CropManager.Instance.OnTimeChanged();
     }
 
     public void AdvanceDay()
@@ -139,24 +137,19 @@ public class TimeManager : Singleton<TimeManager>
         Scene currentScene = SceneManager.GetActiveScene();
         if (currentScene.name.Contains("TownScene"))
         {
-            CropManager.Instance.NextDay();
+            //CropManager.Instance.NextDay();
             FarmLandManager.Instance.NextDay();
             TreeManager.Instance.NextDay();
             BushManager.Instance.NextDay();
         }
         else
         {
-            SaveManager.Instance.NextDayFarm();
+            //SaveManager.Instance.NextDayFarm();
         }
         StaminaManager.Instance.RecoverStamina(20);
         QuestManager.Instance.NextDay();
         EventManager.Instance.TriggerEvents();
         UpdateUI();
-    }
-
-    private void ForceReturnHome()
-    {
-
     }
 
     public void PauseTime() // 집에 들어가면

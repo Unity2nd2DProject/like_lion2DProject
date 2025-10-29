@@ -6,6 +6,8 @@ public class Crop : MonoBehaviour
     public CropData cropData;
     public int currentGrowthStage = 0;
     public bool isWatered = false;
+    public int timesSinceWater = 0;
+    private Vector2 position;
 
     protected SpriteRenderer sr;
 
@@ -23,7 +25,13 @@ public class Crop : MonoBehaviour
 
     public void Water()
     {
+        if (isWatered)
+        {
+            return;
+        }
+
         isWatered = true;
+        timesSinceWater = 0;
     }
 
     public virtual void Fertlize()
@@ -33,7 +41,21 @@ public class Crop : MonoBehaviour
         UpdateGrowth();
     }
 
-    public void NextDay()
+    public void OnTimeChanged()
+    {
+        if (isWatered)
+        {
+            timesSinceWater++;
+
+            if (timesSinceWater >= cropData.growthInterval)
+            {
+                Grow();
+                timesSinceWater = 0;
+            }
+        }
+    }
+
+    public void Grow()
     {
         if (isWatered)
         {
@@ -41,9 +63,17 @@ public class Crop : MonoBehaviour
             {
                 currentGrowthStage++;
                 UpdateGrowth();
+                FarmLand land = FarmLandManager.Instance.GetFarmLandAt(position);
+                Debug.Log($"land : {land}");
+                if (land != null)
+                {
+                    land.AbsorbAwater();
+                }
+
+                isWatered = false;
             }
+
         }
-        isWatered = false;
     }
 
     public virtual void UpdateGrowth()
@@ -58,9 +88,15 @@ public class Crop : MonoBehaviour
 
     public int GetGrowthStage() => currentGrowthStage;
 
-    public void SetGrowthStage(int stage)
+    public void SetData(int stage, int _timeSinceWater)
     {
         currentGrowthStage = stage;
+        timesSinceWater = _timeSinceWater;
         UpdateGrowth();
+    }
+
+    public void SetPosition(Vector2 pos)
+    {
+        position = pos;
     }
 }

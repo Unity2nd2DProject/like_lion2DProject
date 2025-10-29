@@ -51,6 +51,7 @@ public class SavedCrop
     public int currentGrowthStage;
     public int fertlizerCount;
     public bool isWatered;
+    public int timesSinceWater;
 }
 
 // GameBaseData

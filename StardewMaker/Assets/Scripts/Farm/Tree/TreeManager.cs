@@ -36,23 +36,6 @@ public class TreeManager : Singleton<TreeManager>
         return list;
     }
 
-    public List<SavedTree> NextDayTrees(List<SavedTree> savedList)
-    {
-        List<SavedTree> list = new List<SavedTree>();
-
-        foreach (var saved in savedList)
-        {
-            list.Add(new SavedTree
-            {
-                position = saved.position,
-                currentHits = 0,
-                //treeType = saved.treeType,
-                //hasFruit = saved.treeType == TreeType.Fruit // 다음 날 과일 다시 자라게
-            });
-        }
-        return list;
-    }
-
     public void LoadTrees(List<SavedTree> savedTrees)
     {
         trees = new List<Tree>();

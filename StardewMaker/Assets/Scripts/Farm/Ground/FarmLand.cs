@@ -148,7 +148,7 @@ public class FarmLand : MonoBehaviour
         return true;
     }
 
-    public void NextDay()
+    public void AbsorbAwater()
     {
         if (landState == LandState.Watered)
         {

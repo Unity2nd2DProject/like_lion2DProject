@@ -13,6 +13,7 @@ public class CropManager : Singleton<CropManager>
     {
         base.Awake();
     }
+
     public void PlantCrop(Transform parentTtransform, Vector2 position, CropData cropData, bool _isWatered = false)
     {
         if (crops.ContainsKey(position))
@@ -21,9 +22,9 @@ public class CropManager : Singleton<CropManager>
         }
 
         GameObject cropObj = Instantiate(cropPrefabs[cropData.id], parentTtransform.position, Quaternion.identity, parentTtransform);
-
         Crop crop = cropObj.GetComponent<Crop>();
         crop.Initialize(cropData, _isWatered);
+        crop.SetPosition(position);
 
         crops.Add(position, crop);
     }
@@ -66,13 +67,22 @@ public class CropManager : Singleton<CropManager>
         }
     }
 
-    public void NextDay()
+    public void OnTimeChanged()
     {
+        Debug.Log("CropManager.OnTimeChanged");
         foreach (var crop in crops.Values)
         {
-            crop.NextDay();
+            crop.OnTimeChanged();
         }
     }
+
+    //public void NextDay()
+    //{
+    //    foreach (var crop in crops.Values)
+    //    {
+    //        crop.Grow();
+    //    }
+    //}
 
     public Crop GetCropAt(Vector2 gridPos)
     {
@@ -104,43 +114,44 @@ public class CropManager : Singleton<CropManager>
                 cropId = crop.cropData.id,
                 currentGrowthStage = crop.GetGrowthStage(),
                 fertlizerCount = newFertlizerCount,
-                isWatered = crop.isWatered
+                isWatered = crop.isWatered,
+                timesSinceWater = crop.timesSinceWater
             });
         }
         return list;
     }
 
-    public List<SavedCrop> NextDayCrops(List<SavedCrop> savedList)
-    {
-        List<SavedCrop> list = new List<SavedCrop>();
+    //public List<SavedCrop> NextDayCrops(List<SavedCrop> savedList)
+    //{
+    //    List<SavedCrop> list = new List<SavedCrop>();
 
-        foreach (var saved in savedList)
-        {
-            var nextGrowthStage = saved.currentGrowthStage;
-            var maxGrowthStage = cropDatabase.Find(c => c.id == saved.cropId).maxGrowthStage;
-            var newIsWatered = false;
+    //    foreach (var saved in savedList)
+    //    {
+    //        var nextGrowthStage = saved.currentGrowthStage;
+    //        var maxGrowthStage = cropDatabase.Find(c => c.id == saved.cropId).maxGrowthStage;
+    //        var newIsWatered = false;
 
-            if (saved.isWatered)
-            {
-                nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
-            }
+    //        if (saved.isWatered)
+    //        {
+    //            nextGrowthStage = Mathf.Min(nextGrowthStage + 1, maxGrowthStage);
+    //        }
 
-            if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
-            {
-                newIsWatered = true;
-            }
+    //        if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
+    //        {
+    //            newIsWatered = true;
+    //        }
 
-            list.Add(new SavedCrop
-            {
-                position = saved.position,
-                cropId = saved.cropId,
-                currentGrowthStage = nextGrowthStage,
-                fertlizerCount = saved.fertlizerCount,
-                isWatered = newIsWatered
-            });
-        }
-        return list;
-    }
+    //        list.Add(new SavedCrop
+    //        {
+    //            position = saved.position,
+    //            cropId = saved.cropId,
+    //            currentGrowthStage = nextGrowthStage,
+    //            fertlizerCount = saved.fertlizerCount,
+    //            isWatered = newIsWatered
+    //        });
+    //    }
+    //    return list;
+    //}
 
     public void LoadCrops(List<SavedCrop> savedList)
     {
@@ -152,7 +163,8 @@ public class CropManager : Singleton<CropManager>
             GameObject obj = Instantiate(cropPrefabs[saved.cropId], saved.position, Quaternion.identity);
             Crop crop = obj.GetComponent<Crop>();
             crop.Initialize(cropData, saved.isWatered);
-            crop.SetGrowthStage(saved.currentGrowthStage);
+            crop.SetData(saved.currentGrowthStage, saved.timesSinceWater);
+            crop.SetPosition(saved.position);
 
             if (saved.cropId == 7 && crop is LegendCrop legendCrop)
             {

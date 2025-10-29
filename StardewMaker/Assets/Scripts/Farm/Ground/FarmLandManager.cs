@@ -43,11 +43,11 @@ public class FarmLandManager : Singleton<FarmLandManager>
     {
         foreach (var farmLand in farmLands.Values)
         {
-            farmLand.NextDay();
+            farmLand.AbsorbAwater();
         }
     }
 
-    public FarmLand GetFarmLandAt(Vector2Int position)
+    public FarmLand GetFarmLandAt(Vector2 position)
     {
         if (farmLands.TryGetValue(position, out FarmLand land))
         {

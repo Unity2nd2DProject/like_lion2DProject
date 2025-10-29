@@ -33,23 +33,23 @@ public class SaveManager : Singleton<SaveManager>
         Debug.Log("농장 정보가 저장되었습니다. " + farmPath);
     }
 
-    public void NextDayFarm()
-    {
-        string json = System.IO.File.ReadAllText(farmPath);
-        FarmData data = JsonUtility.FromJson<FarmData>(json);
+    //public void NextDayFarm()
+    //{
+    //    string json = System.IO.File.ReadAllText(farmPath);
+    //    FarmData data = JsonUtility.FromJson<FarmData>(json);
 
-        data = new FarmData
-        {
-            savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(data.savedFarmLands),
-            savedCrops = CropManager.Instance.NextDayCrops(data.savedCrops),
-            savedTrees = TreeManager.Instance.NextDayTrees(data.savedTrees),
-            savedBushes = BushManager.Instance.NextDayBushes(data.savedBushes)    
-        };
+    //    data = new FarmData
+    //    {
+    //        savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(data.savedFarmLands),
+    //        savedCrops = CropManager.Instance.NextDayCrops(data.savedCrops),
+    //        savedTrees = TreeManager.Instance.NextDayTrees(data.savedTrees),
+    //        savedBushes = BushManager.Instance.NextDayBushes(data.savedBushes)    
+    //    };
 
-        json = JsonUtility.ToJson(data, true);
-        System.IO.File.WriteAllText(farmPath, json);
-        Debug.Log("농장 정보가 업데이트되었습니다. " + farmPath);
-    }
+    //    json = JsonUtility.ToJson(data, true);
+    //    System.IO.File.WriteAllText(farmPath, json);
+    //    Debug.Log("농장 정보가 업데이트되었습니다. " + farmPath);
+    //}
 
     public void LoadFarm()
     {
