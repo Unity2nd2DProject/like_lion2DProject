@@ -68,7 +68,7 @@ public class ShopManager : Singleton<ShopManager>
 
     public void OpenShop(List<ItemData> itemsForSale)
     {
-        UIManager.Instance.shopUIController.SetShopUI(itemsForSale);
+        UIManager.Instance.ShopUI.SetShopUI(itemsForSale);
         UIManager.Instance.OpenShopUI();
     }
 }

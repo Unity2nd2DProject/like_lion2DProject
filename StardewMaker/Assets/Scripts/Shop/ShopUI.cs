@@ -3,7 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 
 
-public class ShopUIController : MonoBehaviour
+public class ShopUI : MonoBehaviour
 {
     public Transform shopItemParent;
 
@@ -11,6 +11,8 @@ public class ShopUIController : MonoBehaviour
 
     public GameObject itemInfoUIPrefab;
     [HideInInspector] public GameObject itemInfoUI;
+
+    public GameObject sellPopupUIPrefab;
 
 
     public void SetShopUI(List<ItemData> itemDatas)
@@ -26,6 +28,11 @@ public class ShopUIController : MonoBehaviour
             ShopSlotUI shopSlotUI = itemSlotObj.GetComponent<ShopSlotUI>();
             shopSlotUI.Setup(itemData, this);
         }
+    }
+
+    public void OpenShopUI()
+    {
+        gameObject.SetActive(true);
     }
 
     public void ShowItemInfoUI(ItemData itemData, Vector2 position)

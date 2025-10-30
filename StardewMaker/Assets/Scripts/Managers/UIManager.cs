@@ -5,16 +5,12 @@ using UnityEngine;
 public class UIManager : Singleton<UIManager>
 {
     [Header("Inventory and QuickSlot")]
-    public GameObject inventoryUIPrefab;
-    public GameObject quickSlotUIPrefab;
-
-    [HideInInspector]
-    public InventoryUI inventoryUI;
-    private QuickSlotUI quickSlotUI;
+    public InventoryUI InventoryUI;
+    public QuickSlotUI QuickSlotUI;
 
     [Header("Popup Message")]
-    public GameObject popupMessagePrefab;
-    [HideInInspector] public GameObject currentPopup; // 현재 팝업 메시지를 저장
+    public GameObject popupMessageUIPrefab;
+    [HideInInspector] public PopUpMessageUI PopupUI;
     public GameObject toolTipPrefab;
     private TooltipUI toolTipInstance;
 
@@ -40,8 +36,7 @@ public class UIManager : Singleton<UIManager>
     private BaseUI baseUI;
 
     [Header("Shop UI")]
-    public GameObject shopUI;
-    public ShopUIController shopUIController;
+    public ShopUI ShopUI;
 
     [Header("Dialogue UI")]
     public GameObject dialogueUI;
@@ -63,106 +58,19 @@ public class UIManager : Singleton<UIManager>
         base.Awake();
 
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
-
     }
+
+    #region 딸 관련 UI 
 
     public void InitializeStatUI(List<Stat> stats)
     {
-        if(statUIInstance == null) // 이미 StatUI가 존재하면 초기화 하지 않음
+        if (statUIInstance == null) // 이미 StatUI가 존재하면 초기화 하지 않음
         {
             statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
             statUIInstance.Initialize(stats);
-        }        
-    }
-
-    public void InitializeInventoryAndQuickSlot()
-    {
-        inventoryUI = canvas.GetComponentInChildren<InventoryUI>();
-        if (inventoryUI == null) // 인벤토리 UI가 null이면 새로 생성
-        {
-            inventoryUI = Instantiate(inventoryUIPrefab, canvas.transform).GetComponent<InventoryUI>();
-            inventoryUI.gameObject.transform.SetAsFirstSibling();
-            inventoryUI.InitializeInventoryUI();
-        }
-
-        quickSlotUI = canvas.GetComponentInChildren<QuickSlotUI>();
-        if (quickSlotUI == null) // 퀵슬롯 UI가 null이면 새로 생성
-        {
-            quickSlotUI = Instantiate(quickSlotUIPrefab, canvas.transform).GetComponent<QuickSlotUI>();
-            quickSlotUI.gameObject.transform.SetAsFirstSibling();
-            quickSlotUI.InitializeQuickSlotUI();
         }
     }
 
-    public void UpdateInventoryAndQuickSlot()
-    {
-        quickSlotUI.UpdateQuickSlotUI();
-        inventoryUI.UpdateInventoryUI();
-    }
-
-    public void UpdateQuickSlotUI()
-    {
-        quickSlotUI.UpdateQuickSlotUI();
-    }
-
-    public void UpdateInventoryUI()
-    {
-        inventoryUI.UpdateInventoryUI();
-    }
-
-    public void ShowPopup(string message, Vector3 position = default)
-    {
-        if (position == default)
-        {
-            position = Input.mousePosition;
-        }
-
-        // 이전 팝업이 있다면 제거
-        if (currentPopup != null)
-        {
-            Destroy(currentPopup);
-            currentPopup = null;
-        }
-
-        GameObject popup = Instantiate(popupMessagePrefab, canvas.transform);
-        popup.transform.position = position;
-        popup.GetComponent<PopUpMessageUI>().SetMessage(message);
-
-        currentPopup = popup;
-    }
-
-    public void HidePopupImmediately()
-    {
-        if (currentPopup != null)
-        {
-            Destroy(currentPopup);
-            currentPopup = null;
-        }
-    }
-
-    public void ToggleInventoryByButton()
-    {
-        UpdateInventoryUI();
-        UpdateQuickSlotUI();
-
-        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 둘 다 토글 + 위치조정 이상해져서 그냥 제거. 
-        {
-            inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
-            quickSlotUI.gameObject.SetActive(!quickSlotUI.gameObject.activeSelf);
-        }
-        else if(GameManager.Instance.currentMode == GameMode.TOWN) // 타운모드일때는 인벤토리만 토글
-        {
-            inventoryUI.gameObject.SetActive(!inventoryUI.gameObject.activeSelf);
-        }
-    }
-
-    public void ShowQuickSlotUI()
-    {
-        if (quickSlotUI != null)
-        {
-            quickSlotUI.gameObject.SetActive(true);
-        }
-    }
 
     public void InitializeCookingUI()
     {
@@ -230,6 +138,98 @@ public class UIManager : Singleton<UIManager>
         }
     }
 
+    #endregion
+
+    #region 인벤토리 및 퀵슬롯 UI
+    public void InitializeInventoryAndQuickSlot()
+    {
+        InventoryUI.gameObject.transform.SetAsFirstSibling();
+        QuickSlotUI.gameObject.transform.SetAsFirstSibling();
+
+        InventoryUI.InitializeInventoryUI();
+        QuickSlotUI.InitializeQuickSlotUI();
+    }
+
+    public void UpdateInventoryAndQuickSlot()
+    {
+        QuickSlotUI.UpdateQuickSlotUI();
+        InventoryUI.UpdateInventoryUI();
+    }
+
+    public void UpdateQuickSlotUI()
+    {
+        QuickSlotUI.UpdateQuickSlotUI();
+    }
+
+    public void UpdateInventoryUI()
+    {
+        InventoryUI.UpdateInventoryUI();
+    }
+    public void ShowInventoryUI()
+    {
+        if (InventoryUI != null)
+        {
+            InventoryUI.gameObject.SetActive(true);
+        }
+    }
+
+    public void ShowQuickSlotUI()
+    {
+        if (QuickSlotUI != null)
+        {
+            QuickSlotUI.gameObject.SetActive(true);
+        }
+    }
+
+    #endregion
+
+    public void ShowPopup(string message, Vector3 position = default)
+    {
+        if (position == default)
+        {
+            position = Input.mousePosition;
+        }
+
+        // 이전 팝업이 있다면 제거
+        if (PopupUI != null)
+        {
+            Destroy(PopupUI);
+            PopupUI = null;
+        }
+
+        GameObject popup = Instantiate(popupMessageUIPrefab, canvas.transform);
+        popup.transform.position = position;
+        PopupUI = popup.GetComponent<PopUpMessageUI>();
+        PopupUI.SetMessage(message);
+
+    }
+
+    public void HidePopupImmediately()
+    {
+        if (PopupUI != null)
+        {
+            Destroy(PopupUI);
+            PopupUI = null;
+        }
+    }
+
+    public void ToggleInventoryByButton()
+    {
+        UpdateInventoryUI();
+        UpdateQuickSlotUI();
+
+        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 둘 다 토글 + 위치조정 이상해져서 그냥 제거. 
+        {
+            InventoryUI.gameObject.SetActive(!InventoryUI.gameObject.activeSelf);
+            QuickSlotUI.gameObject.SetActive(!QuickSlotUI.gameObject.activeSelf);
+        }
+        else if (GameManager.Instance.currentMode == GameMode.TOWN) // 타운모드일때는 인벤토리만 토글
+        {
+            InventoryUI.gameObject.SetActive(!InventoryUI.gameObject.activeSelf);
+        }
+    }
+
+
     public void ShowTooltip(ItemData itemdata, Vector3 position)
     {
         if (toolTipInstance == null)
@@ -263,22 +263,18 @@ public class UIManager : Singleton<UIManager>
         Debug.Log("ToggleSoundSettingUI");
         if (SoundSettingUIInstance == null)
         {
-            Canvas canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
             SoundSettingUIInstance = Instantiate(soundSettingUIPrefab, canvas.transform).GetComponent<SoundSettingUI>();
             SoundSettingUIInstance.gameObject.SetActive(false);
         }
-
         SoundSettingUIInstance.gameObject.SetActive(!SoundSettingUIInstance.gameObject.activeSelf);
-
     }
 
     public void OpenShopUI()
-    {
-        inventoryUI.transform.parent = shopUI.transform;
-        shopUI.SetActive(true);
-        inventoryUI.ShowInventory();
-        inventoryUI.SetShopMode();
+    {     
+        ShopUI.gameObject.SetActive(true);
+        InventoryUI.transform.parent = ShopUI.transform;
+        ShowInventoryUI();
+        InventoryUI.SetShopMode();
     }
-    
 }
 

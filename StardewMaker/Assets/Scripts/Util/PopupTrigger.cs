@@ -33,7 +33,7 @@ public class PopupTrigger : MonoBehaviour
                 return;
             }
 
-            if (UIManager.Instance.currentPopup != null || dialogUI.activeSelf)
+            if (UIManager.Instance.PopupUI != null || dialogUI.activeSelf)
             {
                 UIManager.Instance.HidePopupImmediately();
             }

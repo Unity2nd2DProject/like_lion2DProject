@@ -15,10 +15,10 @@ public class ShopSlotUI : MonoBehaviour, IPointerEnterHandler, IPointerExitHandl
     public Button buyButton;
 
     private ItemData itemData;
-    private ShopUIController shopUI;
+    private ShopUI shopUI;
 
     // 슬롯 초기화
-    public void Setup(ItemData data, ShopUIController shopUI)
+    public void Setup(ItemData data, ShopUI shopUI)
     {
         itemData = data;
         this.shopUI = shopUI;
