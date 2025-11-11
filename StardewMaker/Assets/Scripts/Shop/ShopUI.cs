@@ -14,6 +14,8 @@ public class ShopUI : MonoBehaviour
 
     public GameObject sellPopupUIPrefab;
 
+    GameObject sellPopupUIInstance;
+
 
     public void SetShopUI(List<ItemData> itemDatas)
     {
@@ -34,13 +36,17 @@ public class ShopUI : MonoBehaviour
     {
         gameObject.SetActive(true);
     }
-    
+
+    public void CloseShopUI()
+    {
+        gameObject.SetActive(false);
+        Destroy(sellPopupUIInstance);
+    }
+
     public void ShowSellPopUp(ItemSlot itemSlot)
     {
-        Instantiate(sellPopupUIPrefab, transform.parent);
-        SellPopupUI sellPopupUI = sellPopupUIPrefab.GetComponent<SellPopupUI>();
-        Debug.Log(itemSlot);
-        sellPopupUI.SetItemSlot(itemSlot);
+        sellPopupUIInstance = Instantiate(sellPopupUIPrefab, transform);
+        sellPopupUIInstance.GetComponent<SellPopupUI>().SetItemSlot(itemSlot);
     }
 
     public void ShowItemInfoUI(ItemData itemData, Vector2 position)

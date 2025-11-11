@@ -66,12 +66,14 @@ public class InventoryUI : MonoBehaviour
     public void OnCancelButtonClickedShop()
     {
         Debug.Log("상점 닫기");
-        UIManager.Instance.ShopUI.gameObject.SetActive(false);
+        UIManager.Instance.ShopUI.CloseShopUI();
         UIManager.Instance.InventoryUI.HideInventory();
-        UIManager.Instance.dialogueUI.SetActive(true);
-        this.gameObject.transform.parent = UIManager.Instance.canvas.transform;
         InitializeInventoryUI();
+
+        UIManager.Instance.dialogueUI.SetActive(true);
         UIManager.Instance.dialogueUI.GetComponent<DialogueController>().EndBuissness();
+        this.gameObject.transform.parent = UIManager.Instance.canvas.transform;        
+        
         UIManager.Instance.OffUI();
     }
 }

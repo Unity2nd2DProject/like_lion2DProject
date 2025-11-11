@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 6888586794490693978}
   - component: {fileID: 4983777858673694731}
   - component: {fileID: 4563721649055173696}
-  - component: {fileID: 859701988087739537}
   - component: {fileID: 3398515114749962580}
   m_Layer: 0
   m_Name: Barun
@@ -86,9 +85,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0321abe4c76c3154c8546b246cdab5ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcName: Barun
+  npcID: 0
   schedule: {fileID: 11400000, guid: c99b7d98993424440801d83b0b5d3a21, type: 2}
-  defaultPosition: h2wp1
+  mover: {fileID: 0}
+  questGiver: {fileID: 0}
+  vendor: {fileID: 0}
+  interactionRange: 2.5
+  shopAvailable: 0
+  questAvailable: 0
 --- !u!114 &4563721649055173696
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,28 +110,7 @@ MonoBehaviour:
   arrivalAction: 0
   isMoving: 0
   teleportWp: 
---- !u!114 &859701988087739537
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5954097100629642059}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3302d2a09bc13234a85c9d39b8224b67, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactionRange: 3
-  npcImage: {fileID: -8601655016562913, guid: 7ac5c968e24d5684c9ea7191f630de49, type: 3}
-  defaultText: "\uC694\uC998 \uC0AC\uB78C\uB4E4\uC740 \uBE60\uB974\uC9C0\uB9CC, \uAE4A\uC774\uAC00
-    \uBD80\uC871\uD558\uC9C0. \uB108\uB294\u2026 \uC880 \uB2E4\uB97C\uC9C0\uB3C4
-    \uBAA8\uB974\uACA0\uAD70."
-  questCompleteText: "\uC218\uACE0\uD588\uC5B4! \uD56D\uC0C1 \uC560\uC368\uC918\uC11C
-    \uACE0\uB9D9\uB2E4\uB124."
-  questProgressText: "\uC544\uC9C1 \uB2E4 \uBABB\uD55C \uAC83 \uAC19\uC740\uB370
-    \uACC4\uC18D \uD574\uBCF4\uB294\uAC8C \uC5B4\uB54C?"
-  questOfferText: "\uB098\uB97C \uB3C4\uC640\uC904 \uC218 \uC788\uB098?"
+  defaultPosition: {fileID: 0}
 --- !u!114 &3398515114749962580
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,8 @@ namespace NPC
     {
         None,
         Sera,
+        Barun,
+
     }
 
     public enum NpcEmotion

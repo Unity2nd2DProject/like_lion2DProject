@@ -143,36 +143,22 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
         }
 
         ShopUI shopUI = dropTarget.GetComponentInParent<ShopUI>();
-        if(shopUI != null)
+        if (shopUI != null)
         {
-            shopUI.ShowSellPopUp(itemSlot);
+            if (itemData.isSellable)
+            {
+                shopUI.ShowSellPopUp(itemSlot);
+            }
+            else
+            {
+                UIManager.Instance.ShowPopup("이 아이템은 판매할 수 없습니다.");
+            }
         }
         else
         {
             ReturnToOriginalPosition();
         }
-        /*
-        if (ShopUIController.Instance != null)
-        {
-            var scrollRect = ShopUIController.Instance.scrollRectTransform;
 
-            if (RectTransformUtility.RectangleContainsScreenPoint(scrollRect, eventData.position))
-            {
-                var viewport = ShopUIController.Instance.scrollViewport;
-
-                if (viewport != null &&
-                    RectTransformUtility.RectangleContainsScreenPoint(viewport, eventData.position, ShopUIController.Instance.GetComponentInParent<Canvas>().worldCamera))
-                {
-                    // isSellable이 true인 경우에만 판매 팝업 띄움
-                    if (itemData != null && itemData.isSellable)
-                    {
-                        ShopUIController.Instance.sellPopup.Show(itemSlot);
-                    }
-                    return;
-                }
-            }
-        }
-        */
     }
 
     private void SwapSlotData(ItemSlotUI currentSlot, ItemSlotUI targetSlot)

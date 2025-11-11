@@ -45,6 +45,7 @@ public class NPCMover : MonoBehaviour
             return;
         }
 
+        /*
         Transform target = route[index];
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
@@ -66,6 +67,7 @@ public class NPCMover : MonoBehaviour
                 OnArrival();
             }
         }
+        */
     }
 
     private void OnArrival()

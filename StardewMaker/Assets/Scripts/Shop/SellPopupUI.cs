@@ -20,7 +20,6 @@ public class SellPopupUI : MonoBehaviour
 
     public void SetItemSlot(ItemSlot slot)
     {
-        Debug.Log("SetItemSlot called");
         currentSlot = slot;
         unitPrice = slot.itemData.sellPrice;
         maxQty = slot.quantity;
@@ -28,7 +27,6 @@ public class SellPopupUI : MonoBehaviour
         currentQty = 1;
 
         UpdateUI();
-
         quantityInput.onValueChanged.AddListener(OnQuantityChanged);
         increaseButton.onClick.AddListener(OnIncrease);
         decreaseButton.onClick.AddListener(OnDecrease);
@@ -88,7 +86,6 @@ public class SellPopupUI : MonoBehaviour
     // 팝업 숨기기 및 상호작용 복원
     public void Close()
     {
-        Debug.Log("closing sell popup");    
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
