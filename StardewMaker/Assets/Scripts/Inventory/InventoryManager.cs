@@ -35,11 +35,13 @@ public class InventoryManager : Singleton<InventoryManager>
         InitializeMoney();
     }
 
+    /*
     private void Start()
     {
         SaveManager.Instance.LoadInventory();
         SaveManager.Instance.LoadMoney();
     }
+    */
 
     private void Update()
     {
@@ -56,11 +58,11 @@ public class InventoryManager : Singleton<InventoryManager>
         currentSelectedQuickSlotIndex = 0;
         UIManager.Instance.InitializeInventoryAndQuickSlot();
 
-        //// 테스트 용 아이템 추가
-        //for (int i = 0; i < starterItems.Count; i++)
-        //{
-        //    AddItem(starterItems[i], 4);
-        //}        
+        // 테스트 용 아이템 추가
+        for (int i = 0; i < starterItemsForTest.Count; i++)
+        {
+            AddItem(starterItemsForTest[i], 4);
+        }
     }
 
     private void InitializeMoney()

@@ -55,6 +55,12 @@ public class NPCController : MonoBehaviour
 
         if (distance > interactionRange)
         {
+            Debug.Log($"[NPCInteraction] to far to interact");
+            return;
+        }
+        else if (UIManager.Instance.IsUIOn())
+        {
+            Debug.Log($"[NPCInteraction] UI is on, cannot interact");
             return;
         }
         else

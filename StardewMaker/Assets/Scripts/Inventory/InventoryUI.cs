@@ -72,5 +72,6 @@ public class InventoryUI : MonoBehaviour
         this.gameObject.transform.parent = UIManager.Instance.canvas.transform;
         InitializeInventoryUI();
         UIManager.Instance.dialogueUI.GetComponent<DialogueController>().EndBuissness();
+        UIManager.Instance.OffUI();
     }
 }

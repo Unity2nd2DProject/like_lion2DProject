@@ -1,14 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemSlotUI : MonoBehaviour, IDropHandler
+public class ItemSlotUI : MonoBehaviour
 {
     public GameObject item;
-    [HideInInspector]
-    public ItemSlot itemSlot;
-
-    private bool isSellMode = false;
-    private SellPopupUI sellPopup;
+    [HideInInspector] public ItemSlot itemSlot;
 
     public void UpdateSlot(ItemSlot inventorySlot)
     {
@@ -19,27 +15,5 @@ public class ItemSlotUI : MonoBehaviour, IDropHandler
 
         if (item != null && inventorySlot != null)
             item.GetComponent<SlotedItemUI>().SetSlot(inventorySlot.itemData, inventorySlot.quantity, inventorySlot);
-    }
-
-    public void SetSellMode(bool enable, SellPopupUI popup = null)
-    {
-        isSellMode = enable;
-        sellPopup = popup;
-    }
-
-    public void OnPointerClick(PointerEventData eventData)
-    {
-        if (isSellMode && itemSlot != null && itemSlot.itemData != null)
-        {
-            if (itemSlot.itemData.isSellable)
-            {
-                sellPopup.Show(itemSlot);
-            }
-        }
-    }
-
-    public void OnDrop(PointerEventData eventData)
-    {
-
     }
 }

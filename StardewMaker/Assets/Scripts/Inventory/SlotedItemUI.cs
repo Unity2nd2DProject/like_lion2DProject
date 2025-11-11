@@ -142,6 +142,15 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             ReturnToOriginalPosition();
         }
 
+        ShopUI shopUI = dropTarget.GetComponentInParent<ShopUI>();
+        if(shopUI != null)
+        {
+            shopUI.ShowSellPopUp(itemSlot);
+        }
+        else
+        {
+            ReturnToOriginalPosition();
+        }
         /*
         if (ShopUIController.Instance != null)
         {

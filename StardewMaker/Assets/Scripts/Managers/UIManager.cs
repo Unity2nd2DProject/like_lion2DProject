@@ -52,6 +52,7 @@ public class UIManager : Singleton<UIManager>
 
     [HideInInspector] public Canvas canvas;
 
+    private bool isUIon = false;
 
     protected override void Awake()
     {
@@ -275,6 +276,22 @@ public class UIManager : Singleton<UIManager>
         InventoryUI.transform.parent = ShopUI.transform;
         ShowInventoryUI();
         InventoryUI.SetShopMode();
+        OnUI();
+    }
+
+    public void OnUI()
+    {
+        isUIon = true;
+    }
+
+    public void OffUI()
+    {
+        isUIon = false;
+    }
+
+    public bool IsUIOn()
+    {
+        return isUIon;
     }
 }
 
