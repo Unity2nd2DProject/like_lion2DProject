@@ -12,6 +12,10 @@ public class SaveManager : Singleton<SaveManager>
     private string baseDataPath => Application.persistentDataPath + "/Save/baseData.json";
     private string inventroyPath => Application.persistentDataPath + "/Save/inventory.json";
     private string statsPath => Application.persistentDataPath + "/Save/stats.json";
+    private string npcPath => Application.persistentDataPath + "/Save/npc.json";
+    private string friendshipPath => Application.persistentDataPath + "/Save/friendship.json";
+    private string questPath => Application.persistentDataPath + "/Save/quest.json";
+
 
     private void Start()
     {
@@ -32,24 +36,6 @@ public class SaveManager : Singleton<SaveManager>
         System.IO.File.WriteAllText(farmPath, json);
         Debug.Log("농장 정보가 저장되었습니다. " + farmPath);
     }
-
-    //public void NextDayFarm()
-    //{
-    //    string json = System.IO.File.ReadAllText(farmPath);
-    //    FarmData data = JsonUtility.FromJson<FarmData>(json);
-
-    //    data = new FarmData
-    //    {
-    //        savedFarmLands = FarmLandManager.Instance.NextDayFarmLands(data.savedFarmLands),
-    //        savedCrops = CropManager.Instance.NextDayCrops(data.savedCrops),
-    //        savedTrees = TreeManager.Instance.NextDayTrees(data.savedTrees),
-    //        savedBushes = BushManager.Instance.NextDayBushes(data.savedBushes)    
-    //    };
-
-    //    json = JsonUtility.ToJson(data, true);
-    //    System.IO.File.WriteAllText(farmPath, json);
-    //    Debug.Log("농장 정보가 업데이트되었습니다. " + farmPath);
-    //}
 
     public void LoadFarm()
     {
@@ -189,6 +175,91 @@ public class SaveManager : Singleton<SaveManager>
         UIManager.Instance.UpdateInventoryAndQuickSlot();
     }
 
+    // NPC
+    public void SaveNPC()
+    {
+        NPCSaveData data = NPCManager.Instance.SaveNPCs();
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(npcPath, json);
+        Debug.Log("NPC 위치 정보가 저장되었습니다. " + npcPath);
+    }
+
+    public void LoadNPC()
+    {
+        if (!System.IO.File.Exists(npcPath))
+        {
+            Debug.LogWarning("npc.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(npcPath);
+        NPCSaveData data = JsonUtility.FromJson<NPCSaveData>(json);
+        NPCManager.Instance.LoadNPCs(data);
+    }
+
+    public void SaveFriendship()
+    {
+        FriendshipSaveData data = new FriendshipSaveData();
+
+        foreach (var friendship in FriendshipManager.Instance.GetAllFriendships())
+        {
+            data.savedFriendships.Add(new SavedFriendship
+            {
+                npcName = friendship.npcName,
+                points = friendship.points
+            });
+        }
+
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(friendshipPath, json);
+        Debug.Log("NPC 호감도 정보가 저장되었습니다. " + friendshipPath);
+    }
+
+    public void LoadFriendship()
+    {
+        if (!System.IO.File.Exists(friendshipPath))
+        {
+            Debug.LogWarning("friendship.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(friendshipPath);
+        FriendshipSaveData data = JsonUtility.FromJson<FriendshipSaveData>(json);
+
+        FriendshipManager.Instance.ResetAll();
+
+        foreach (var savedFriend in data.savedFriendships)
+        {
+            var friendship = FriendshipManager.Instance.GetOrCreateFriendship(savedFriend.npcName);
+            friendship.points = savedFriend.points;
+        }
+
+        Debug.Log("호감도 정보가 로드되었습니다. (" + data.savedFriendships.Count + "명)");
+    }
+
+    // Quest
+    public void SaveQuest()
+    {
+        SavedQuestData data = QuestManager.Instance.SaveQuests();
+        string json = JsonUtility.ToJson(data, true);
+        System.IO.File.WriteAllText(questPath, json);
+        Debug.Log("퀘스트 정보가 저장되었습니다. " + questPath);
+    }
+
+    public void LoadQuest()
+    {
+        if (!System.IO.File.Exists(questPath))
+        {
+            Debug.LogWarning("quest.json 파일이 존재하지 않습니다.");
+            return;
+        }
+
+        string json = System.IO.File.ReadAllText(questPath);
+        SavedQuestData data = JsonUtility.FromJson<SavedQuestData>(json);
+        QuestManager.Instance.LoadQuests(data);
+    }
+
+    // Daughter
     public void SaveStats()
     {
         StatsData data = new StatsData();
@@ -236,17 +307,12 @@ public class SaveManager : Singleton<SaveManager>
 
     public void Save()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name.Contains("TownScene"))
-        {
-            SaveFarm();
-        }
-        if (currentScene.name.Contains("HomeScene"))
-        {
-            SaveStats();
-        }
         SaveBase();
+        SaveFarm();
         SaveInventory();
+        SaveFriendship();
+        SaveNPC();
+        SaveQuest();
 
         Debug.Log("💾 저장 완료");
     }

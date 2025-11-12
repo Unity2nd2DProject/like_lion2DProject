@@ -169,7 +169,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (Input.GetKeyDown(KeyCode.N))
         {
-            TimeManager.Instance.AdvanceDay();
+            SaveManager.Instance.Save();
         }
     }
 

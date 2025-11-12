@@ -12,6 +12,11 @@ public class FriendshipManager : Singleton<FriendshipManager>
         base.Awake();
     }
 
+    private void Start()
+    {
+        SaveManager.Instance.LoadFriendship();
+    }
+
     public FriendshipData GetFriendship(string npcName)
     {
         return friendships.Find(f => f.npcName == npcName);

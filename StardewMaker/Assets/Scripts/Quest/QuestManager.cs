@@ -33,7 +33,11 @@ public class QuestManager : Singleton<QuestManager>
 
     private void Start()
     {
-        AcceptQuest(tutorials[0].questID);
+        SaveManager.Instance.LoadQuest();
+        if (!HasCompletedQuest(tutorials[0].questID) && !IsQuestActive(tutorials[0].questID))
+        {
+            AcceptQuest(tutorials[0].questID);
+        }
     }
 
     public void AcceptQuest(string questID, string giverNpcName = null)
@@ -255,4 +259,59 @@ public class QuestManager : Singleton<QuestManager>
             completedQuestIDs.Remove(id);
         }
     }
+
+    public SavedQuestData SaveQuests()
+    {
+        SavedQuestData data = new SavedQuestData();
+
+        foreach (var quest in activeQuests)
+        {
+            SavedQuest sq = new SavedQuest
+            {
+                questID = quest.questData.questID,
+                giverNpcName = quest.giverNpcName
+            };
+
+            foreach (var goal in quest.goals)
+            {
+                sq.currentAmounts.Add(goal.currentAmount);
+            }
+
+            data.activeQuests.Add(sq);
+        }
+
+        data.completedQuestIDs.AddRange(completedQuestIDs);
+        return data;
+    }
+
+    public void LoadQuests(SavedQuestData data)
+    {
+        activeQuests.Clear();
+        completedQuestIDs.Clear();
+
+        foreach (var saved in data.activeQuests)
+        {
+            QuestData questData = quests.Find(q => q.questID == saved.questID);
+            if (questData == null)
+            {
+                Debug.LogWarning($"[QuestLoad] {saved.questID} 퀘스트 데이터를 찾을 수 없습니다.");
+                continue;
+            }
+
+            QuestInstance instance = new QuestInstance(questData, saved.giverNpcName);
+
+            for (int i = 0; i < saved.currentAmounts.Count && i < instance.goals.Count; i++)
+            {
+                instance.goals[i].currentAmount = saved.currentAmounts[i];
+            }
+
+            activeQuests.Add(instance);
+        }
+
+        foreach (var id in data.completedQuestIDs)
+        {
+            completedQuestIDs.Add(id);
+        }
+    }
+
 }

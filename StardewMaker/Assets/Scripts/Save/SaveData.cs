@@ -97,3 +97,50 @@ public class SavedStat
     public float currentValue;
     public float maxValue;
 }
+
+// NPCData
+[System.Serializable]
+public class NPCSaveData
+{
+    public List<SavedNPC> savedNPCs = new List<SavedNPC>();
+}
+
+[System.Serializable]
+public class SavedNPC
+{
+    public string npcName;
+    public Vector3 position;
+    public NpcActionType currentAction;
+    public int routeIndex;
+    public string teleportTarget;
+}
+
+[System.Serializable]
+public class FriendshipSaveData
+{
+    public List<SavedFriendship> savedFriendships = new List<SavedFriendship>();
+}
+
+[System.Serializable]
+public class SavedFriendship
+{
+    public string npcName;
+    public int points;
+}
+
+// QuestData
+[System.Serializable]
+public class SavedQuestData
+{
+    public List<SavedQuest> activeQuests = new List<SavedQuest>();
+    public List<string> completedQuestIDs = new List<string>();
+}
+
+[System.Serializable]
+public class SavedQuest
+{
+    public string questID;
+    public string giverNpcName;
+    public List<int> currentAmounts = new List<int>();
+}
+

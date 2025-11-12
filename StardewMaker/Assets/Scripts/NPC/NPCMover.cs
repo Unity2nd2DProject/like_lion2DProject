@@ -101,4 +101,16 @@ public class NPCMover : MonoBehaviour
             transform.position = target.position;
         }
     }
+
+    public NpcActionType GetCurrentAction() => arrivalAction;
+    public int GetCurrentRouteIndex() => index;
+    public string GetTeleportTarget() => teleportWp;
+
+    public void RestoreState(NpcActionType action, int routeIdx, string teleport)
+    {
+        arrivalAction = action;
+        index = routeIdx;
+        teleportWp = teleport;
+    }
+
 }
