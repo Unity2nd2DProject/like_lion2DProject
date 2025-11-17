@@ -132,7 +132,7 @@ public class DialogueController : MonoBehaviour
     {
         HideButtons();
         Debug.Log("퀘스트 대화 시작");
-        // currentNPC.questGiver.GiveQuest();
+        currentNPC.questGiver.GiveQuest();
     }
 
     private void OnLeaveButton()

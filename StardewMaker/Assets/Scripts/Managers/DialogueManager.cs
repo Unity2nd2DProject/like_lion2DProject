@@ -32,7 +32,6 @@ public class DialogueManager : Singleton<DialogueManager>
     private void SetDialogue(NPCController npc)
     {
         var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
-        Debug.Log(npcSet);
         dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc);
     }
 

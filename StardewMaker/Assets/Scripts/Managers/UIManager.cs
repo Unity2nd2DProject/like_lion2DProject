@@ -293,5 +293,10 @@ public class UIManager : Singleton<UIManager>
     {
         return isUIon;
     }
+
+    public void ToggleQuestPanel()
+    {
+        questUI.SetActive(!questUI.activeSelf);
+    }
 }
 

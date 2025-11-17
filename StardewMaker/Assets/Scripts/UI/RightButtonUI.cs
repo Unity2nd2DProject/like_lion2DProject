@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BaseButtonUI : MonoBehaviour
+public class RightButtonUI : MonoBehaviour
 {
     public Button questButton;
     public Button inventoryButton;
@@ -10,14 +10,14 @@ public class BaseButtonUI : MonoBehaviour
 
     private void Start()
     {
-        //questButton.onClick.AddListener(OnQuestButtonClicked);
+        questButton.onClick.AddListener(OnQuestButtonClicked);
         inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
         optionButton.onClick.AddListener(OnOptionButtonClicked);
     }
 
     private void OnQuestButtonClicked()
     {
-        QuestUI.Instance.ToggleQuestPanel();
+        UIManager.Instance.ToggleQuestPanel();
     }
 
     private void OnOptionButtonClicked()

@@ -12,17 +12,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 06b7201e695b01248b24a48bf8d5f35b, type: 3}
   m_Name: Quest100
   m_EditorClassIdentifier: 
-  questID: 
+  questID: 100
   questType: 1
-  questName: 
+  questName: test
   description: 
   goalDescrpition: 
-  goals: []
-  rewardItem: {fileID: 0}
-  rewardQuantity: 0
+  goals:
+  - goalType: 0
+    targetType: 11
+    targetItem: {fileID: 11400000, guid: c62972d35de1c374699104fb9cbef146, type: 2}
+    requiredAmount: 2
+    currentAmount: 0
+  rewardItem: {fileID: 11400000, guid: 4ed94e4cebc966244964835b4d80c6c6, type: 2}
+  rewardQuantity: 1
   rewardMoney: 0
-  rewardGivenBy: 0
-  friendshipPointReward: 0
+  rewardGivenBy: 2
+  friendshipPointReward: 1
   availableFromHour: 0
-  availableToHour: 0
-  availableDays: 
+  availableToHour: 10
+  availableDays: 05000000
