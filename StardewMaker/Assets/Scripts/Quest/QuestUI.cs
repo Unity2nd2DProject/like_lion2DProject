@@ -9,11 +9,13 @@ public class QuestUI : Singleton<QuestUI>
     [SerializeField] private Transform completedListParent;
     [SerializeField] private GameObject questSlotPrefab;
     [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
+    [SerializeField] private Button toggleButton;
 
     protected override void Awake()
     {
         base.Awake();
         ToggleQuestPanel();
+        toggleButton.onClick.AddListener(ToggleQuestPanel);
     }
 
     public void ToggleQuestPanel()
@@ -69,5 +71,10 @@ public class QuestUI : Singleton<QuestUI>
     public void ShowQuestDetail(QuestDataSO quest)
     {
         questDetailPopupUI.Show(quest);
+    }
+
+    public void CloseQuestUI()
+    {
+        questPanel.SetActive(false);
     }
 }

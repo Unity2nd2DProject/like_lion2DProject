@@ -9,12 +9,10 @@ public class QuestDetailPopupUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI nameText;
     [SerializeField] private TextMeshProUGUI descriptionText;
     [SerializeField] private TextMeshProUGUI goalText;
-    [SerializeField] private Button closeButton;
 
     private void Awake()
     {
         popupPanel.SetActive(false);
-        // closeButton.onClick.AddListener(Hide);
     }
 
     public void Show(QuestInstance quest)
