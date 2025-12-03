@@ -21,7 +21,7 @@ namespace NPC
         Surprised
     }
 
-    public enum DialogueSequenceType
+    public enum DialogueSequenceType // 대사 시퀀스 즉, 대화의 종류
     {
         Greeting,
         Chat,
@@ -30,8 +30,14 @@ namespace NPC
         QuestOffer,
         QuestCompletion,
         QuestDecline,
+        QuestUnavailable,
         Farewell,
         Custom
+    }
+
+    public enum DialogueSequenceTag
+    {
+
     }
 }
 

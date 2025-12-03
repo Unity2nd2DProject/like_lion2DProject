@@ -149,6 +149,11 @@ public class UIManager : Singleton<UIManager>
 
         InventoryUI.InitializeInventoryUI();
         QuickSlotUI.InitializeQuickSlotUI();
+
+        if(true) //TODO: 초기화 시점에 따라 변경 필요
+        {
+            ShowQuickSlotUI();
+        }
     }
 
     public void UpdateInventoryAndQuickSlot()
@@ -218,16 +223,6 @@ public class UIManager : Singleton<UIManager>
     {
         UpdateInventoryUI();
         UpdateQuickSlotUI();
-
-        if (GameManager.Instance.currentMode == GameMode.HOME) // 홈모드일때는 둘 다 토글 + 위치조정 이상해져서 그냥 제거. 
-        {
-            InventoryUI.gameObject.SetActive(!InventoryUI.gameObject.activeSelf);
-            QuickSlotUI.gameObject.SetActive(!QuickSlotUI.gameObject.activeSelf);
-        }
-        else if (GameManager.Instance.currentMode == GameMode.TOWN) // 타운모드일때는 인벤토리만 토글
-        {
-            InventoryUI.gameObject.SetActive(!InventoryUI.gameObject.activeSelf);
-        }
     }
 
 

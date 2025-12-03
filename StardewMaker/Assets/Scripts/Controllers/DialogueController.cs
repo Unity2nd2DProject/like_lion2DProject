@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using NPC;
+using Unity.VisualScripting;
 
 public class DialogueController : MonoBehaviour
 {
@@ -58,6 +59,7 @@ public class DialogueController : MonoBehaviour
         if (chatSequences.Count == 0)
         {
             Debug.LogWarning($"No chat sequences of type {type} found.");
+            doAfterTalk?.Invoke();
             yield break;
         }
 

@@ -7,7 +7,6 @@ public class FriendshipManager : Singleton<FriendshipManager>
     [Header("Friendship Table")]
     [SerializeField] private List<FriendshipData> friendships = new List<FriendshipData>();
 
-
     protected override void Awake()
     {
         base.Awake();

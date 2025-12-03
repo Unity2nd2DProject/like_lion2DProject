@@ -10,11 +10,7 @@ public class QuestPool : ScriptableObject
 
     public QuestDataSO GetRandomAvailableQuest(int currentHour, int day)
     {
-        List<QuestDataSO> candidates = dailyQuests.FindAll(q =>
-            currentHour >= q.availableFromHour &&
-            currentHour < q.availableToHour &&
-            (q.availableDays == null || q.availableDays.Count == 0 || q.availableDays.Contains(day))
-        );
+        List<QuestDataSO> candidates = dailyQuests;
 
         if (candidates.Count == 0)
         {

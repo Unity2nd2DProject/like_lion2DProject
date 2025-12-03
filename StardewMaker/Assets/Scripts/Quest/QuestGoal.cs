@@ -6,6 +6,22 @@ public enum QuestGoalType
     ItemCollect 
 }
 
+public enum QuestTargetType
+{
+    TrilledSoil,
+    SeedPlanted,
+    Watered,
+    Fertilized,
+    Harvested,
+    TreeChopped,
+    FishCaught,
+    StoneBroken,
+    GaveToDaughter,
+    CookedFood,
+    GreetedToNPC,
+    BuyItem,
+}
+
 [System.Serializable]
 public class QuestGoal
 {

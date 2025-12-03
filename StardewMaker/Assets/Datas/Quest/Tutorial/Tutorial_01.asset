@@ -9,20 +9,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06b7201e695b01248b24a48bf8d5f35b, type: 3}
-  m_Name: Quest1
+  m_Script: {fileID: 11500000, guid: 2c2eb1e64dfca954fb17ef36ecef7134, type: 3}
+  m_Name: Tutorial_01
   m_EditorClassIdentifier: 
-  questID: 
+  questID: t01
   questType: 0
   questName: 
   description: 
   goalDescrpition: 
   goals: []
-  rewardItem: {fileID: 0}
-  rewardQuantity: 0
-  rewardMoney: 0
-  rewardGivenBy: 0
-  friendshipPointReward: 0
-  availableFromHour: 0
-  availableToHour: 0
-  availableDays: 
+  rewards:
+  - rewardType: 0
+    item: {fileID: 0}
+    itemQuantity: 0
+    money: 0
+    npc: 1
+    friendshipPoint: 0
+  unlockAfterDay: 0

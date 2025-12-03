@@ -161,6 +161,7 @@ public class SoundManager : Singleton<SoundManager>
     // 씬별 BGM 재생 (볼륨 조절 가능)
     private void PlaySceneBGM(string sceneName)
     {
+        /*
         var bgmData = sceneBGMs.Find(x => x.sceneName == sceneName);
         if (bgmAudioSource != null && bgmAudioSource.enabled && bgmAudioSource.gameObject.activeInHierarchy)
         {
@@ -168,6 +169,7 @@ public class SoundManager : Singleton<SoundManager>
             bgmAudioSource.clip = bgmData.bgmClip;
             bgmAudioSource.Play();
         }
+        */
     }
 
     private const float MIN_VOLUME_DB = -80f;
