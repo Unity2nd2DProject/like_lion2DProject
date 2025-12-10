@@ -1,3 +1,4 @@
+using UnityEditor;
 using UnityEngine;
 
 public enum QuestGoalType
@@ -31,22 +32,4 @@ public class QuestGoal
     public ItemData targetItem;      
 
     public int requiredAmount;
-    [HideInInspector] public int currentAmount;
-
-    public bool IsComplete => currentAmount >= requiredAmount;
-
-    public void Report()
-    {
-        currentAmount++;
-    }
-
-    public string GetDescription()
-    {
-        return goalType switch
-        {
-            QuestGoalType.Action => $"{targetType}: {currentAmount}/{requiredAmount}",
-            QuestGoalType.ItemCollect => $"{targetItem.itemName}: {currentAmount}/{requiredAmount}",
-            _ => ""
-        };
-    }
 }

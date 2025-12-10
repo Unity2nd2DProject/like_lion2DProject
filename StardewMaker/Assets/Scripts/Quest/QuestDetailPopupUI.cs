@@ -55,12 +55,13 @@ public class QuestDetailPopupUI : MonoBehaviour
 
     public void Show(QuestDataSO questData)
     {
+        Debug.Log("퀘스트 상세 팝업 표시 - 데이터SO 버전");
         popupPanel.SetActive(true);
         nameText.text = questData.questName;
         descriptionText.text = questData.description;
         string goals = "";
 
-        if (QuestManager.Instance.HasCompletedQuest(questData.questID))
+        if (QuestManager.Instance.HasCompletedQuest(questData.questID)) // 이미 완료한 퀘스트인가 에 대해서 instance가 체크하는게 이상함. 이부분은 고쳐야함. 
         {
             goalText.text = goals;
             return;
@@ -72,22 +73,15 @@ public class QuestDetailPopupUI : MonoBehaviour
 
             if (goal.goalType == QuestGoalType.Action)
             {
-                targetText = $"{GetTarget(goal.targetType)}: {goal.currentAmount}/{goal.requiredAmount}";
+                targetText = $"{GetTarget(goal.targetType)}: {goal.requiredAmount}";
             }
             else if (goal.goalType == QuestGoalType.ItemCollect)
             {
-                targetText = $"{goal.targetItem.itemName}: {goal.currentAmount}/{goal.requiredAmount}";
+                targetText = $"{goal.targetItem.itemName}:{goal.requiredAmount}";
             }
-
-            if (goal.IsComplete)
-            {
-                goals += $"<color=#00AA00>- {targetText}</color>\n"; // RichText
-            }
-            else
-            {
-                goals += $"- {targetText}\n";
-            }
+            goals += $"- {targetText}\n";
         }
+        
         goalText.text = goals;
     }
 

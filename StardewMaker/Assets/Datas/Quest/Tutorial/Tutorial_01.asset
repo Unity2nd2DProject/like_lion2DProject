@@ -14,15 +14,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questID: t01
   questType: 0
-  questName: 
-  description: 
+  questName: "\uCCAB \uC0BD\uC744 \uB4E4\uB2E4."
+  description: "\uB545\uC744 \uACE0\uB974\uAC8C \uD30C\uACE0 \uC528\uC557\uC744 \uC2EC\uC790.\n\uADF8\uB9AC\uACE0
+    \uBB3C\uC744 \uC8FC\uB294\uAC78 \uC78A\uC9C0 \uB9D0\uC790.\n(\uBB3C\uC740 \uC5F0\uBABB\uC5D0\uC11C
+    \uBB3C\uBFCC\uB9AC\uAC1C\uB97C \uC774\uC6A9\uD574 \uBB3C\uC744 \uAE37\uACE0 \uC904
+    \uC218 \uC788\uB2E4)"
   goalDescrpition: 
-  goals: []
+  goals:
+  - goalType: 0
+    targetType: 1
+    targetItem: {fileID: 0}
+    requiredAmount: 3
+  - goalType: 0
+    targetType: 0
+    targetItem: {fileID: 0}
+    requiredAmount: 3
+  - goalType: 0
+    targetType: 2
+    targetItem: {fileID: 0}
+    requiredAmount: 3
   rewards:
-  - rewardType: 0
+  - rewardType: 1
     item: {fileID: 0}
     itemQuantity: 0
-    money: 0
+    money: 10000
     npc: 1
     friendshipPoint: 0
   unlockAfterDay: 0

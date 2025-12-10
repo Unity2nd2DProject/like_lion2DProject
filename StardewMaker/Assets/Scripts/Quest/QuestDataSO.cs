@@ -8,7 +8,7 @@ public enum QuestType
 {
     Tutorial,
     DailyQuest,
-    Quest
+    MainQuest
 }
 
 #region Reward관련
@@ -34,6 +34,9 @@ public class Reward
     public int friendshipPoint;
 }
 
+#endregion
+
+#region Custom Property Drawers
 [CustomPropertyDrawer(typeof(Reward))]
 public class RewardDrawer : PropertyDrawer
 {
@@ -90,6 +93,39 @@ public class RewardDrawer : PropertyDrawer
     }
 }
 
+
+[CustomPropertyDrawer(typeof(QuestGoal))]
+public class QuestGoalDrawer : PropertyDrawer
+{
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+    {
+        EditorGUI.BeginProperty(position, label, property);
+        float line = EditorGUIUtility.singleLineHeight + 2;
+        Rect r = new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight);
+
+        // goalType
+        SerializedProperty goalTypeProp = property.FindPropertyRelative("goalType");
+        EditorGUI.PropertyField(r, goalTypeProp); r.y += line;
+        QuestGoalType type = (QuestGoalType)goalTypeProp.enumValueIndex;
+        // Action → targetType만 표시
+        if (type == QuestGoalType.Action)
+        {
+            EditorGUI.PropertyField(r, property.FindPropertyRelative("targetType")); r.y += line;
+        }
+        // ItemCollect → targetItem만 표시
+        else if (type == QuestGoalType.ItemCollect)
+        {
+            EditorGUI.PropertyField(r, property.FindPropertyRelative("targetItem")); r.y += line;
+        }
+        // requiredAmount
+        EditorGUI.PropertyField(r, property.FindPropertyRelative("requiredAmount")); r.y += line; EditorGUI.EndProperty();
+    }
+
+    public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+    {
+        float line = EditorGUIUtility.singleLineHeight + 2; return line * 3;
+    }
+}
 #endregion
 
 [CreateAssetMenu(fileName = "New Quest", menuName = "Quest/Create New Quest")]

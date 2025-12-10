@@ -1,16 +1,17 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine;
+using NPC;
 
 [CreateAssetMenu(fileName = "Quest Pool", menuName = "Quest/Create Quest Pool")]
 public class QuestPool : ScriptableObject
 {
-    public string npcName;
+    public NpcId npcId;
     public List<QuestDataSO> dailyQuests;
 
-    public QuestDataSO GetRandomAvailableQuest(int currentHour, int day)
+    public QuestDataSO GetRandomAvailableQuest()
     {
-        List<QuestDataSO> candidates = dailyQuests;
+        List<QuestDataSO> candidates = new List<QuestDataSO>(dailyQuests);
 
         if (candidates.Count == 0)
         {

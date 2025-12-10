@@ -5,12 +5,23 @@ public class NPCQuestGiver : MonoBehaviour
 {
     public QuestPool questPool;
 
+    public QuestDataSO GetAvailableQuest()
+    {
+        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest();
+
+        if (availableQuest != null)
+        {
+            return availableQuest;
+        }
+        else
+        {
+            return availableQuest;
+        }
+    }
+
     public void GiveQuest()
     {
-        int hour = TimeManager.Instance.currentHour;
-        int today = TimeManager.Instance.currentDay;
-
-        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest(hour, today);
+        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest();
 
         if (availableQuest != null)
         {
@@ -27,23 +38,6 @@ public class NPCQuestGiver : MonoBehaviour
         else
         {
             Debug.Log("[NPCQuestGiver] 지금은 퀘스트를 받을 수 없습니다.");
-        }
-    }
-
-    public bool CanGiveQuest()
-    {
-        int hour = TimeManager.Instance.currentHour;
-        int today = TimeManager.Instance.currentDay;
-
-        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest(hour, today);
-
-        if (availableQuest != null)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
         }
     }
 }

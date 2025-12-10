@@ -23,13 +23,16 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private Button nextButton;
     [SerializeField] private float skipCooldown = 0.2f;
 
+    // 내부 데이터
     private NPCDialogue currentDialogue;
     private NpcSpritesSet currentNpcSpriteSet;
     private NPCController currentNPC;
+    private QuestDataSO currentQuest;
 
     private bool waitingForNext = false;
 
-
+    [Header("Quest UI")]
+    [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
 
     public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet, NPCController npc)
     {
@@ -50,7 +53,7 @@ public class DialogueController : MonoBehaviour
 
         gameObject.SetActive(true);
 
-        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Greeting, ShowButtons));
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Greeting, ShowMainButtons));
     }
     private IEnumerator PlayRandomDialogue(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
     {
@@ -83,14 +86,11 @@ public class DialogueController : MonoBehaviour
 
         doAfterTalk?.Invoke();
     }
-    private void CreateButtons()
-    {
-        // 이전 버튼들 제거
-        for (int i = buttonGrid.transform.childCount - 1; i >= 0; i--)
-        {
-            Destroy(buttonGrid.transform.GetChild(i).gameObject);
-        }
 
+    #region 다이얼로그 버튼 관련 
+    // Button
+    private void CreateMainButtons()
+    {
         // 대화 버튼
         CreateButton(buttonPrefab, "대화하기", OnTalkButton);
 
@@ -104,6 +104,22 @@ public class DialogueController : MonoBehaviour
 
         // 떠나기 버튼
         CreateButton(buttonPrefab, "나가기", OnLeaveButton);
+    }
+
+    private void CreateQuestButtons()
+    {
+        // 퀘스트 수락 버튼
+        CreateButton(buttonPrefab, "수락", OnQuestAcceptButton);
+        // 퀘스트 거절 버튼
+        CreateButton(buttonPrefab, "거절", OnQuestDeclineButton);
+    }
+
+    private void ResetButtons()
+    {
+        foreach (Transform child in buttonGrid.transform)
+            Destroy(child.gameObject);
+
+        dialogueButtons.Clear();
     }
 
     private void CreateButton(GameObject prefab, string label, UnityEngine.Events.UnityAction onClick)
@@ -134,7 +150,28 @@ public class DialogueController : MonoBehaviour
     {
         HideButtons();
         Debug.Log("퀘스트 대화 시작");
-        currentNPC.questGiver.GiveQuest();
+        if(currentNPC.questGiver.GetAvailableQuest() != null)
+        {
+            StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestOffer, ShowQuest));
+        }
+        else
+        {
+            StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestUnavailable, BackToMain));
+        }
+    }
+
+    private void OnQuestAcceptButton()
+    {
+        questDetailPopupUI.Hide();
+        HideButtons();
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestAccept, BackToMain));
+    }
+
+    private void OnQuestDeclineButton()
+    {
+        questDetailPopupUI.Hide();
+        HideButtons();
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestDecline, EndBuissness));
     }
 
     private void OnLeaveButton()
@@ -143,15 +180,18 @@ public class DialogueController : MonoBehaviour
         StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Farewell, CloseDialogue));
     }
 
-    private void ShowButtons()
+    private void ShowMainButtons()
     {
-        Debug.Log("대화 버튼 표시");
+        ResetButtons();
+        CreateMainButtons();
+        buttonGrid.SetActive(true);
+    }
 
-        if (dialogueButtons.Count == 0)
-        {
-            CreateButtons();
-        }
-
+    private void ShowQuestButton()
+    {
+        Debug.Log("퀘스트 버튼 표시");
+        ResetButtons();
+        CreateQuestButtons();
         buttonGrid.SetActive(true);
     }
 
@@ -163,19 +203,28 @@ public class DialogueController : MonoBehaviour
     public void BackToMain()
     {
         // 메인 대화 화면으로 복귀
-        ShowButtons();
+        ShowMainButtons();
+    }
+
+    public void ShowQuest()
+    {
+        Debug.Log("퀘스트 상세 팝업 표시");
+        questDetailPopupUI.Show(currentNPC.questGiver.GetAvailableQuest());
+        ShowQuestButton();
     }
 
     public void EndBuissness()
     {
-        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.ShopEnd, BackToMain));
+        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.BusinessEnd, BackToMain));
     }
 
     public void CloseDialogue()
     {
         gameObject.SetActive(false);
     }
+    #endregion
 
+    #region 타자 효과 관련
     private IEnumerator TypeText(string text)
     {
         isTyping = true;
@@ -238,4 +287,5 @@ public class DialogueController : MonoBehaviour
             nextButton.interactable = false;
         }
     }
+    #endregion
 }

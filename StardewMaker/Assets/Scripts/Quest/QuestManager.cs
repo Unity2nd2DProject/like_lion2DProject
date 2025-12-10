@@ -8,7 +8,7 @@ public class QuestManager : Singleton<QuestManager>
     [SerializeField] private List<QuestDataSO> tutorials;
     [SerializeField] private List<QuestDataSO> quests;
 
-    [Header("Check")]
+    [Header("진행중인 퀘스트 (테스트 용)")]
     [SerializeField] private List<QuestInstance> activeQuests = new();
     [SerializeField] private HashSet<string> completedQuestIDs = new();
 
@@ -24,6 +24,7 @@ public class QuestManager : Singleton<QuestManager>
 
     public void AcceptQuest(string questID, NPC.NpcId giverNpcName = NPC.NpcId.None)
     {
+        Debug.Log($"[Quest] {questID} 수락 시도");
         if (completedQuestIDs.Contains(questID))
         {
             Debug.Log($"[Quest] {questID} 수락 실패 [이미 완료한 퀘스트]");
