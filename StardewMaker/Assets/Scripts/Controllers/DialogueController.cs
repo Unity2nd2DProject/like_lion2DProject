@@ -150,7 +150,7 @@ public class DialogueController : MonoBehaviour
     {
         HideButtons();
         Debug.Log("퀘스트 대화 시작");
-        if(currentNPC.questGiver.GetAvailableQuest() != null)
+        if(!currentNPC.questGiver.isQuestGiven || currentNPC.questGiver.todaysQuest != null)
         {
             StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestOffer, ShowQuest));
         }
@@ -162,6 +162,7 @@ public class DialogueController : MonoBehaviour
 
     private void OnQuestAcceptButton()
     {
+        currentNPC.questGiver.GiveQuest();
         questDetailPopupUI.Hide();
         HideButtons();
         StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestAccept, BackToMain));
@@ -209,7 +210,7 @@ public class DialogueController : MonoBehaviour
     public void ShowQuest()
     {
         Debug.Log("퀘스트 상세 팝업 표시");
-        questDetailPopupUI.Show(currentNPC.questGiver.GetAvailableQuest());
+        questDetailPopupUI.Show(currentNPC.questGiver.todaysQuest);
         ShowQuestButton();
     }
 

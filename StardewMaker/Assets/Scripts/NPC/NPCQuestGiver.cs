@@ -4,6 +4,8 @@ using UnityEngine;
 public class NPCQuestGiver : MonoBehaviour
 {
     public QuestPool questPool;
+    public QuestDataSO todaysQuest;
+    public bool isQuestGiven = false;
 
     public QuestDataSO GetAvailableQuest()
     {
@@ -19,16 +21,22 @@ public class NPCQuestGiver : MonoBehaviour
         }
     }
 
+    public void SetTodaysQuest()
+    {
+        todaysQuest = questPool.GetRandomAvailableQuest();
+    }
+
     public void GiveQuest()
     {
-        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest();
 
-        if (availableQuest != null)
+
+        if (todaysQuest != null)
         {
-            if (!QuestManager.Instance.IsQuestActive(availableQuest.questID))
+            if (!QuestManager.Instance.IsQuestActive(todaysQuest.questID))
             {
-                QuestManager.Instance.AcceptQuest(availableQuest.questID);
-                Debug.Log($"[NPCQuestGiver] {availableQuest.questName} 퀘스트 수락!");
+                QuestManager.Instance.AcceptQuest(todaysQuest.questID);
+                isQuestGiven = true;
+                Debug.Log($"[NPCQuestGiver] {todaysQuest.questName} 퀘스트 수락!");
             }
             else
             {
