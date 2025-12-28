@@ -162,7 +162,7 @@ public class DialogueController : MonoBehaviour
 
     private void OnQuestAcceptButton()
     {
-        currentNPC.questGiver.GiveQuest();
+        currentNPC.questGiver.AcceptQuest();
         questDetailPopupUI.Hide();
         HideButtons();
         StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestAccept, BackToMain));

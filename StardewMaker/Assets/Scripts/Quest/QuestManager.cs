@@ -24,7 +24,6 @@ public class QuestManager : Singleton<QuestManager>
 
     public void AcceptQuest(string questID, NPC.NpcId giverNpcName = NPC.NpcId.None)
     {
-        Debug.Log($"[Quest] {questID} 수락 시도");
         if (completedQuestIDs.Contains(questID))
         {
             Debug.Log($"[Quest] {questID} 수락 실패 [이미 완료한 퀘스트]");

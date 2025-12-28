@@ -122,26 +122,24 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             ReturnToOriginalPosition();
             return;
         }
-        GameObject dropTarget = eventData.pointerEnter;
 
+        GameObject dropTarget = eventData.pointerEnter;
         if (dropTarget == null)
         {
             ReturnToOriginalPosition();
             return;
         }
 
+        // 슬롯일 경우
         ItemSlotUI targetSlot = dropTarget.GetComponentInParent<ItemSlotUI>();
         if (targetSlot != null)
         {
             ItemSlotUI currentSlot = originalParent.GetComponent<ItemSlotUI>();
             SwapSlotData(currentSlot, targetSlot);
+            return;
         }
-        else
-        {
-            // 드래그 종료 시 슬롯이 아닌 곳에 놓인 경우 원래 위치로 돌아감
-            ReturnToOriginalPosition();
-        }
-
+        
+        // 상점일 경우
         ShopUI shopUI = dropTarget.GetComponentInParent<ShopUI>();
         if (shopUI != null)
         {
@@ -153,12 +151,11 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             {
                 UIManager.Instance.ShowPopup("이 아이템은 판매할 수 없습니다.");
             }
+            return;
         }
-        else
-        {
-            ReturnToOriginalPosition();
-        }
-
+        
+        // 그 외의 경우
+        ReturnToOriginalPosition();
     }
 
     private void SwapSlotData(ItemSlotUI currentSlot, ItemSlotUI targetSlot)

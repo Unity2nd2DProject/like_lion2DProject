@@ -61,6 +61,8 @@ public class QuestUI : Singleton<QuestUI>
             }
             ui.Setup(quest.questName, true, null, quest);
         }
+
+        Debug.Log("퀘스트 목록 새로고침");
     }
 
     public void ShowQuestDetail(QuestInstance quest)
