@@ -108,7 +108,7 @@ public class NPCSaveData
 [System.Serializable]
 public class SavedNPC
 {
-    public string npcName;
+    public NPC.NpcId npcId;
     public Vector3 position;
     public NpcActionType currentAction;
     public int routeIndex;
@@ -124,7 +124,7 @@ public class FriendshipSaveData
 [System.Serializable]
 public class SavedFriendship
 {
-    public string npcName;
+    public NPC.NpcId npcId;
     public int points;
 }
 
@@ -140,7 +140,7 @@ public class SavedQuestData
 public class SavedQuest
 {
     public string questID;
-    public string giverNpcName;
+    public NPC.NpcId giverNpcId;
     public List<int> currentAmounts = new List<int>();
 }
 

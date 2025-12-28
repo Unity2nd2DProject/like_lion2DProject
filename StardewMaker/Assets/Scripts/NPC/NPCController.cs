@@ -44,13 +44,16 @@ public class NPCController : MonoBehaviour
     }
     private void Start()
     {
-        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
+        // transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
         OnTimeChanged(TimeManager.Instance.currentHour, TimeManager.Instance.currentMinute);
     }
 
-    public void OnTimeChanged(int hour, int minute)
+    public void OnTimeChanged(int hour, int minute) 
+    {
         OnHourChanged(TimeManager.Instance.currentHour);
     }
+
+    
 
     private void OnMouseDown()
     {
@@ -83,7 +86,7 @@ public class NPCController : MonoBehaviour
 
         foreach (var entry in entries)
         {
-            if (entry.hour == hour && entry.minute == minute)
+            if (entry.hour == hour)
             {
                 var route = ResolveRouteFromId(entry.routes);
                 if (entry.teleportTarget != null)

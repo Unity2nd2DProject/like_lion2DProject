@@ -261,7 +261,7 @@ public class QuestManager : Singleton<QuestManager>
             SavedQuest sq = new SavedQuest
             {
                 questID = quest.questData.questID,
-                giverNpcName = quest.giverNpcName
+                giverNpcId = quest.giverNpcId
             };
 
             foreach (var goal in quest.goals)
@@ -283,14 +283,14 @@ public class QuestManager : Singleton<QuestManager>
 
         foreach (var saved in data.activeQuests)
         {
-            QuestData questData = quests.Find(q => q.questID == saved.questID);
+            QuestDataSO questData = quests.Find(q => q.questID == saved.questID);
             if (questData == null)
             {
                 Debug.LogWarning($"[QuestLoad] {saved.questID} 퀘스트 데이터를 찾을 수 없습니다.");
                 continue;
             }
 
-            QuestInstance instance = new QuestInstance(questData, saved.giverNpcName);
+            QuestInstance instance = new QuestInstance(questData, saved.giverNpcId);
 
             for (int i = 0; i < saved.currentAmounts.Count && i < instance.goals.Count; i++)
             {

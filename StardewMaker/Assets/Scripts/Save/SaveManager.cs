@@ -205,7 +205,7 @@ public class SaveManager : Singleton<SaveManager>
         {
             data.savedFriendships.Add(new SavedFriendship
             {
-                npcName = friendship.npcName,
+                npcId = friendship.npcId,
                 points = friendship.points
             });
         }
@@ -230,7 +230,7 @@ public class SaveManager : Singleton<SaveManager>
 
         foreach (var savedFriend in data.savedFriendships)
         {
-            var friendship = FriendshipManager.Instance.GetOrCreateFriendship(savedFriend.npcName);
+            var friendship = FriendshipManager.Instance.GetOrCreateFriendship(savedFriend.npcId);
             friendship.points = savedFriend.points;
         }
 

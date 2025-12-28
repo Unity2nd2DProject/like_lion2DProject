@@ -72,7 +72,7 @@ public class NPCManager : Singleton<NPCManager>
             var mover = npc.GetComponent<NPCMover>();
             data.savedNPCs.Add(new SavedNPC
             {
-                npcName = npc.npcName,
+                npcId = npc.npcID,
                 position = npc.transform.position,
                 currentAction = mover != null ? mover.GetCurrentAction() : NpcActionType.None,
                 routeIndex = mover != null ? mover.GetCurrentRouteIndex() : 0,
@@ -90,7 +90,7 @@ public class NPCManager : Singleton<NPCManager>
 
         foreach (var saved in data.savedNPCs)
         {
-            var npc = activeNPCs.Find(x => x.npcName == saved.npcName);
+            var npc = activeNPCs.Find(x => x.npcID == saved.npcId);
             if (npc != null)
             {
                 npc.transform.position = saved.position;
