@@ -1,28 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum QuestTargetType
-{
-    TrilledSoil,
-    SeedPlanted,
-    Watered,
-    Fertilized,
-    Harvested,
-    TreeChopped,
-    FishCaught,
-    StoneBroken,
-    GaveToDaughter,
-    CookedFood,
-    GreetedToNPC,
-}
 
 public class QuestManager : Singleton<QuestManager>
 {
     [Header("Quests")]
-    [SerializeField] private List<QuestData> tutorials;
-    [SerializeField] private List<QuestData> quests;
+    [SerializeField] private List<QuestDataSO> tutorials;
+    [SerializeField] private List<QuestDataSO> quests;
 
-    [Header("Check")]
+    [Header("진행중인 퀘스트 (테스트 용)")]
     [SerializeField] private List<QuestInstance> activeQuests = new();
     [SerializeField] private HashSet<string> completedQuestIDs = new();
 
@@ -40,20 +26,20 @@ public class QuestManager : Singleton<QuestManager>
         }
     }
 
-    public void AcceptQuest(string questID, string giverNpcName = null)
+    public void AcceptQuest(string questID, NPC.NpcId giverNpcName = NPC.NpcId.None)
     {
         if (completedQuestIDs.Contains(questID))
         {
-            //Debug.Log($"[Quest] {questID} 수락 실패 1");
+            Debug.Log($"[Quest] {questID} 수락 실패 [이미 완료한 퀘스트]");
             return;
         }
         if (activeQuests.Exists(q => q.questData.questID == questID))
         {
-            //Debug.Log($"[Quest] {questID} 수락 실패 2");
+            Debug.Log($"[Quest] {questID} 수락 실패 [현재 진행중인 퀘스트]");
             return;
         }
 
-        QuestData questToAccept = quests.Find(q => q.questID == questID);
+        QuestDataSO questToAccept = quests.Find(q => q.questID == questID);
         if (questToAccept != null)
         {
             QuestInstance instance = new QuestInstance(questToAccept, giverNpcName);
@@ -168,17 +154,23 @@ public class QuestManager : Singleton<QuestManager>
         }
 
         var q = quest.questData;
-        if (q.rewardItem != null)
+        foreach (var reward in q.rewards)
         {
-            InventoryManager.Instance.AddItem(q.rewardItem, q.rewardQuantity);
-        }
-        if (q.rewardMoney > 0)
-        {
-            InventoryManager.Instance.PlayerMoney += q.rewardMoney;
-        }
-        if (q.friendshipPointReward > 0)
-        {
-            FriendshipManager.Instance.AddPoints(q.npcName, q.friendshipPointReward);
+            if(reward.rewardType == RewardType.Item)
+            {
+                InventoryManager.Instance.AddItem(reward.item, reward.itemQuantity);
+                Debug.Log($"[Quest] 보상: {reward.item.itemName} x{reward.itemQuantity} 획득");
+            }
+            else if (reward.rewardType == RewardType.Money)
+            {
+                InventoryManager.Instance.PlayerMoney += reward.money;
+                Debug.Log($"[Quest] 보상: {reward.money} 골드 획득");
+            }
+            else if (reward.rewardType == RewardType.FriendshipPoint)
+            {
+                FriendshipManager.Instance.AddPoints(reward.npc, reward.friendshipPoint);
+                Debug.Log($"[Quest] 보상: {reward.npc}에게 우정 포인트 {reward.friendshipPoint} 획득");
+            }
         }
 
         activeQuests.Remove(quest);
@@ -207,11 +199,11 @@ public class QuestManager : Singleton<QuestManager>
         return activeQuests.Exists(q => q.questData.questID == questID);
     }
 
-    public List<QuestData> CompletedQuestDatas
+    public List<QuestDataSO> CompletedQuestDatas
     {
         get
         {
-            List<QuestData> list = new();
+            List<QuestDataSO> list = new();
             foreach (var id in completedQuestIDs)
             {
                 var quest = quests.Find(q => q.questID == id);

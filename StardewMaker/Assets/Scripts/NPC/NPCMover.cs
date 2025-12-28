@@ -1,5 +1,4 @@
 using UnityEngine;
-using static UnityEngine.EventSystems.EventTrigger;
 
 public class NPCMover : MonoBehaviour
 {
@@ -14,6 +13,8 @@ public class NPCMover : MonoBehaviour
     [SerializeField] private NpcActionType arrivalAction = NpcActionType.None;
     [SerializeField] private bool isMoving = false;
     [SerializeField] private string teleportWp;
+
+    public Transform defaultPosition;
 
     private void Awake()
     {
@@ -44,6 +45,7 @@ public class NPCMover : MonoBehaviour
             return;
         }
 
+        /*
         Transform target = route[index];
         transform.position = Vector2.MoveTowards(transform.position, target.position, speed * Time.deltaTime);
 
@@ -65,6 +67,7 @@ public class NPCMover : MonoBehaviour
                 OnArrival();
             }
         }
+        */
     }
 
     private void OnArrival()
@@ -113,4 +116,8 @@ public class NPCMover : MonoBehaviour
         teleportWp = teleport;
     }
 
+    public void ResetToDefaultPosition()
+    {
+
+    }
 }

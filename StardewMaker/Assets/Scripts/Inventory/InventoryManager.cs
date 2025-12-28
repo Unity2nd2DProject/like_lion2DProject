@@ -6,17 +6,17 @@ using UnityEngine;
 
 public class InventoryManager : Singleton<InventoryManager>
 {
-    public int inventorySize = 25;
-    public int quickSlotSize = 10;
+    public int inventorySize = 25; // 고정 값으로 해야 UI 작업 용이.
+    public int quickSlotSize = 10; // 고정 값으로 해야 UI 작업 용이.
     public List<ItemSlot> slots = new List<ItemSlot>();
 
     public int currentSelectedQuickSlotIndex;
 
-    public List<ItemData> starterItems = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
+    public List<ItemData> starterItemsForTest = new List<ItemData>(); // 테스트를 위해 시작 아이템 추가 
 
     [Header("Player Money")]
     public int startMoney;
-    private int playerMoney;
+    [SerializeField] private int playerMoney;
     public int PlayerMoney
     {
         get { return playerMoney; }
@@ -24,6 +24,7 @@ public class InventoryManager : Singleton<InventoryManager>
         {
             playerMoney = value;
             UIManager.Instance.UpdateMoneyUI();
+            SoundManager.Instance.PlaySFX("Coin");
         }
     }
 
@@ -35,11 +36,13 @@ public class InventoryManager : Singleton<InventoryManager>
         InitializeMoney();
     }
 
+    /*
     private void Start()
     {
         SaveManager.Instance.LoadInventory();
         SaveManager.Instance.LoadMoney();
     }
+    */
 
     private void Update()
     {
@@ -56,11 +59,11 @@ public class InventoryManager : Singleton<InventoryManager>
         currentSelectedQuickSlotIndex = 0;
         UIManager.Instance.InitializeInventoryAndQuickSlot();
 
-        //// 테스트 용 아이템 추가
-        //for (int i = 0; i < starterItems.Count; i++)
-        //{
-        //    AddItem(starterItems[i], 4);
-        //}        
+        // 테스트 용 아이템 추가
+        for (int i = 0; i < starterItemsForTest.Count; i++)
+        {
+            AddItem(starterItemsForTest[i], 4);
+        }
     }
 
     private void InitializeMoney()
@@ -196,11 +199,8 @@ public class InventoryManager : Singleton<InventoryManager>
 
     private void GetMouseScroll()
     {
-        // 상점 UI가 켜져 있으면 스크롤 무시
-        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
-        {
-            return;
-        }
+        // UI가 켜져 있으면 스크롤 무시
+        // TODO : 다른 UI가 켜져 있는지도 체크 필요
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
         int selectedIndex = currentSelectedQuickSlotIndex;

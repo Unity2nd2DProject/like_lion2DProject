@@ -153,7 +153,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (Input.GetKeyDown(KeyCode.I))
         {
-            UIManager.Instance.inventoryUI.ToggleInventory();
+            UIManager.Instance.InventoryUI.ToggleInventory();
         }
     }
 

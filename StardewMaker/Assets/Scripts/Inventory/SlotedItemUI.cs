@@ -122,46 +122,40 @@ public class SlotedItemUI : MonoBehaviour, IBeginDragHandler, IDragHandler, IEnd
             ReturnToOriginalPosition();
             return;
         }
-        GameObject dropTarget = eventData.pointerEnter;
 
+        GameObject dropTarget = eventData.pointerEnter;
         if (dropTarget == null)
         {
             ReturnToOriginalPosition();
             return;
         }
 
+        // 슬롯일 경우
         ItemSlotUI targetSlot = dropTarget.GetComponentInParent<ItemSlotUI>();
         if (targetSlot != null)
         {
             ItemSlotUI currentSlot = originalParent.GetComponent<ItemSlotUI>();
             SwapSlotData(currentSlot, targetSlot);
+            return;
         }
-        else
+        
+        // 상점일 경우
+        ShopUI shopUI = dropTarget.GetComponentInParent<ShopUI>();
+        if (shopUI != null)
         {
-            // 드래그 종료 시 슬롯이 아닌 곳에 놓인 경우 원래 위치로 돌아감
-            ReturnToOriginalPosition();
-        }
-
-        if (ShopUI.Instance != null)
-        {
-            var scrollRect = ShopUI.Instance.scrollRectTransform;
-
-            if (RectTransformUtility.RectangleContainsScreenPoint(scrollRect, eventData.position))
+            if (itemData.isSellable)
             {
-                var viewport = ShopUI.Instance.scrollViewport;
-
-                if (viewport != null &&
-                    RectTransformUtility.RectangleContainsScreenPoint(viewport, eventData.position, ShopUI.Instance.GetComponentInParent<Canvas>().worldCamera))
-                {
-                    // isSellable이 true인 경우에만 판매 팝업 띄움
-                    if (itemData != null && itemData.isSellable)
-                    {
-                        ShopUI.Instance.sellPopup.Show(itemSlot);
-                    }
-                    return;
-                }
+                shopUI.ShowSellPopUp(itemSlot);
             }
+            else
+            {
+                UIManager.Instance.ShowPopup("이 아이템은 판매할 수 없습니다.");
+            }
+            return;
         }
+        
+        // 그 외의 경우
+        ReturnToOriginalPosition();
     }
 
     private void SwapSlotData(ItemSlotUI currentSlot, ItemSlotUI targetSlot)

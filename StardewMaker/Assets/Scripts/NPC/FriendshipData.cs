@@ -1,15 +1,16 @@
+using NPC;
 using UnityEngine;
 
 [System.Serializable]
 public class FriendshipData
 {
-    public string npcName;
+    public NpcId npcId;
     public int points;
     public int maxPoints = 100;
 
-    public FriendshipData(string name)
+    public FriendshipData(NpcId npcId)
     {
-        npcName = name;
+        this.npcId = npcId;
         points = 20;
     }
 

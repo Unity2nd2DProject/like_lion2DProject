@@ -2,13 +2,17 @@ using UnityEngine;
 using UnityEditor;
 using System.Collections.Generic;
 using System.IO;
+using NPC;
 
 public class DialogueEditor : EditorWindow
 {
     private NPCDialogue currentNPC;           // 현재 편집 중인 NPC
     private int currentSequenceIndex = 0;     // 현재 보고 있는 시퀀스 인덱스
 
-    private static string dialogueFolder = "Assets/Datas/Dialogues/";
+    private static string dialogueFolder = "Assets/Resources/Dialogues/";
+
+    private string currentFileName;
+    private string previousFileName;
 
     [MenuItem("Tools/Dialogue Editor")]
     public static void ShowWindow()
@@ -42,16 +46,18 @@ public class DialogueEditor : EditorWindow
     {
         if (currentNPC == null)
         {
-            EditorGUILayout.HelpBox("JSON을 불러오거나 새 NPC를 생성하세요.", MessageType.Info);
+            EditorGUILayout.HelpBox("JSON을 불러오거나 새 다이얼로그를 생성하세요.", MessageType.Info);
 
-            if (GUILayout.Button("새 NPC 만들기"))
+            if (GUILayout.Button("새 다이얼로그 만들기"))
             {
                 currentNPC = new NPCDialogue
                 {
-                    dialogueId = "npc_001",
-                    name = "새 NPC",
+                    name = "새 NPC(한글명)",
                     dialogues = new List<DialogueSequence>()
                 };
+                previousFileName = null;
+                currentFileName = "NewDialogue";
+                currentSequenceIndex = 0;
             }
 
             if (GUILayout.Button("JSON 불러오기"))
@@ -61,13 +67,17 @@ public class DialogueEditor : EditorWindow
                 {
                     string json = File.ReadAllText(path);
                     currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+
+                    previousFileName = Path.GetFileNameWithoutExtension(path);
+                    currentFileName = previousFileName;
+
+                    currentSequenceIndex = 0;
                 }
             }
 
             return;
         }
-
-        currentNPC.dialogueId = EditorGUILayout.TextField("Dialogue ID", currentNPC.dialogueId);
+        currentFileName = EditorGUILayout.TextField("JSON 파일명(ID)", currentFileName);
         currentNPC.name = EditorGUILayout.TextField("NPC Name", currentNPC.name);
     }
 
@@ -80,7 +90,8 @@ public class DialogueEditor : EditorWindow
             {
                 currentNPC.dialogues.Add(new DialogueSequence
                 {
-                    key = "new_sequence",
+                    sequenceType = DialogueSequenceType.Greeting, // 기본값
+                    customSequenceType = string.Empty,
                     lines = new List<DialogueLine>()
                 });
                 currentSequenceIndex = currentNPC.dialogues.Count - 1;
@@ -92,6 +103,8 @@ public class DialogueEditor : EditorWindow
         if (GUILayout.Button("<", GUILayout.Width(30)))
         {
             currentSequenceIndex = Mathf.Max(0, currentSequenceIndex - 1);
+            GUI.FocusControl(null); // TextField 포커스 해제
+            Repaint();
         }
 
         EditorGUILayout.LabelField($"{currentSequenceIndex + 1} / {currentNPC.dialogues.Count}", GUILayout.Width(60));
@@ -99,13 +112,16 @@ public class DialogueEditor : EditorWindow
         if (GUILayout.Button(">", GUILayout.Width(30)))
         {
             currentSequenceIndex = Mathf.Min(currentNPC.dialogues.Count - 1, currentSequenceIndex + 1);
+            GUI.FocusControl(null); // TextField 포커스 해제
+            Repaint();
         }
 
         if (GUILayout.Button("추가", GUILayout.Width(50)))
         {
             currentNPC.dialogues.Add(new DialogueSequence
             {
-                key = "new_sequence",
+                sequenceType = DialogueSequenceType.Greeting, // 기본값
+                customSequenceType = string.Empty,
                 lines = new List<DialogueLine>()
             });
             currentSequenceIndex = currentNPC.dialogues.Count - 1;
@@ -127,13 +143,13 @@ public class DialogueEditor : EditorWindow
         DialogueSequence seq = currentNPC.dialogues[currentSequenceIndex];
 
         // 시퀀스 키 선택
-        DrawSequenceKey(seq);
+        DrawSequence(seq);
 
         if (seq.lines.Count == 0)
         {
             if (GUILayout.Button("대사 추가"))
             {
-                seq.lines.Add(new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+                seq.lines.Add(new DialogueLine { isSelf = true, speaker = currentNPC.name, text = "", actions = new DialogueAction() });
                 seq.currentLineIndex = 0;
             }
             return;
@@ -142,13 +158,20 @@ public class DialogueEditor : EditorWindow
         // 대사 네비게이션
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("<", GUILayout.Width(30)))
+        {
             seq.currentLineIndex = Mathf.Max(0, seq.currentLineIndex - 1);
+            GUI.FocusControl(null); // 입력 포커스 해제 (TextArea 입력 중 변경 시 반영 안 되는 문제 방지)
+            Repaint();              // 강제 UI 갱신
+        }
 
         EditorGUILayout.LabelField($"{seq.currentLineIndex + 1}/{seq.lines.Count}", GUILayout.Width(60));
 
         if (GUILayout.Button(">", GUILayout.Width(30)))
+        {
             seq.currentLineIndex = Mathf.Min(seq.lines.Count - 1, seq.currentLineIndex + 1);
-
+            GUI.FocusControl(null);
+            Repaint();
+        }
         EditorGUILayout.EndHorizontal();
 
         // 현재 대사 표시
@@ -158,15 +181,15 @@ public class DialogueEditor : EditorWindow
         // 발화자 체크박스
         line.isSelf = EditorGUILayout.Toggle("본인", line.isSelf);
 
-        // 본인이면 speakerId를 고정
+        // 본인이면 speaker를 고정
         if (line.isSelf)
         {
-            line.speakerId = currentNPC.name;
+            line.speaker = currentNPC.name;
         }
 
         // TextField 활성/비활성 제어
         GUI.enabled = !line.isSelf; // 본인이면 비활성화
-        line.speakerId = EditorGUILayout.TextField("발화자", line.speakerId);
+        line.speaker = EditorGUILayout.TextField("발화자", line.speaker);
         GUI.enabled = true; // 원래 상태로 복구
 
         EditorGUILayout.LabelField("대사");
@@ -176,10 +199,8 @@ public class DialogueEditor : EditorWindow
         line.actions.useExpression = EditorGUILayout.Toggle("표정 변화", line.actions.useExpression);
         if (line.actions.useExpression)
         {
-            string[] expressionOptions = new string[] { "Happy", "Sad", "Angry", "Neutral" };
-            int selectedExpr = Mathf.Max(0, System.Array.IndexOf(expressionOptions, line.actions.expression));
-            selectedExpr = EditorGUILayout.Popup("표정", selectedExpr, expressionOptions);
-            line.actions.expression = expressionOptions[selectedExpr];
+            line.actions.expression =
+                (NpcEmotion)EditorGUILayout.EnumPopup("표정", line.actions.expression);
         }
 
         // 효과음 체크박스 + 드롭다운
@@ -200,53 +221,33 @@ public class DialogueEditor : EditorWindow
         {
             seq.lines.RemoveAt(seq.currentLineIndex);
             seq.currentLineIndex = Mathf.Clamp(seq.currentLineIndex, 0, seq.lines.Count - 1);
+            Repaint();
         }
         if (GUILayout.Button("대사 추가"))
         {
-            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speakerId = currentNPC.dialogueId, text = "", actions = new DialogueActions() });
+            seq.lines.Insert(seq.currentLineIndex + 1, new DialogueLine { isSelf = true, speaker = currentNPC.name, text = "", actions = new DialogueAction() });
             seq.currentLineIndex++;
+            Repaint();
         }
         EditorGUILayout.EndHorizontal();
     }
 
-
-    private int customKeyPopupIndex = -1; // Popup에서 마지막으로 선택한 인덱스
-    private bool isCustomKeyMode = false;
-
-    private void DrawSequenceKey(DialogueSequence seq)
+    private void DrawSequence(DialogueSequence seq)
     {
-        List<string> availableKeys = new List<string> { "greeting", "farewell" };
-        string[] options = new string[availableKeys.Count + 1];
-        availableKeys.CopyTo(options);
-        options[availableKeys.Count] = "직접 입력";
+        EditorGUILayout.LabelField("시퀀스 키");
 
-        int selectedIndex = availableKeys.IndexOf(seq.key);
-        if (selectedIndex < 0) selectedIndex = options.Length - 1; // seq.key가 리스트에 없으면 직접입력 모드
-        if (customKeyPopupIndex != -1) selectedIndex = customKeyPopupIndex;
+        // EnumPopup으로 enum 값 선택
+        seq.sequenceType = (DialogueSequenceType)EditorGUILayout.EnumPopup(seq.sequenceType);
 
-        int newIndex = EditorGUILayout.Popup("시퀀스 키", selectedIndex, options);
-
-        if (newIndex != selectedIndex)
+        // Custom일 때만 직접 입력 필드 표시
+        if (seq.sequenceType == DialogueSequenceType.Custom)
         {
-            customKeyPopupIndex = newIndex;
-            isCustomKeyMode = (newIndex == options.Length - 1);
+            if (string.IsNullOrEmpty(seq.customSequenceType))
+                seq.customSequenceType = "";
 
-            // 직접 입력 모드로 전환될 때 텍스트 필드를 비워줌
-            if (isCustomKeyMode)
-                seq.key = "";
-        }
-
-        if (isCustomKeyMode)
-        {
-            seq.key = EditorGUILayout.TextField("직접 입력", seq.key);
-        }
-        else
-        {
-            seq.key = options[newIndex];
+            seq.customSequenceType = EditorGUILayout.TextField("직접 입력", seq.customSequenceType);
         }
     }
-
-
 
     private void DrawSaveLoadButtons()
     {
@@ -263,6 +264,8 @@ public class DialogueEditor : EditorWindow
             string path = EditorUtility.OpenFilePanel("Load NPC Dialogue JSON", dialogueFolder, "json");
             if (!string.IsNullOrEmpty(path))
             {
+                previousFileName = Path.GetFileNameWithoutExtension(path);
+
                 string json = File.ReadAllText(path);
                 currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
                 currentSequenceIndex = 0;
@@ -283,47 +286,31 @@ public class DialogueEditor : EditorWindow
             Directory.CreateDirectory(dialogueFolder);
         }
 
+        string fileName = currentFileName;
+        string newPath = Path.Combine(dialogueFolder, $"{fileName}.json");
+
         string json = JsonUtility.ToJson(dialogue, true);
-        string path = Path.Combine(dialogueFolder, $"{dialogue.dialogueId}.json");
-        File.WriteAllText(path, json);
+
+        if (!string.IsNullOrEmpty(previousFileName))
+        {
+            string oldPath = Path.Combine(dialogueFolder, $"{previousFileName}.json");
+            if (File.Exists(oldPath) && oldPath != newPath)
+            {
+                File.Delete(oldPath);
+                Debug.Log($"Renamed dialogue file from {oldPath} to {newPath}");
+            }
+        }
+
+        File.WriteAllText(newPath, json);
         AssetDatabase.Refresh();
-        Debug.Log($"Saved Dialogue: {path}");
+        Debug.Log($"Saved Dialogue: {newPath}");
+
+        previousFileName = fileName;
     }
 
     #endregion
 }
 
-[System.Serializable]
-public class NPCDialogue
-{
-    public string dialogueId;
-    public string name;
-    public List<DialogueSequence> dialogues; // Dictionary -> List
-}
 
-[System.Serializable]
-public class DialogueSequence
-{
-    public string key;               // "intro", "quest_start" 등
-    public List<DialogueLine> lines; // 대사 리스트
-    public int currentLineIndex = 0; // 현재 편집 중인 대사
-}
 
-[System.Serializable]
-public class DialogueLine
-{
-    public bool isSelf = true;        // 체크박스 "본인"
-    public string speakerId;          // 발화자 ID
-    public string text;               // 대사 내용
-    public DialogueActions actions;   // 표정, 효과음 등
-}
-
-[System.Serializable]
-public class DialogueActions
-{
-    public bool useExpression = false;
-    public string expression;   // 존재하는 표정 리스트에서 선택
-    public bool useSFX = false;
-    public string sfx;          // 존재하는 효과음 리스트에서 선택
-}
 

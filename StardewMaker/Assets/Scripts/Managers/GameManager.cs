@@ -1,0 +1,96 @@
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+public enum GameState
+{
+    UI,
+    PLAYING
+}
+
+public enum GameMode
+{
+    HOME,
+    TOWN,
+}
+
+public class GameManager : Singleton<GameManager>
+{
+    public bool isDebug = true;
+
+    private GameState currentState;
+    public static event Action<GameState> OnGameStateChanged;
+
+    [HideInInspector]
+    public GameMode currentMode;
+
+    public string arrivalPointName { get; set; } // 씬 전환 시 캐릭터의 위치를 잡아주기 위함
+
+    protected override void Awake()
+    {
+        base.Awake();
+        InitGameMode();
+    }
+
+    private void InitGameMode()
+    {
+        string sceneName = SceneManager.GetActiveScene().name;
+
+        if (sceneName.Contains("Town"))
+        {
+            currentMode = GameMode.TOWN;
+        }
+        else if (sceneName.Contains("Home"))
+        {
+            currentMode = GameMode.HOME;
+        }
+    }
+
+    public void SetGameState(string tag, GameState newState)
+    {
+        currentState = newState;
+        if (isDebug) Debug.Log($"From {tag} GameState changed to: {newState}");
+        OnGameStateChanged?.Invoke(newState);
+    }
+
+    public void changeScene(string sceneName)
+    {
+        if (sceneName.Contains("Town"))
+        {
+            currentMode = GameMode.TOWN;
+        }
+        else if (sceneName.Contains("Home"))
+        {
+            currentMode = GameMode.HOME;
+        }
+
+        SceneManager.LoadScene(sceneName);
+
+        SaveManager.Instance.Save();
+    }
+
+    public void GoToEnding(EndingResult ending, bool isTest = false)
+    {
+        if (isTest)
+        {
+            TimeManager.Instance.GoToLastDay();
+            CropManager.Instance.GotoLastDay(ending);
+        }
+
+        TimeManager.Instance.PauseTime();
+
+        switch (ending)
+        {
+            case EndingResult.GOOD:
+                SceneManager.LoadScene("EndingScene");
+                break;
+            case EndingResult.NORMAL:
+                SceneManager.LoadScene("EndingScene");
+                break;
+            case EndingResult.BAD:
+                SceneManager.LoadScene("EndingScene");
+                break;
+        }
+    }
+}

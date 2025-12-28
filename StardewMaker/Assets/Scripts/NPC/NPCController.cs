@@ -15,18 +15,33 @@ public enum NpcActionType
 
 public class NPCController : MonoBehaviour
 {
-    public string npcName;
+    public NPC.NpcId npcID;    
     public NPCSchedule schedule;
-    private NPCMover mover;
 
-    [Header("position")]
-    public string defaultPosition;
+    // Components
+    [HideInInspector] public NPCMover mover;
+    [HideInInspector] public NPCQuestGiver questGiver;
+    [HideInInspector] public NPCVendor vendor;
+
+    [SerializeField] private float interactionRange = 2.5f;
+
+    public bool shopAvailable = false;
+    public bool questAvailable = false;
 
     private void Awake()
     {
         mover = GetComponent<NPCMover>();
-    }
 
+        if (TryGetComponent(out vendor))
+        {
+            shopAvailable = true;
+        }
+
+        if (TryGetComponent(out questGiver))
+        {
+            questAvailable = true;
+        }
+    }
     private void Start()
     {
         transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
@@ -34,6 +49,31 @@ public class NPCController : MonoBehaviour
     }
 
     public void OnTimeChanged(int hour, int minute)
+        OnHourChanged(TimeManager.Instance.currentHour);
+    }
+
+    private void OnMouseDown()
+    {
+        Debug.Log($"[NPCInteraction] {npcID} 클릭됨");
+        Transform playerTransform = PlayerController.Instance.transform;
+        float distance = Vector2.Distance(transform.position, playerTransform.position);
+
+        if (distance > interactionRange)
+        {
+            Debug.Log($"[NPCInteraction] to far to interact");
+            return;
+        }
+        else if (UIManager.Instance.IsUIOn())
+        {
+            Debug.Log($"[NPCInteraction] UI is on, cannot interact");
+            return;
+        }
+        else
+        {
+            DialogueManager.Instance.StartDialogue(this);
+        }
+    }
+    public void OnHourChanged(int hour)
     {
         var entries = GetTodayScheduleEntries();
         if (entries == null)
@@ -82,10 +122,5 @@ public class NPCController : MonoBehaviour
             list.Add(WaypointManager.Instance.GetPosition(id));
         }
         return list.ToArray();
-    }
-
-    public void ResetToDefaultPosition()
-    {
-        transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
     }
 }

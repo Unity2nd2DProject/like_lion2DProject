@@ -9,40 +9,6 @@ public class QuickSlotUI : MonoBehaviour
     public List<ItemSlotUI> quickSlotSlotUIs = new List<ItemSlotUI>();
     public GameObject currentSelectedCursor;
 
-    private void Awake()
-    {
-        OnSceneLoaded(SceneManager.GetActiveScene(), LoadSceneMode.Single);
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnDisable()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnDestroy()
-    {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (GameManager.Instance.currentMode == GameMode.TOWN)
-        {
-            ShowQuickSlot();
-        }
-        else if (GameManager.Instance.currentMode == GameMode.HOME)
-        {
-            HideQuickSlot();
-        }
-    }
-
     private void ShowQuickSlot()
     {
         gameObject.SetActive(true);

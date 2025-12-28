@@ -4,19 +4,20 @@ using UnityEngine;
 [System.Serializable]
 public class QuestInstance
 {
-    public QuestData questData;
-    public string giverNpcName;
-    public List<QuestGoal> goals = new();
+    public QuestDataSO questData;
+    public NPC.NpcId giverNpcId;
+    public List<QuestGoalProgress> goals = new();
 
     public bool IsComplete => goals.TrueForAll(g => g.IsComplete);
 
-    public QuestInstance(QuestData data, string giverName)
+    public QuestInstance(QuestDataSO data, NPC.NpcId giverID)
     {
         questData = data;
-        giverNpcName = giverName;
+        giverNpcId = giverID;
+
         foreach (var goal in data.goals)
         {
-            goals.Add(new QuestGoal
+            goals.Add(new QuestGoalProgress
             {
                 goalType = goal.goalType,
                 targetType = goal.targetType,

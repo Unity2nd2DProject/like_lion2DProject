@@ -1,127 +1,60 @@
+using System;
 using UnityEngine;
-using UnityEngine.UI;
+using System.Collections.Generic;
+
 
 public class ShopUI : MonoBehaviour
 {
-    public static ShopUI Instance { get; private set; }
+    public Transform shopItemParent;
 
-    [Header("UI References")]
-    public GameObject shopRoot; // 상점 UI 전체
-    public CanvasGroup canvasGroup; // UI 상호작용 제어용
-    public Transform buySlotParent; // 상점 구매 슬롯 부모
-    public GameObject slotPrefab; // 슬롯 프리팹
-    public RectTransform scrollRectTransform;
+    public GameObject shopSlotUIPrefab;
 
-    [Header("Manager References")]
-    public ShopManager shopManager;
-    public SellPopupUI sellPopup;
-    public ItemInfoPopupUI itemInfoPopup;
+    public GameObject itemInfoUIPrefab;
+    [HideInInspector] public GameObject itemInfoUI;
 
-    [Header("Inventory Reference")]
-    // [SerializeField] private Transform inventoryParent;
-    private ItemSlotUI[] inventorySlots;
-    
-    [Header("Scroll")]
-    public RectTransform scrollViewport;
+    public GameObject sellPopupUIPrefab;
 
-    void Awake()
+    GameObject sellPopupUIInstance;
+
+
+    public void SetShopUI(List<ItemData> itemDatas)
     {
-        if (Instance != null && Instance != this)
+        foreach (Transform child in shopItemParent)
         {
-            Destroy(gameObject);
-            return;
-        }
-
-        Instance = this;
-
-        // 인벤토리 슬롯 자동 수집
-        inventorySlots = UIManager.Instance.inventoryUI.GetComponentsInChildren<ItemSlotUI>(true);
-    }
-
-    void OnEnable()
-    {
-        if (sellPopup != null)
-        {
-            sellPopup.Init(shopManager, this);
-        }
-
-        EnableInventorySellMode(true);
-        UpdateUI();
-    }
-
-    void OnDisable()
-    {
-        EnableInventorySellMode(false);
-    }
-
-    // 인벤토리 슬롯들에 판매 모드 활성/비활성 설정
-    public void EnableInventorySellMode(bool enable)
-    {
-        foreach (var slot in inventorySlots)
-        {
-            slot.SetSellMode(enable, enable ? sellPopup : null);
-        }
-    }
-
-    // 상점 슬롯 UI 새로고침
-    public void UpdateUI()
-    {
-        if (shopManager == null || shopManager.shopItems == null)
-        {
-            return;
-        }
-
-        foreach (Transform child in buySlotParent)
             Destroy(child.gameObject);
+        }
 
-        foreach (var item in shopManager.shopItems)
+        foreach (ItemData itemData in itemDatas)
         {
-            var go = Instantiate(slotPrefab, buySlotParent);
-            var ui = go.GetComponent<ShopSlotUI>();
-            if (ui == null)
-            {
-                continue;
-            }
-
-            ui.Setup(item, shopManager, itemInfoPopup, this);
+            GameObject itemSlotObj = Instantiate(shopSlotUIPrefab, shopItemParent);
+            ShopSlotUI shopSlotUI = itemSlotObj.GetComponent<ShopSlotUI>();
+            shopSlotUI.Setup(itemData, this);
         }
     }
 
-    public void Close()
+    public void OpenShopUI()
     {
-        // 판매 팝업 닫기
-        if (sellPopup != null)
-        {
-            sellPopup.Hide();
-        }
-
-        // 상점 UI 전체 비활성화
-        if (shopRoot != null)
-        {
-            shopRoot.SetActive(false);
-        }
-
-        // 시간 정지 해제 (필요한 경우)
-        Time.timeScale = 1f;
+        gameObject.SetActive(true);
     }
 
-    // 상점 UI 상호작용 잠금 (판매 팝업이 켜졌을 때 호출)
-    public void LockInteraction()
+    public void CloseShopUI()
     {
-        if (canvasGroup != null)
-        {
-            canvasGroup.interactable = false;
-            canvasGroup.blocksRaycasts = false;
-        }
+        gameObject.SetActive(false);
+        Destroy(sellPopupUIInstance);
     }
 
-    // 상점 UI 상호작용 해제 (팝업 닫을 때 호출)
-    public void UnlockInteraction()
+    public void ShowSellPopUp(ItemSlot itemSlot)
     {
-        if (canvasGroup != null)
-        {
-            canvasGroup.interactable = true;
-            canvasGroup.blocksRaycasts = true;
-        }
+        sellPopupUIInstance = Instantiate(sellPopupUIPrefab, transform);
+        sellPopupUIInstance.GetComponent<SellPopupUI>().SetItemSlot(itemSlot);
+    }
+
+    public void ShowItemInfoUI(ItemData itemData, Vector2 position)
+    {
+        
+    }
+    public void HideItemInfoUI()
+    {
+        
     }
 }

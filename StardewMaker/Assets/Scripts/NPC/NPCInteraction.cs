@@ -10,8 +10,8 @@ public class NPCInteraction : MonoBehaviour
     [SerializeField] private float interactionRange = 2.5f;
 
     [Header("Dialogue")]
-    private string npcName;
-    private QuestData npcQuest;
+    private NPC.NpcId npcName;
+    private QuestDataSO npcQuest;
     [SerializeField] Sprite npcImage;
     [TextArea] public string defaultText = "안녕하세요!";
     [TextArea] public string questCompleteText = "수고하셨어요!";
@@ -26,11 +26,13 @@ public class NPCInteraction : MonoBehaviour
 
     private void Start()
     {
-        npcName = npcController.npcName;
+        npcName = npcController.npcID;
     }
 
+    /*
     private void OnMouseDown()
     {
+        Debug.Log($"[NPCInteraction] {npcName} 클릭됨");
         Transform playerTransform = PlayerController.Instance.transform;
         float distance = Vector2.Distance(transform.position, playerTransform.position);
 
@@ -38,7 +40,11 @@ public class NPCInteraction : MonoBehaviour
         {
             return;
         }
-
+        else
+        {
+            // DialogueManager.Instance.StartDialogue();
+        }
+        
         QuestManager.Instance.ReportAction(QuestTargetType.GreetedToNPC);
 
         if (questGiver.questPool == null)
@@ -77,7 +83,7 @@ public class NPCInteraction : MonoBehaviour
         // 아직 수락 안 한 경우 (수락 가능한 시간 체크)
         int hour = TimeManager.Instance.currentHour;
         int day = TimeManager.Instance.currentDay;
-        QuestData quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
+        QuestDataSO quest = questGiver.questPool.GetRandomAvailableQuest(hour, day);
 
         // 오늘 이미 완료한 daily quest인지 먼저 확인
         bool alreadyCompletedToday = questGiver.questPool.dailyQuests.Exists(q =>
@@ -100,11 +106,13 @@ public class NPCInteraction : MonoBehaviour
         {
             ShowDialogue(defaultText);
         }
-    }
+       
+}
+     */
 
-    private void ShowDialogue(string text, QuestData questData = null, System.Action onOK = null)
+    private void ShowDialogue(string text, QuestDataSO questData = null, System.Action onOK = null)
     {
-        NPCDialgoueUI.Instance.Show(npcImage, npcName, text, questData, onOK);
+        NPCDialgoueUI_legacy.Instance.Show(npcImage, npcName, text, questData, onOK);
         UIManager.Instance.HidePopupImmediately();
     }
 }

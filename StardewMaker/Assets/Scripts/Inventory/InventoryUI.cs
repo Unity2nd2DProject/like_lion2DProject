@@ -20,6 +20,7 @@ public class InventoryUI : MonoBehaviour
     public void InitializeInventoryUI()
     {
         inventoryManager = InventoryManager.Instance;
+        cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(OnCancelButtonClicked);
     }
 
@@ -32,12 +33,8 @@ public class InventoryUI : MonoBehaviour
     }
 
     private void OnCancelButtonClicked()
-    {       
-        if (ShopUI.Instance != null && ShopUI.Instance.gameObject.activeSelf)
-        {
-            ShopUI.Instance.Close();
-        }
-        if(GameManager.Instance.currentMode == GameMode.HOME)
+    {
+        if (GameManager.Instance.currentMode == GameMode.HOME)
         {
             UIManager.Instance.ToggleInventoryByButton();
         }
@@ -54,19 +51,29 @@ public class InventoryUI : MonoBehaviour
         UIManager.Instance.HideTooltip();
     }
 
-    public void ShowInventory()
-    {
-        gameObject.SetActive(true);
-    }
-
     public void HideInventory()
     {
         gameObject.SetActive(false);
         UIManager.Instance.HideTooltip();
     }
 
-    public ItemData GetSelectedItem()
+    public void SetShopMode()
     {
-        return null;
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(OnCancelButtonClickedShop);
+    }
+    
+    public void OnCancelButtonClickedShop()
+    {
+        Debug.Log("상점 닫기");
+        UIManager.Instance.ShopUI.CloseShopUI();
+        UIManager.Instance.InventoryUI.HideInventory();
+        InitializeInventoryUI();
+
+        UIManager.Instance.dialogueUI.SetActive(true);
+        UIManager.Instance.dialogueUI.GetComponent<DialogueController>().EndBuissness();
+        this.gameObject.transform.parent = UIManager.Instance.canvas.transform;        
+        
+        UIManager.Instance.OffUI();
     }
 }

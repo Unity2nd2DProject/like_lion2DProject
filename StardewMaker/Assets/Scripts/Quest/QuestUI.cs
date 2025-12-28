@@ -5,20 +5,17 @@ public class QuestUI : Singleton<QuestUI>
 {
     [Header("UI")]
     [SerializeField] private GameObject questPanel;
-    // [SerializeField] private CanvasGroup canvasGroup;
     [SerializeField] private Transform ongoingListParent;
     [SerializeField] private Transform completedListParent;
     [SerializeField] private GameObject questSlotPrefab;
-    // [SerializeField] private RectTransform scrollRectTransform;
     [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
-
-    // [Header("Scroll")]
-    // [SerializeField] private RectTransform scrollViewport;
+    [SerializeField] private Button toggleButton;
 
     protected override void Awake()
     {
         base.Awake();
         ToggleQuestPanel();
+        toggleButton.onClick.AddListener(ToggleQuestPanel);
     }
 
     public void ToggleQuestPanel()
@@ -64,6 +61,8 @@ public class QuestUI : Singleton<QuestUI>
             }
             ui.Setup(quest.questName, true, null, quest);
         }
+
+        Debug.Log("퀘스트 목록 새로고침");
     }
 
     public void ShowQuestDetail(QuestInstance quest)
@@ -71,8 +70,13 @@ public class QuestUI : Singleton<QuestUI>
         questDetailPopupUI.Show(quest);
     }
 
-    public void ShowQuestDetail(QuestData quest)
+    public void ShowQuestDetail(QuestDataSO quest)
     {
         questDetailPopupUI.Show(quest);
+    }
+
+    public void CloseQuestUI()
+    {
+        questPanel.SetActive(false);
     }
 }
