@@ -11,20 +11,6 @@ public class NPCQuestGiver : MonoBehaviour
     {
         SetTodaysQuest();
     }
-    public QuestDataSO GetAvailableQuest()
-    {
-        QuestDataSO availableQuest = questPool.GetRandomAvailableQuest();
-
-        if (availableQuest != null)
-        {
-            return availableQuest;
-        }
-        else
-        {
-            return availableQuest;
-        }
-    }
-
     public void SetTodaysQuest()
     {
         todaysQuest = questPool.GetRandomAvailableQuest();
@@ -33,5 +19,6 @@ public class NPCQuestGiver : MonoBehaviour
     public void AcceptQuest()
     {
         QuestManager.Instance.AcceptQuest(todaysQuest.questID, questPool.npcId);
+        isQuestGiven = true;
     }
 }

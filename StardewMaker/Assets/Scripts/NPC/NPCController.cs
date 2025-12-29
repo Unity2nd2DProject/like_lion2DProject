@@ -45,14 +45,13 @@ public class NPCController : MonoBehaviour
     private void Start()
     {
         // transform.position = WaypointManager.Instance.GetPosition(defaultPosition).position;
-        OnTimeChanged(TimeManager.Instance.currentHour, TimeManager.Instance.currentMinute);
+        OnTimeChanged(TimeManager.Instance.currentHour, TimeManager.Instance.currentMinute); // ?
     }
 
     public void OnTimeChanged(int hour, int minute) 
     {
         OnHourChanged(TimeManager.Instance.currentHour);
     }
-
     
 
     private void OnMouseDown()
@@ -76,6 +75,8 @@ public class NPCController : MonoBehaviour
             DialogueManager.Instance.StartDialogue(this);
         }
     }
+
+    // 시간이 지나면 동작이지만 아워체인지와 타임체인지가 나눠진 이유;
     public void OnHourChanged(int hour)
     {
         var entries = GetTodayScheduleEntries();

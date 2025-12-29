@@ -150,8 +150,9 @@ public class DialogueController : MonoBehaviour
     {
         HideButtons();
         Debug.Log("퀘스트 대화 시작");
-        if(!currentNPC.questGiver.isQuestGiven || currentNPC.questGiver.todaysQuest != null)
+        if(!currentNPC.questGiver.isQuestGiven && currentNPC.questGiver.todaysQuest != null)
         {
+            Debug.Log(currentNPC.questGiver.isQuestGiven);
             StartCoroutine(PlayRandomDialogue(DialogueSequenceType.QuestOffer, ShowQuest));
         }
         else
