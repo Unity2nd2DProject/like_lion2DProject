@@ -66,6 +66,19 @@ public class UIManager : Singleton<UIManager>
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            ToggleInventoryUI();
+        }
+
+        if(Input.GetKeyDown(KeyCode.Q))
+        {
+            ToggleQuestPanel();
+        }
+    }
+
     #region 딸 관련 UI 
 
     public void InitializeStatUI(List<Stat> stats)
@@ -183,13 +196,18 @@ public class UIManager : Singleton<UIManager>
             InventoryUI.gameObject.SetActive(true);
         }
     }
-
     public void ShowQuickSlotUI()
     {
         if (QuickSlotUI != null)
         {
             QuickSlotUI.gameObject.SetActive(true);
         }
+    }
+    public void ToggleInventoryUI()
+    {
+        UpdateInventoryUI();
+        UpdateQuickSlotUI();
+        InventoryUI.gameObject.SetActive(!InventoryUI.gameObject.activeSelf);
     }
 
     #endregion
@@ -223,13 +241,6 @@ public class UIManager : Singleton<UIManager>
             PopupUI = null;
         }
     }
-
-    public void ToggleInventoryByButton()
-    {
-        UpdateInventoryUI();
-        UpdateQuickSlotUI();
-    }
-
 
     public void ShowTooltip(ItemData itemdata, Vector3 position)
     {

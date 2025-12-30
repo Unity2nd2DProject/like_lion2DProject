@@ -27,6 +27,6 @@ public class RightButtonUI : MonoBehaviour
 
     private void OnInventoryButtonClicked()
     {
-        UIManager.Instance.ToggleInventoryByButton();
+        // UIManager.Instance.ToggleInventoryByButton();
     }
 }

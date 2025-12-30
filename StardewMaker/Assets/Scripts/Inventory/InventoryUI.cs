@@ -36,7 +36,7 @@ public class InventoryUI : MonoBehaviour
     {
         if (GameManager.Instance.currentMode == GameMode.HOME)
         {
-            UIManager.Instance.ToggleInventoryByButton();
+            UIManager.Instance.ToggleInventoryUI();
         }
         else
         {

@@ -17,12 +17,11 @@ public enum PlayerInteraction
     Shoot
 }
 
-public class PlayerController : Singleton<PlayerController>
+public class PlayerController : Singleton<PlayerController> // controller인데 싱글톤일 수 없다. Player니까 예외 가능하지만 최대한 지양할 것
 {
-        private string TAG = "[PlayerController]";
-
     public Animator anim { get; private set; }
     public Rigidbody2D rb { get; private set; }
+
     private PlayerAttackCollider playerAttackCollider;
 
     [Header("Move")]
@@ -73,7 +72,7 @@ public class PlayerController : Singleton<PlayerController>
     private void Start()
     {
         curHp = maxHp;
-        //PlayerHpBarUI.Instance.Initialize(maxHp, curHp);
+        //PlayerHpBarUI.Instance.Initialize(maxHp, curHp); // 사냥지역에 들어가면 UI가 생성되도록.
     }
 
     void Update()
@@ -94,8 +93,6 @@ public class PlayerController : Singleton<PlayerController>
         }
 
         PlayerMoveInput();
-        IInput();
-        QInput();
         MouseLeftInput();
 
         // Test
@@ -147,22 +144,6 @@ public class PlayerController : Singleton<PlayerController>
         anim.SetFloat("InputY", move.y);
         anim.SetFloat("LastX", lastMove.x);
         anim.SetFloat("LastY", lastMove.y);
-    }
-
-    private void IInput()
-    {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            UIManager.Instance.InventoryUI.ToggleInventory();
-        }
-    }
-
-    private void QInput()
-    {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            QuestUI.Instance.ToggleQuestPanel();
-        }
     }
 
     private void NInput() // Test
