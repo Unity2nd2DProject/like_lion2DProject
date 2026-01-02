@@ -68,14 +68,17 @@ public class UIManager : Singleton<UIManager>
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E))
+        if(!isUIon)
         {
-            ToggleInventoryUI();
-        }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                ToggleInventoryUI();
+            }
 
-        if(Input.GetKeyDown(KeyCode.Q))
-        {
-            ToggleQuestPanel();
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                ToggleQuestPanel();
+            }
         }
     }
 
@@ -323,6 +326,14 @@ public class UIManager : Singleton<UIManager>
         GameObject effectObj = Instantiate(itemAddEffectPrefab, canvas.transform);
         effectObj.transform.SetAsLastSibling(); 
         effectObj.GetComponent<ItemAddEffect>().Play(itemData, screenPos);
+    }
+
+    public void CloasAllUI()
+    {
+        InventoryUI.HideInventory();
+        QuickSlotUI.gameObject.SetActive(false);
+        cookingUI?.gameObject.SetActive(false);
+        giftUI?.gameObject.SetActive(false);
     }
 
 }
