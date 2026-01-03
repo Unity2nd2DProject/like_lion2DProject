@@ -162,7 +162,8 @@ public class UIManager : Singleton<UIManager>
 
     #endregion
 
-    #region 인벤토리 및 퀵슬롯 UI
+    #region 인벤토리 UI    
+   
     public void InitializeInventoryAndQuickSlot()
     {
         InventoryUI.gameObject.transform.SetAsFirstSibling();
@@ -215,6 +216,8 @@ public class UIManager : Singleton<UIManager>
 
     #endregion
 
+    #region 퀵슬롯 UI
+    #endregion
     public void ShowPopup(string message, Vector3 position = default)
     {
         if (position == default)
@@ -336,5 +339,10 @@ public class UIManager : Singleton<UIManager>
         giftUI?.gameObject.SetActive(false);
     }
 
+    public void ShowDialogueUI()
+    {
+        CloasAllUI();
+        dialogueUI.SetActive(true);
+    }
 }
 

@@ -51,8 +51,7 @@ public class DialogueController : MonoBehaviour
 
         dialogueButtons.Clear();
 
-        gameObject.SetActive(true); // 이걸 UImanager에서 안하네...
-
+        UIManager.Instance.ShowDialogueUI();
         StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Greeting, ShowMainButtons));
     }
     private IEnumerator PlayRandomDialogue(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
