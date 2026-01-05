@@ -346,7 +346,6 @@ GameObject:
   - component: {fileID: 1404410105088631755}
   - component: {fileID: 1855021459052215599}
   - component: {fileID: 3832952534610610131}
-  - component: {fileID: 5895936985817365923}
   - component: {fileID: 7432168482092254835}
   - component: {fileID: 5902218346032525495}
   - component: {fileID: 2916865488584486716}
@@ -372,6 +371,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8436426307100465752}
+  - {fileID: 99127162210782207}
   - {fileID: 4374002452987076654}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -494,36 +494,6 @@ CapsuleCollider2D:
   m_Offset: {x: -0.011430683, y: -0.0053259274}
   m_Size: {x: 0.57071704, y: 0.45995486}
   m_Direction: 1
---- !u!114 &5895936985817365923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3416773276312135230}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Actions: {fileID: -944628639613478452, guid: 7e0ae48396e5878439cb8515ac5d4cbe, type: 3}
-  m_NotificationBehavior: 0
-  m_UIInputModule: {fileID: 0}
-  m_DeviceLostEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_DeviceRegainedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ControlsChangedEvent:
-    m_PersistentCalls:
-      m_Calls: []
-  m_ActionEvents: []
-  m_NeverAutoSwitchControlSchemes: 0
-  m_DefaultControlScheme: 
-  m_DefaultActionMap: Player
-  m_SplitScreenIndex: -1
-  m_Camera: {fileID: 0}
 --- !u!114 &7432168482092254835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -544,6 +514,12 @@ MonoBehaviour:
   rightPoint: {fileID: 6682701776498179655}
   downPoint: {fileID: 1309840407471801202}
   upPoint: {fileID: 2511356773546740276}
+  curFarmLand: {fileID: 0}
+  curPond: {fileID: 0}
+  curTree: {fileID: 0}
+  curBush: {fileID: 0}
+  curItem: {fileID: 0}
+  curMapArea: 0
 --- !u!114 &5902218346032525495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -738,7 +714,7 @@ Transform:
   - {fileID: 7540347888352303152}
   - {fileID: 3509136088100114266}
   - {fileID: 4006272399696922303}
-  m_Father: {fileID: 8436426307100465752}
+  m_Father: {fileID: 1069008505537020072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8874836362833502506
 MonoBehaviour:
@@ -783,8 +759,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 99127162210782207}
+  m_Children: []
   m_Father: {fileID: 1069008505537020072}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!95 &4750083341002424252

@@ -72,7 +72,7 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
     private void Start()
     {
         curHp = maxHp;
-        //PlayerHpBarUI.Instance.Initialize(maxHp, curHp); // 사냥지역에 들어가면 UI가 생성되도록.
+        // PlayerHpBarUI.Instance.Initialize(maxHp, curHp); // 사냥지역에 들어가면 UI가 생성되도록.
     }
 
     void Update()
@@ -92,11 +92,8 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
             return;
         }
 
-        PlayerMoveInput();
-        MouseLeftInput();
-
-        // Test
-        NInput();
+        MoveInput();
+        MouseInput();
     }
 
     private void FixedUpdate()
@@ -122,7 +119,7 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
         }
     }
 
-    private void PlayerMoveInput()
+    private void MoveInput()
     {
         float h = Input.GetAxisRaw("Horizontal");
         float v = Input.GetAxisRaw("Vertical");
@@ -146,22 +143,14 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
         anim.SetFloat("LastY", lastMove.y);
     }
 
-    private void NInput() // Test
-    {
-        if (Input.GetKeyDown(KeyCode.N))
-        {
-            SaveManager.Instance.Save();
-        }
-    }
-
-    private void MouseLeftInput()
+    private void MouseInput()
     {
         if (Input.GetMouseButtonDown(0))
         {
             Collider2D mouseHit = Physics2D.OverlapPoint(mouseWorldPos);
             Collider2D[] playerHits = Physics2D.OverlapCircleAll(curPos, 1f);
 
-            if (move == Vector2.zero)
+            if (move == Vector2.zero) // 정지 상태에서만 아이템에 따른 상호작용
             {
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
                 playerAttackCollider.SetCurItem(curItem);

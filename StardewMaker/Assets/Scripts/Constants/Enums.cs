@@ -35,11 +35,6 @@ namespace NPC
         Farewell,
         Custom
     }
-
-    public enum DialogueSequenceTag
-    {
-
-    }
 }
 
 public enum Season

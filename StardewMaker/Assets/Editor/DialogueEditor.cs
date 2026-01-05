@@ -20,6 +20,8 @@ public class DialogueEditor : EditorWindow
         GetWindow<DialogueEditor>("Dialogue Editor");
     }
 
+    private Vector2 scrollPos;
+
     private void OnGUI()
     {
         GUILayout.Space(10);
@@ -29,12 +31,17 @@ public class DialogueEditor : EditorWindow
             return;
 
         GUILayout.Space(10);
+
+        scrollPos = EditorGUILayout.BeginScrollView(scrollPos);
+
         DrawSequenceNavigator();
 
         if (currentNPC.dialogues.Count > 0)
         {
             DrawCurrentSequence();
         }
+
+        EditorGUILayout.EndScrollView();
 
         GUILayout.Space(10);
         DrawSaveLoadButtons();
@@ -232,6 +239,9 @@ public class DialogueEditor : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
+    private bool showRequireFoldout = true;
+    private bool showForbiddenFoldout = true;
+
     private void DrawSequence(DialogueSequence seq)
     {
         EditorGUILayout.LabelField("시퀀스 키");
@@ -247,6 +257,68 @@ public class DialogueEditor : EditorWindow
 
             seq.customSequenceType = EditorGUILayout.TextField("직접 입력", seq.customSequenceType);
         }
+
+        // require 태그 수정 박스
+        GUILayout.Space(8);
+        showRequireFoldout = EditorGUILayout.Foldout(showRequireFoldout, "Require Tags");
+
+        if (showRequireFoldout)
+        {
+            EditorGUI.indentLevel++;
+
+            EditorGUILayout.BeginVertical("box");
+
+            string requireStr = string.Join(", ", seq.requireTags ?? new List<string>());
+            string newRequire = EditorGUILayout.TextArea(requireStr, GUILayout.Height(50));
+
+            if (newRequire != requireStr)
+                seq.requireTags = ParseTagString(newRequire);
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUI.indentLevel--;
+        }
+
+        GUILayout.Space(5);
+
+        // forbidden 태그 수정 박스
+        showForbiddenFoldout = EditorGUILayout.Foldout(showForbiddenFoldout, "Forbidden Tags");
+
+        if (showForbiddenFoldout)
+        {
+            EditorGUI.indentLevel++;
+
+            EditorGUILayout.BeginVertical("box");
+
+            string forbidStr = string.Join(", ", seq.forbiddenTags ?? new List<string>());
+            string newForbid = EditorGUILayout.TextArea(forbidStr, GUILayout.Height(50));
+
+            if (newForbid != forbidStr)
+                seq.forbiddenTags = ParseTagString(newForbid);
+
+            EditorGUILayout.EndVertical();
+
+            EditorGUI.indentLevel--;
+        }
+    }
+    private List<string> ParseTagString(string input)
+    {
+        var result = new List<string>();
+
+        if (string.IsNullOrWhiteSpace(input))
+            return result;
+
+        string[] split = input.Split(',');
+
+        foreach (var s in split)
+        {
+            string t = s.Trim();
+
+            if (!string.IsNullOrEmpty(t))
+                result.Add(t.ToLower());
+        }
+
+        return result;
     }
 
     private void DrawSaveLoadButtons()

@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+// UIManager 통해서 생성 할 수 있도록 prefab로 만들어 둘 것
 public class PlayerHpBarUI : MonoBehaviour
 {
     public static PlayerHpBarUI Instance;
