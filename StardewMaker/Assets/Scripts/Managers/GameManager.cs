@@ -8,7 +8,6 @@ public enum GameState
     UI,
     PLAYING
 }
-
 public enum GameMode
 {
     HOME,

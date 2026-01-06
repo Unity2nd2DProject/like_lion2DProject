@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 
+
 public class TimeManager : Singleton<TimeManager>
 {
     public int LAST_DAY_OF_SEASON = 7;
-    public int START_HOUR = 7;
+    public int START_HOUR = 6;
 
     [Header("Time Settings")]
     public float realSecondsPerGameDay = 600f; // 10분 = 600초

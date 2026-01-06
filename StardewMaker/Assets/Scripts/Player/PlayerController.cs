@@ -112,11 +112,12 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
         {
             playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
         }
-
+        /*
         if (!SceneManager.GetActiveScene().name.Contains("Home"))
         {
             curMapArea = MapManager.Instance.GetArea(transform.position);
         }
+        */
     }
 
     private void MoveInput()
