@@ -659,7 +659,7 @@ MonoBehaviour:
   startButton: {fileID: 402577589}
   optionButton: {fileID: 1305716237}
   quitButton: {fileID: 1259707892}
-  optionPopup: {fileID: 1020637897}
+  optionPopup: {fileID: 0}
   cancelButton: {fileID: 0}
   gameSceneName: OpeningScene
 --- !u!1 &796375703
@@ -1204,11 +1204,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1020637897 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3129216249826669288, guid: 2a320da89ab8f9f4690ef479624487ec, type: 3}
-  m_PrefabInstance: {fileID: 9074427773337111706}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1113187294
 GameObject:
   m_ObjectHideFlags: 0
@@ -1776,7 +1771,7 @@ GameObject:
   - component: {fileID: 1593865263}
   - component: {fileID: 1593865265}
   m_Layer: 0
-  m_Name: StartBg
+  m_Name: StartBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

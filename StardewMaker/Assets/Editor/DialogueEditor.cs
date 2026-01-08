@@ -239,8 +239,8 @@ public class DialogueEditor : EditorWindow
         EditorGUILayout.EndHorizontal();
     }
 
-    private bool showRequireFoldout = true;
-    private bool showForbiddenFoldout = true;
+    private bool showRequireFoldout = false;
+    private bool showForbiddenFoldout = false;
 
     private void DrawSequence(DialogueSequence seq)
     {
