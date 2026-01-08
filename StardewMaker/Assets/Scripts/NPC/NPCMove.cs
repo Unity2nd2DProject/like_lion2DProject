@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCMover : MonoBehaviour
+public class NPCMove : MonoBehaviour
 {
     private Animator animator;
 

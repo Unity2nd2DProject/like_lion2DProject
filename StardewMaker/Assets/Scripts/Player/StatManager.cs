@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerManager : Singleton<PlayerManager>
+public class StatManager : Singleton<StatManager>
 {
     [Header("traits")]
     [SerializeField] private List<TraitInstance> traits;

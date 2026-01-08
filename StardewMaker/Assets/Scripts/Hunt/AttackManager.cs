@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class AttackManager : Singleton<AttackManager>
+public class AttackManager : Singleton<AttackManager> // TODO : 제거
 {
     [Header("Bow")]
     [SerializeField] private GameObject arrowPrefab;
@@ -21,7 +21,7 @@ public class AttackManager : Singleton<AttackManager>
         {
             arrowCtrl.Init(direction);
         }
-        PlayerManager.Instance.AddExpToSkill(TraitType.Hunting);
+        StatManager.Instance.AddExpToSkill(TraitType.Hunting);
     }
 
     public void SetArrowActive(bool isActive)

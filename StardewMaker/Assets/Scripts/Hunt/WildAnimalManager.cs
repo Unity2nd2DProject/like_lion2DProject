@@ -100,7 +100,7 @@ public class WildAnimalManager : Singleton<WildAnimalManager>
         spawnTimer += Time.deltaTime;
         if (spawnTimer >= spawnTimerInterval)
         {
-            TrySpawnAllAnimals();
+            // TrySpawnAllAnimals();
             spawnTimer = 0f;
         }
     }

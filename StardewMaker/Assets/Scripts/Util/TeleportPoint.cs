@@ -34,7 +34,7 @@ public class TeleportPoint : MonoBehaviour
         if (player != null && !player.justTeleported)
         {
             StartCoroutine(HandleTeleportCooldown(player));
-            StartCoroutine(FadeTeleport(player));
+            // StartCoroutine(FadeTeleport(player));
         }
     }
 

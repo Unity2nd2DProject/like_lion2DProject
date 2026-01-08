@@ -14,7 +14,7 @@ public class FriendshipManager : Singleton<FriendshipManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadFriendship();
+        SaveLoadManager.Instance.LoadFriendship();
     }
 
     public FriendshipData GetFriendship(NpcId npcId)

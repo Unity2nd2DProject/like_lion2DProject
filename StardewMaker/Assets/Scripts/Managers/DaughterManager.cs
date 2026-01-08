@@ -74,7 +74,7 @@ public class DaughterManager : Singleton<DaughterManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadStats();
+        SaveLoadManager.Instance.LoadStats();
     }
 
     public List<Stat> GetStats()

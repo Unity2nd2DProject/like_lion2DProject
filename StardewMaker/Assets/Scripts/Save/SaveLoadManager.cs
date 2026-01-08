@@ -2,9 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class SaveManager : Singleton<SaveManager>
+public class SaveLoadManager : Singleton<SaveLoadManager>
 {
-    public float autoSaveInterval = 30f;
     private string savePath => Application.persistentDataPath + "/Save/save.json";
 
     // C:\Users\<사용자 이름>\AppData\LocalLow\<회사 이름>\<제품 이름>
@@ -296,14 +295,6 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
-    private IEnumerator AutoSaveRoutine()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(autoSaveInterval);
-            Save();
-        }
-    }
 
     public void Save()
     {

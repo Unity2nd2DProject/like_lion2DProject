@@ -43,7 +43,7 @@ public class SceneChangeDetector : Singleton<SceneChangeDetector>
 
             if (scene.name.Contains("Town"))
             {
-                SaveManager.Instance.LoadFarm();
+                SaveLoadManager.Instance.LoadFarm();
                 WaypointManager.Instance.GetWaypoints();
 
                 // 나중에 save로 변경

@@ -66,7 +66,7 @@ public class GameManager : Singleton<GameManager>
 
         SceneManager.LoadScene(sceneName);
 
-        SaveManager.Instance.Save();
+        SaveLoadManager.Instance.Save();
     }
 
     public void GoToEnding(EndingResult ending, bool isTest = false)

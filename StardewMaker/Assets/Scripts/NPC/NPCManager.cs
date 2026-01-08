@@ -16,7 +16,7 @@ public class NPCManager : Singleton<NPCManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadNPC();
+        SaveLoadManager.Instance.LoadNPC();
     }
 
     public void SpawnNPCs()
@@ -69,7 +69,7 @@ public class NPCManager : Singleton<NPCManager>
 
         foreach (var npc in activeNPCs)
         {
-            var mover = npc.GetComponent<NPCMover>();
+            var mover = npc.GetComponent<NPCMove>();
             data.savedNPCs.Add(new SavedNPC
             {
                 npcId = npc.npcID,
@@ -94,7 +94,7 @@ public class NPCManager : Singleton<NPCManager>
             if (npc != null)
             {
                 npc.transform.position = saved.position;
-                var mover = npc.GetComponent<NPCMover>();
+                var mover = npc.GetComponent<NPCMove>();
                 if (mover != null)
                 {
                     mover.RestoreState(saved.currentAction, saved.routeIndex, saved.teleportTarget);

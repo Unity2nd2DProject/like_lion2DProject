@@ -19,7 +19,7 @@ public class NPCController : MonoBehaviour
     public NPCSchedule schedule;
 
     // Components
-    [HideInInspector] public NPCMover mover;
+    [HideInInspector] public NPCMove mover;
     [HideInInspector] public NPCQuestGiver questGiver;
     [HideInInspector] public NPCVendor vendor;
 
@@ -30,7 +30,7 @@ public class NPCController : MonoBehaviour
 
     private void Awake()
     {
-        mover = GetComponent<NPCMover>();
+        mover = GetComponent<NPCMove>();
 
         if (TryGetComponent(out vendor))
         {

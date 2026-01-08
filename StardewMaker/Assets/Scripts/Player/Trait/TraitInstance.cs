@@ -63,10 +63,10 @@ public class TraitInstance
         switch (effect.statTarget)
         {
             case StatEffectTarget.CropGrowthSpeed:
-                PlayerManager.Instance.cropGrowthSpeedBonus = value;
+                StatManager.Instance.cropGrowthSpeedBonus = value;
                 break;
             case StatEffectTarget.FoodEffectiveness:
-                PlayerManager.Instance.foodEffectivenessBonus = value;
+                StatManager.Instance.foodEffectivenessBonus = value;
                 break;
             case StatEffectTarget.FishingSuccessWindow:
                 break;

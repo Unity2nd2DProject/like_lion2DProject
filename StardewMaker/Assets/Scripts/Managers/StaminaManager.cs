@@ -28,7 +28,7 @@ public class StaminaManager : Singleton<StaminaManager>
 
     private void Start()
     {
-        SaveManager.Instance.LoadStamina();
+        SaveLoadManager.Instance.LoadStamina();
     }
 
     // 스태미나 소모 (반칸씩)
