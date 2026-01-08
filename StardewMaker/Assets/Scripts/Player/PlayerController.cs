@@ -26,7 +26,8 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
 
     [Header("Move")]
     private Vector2 mouseWorldPos;
-    private Vector2 moveInput, move;
+    private Vector2 moveInput;
+    private Vector2 move;
     private Vector2 lastMove;
     private Vector2 playerToMouse;
     public float moveSpeed = 5f;
@@ -52,7 +53,6 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
     [SerializeField] private Tree curTree;
     [SerializeField] private Bush curBush;
     [SerializeField] private ItemData curItem;
-    [SerializeField] private MapArea curMapArea;
     private bool isInteracting = false;
 
     protected override void Awake()
@@ -72,7 +72,6 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
     private void Start()
     {
         curHp = maxHp;
-        // PlayerHpBarUI.Instance.Initialize(maxHp, curHp); // 사냥지역에 들어가면 UI가 생성되도록.
     }
 
     void Update()
@@ -154,27 +153,9 @@ public class PlayerController : Singleton<PlayerController> // controller인데 
             if (move == Vector2.zero) // 정지 상태에서만 아이템에 따른 상호작용
             {
                 curItem = InventoryManager.Instance.GetQuickSlotCurrentSelectedItem();
-                playerAttackCollider.SetCurItem(curItem);
+                // playerAttackCollider.SetCurItem(curItem);
 
-                if (curMapArea == MapArea.Forest)
-                {
-                    if (curItem != null && curItem.name == "ToolBow")
-                    {
-                        SetInteractAnimation(PlayerInteraction.Shoot);
-                    }
-                    //else if (curItem != null && curItem.name == "ToolAxe")
-                    //{
-                    //    SetInteractAnimation(PlayerInteraction.Axe);
-                    //}
-                    else
-                    {
-                        InteractWithObject(mouseHit, playerHits);
-                    }
-                }
-                else
-                {
-                    InteractWithObject(mouseHit, playerHits);
-                }
+                InteractWithObject(mouseHit, playerHits);
             }
         }
     }
