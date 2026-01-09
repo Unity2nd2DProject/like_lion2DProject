@@ -6,8 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class TimeManager : Singleton<TimeManager>
 {
-    public int LAST_DAY_OF_SEASON = 7;
-    public int START_HOUR = 6;
+    [Header("Base Settings")]
+    [SerializeField] const int LAST_DAY_OF_SEASON = 7;
+    [SerializeField] const int START_HOUR = 6;
 
     [Header("Time Settings")]
     public float realSecondsPerGameDay = 600f; // 10분 = 600초
@@ -31,20 +32,13 @@ public class TimeManager : Singleton<TimeManager>
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
         Debug.Log("TimeManager Awake");
-        CheckCurrentScene(); // 홈씬에서 시작하는 경우 시간 멈추기
-
         SaveLoadManager.Instance.LoadTime();
-
     }
 
-    private void CheckCurrentScene()
-    {
-        Scene currentScene = SceneManager.GetActiveScene();
-        if (currentScene.name.Contains("HomeScene")) PauseTime();
-    }
 
     private void Start()
     {
+
     }
 
     private void Update()
@@ -120,8 +114,6 @@ public class TimeManager : Singleton<TimeManager>
         OnNextDay();
 
         UpdateUI(); // 업데이트 한 번 해 줌
-        CheckCurrentScene(); // 홈씬이면 시간 멈춤
-        //OnDayChanged?.Invoke();
     }
 
     public void OnNextDay()
@@ -141,7 +133,6 @@ public class TimeManager : Singleton<TimeManager>
         }
         StaminaManager.Instance.RecoverStamina(20);
         QuestManager.Instance.NextDay();
-        EventManager.Instance.TriggerEvents();
         UpdateUI();
     }
 

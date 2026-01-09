@@ -14,7 +14,6 @@ public class QuestUI : Singleton<QuestUI>
     protected override void Awake()
     {
         base.Awake();
-        ToggleQuestPanel();
         toggleButton.onClick.AddListener(ToggleQuestPanel);
     }
 

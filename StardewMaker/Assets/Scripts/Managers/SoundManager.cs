@@ -7,6 +7,14 @@ using UnityEngine.Rendering;
 
 
 
+public enum ButtonSFX
+{
+    Click,
+    Hover,
+    Confirm,
+    Cancel
+}
+
 // 날씨별 사운드 데이터를 저장하는 클래스 추가
 [System.Serializable]
 public class WeatherSoundData
