@@ -3,13 +3,13 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using System.Collections;
 
-public class VideoIntroPlayer : MonoBehaviour
+public class VideoPlayer : MonoBehaviour
 {
-    [SerializeField] private VideoPlayer videoPlayer;
+    [SerializeField] private UnityEngine.Video.VideoPlayer videoPlayer;
 
     private void Start()
     {
-        if (videoPlayer == null) videoPlayer = GetComponent<VideoPlayer>();
+        if (videoPlayer == null) videoPlayer = GetComponent<UnityEngine.Video.VideoPlayer>();
 
         videoPlayer.playOnAwake = false;
         videoPlayer.loopPointReached += OnVideoEnd;
@@ -36,7 +36,7 @@ public class VideoIntroPlayer : MonoBehaviour
         }
     }
 
-    private void OnVideoEnd(VideoPlayer vp)
+    private void OnVideoEnd(UnityEngine.Video.VideoPlayer vp)
     {
         // 비디오 종료 후 페이드 아웃
         if (FadeManager.Instance != null)

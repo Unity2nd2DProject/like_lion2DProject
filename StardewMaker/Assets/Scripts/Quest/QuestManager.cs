@@ -168,7 +168,7 @@ public class QuestManager : Singleton<QuestManager>
             }
             else if (reward.rewardType == RewardType.FriendshipPoint)
             {
-                FriendshipManager.Instance.AddPoints(reward.npc, reward.friendshipPoint);
+                // FriendshipManager.Instance.AddPoints(reward.npc, reward.friendshipPoint);
                 Debug.Log($"[Quest] 보상: {reward.npc}에게 우정 포인트 {reward.friendshipPoint} 획득");
             }
         }

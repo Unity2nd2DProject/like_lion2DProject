@@ -7,7 +7,7 @@ using System.Collections;
 public class VideoSceneController : MonoBehaviour
 {
     [Header("비디오 재생 관련")]
-    public VideoPlayer videoPlayer;   // 비디오 플레이어 컴포넌트
+    public UnityEngine.Video.VideoPlayer videoPlayer;   // 비디오 플레이어 컴포넌트
     public Button skipButton;         // 스킵 버튼
     public float skipDelay = 2f; // 스킵 버튼 활성화 지연 시간
     public float fadeDuration = 1f; // 페이드 아웃 지속 시간
@@ -55,7 +55,7 @@ public class VideoSceneController : MonoBehaviour
     }
 
     // 영상 재생이 끝났을 때 호출
-    private void OnVideoEnd(VideoPlayer videoPlayer)
+    private void OnVideoEnd(UnityEngine.Video.VideoPlayer videoPlayer)
     {
         StartCoroutine(FadeOutAndLoadScene());
     }

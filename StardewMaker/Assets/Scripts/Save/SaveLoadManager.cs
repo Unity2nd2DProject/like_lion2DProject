@@ -1,10 +1,11 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class SaveLoadManager : Singleton<SaveLoadManager>
 {
     private string savePath => Application.persistentDataPath + "/Save/save.json";
+
+    public SaveData currentSaveData = new SaveData();
 
     // C:\Users\<사용자 이름>\AppData\LocalLow\<회사 이름>\<제품 이름>
     private string farmPath => Application.persistentDataPath + "/Save/farm.json"; // Application.dataPath
@@ -196,46 +197,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         NPCManager.Instance.LoadNPCs(data);
     }
 
-    public void SaveFriendship()
-    {
-        FriendshipSaveData data = new FriendshipSaveData();
-
-        foreach (var friendship in FriendshipManager.Instance.GetAllFriendships())
-        {
-            data.savedFriendships.Add(new SavedFriendship
-            {
-                npcId = friendship.npcId,
-                points = friendship.points
-            });
-        }
-
-        string json = JsonUtility.ToJson(data, true);
-        System.IO.File.WriteAllText(friendshipPath, json);
-        Debug.Log("NPC 호감도 정보가 저장되었습니다. " + friendshipPath);
-    }
-
-    public void LoadFriendship()
-    {
-        if (!System.IO.File.Exists(friendshipPath))
-        {
-            Debug.LogWarning("friendship.json 파일이 존재하지 않습니다.");
-            return;
-        }
-
-        string json = System.IO.File.ReadAllText(friendshipPath);
-        FriendshipSaveData data = JsonUtility.FromJson<FriendshipSaveData>(json);
-
-        FriendshipManager.Instance.ResetAll();
-
-        foreach (var savedFriend in data.savedFriendships)
-        {
-            var friendship = FriendshipManager.Instance.GetOrCreateFriendship(savedFriend.npcId);
-            friendship.points = savedFriend.points;
-        }
-
-        Debug.Log("호감도 정보가 로드되었습니다. (" + data.savedFriendships.Count + "명)");
-    }
-
     // Quest
     public void SaveQuest()
     {
@@ -301,7 +262,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
         SaveBase();
         SaveFarm();
         SaveInventory();
-        SaveFriendship();
         SaveNPC();
         SaveQuest();
 

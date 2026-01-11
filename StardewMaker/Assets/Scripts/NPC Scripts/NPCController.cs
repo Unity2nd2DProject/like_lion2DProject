@@ -15,7 +15,8 @@ public enum NpcActionType
 
 public class NPCController : MonoBehaviour
 {
-    public NPC.NpcId npcID;    
+    public NPC.NpcId npcID;
+    public int friendshipPoints = 0;
     public NPCSchedule schedule;
 
     // Components

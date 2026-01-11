@@ -18,7 +18,7 @@ public enum EndingType
 
 public class EndingVideoPlayer : MonoBehaviour
 {
-    public VideoPlayer videoPlayer;
+    public UnityEngine.Video.VideoPlayer videoPlayer;
     [SerializeField] private EndingDecider endingDecider;
 
     [Header("씬 이동 관련")]
@@ -89,7 +89,7 @@ public class EndingVideoPlayer : MonoBehaviour
     }
 
     // 영상 종료 이벤트 처리
-    void OnVideoEnd(VideoPlayer vp)
+    void OnVideoEnd(UnityEngine.Video.VideoPlayer vp)
     {
         if (!isFirstVideoPlayed)
         {

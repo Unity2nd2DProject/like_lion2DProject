@@ -47,6 +47,7 @@ public class NPCManager : Singleton<NPCManager>
         activeNPCs.Clear();
     }
 
+    // TODO: 시간 변화에 따른 NPC 행동 업데이트 -> 다른 방식으로 바꿔여 할듯.
     public void OnTimeChanged(int hour, int minute)
     {
         foreach (var npc in activeNPCs)
@@ -63,6 +64,7 @@ public class NPCManager : Singleton<NPCManager>
         }
     }
 
+    // Save / Load NPCs NPC매니저에서 하는것은 맞으나 조금 더 다른 방식으로 해야할듯. 
     public NPCSaveData SaveNPCs()
     {
         NPCSaveData data = new NPCSaveData();
@@ -101,6 +103,16 @@ public class NPCManager : Singleton<NPCManager>
                 }
             }
         }
+    }
+
+    public int GetFrindShip(NPC.NpcId npcId)
+    {
+        return activeNPCs.Find(x => x.npcID == npcId).friendshipPoints;
+    }
+
+    public void AddFriendShipPoint(NPC.NpcId npcId, int amount)
+    {
+        activeNPCs.Find(x => x.npcID == npcId).friendshipPoints += amount;
     }
 
 }
