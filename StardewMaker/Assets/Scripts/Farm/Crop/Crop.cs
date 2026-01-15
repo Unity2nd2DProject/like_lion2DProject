@@ -63,7 +63,7 @@ public class Crop : MonoBehaviour
             {
                 currentGrowthStage++;
                 UpdateGrowth();
-                FarmLand land = FarmLandManager.Instance.GetFarmLandAt(position);
+                FarmLand land = FarmingManager.Instance.GetFarmLandAt(position);
                 Debug.Log($"land : {land}");
                 if (land != null)
                 {

@@ -122,7 +122,7 @@ public class TimeManager : Singleton<TimeManager>
         if (currentScene.name.Contains("TownScene"))
         {
             //CropManager.Instance.NextDay();
-            FarmLandManager.Instance.NextDay();
+            FarmingManager.Instance.NextDay();
             TreeManager.Instance.NextDay();
             BushManager.Instance.NextDay();
         }

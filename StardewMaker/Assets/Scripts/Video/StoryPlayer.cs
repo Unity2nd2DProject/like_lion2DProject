@@ -3,7 +3,7 @@ using UnityEngine.Video;
 using UnityEngine.UI;
 using System.Collections;
 
-public class VideoPlayer : MonoBehaviour
+public class StoryPlayer : MonoBehaviour
 {
     [SerializeField] private UnityEngine.Video.VideoPlayer videoPlayer;
 

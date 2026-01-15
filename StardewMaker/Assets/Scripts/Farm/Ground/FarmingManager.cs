@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FarmLandManager : Singleton<FarmLandManager>
+public class FarmingManager : Singleton<FarmingManager>
 {
     public GameObject farmlandPrefab;
 

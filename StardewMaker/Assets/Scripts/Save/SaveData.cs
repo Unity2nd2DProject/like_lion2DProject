@@ -4,7 +4,7 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-
+    public FarmSaveData farmSaveData = new FarmSaveData();
 }
 
 #region FarmData
