@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -79,17 +80,17 @@ public class FarmingManager : Singleton<FarmingManager>
 
         foreach (var saved in savedList)
         {
-            LandState newState = saved.landState;
+            FamrLandState newState = saved.landState;
 
-            if (newState == LandState.Watered || newState == LandState.Fertile)
+            if (newState == FamrLandState.Watered || newState == FamrLandState.Fertile)
             {
                 if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
                 {
-                    newState = LandState.Watered;
+                    newState = FamrLandState.Watered;
                 }
                 else
                 {
-                    newState = LandState.Fertile;
+                    newState = FamrLandState.Fertile;
                 }
             }
 
@@ -121,5 +122,15 @@ public class FarmingManager : Singleton<FarmingManager>
         {
             farmLands[pos] = land;
         }
+    }
+
+
+
+    public FarmSaveData GetFarmingData()
+    {
+        FarmSaveData farmData = new FarmSaveData();
+        farmData.savedFarmLands = SaveFarmLands();
+
+        return farmData;
     }
 }

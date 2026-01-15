@@ -37,7 +37,7 @@ public class SavedBush
 public class SavedFarmLand
 {
     public Vector2 position;
-    public LandState landState;
+    public FamrLandState landState;
 }
 
 [System.Serializable]

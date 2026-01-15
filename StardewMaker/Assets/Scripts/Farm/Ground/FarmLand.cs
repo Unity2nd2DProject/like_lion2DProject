@@ -1,7 +1,7 @@
 using NUnit.Framework.Interfaces;
 using UnityEngine;
 
-public enum LandState
+public enum FamrLandState
 {
     Normal,
     Fertile,
@@ -10,12 +10,12 @@ public enum LandState
 
 public class FarmLand : MonoBehaviour
 {
-    public LandState landState;
+    public FamrLandState landState;
     public Sprite normalSprite;
     public Sprite fertileSprite;
     public Sprite wateredSprite;
 
-    private Vector2 position; // connect with crop
+    private Vector2 position; // connect with crop // 기준점 잡고 자식으로 넣으면 안되나.? 
 
     private SpriteRenderer sr;
 
@@ -28,11 +28,16 @@ public class FarmLand : MonoBehaviour
         UpdateTileSprite();
     }
 
+    public void Start()
+    {
+
+    }
+
     public bool Plant(ItemData itemData)
     {
-        if (landState != LandState.Normal)
+        if (landState != FamrLandState.Normal)
         {
-            if (landState == LandState.Watered)
+            if (landState == FamrLandState.Watered)
             {
                 CropManager.Instance.PlantCrop(transform, position, itemData.cropToGrow, true);
             }
@@ -60,15 +65,15 @@ public class FarmLand : MonoBehaviour
     {
         if (CanPick())
         {
-            if (landState == LandState.Normal)
+            if (landState == FamrLandState.Normal)
             {
                 if (WeatherManager.Instance.GetCurrentWeather() == WeatherType.Rainy)
                 {
-                    landState = LandState.Watered;
+                    landState = FamrLandState.Watered;
                 }
                 else
                 {
-                    landState = LandState.Fertile;
+                    landState = FamrLandState.Fertile;
                 }
                 UpdateTileSprite();
                 QuestManager.Instance.ReportAction(QuestTargetType.TrilledSoil);
@@ -77,7 +82,7 @@ public class FarmLand : MonoBehaviour
             }
             else
             {
-                landState = LandState.Normal;
+                landState = FamrLandState.Normal;
                 UpdateTileSprite();
                 return true;
             }
@@ -92,7 +97,7 @@ public class FarmLand : MonoBehaviour
     {
         if (CanWater())
         {
-            landState = LandState.Watered;
+            landState = FamrLandState.Watered;
             if (CropManager.Instance.GetCropAt(position) != null)
             {
                 CropManager.Instance.WaterCrop(position);
@@ -150,9 +155,9 @@ public class FarmLand : MonoBehaviour
 
     public void AbsorbAwater()
     {
-        if (landState == LandState.Watered)
+        if (landState == FamrLandState.Watered)
         {
-            landState = LandState.Fertile;
+            landState = FamrLandState.Fertile;
         }
 
         UpdateTileSprite();
@@ -163,13 +168,13 @@ public class FarmLand : MonoBehaviour
         //Debug.Log("UpdateTileSprite");
         switch (landState)
         {
-            case LandState.Normal:
+            case FamrLandState.Normal:
                 sr.sprite = normalSprite;
                 break;
-            case LandState.Fertile:
+            case FamrLandState.Fertile:
                 sr.sprite = fertileSprite;
                 break;
-            case LandState.Watered:
+            case FamrLandState.Watered:
                 sr.sprite = wateredSprite;
                 break;
         }
@@ -182,7 +187,7 @@ public class FarmLand : MonoBehaviour
 
     public bool CanPlant(ItemData itemData)
     {
-        return landState != LandState.Normal &&
+        return landState != FamrLandState.Normal &&
                itemData != null &&
                itemData.cropToGrow != null &&
                CropManager.Instance.GetCropAt(position) == null;
@@ -195,7 +200,7 @@ public class FarmLand : MonoBehaviour
 
     public bool CanWater()
     {
-        return landState == LandState.Fertile &&
+        return landState == FamrLandState.Fertile &&
                InventoryManager.Instance.GetItem("물") != null;
     }
 
