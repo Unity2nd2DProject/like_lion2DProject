@@ -4,15 +4,12 @@ using UnityEngine;
 [System.Serializable]
 public class SaveData
 {
-    public FarmData farmData = new FarmData();
-    public GameBaseData baseData = new GameBaseData();
-    public InventoryData inventoryData = new InventoryData();
-    public StatsData statsData = new StatsData();
+
 }
 
-// FarmData
+#region FarmData
 [System.Serializable]
-public class FarmData
+public class FarmSaveData
 {
     public List<SavedFarmLand> savedFarmLands = new List<SavedFarmLand>();
     public List<SavedCrop> savedCrops = new List<SavedCrop>();
@@ -54,15 +51,28 @@ public class SavedCrop
     public int timesSinceWater;
 }
 
+#endregion
+
+public class BaseSaveData
+{
+    public SavedTimeData savedTimeData;
+    public SavedPlayerData savedPlayerData;
+}
 // GameBaseData
 [System.Serializable]
-public class GameBaseData
+public class SavedTimeData
 {
+    // Date and Time
     public int year;
     public int season;
     public int day;
     public int hour;
     public int minute;
+}
+
+public class SavedPlayerData
+{
+    public Vector3 position;
 
     public StaminaState[] staminaStates;
     public int money;
@@ -82,13 +92,13 @@ public class savedInventroyItem
     public int quantity;
 }
 
-// StatsData
+// 태그
+
 [System.Serializable]
 public class StatsData
 {
     public List<SavedStat> savedStats = new List<SavedStat>();
 }
-
 
 [System.Serializable]
 public class SavedStat

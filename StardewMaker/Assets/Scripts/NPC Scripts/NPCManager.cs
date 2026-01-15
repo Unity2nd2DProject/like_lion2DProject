@@ -14,11 +14,6 @@ public class NPCManager : Singleton<NPCManager>
         base.Awake();
     }
 
-    private void Start()
-    {
-        SaveLoadManager.Instance.LoadNPC();
-    }
-
     public void SpawnNPCs()
     {
         ClearAllNPCs();

@@ -19,7 +19,6 @@ public class QuestManager : Singleton<QuestManager>
 
     private void Start()
     {
-        SaveLoadManager.Instance.LoadQuest();
         if (!HasCompletedQuest(tutorials[0].questID) && !IsQuestActive(tutorials[0].questID))
         {
             AcceptQuest(tutorials[0].questID);

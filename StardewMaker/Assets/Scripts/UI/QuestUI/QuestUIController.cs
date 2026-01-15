@@ -1,8 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuestUI : Singleton<QuestUI>
-{
+public class QuestUIController : MonoBehaviour { 
+
     [Header("UI")]
     [SerializeField] private GameObject questPanel;
     [SerializeField] private Transform ongoingListParent;
@@ -11,10 +11,11 @@ public class QuestUI : Singleton<QuestUI>
     [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
     [SerializeField] private Button toggleButton;
 
-    protected override void Awake()
+
+    private void Start()
     {
-        base.Awake();
         toggleButton.onClick.AddListener(ToggleQuestPanel);
+
     }
 
     public void ToggleQuestPanel()

@@ -31,13 +31,6 @@ public class QuestSlotUI : MonoBehaviour
 
     public void OnClick()
     {
-        if (questInstance != null)
-        {
-            QuestUI.Instance.ShowQuestDetail(questInstance);
-        }
-        else if (questData != null)
-        {
-            QuestUI.Instance.ShowQuestDetail(questData);
-        }
+        // UIManager.Instance.questUIController.questDetailPopupUI.Setup(questInstance, questData);
     }
 }

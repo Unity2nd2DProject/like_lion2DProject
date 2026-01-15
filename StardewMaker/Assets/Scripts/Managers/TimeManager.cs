@@ -32,7 +32,6 @@ public class TimeManager : Singleton<TimeManager>
         gameMinutesPerRealSecond = 24f * 60f / realSecondsPerGameDay; // (24시간 * 60분) / 600초
 
         Debug.Log("TimeManager Awake");
-        SaveLoadManager.Instance.LoadTime();
     }
 
 
