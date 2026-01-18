@@ -15,22 +15,8 @@ public class UIManager : Singleton<UIManager>
     public GameObject toolTipPrefab;
     private TooltipUI toolTipInstance;
 
-    [Header("Stat UI")]
-    [SerializeField] private GameObject statUIPrefab;
-    [HideInInspector]
-    public StatUI statUIInstance;
-
-    [Header("Cooking UI")]
-    public GameObject cookingUIPrefab;
-    [HideInInspector]
-    public CookingUI cookingUI;
-
-    [Header("Gift UI")]
-    public GameObject giftUIPrefab;
-    [HideInInspector]
-    public GiftUI giftUI;
-
     [Header("Setting UI")]
+    public GameObject optionUI;
     public GameObject soundSettingUIPrefab;
     private SoundSettingUI SoundSettingUIInstance;
 
@@ -81,86 +67,6 @@ public class UIManager : Singleton<UIManager>
             }
         }
     }
-
-    #region 딸 관련 UI 
-
-    public void InitializeStatUI(List<Stat> stats)
-    {
-        if (statUIInstance == null) // 이미 StatUI가 존재하면 초기화 하지 않음
-        {
-            statUIInstance = Instantiate(statUIPrefab, canvas.transform).GetComponent<StatUI>();
-            statUIInstance.Initialize(stats);
-        }
-    }
-
-
-    public void InitializeCookingUI()
-    {
-        cookingUI = canvas.GetComponentInChildren<CookingUI>();
-        if (cookingUI == null)
-        {
-            cookingUI = Instantiate(cookingUIPrefab, canvas.transform).GetComponent<CookingUI>();
-            cookingUI.gameObject.SetActive(false);
-        }
-
-    }
-
-    public void ToggleCookingUI()
-    {
-        if (cookingUI == null)
-        {
-            InitializeCookingUI();
-        }
-        cookingUI.cookingInventory.UpdateIngredientInventoryUI();
-        cookingUI.gameObject.SetActive(!cookingUI.gameObject.activeSelf);
-        cookingUI.transform.SetAsLastSibling();
-    }
-
-    public void CloseCookingUI()
-    {
-        cookingUI.gameObject.SetActive(false);
-
-        if (!cookingUI.gameObject.activeSelf) // 열려있다면 닫고 메인메뉴 띄우기
-        {
-            OnNormalMenuRequested?.Invoke(true);
-        }
-    }
-
-    public void InitializeGiftUI()
-    {
-        giftUI = canvas.GetComponentInChildren<GiftUI>();
-        if (giftUI == null)
-        {
-            giftUI = Instantiate(giftUIPrefab, canvas.transform).GetComponent<GiftUI>();
-            giftUI.gameObject.SetActive(false);
-            giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().UpdateGiftInventory();
-            giftUI.GetComponent<GiftUI>().GiftInfoUI.GetComponent<GiftInfoUI>().InitializeGiftInfoUI();
-        }
-    }
-
-    public void ToggleGiftUI()
-    {
-        if (giftUI == null)
-        {
-            InitializeGiftUI();
-        }
-        giftUI.GetComponent<GiftUI>().GiftInventoryUI.GetComponent<GiftInventoryUI>().UpdateGiftInventory();
-        giftUI.GetComponent<GiftUI>().GiftInfoUI.GetComponent<GiftInfoUI>().InitializeGiftInfoUI();
-        giftUI.gameObject.SetActive(!giftUI.gameObject.activeSelf);
-        giftUI.transform.SetAsLastSibling();
-    }
-
-    public void CloseGiftUI()
-    {
-        giftUI.gameObject.SetActive(false);
-
-        if (!giftUI.gameObject.activeSelf) // 열려있다면 닫고 메인메뉴 띄우기
-        {
-            OnNormalMenuRequested?.Invoke(true);
-        }
-    }
-
-    #endregion
 
     #region 인벤토리 UI    
    
@@ -335,8 +241,6 @@ public class UIManager : Singleton<UIManager>
     {
         InventoryUI.HideInventory();
         QuickSlotUI.gameObject.SetActive(false);
-        cookingUI?.gameObject.SetActive(false);
-        giftUI?.gameObject.SetActive(false);
     }
 
     public void ShowDialogueUI()

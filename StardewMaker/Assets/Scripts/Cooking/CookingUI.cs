@@ -19,7 +19,7 @@ public class CookingUI : MonoBehaviour
 
     void CloseUI()
     {
-        UIManager.Instance.CloseCookingUI();
+        // UIManager.Instance.CloseCookingUI();
     }
 
     public void AddRecipe(Recipe recipe)

@@ -5,6 +5,7 @@ using UnityEngine;
 public class SaveData
 {
     public FarmSaveData farmSaveData = new FarmSaveData();
+    public InventoryData inventorySaveData = new InventoryData();
 }
 
 #region FarmData
@@ -88,7 +89,7 @@ public class InventoryData
 public class savedInventroyItem
 {
     public int slotIndex; // 0~24 : Inventory, 25 ~ 34 :Quickslot
-    public string itemName;
+    public ItemData itemData;
     public int quantity;
 }
 

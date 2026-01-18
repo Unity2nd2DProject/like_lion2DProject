@@ -11,7 +11,7 @@ public class GiftManager : Singleton<GiftManager>
     }
     private void Start()
     {
-        UIManager.Instance.InitializeGiftUI();
+        // UIManager.Instance.InitializeGiftUI();
     }
 
     public void Gift(ItemData giftItem)
@@ -40,7 +40,7 @@ public class GiftManager : Singleton<GiftManager>
 
             }
             QuestManager.Instance.ReportAction(QuestTargetType.GaveToDaughter);
-            UIManager.Instance.ToggleGiftUI();
+            // UIManager.Instance.ToggleGiftUI();
         }            
     }
 }

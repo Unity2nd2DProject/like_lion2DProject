@@ -27,9 +27,10 @@ public class DaughterManager : Singleton<DaughterManager>
 
         Initialize();
 
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        // SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    /*
     private void OnSceneLoaded(Scene arg0, LoadSceneMode arg1)
     {
         UIManager.Instance.InitializeStatUI(stats);
@@ -42,6 +43,7 @@ public class DaughterManager : Singleton<DaughterManager>
             UIManager.Instance.statUIInstance.gameObject.SetActive(true);
         }
     }
+    */
 
     private void Initialize()
     {
@@ -69,7 +71,7 @@ public class DaughterManager : Singleton<DaughterManager>
         stats.Add(academicStat);
         stats.Add(domesticStat);
 
-        UIManager.Instance.InitializeStatUI(stats);
+        // UIManager.Instance.InitializeStatUI(stats);
     }
 
     private void Start()

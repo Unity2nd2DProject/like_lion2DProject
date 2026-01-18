@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEditorInternal.Profiling.Memory.Experimental;
@@ -227,5 +228,21 @@ public class InventoryManager : Singleton<InventoryManager>
     public ItemData GetQuickSlotCurrentSelectedItem()
     {
         return slots[currentSelectedQuickSlotIndex + inventorySize].itemData;
+    }
+
+    public InventoryData GetInventoryData()
+    {
+        InventoryData inventoryData = new InventoryData();
+
+        for(int i = 0; i < inventorySize + quickSlotSize; i++)
+        {
+            savedInventroyItem savedItem = new savedInventroyItem();
+            savedItem.slotIndex = i;
+            savedItem.itemData = slots[i].itemData;
+            savedItem.quantity = slots[i].quantity;
+            inventoryData.savedInventory.Add(savedItem);
+        }
+
+        return inventoryData;
     }
 }

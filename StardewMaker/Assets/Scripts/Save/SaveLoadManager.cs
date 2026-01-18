@@ -22,10 +22,9 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
     public void SaveGame()
     {
         currentSaveData = new SaveData();
-        currentSaveData.farmSaveData = FarmingManager.Instance.GetFarmingData();
-
         // 농장 데이터
-
+        currentSaveData.farmSaveData = FarmingManager.Instance.GetFarmingData();
+        currentSaveData.inventorySaveData = InventoryManager.Instance.GetInventoryData();
         // 인벤토리 데이터
 
         // 플레이어 데이터

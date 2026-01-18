@@ -39,11 +39,11 @@ public class CookingManager : Singleton<CookingManager>
 
     private void InitRecipe()
     {
-        UIManager.Instance.InitializeCookingUI();
+        //UIManager.Instance.InitializeCookingUI();
         // 레시피 추가
         for (int i = 0; i < recipes.Length; i++)
         {
-            UIManager.Instance.cookingUI.AddRecipe(recipes[i]);
+            // UIManager.Instance.cookingUI.AddRecipe(recipes[i]);
         }
     }
 
@@ -68,7 +68,7 @@ public class CookingManager : Singleton<CookingManager>
         // 요리 완료 후 결과 UI 표시
         UIManager.Instance.ShowPopup("요리 완성!.");
 
-        UIManager.Instance.cookingUI.cookingInventory.UpdateIngredientInventoryUI();
+        // UIManager.Instance.cookingUI.cookingInventory.UpdateIngredientInventoryUI();
         //QuestManager.Instance.ReportAction(QuestTargetType.CookedFood);
     }
 }

@@ -29,7 +29,7 @@ public class GiftInventoryUI : MonoBehaviour
             else
             {
                 giftSlots[giftInventoryIndex].SetSlot(inventoryManager.slots[i].itemData, inventoryManager.slots[i].quantity);
-                giftSlots[giftInventoryIndex].SetButton(UIManager.Instance.giftUI); // 선물 UI에 버튼 설정
+                // giftSlots[giftInventoryIndex].SetButton(UIManager.Instance.giftUI); // 선물 UI에 버튼 설정
                 giftInventoryIndex++;
             }
         }

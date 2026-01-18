@@ -10,7 +10,7 @@ public class GiftUI : MonoBehaviour
 
     void CloseUI()
     {
-        UIManager.Instance.CloseGiftUI();
+        // UIManager.Instance.CloseGiftUI();
     }
 
     private void Start()
