@@ -65,6 +65,11 @@ public class UIManager : Singleton<UIManager>
             {
                 ToggleQuestPanel();
             }
+
+            if(Input.GetKeyDown(KeyCode.Escape))
+            {
+                // OnNormalMenuRequested?.Invoke(true);
+            }
         }
     }
 

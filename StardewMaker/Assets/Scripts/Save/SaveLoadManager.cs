@@ -33,8 +33,6 @@ public class SaveLoadManager : Singleton<SaveLoadManager>
 
         // 퀘스트 스토리 진행상황 데이터
 
-
-
         // currentSaveData.savedTimeData = TimeManager.Instance.GetCurrentTimeData();
         string saveDataToSave = JsonUtility.ToJson(currentSaveData);
         System.IO.File.WriteAllText(savePath, saveDataToSave);

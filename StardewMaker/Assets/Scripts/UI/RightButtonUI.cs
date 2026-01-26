@@ -10,9 +10,18 @@ public class RightButtonUI : MonoBehaviour
 
     private void Start()
     {
-        questButton.onClick.AddListener(OnQuestButtonClicked);
-        inventoryButton.onClick.AddListener(OnInventoryButtonClicked);
-        optionButton.onClick.AddListener(OnOptionButtonClicked);
+        if (questButton)
+        {
+            questButton.onClick.RemoveAllListeners();
+        }
+        if (inventoryButton)
+        {
+            inventoryButton.onClick.RemoveAllListeners();
+        }
+        if (optionButton)
+        {
+            optionButton.onClick.RemoveAllListeners();
+        }
     }
 
     private void OnQuestButtonClicked()

@@ -15,7 +15,7 @@ public class FarmingManager : Singleton<FarmingManager>
     {
         base.Awake();
 
-        //GenerateFarmLands();
+        GenerateFarmLands();
     }
 
     public void GenerateFarmLands()
@@ -31,7 +31,6 @@ public class FarmingManager : Singleton<FarmingManager>
                     continue;
                 }
 
-                //GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x, y, 0), Quaternion.identity, transform);
                 GameObject farmLandObj = Instantiate(farmlandPrefab, new Vector3(x + 0.5f, y + 0.5f, 0), Quaternion.identity);
                 FarmLand farmLand = farmLandObj.GetComponent<FarmLand>();
 
