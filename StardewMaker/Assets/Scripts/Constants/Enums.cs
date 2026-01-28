@@ -44,3 +44,8 @@ public enum Season
     Fall,
     Winter
 }
+
+public enum StoryID
+{
+    TestScene,
+}

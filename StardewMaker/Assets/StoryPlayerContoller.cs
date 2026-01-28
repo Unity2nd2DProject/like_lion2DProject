@@ -4,7 +4,6 @@ public class StoryPlayerContoller : MonoBehaviour
 {
 
     [Header("Move")]
-    private Vector2 mouseWorldPos;
     private Vector2 moveInput;
 
     private Vector2 move;
@@ -40,18 +39,6 @@ public class StoryPlayerContoller : MonoBehaviour
     {
         rb.MovePosition(rb.position + move * moveSpeed * Time.fixedDeltaTime);
         curPos = rb.position;
-
-        mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-        Vector2 direction = mouseWorldPos - curPos;
-        if (Mathf.Abs(direction.x) > Mathf.Abs(direction.y))
-        {
-            playerToMouse = direction.x > 0 ? Vector2.right : Vector2.left;
-        }
-        else
-        {
-            playerToMouse = direction.y > 0 ? Vector2.up : Vector2.down;
-        }
     }
 
     private void MoveInput()

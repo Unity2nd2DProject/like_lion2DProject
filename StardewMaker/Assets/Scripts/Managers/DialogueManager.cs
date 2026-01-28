@@ -16,12 +16,13 @@ public class NpcSpritesSet
 
 public class DialogueManager : Singleton<DialogueManager>
 {
-    [SerializeField] private GameObject dialogUI;
+    private GameObject dialogUI;
     [SerializeField] private List<NpcSpritesSet> npcExpressions;
 
     protected override void Awake()
     {
         base.Awake();
+        dialogUI = UIManager.Instance.dialogueUI;
     }
 
     public void StartDialogue(NPCController npc)
@@ -29,10 +30,20 @@ public class DialogueManager : Singleton<DialogueManager>
         SetDialogue(npc);
     }
 
+    public void StartStoryDialogue(StoryID storyID)
+    {
+        SetStoryDialogue(storyID);
+    }
+
     private void SetDialogue(NPCController npc)
     {
         var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
         dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc);
+    }
+
+    private void SetStoryDialogue(StoryID storyID)
+    {
+
     }
 
     NPCDialogue LoadDialogue(NpcId npcId)
