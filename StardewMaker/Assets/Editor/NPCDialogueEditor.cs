@@ -4,20 +4,20 @@ using System.Collections.Generic;
 using System.IO;
 using NPC;
 
-public class DialogueEditor : EditorWindow
+public class NPCDialogueEditor : EditorWindow
 {
-    private NPCDialogue currentNPC;           // 현재 편집 중인 NPC
+    private Dialogue currentNPC;           // 현재 편집 중인 NPC
     private int currentSequenceIndex = 0;     // 현재 보고 있는 시퀀스 인덱스
 
-    private static string dialogueFolder = "Assets/Resources/Dialogues/";
+    private static string dialogueFolder = "Assets/Resources/Dialogues/NPCDialogues/";
 
     private string currentFileName;
     private string previousFileName;
 
-    [MenuItem("Tools/Dialogue Editor")]
+    [MenuItem("Tools/NPC Dialogue Editor")]
     public static void ShowWindow()
     {
-        GetWindow<DialogueEditor>("Dialogue Editor");
+        GetWindow<NPCDialogueEditor>("NPC Dialogue Editor");
     }
 
     private Vector2 scrollPos;
@@ -57,7 +57,7 @@ public class DialogueEditor : EditorWindow
 
             if (GUILayout.Button("새 다이얼로그 만들기"))
             {
-                currentNPC = new NPCDialogue
+                currentNPC = new Dialogue
                 {
                     name = "새 NPC(한글명)",
                     dialogues = new List<DialogueSequence>()
@@ -73,7 +73,7 @@ public class DialogueEditor : EditorWindow
                 if (!string.IsNullOrEmpty(path))
                 {
                     string json = File.ReadAllText(path);
-                    currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+                    currentNPC = JsonUtility.FromJson<Dialogue>(json);
 
                     previousFileName = Path.GetFileNameWithoutExtension(path);
                     currentFileName = previousFileName;
@@ -339,7 +339,7 @@ public class DialogueEditor : EditorWindow
                 previousFileName = Path.GetFileNameWithoutExtension(path);
 
                 string json = File.ReadAllText(path);
-                currentNPC = JsonUtility.FromJson<NPCDialogue>(json);
+                currentNPC = JsonUtility.FromJson<Dialogue>(json);
                 currentSequenceIndex = 0;
             }
         }
@@ -351,7 +351,7 @@ public class DialogueEditor : EditorWindow
 
     #region Save / Load
 
-    private void SaveJson(NPCDialogue dialogue)
+    private void SaveJson(Dialogue dialogue)
     {
         if (!Directory.Exists(dialogueFolder))
         {

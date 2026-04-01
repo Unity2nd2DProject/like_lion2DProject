@@ -4,10 +4,10 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using NPC;
-using Unity.VisualScripting;
 
 public class DialogueController : MonoBehaviour
 {
+    [Header("UI Elements")]
     [SerializeField] private GameObject textBox;
     [SerializeField] private Image npcImage;
     [SerializeField] private TextMeshProUGUI nameText;
@@ -18,42 +18,28 @@ public class DialogueController : MonoBehaviour
     [SerializeField] private GameObject buttonPrefab;
     private List<Button> dialogueButtons = new List<Button>();
 
+    [Header("Quest UI")]
+    [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
+
     [Header("Typing Effect")]
     private bool isTyping = false;
     [SerializeField] private Button nextButton;
     [SerializeField] private float skipCooldown = 0.2f;
 
     // 내부 데이터
-    private NPCDialogue currentDialogue;
     private NpcSpritesSet currentNpcSpriteSet;
     private NPCController currentNPC;
-    private QuestDataSO currentQuest;
 
     private bool waitingForNext = false;
 
-    [Header("Quest UI")]
-    [SerializeField] private QuestDetailPopupUI questDetailPopupUI;
+    Dialogue currentDialogue;
+    DialogueManager dialogueManager;
 
-    public void SetDialogue(NPCDialogue npcDialogue, NpcSpritesSet npcSpriteSet, NPCController npc)
+    public void InitDialogueController(DialogueManager dialgoueManager, Dialogue currentDialogue)
     {
-        this.currentDialogue = npcDialogue;
-        this.currentNpcSpriteSet = npcSpriteSet;
-        currentNPC = npc;
-
-        // NPC 이름, 기본 표정 세팅
-        nameText.text = currentDialogue.name;
-        npcImage.sprite = currentNpcSpriteSet.neutral;
-
-        nextButton.onClick.AddListener(OnNextButtonPressed);
-
-        foreach (var btn in dialogueButtons)
-            Destroy(btn.gameObject);
-
-        dialogueButtons.Clear();
-
-        UIManager.Instance.ShowDialogueUI();
-        StartCoroutine(PlayRandomDialogue(DialogueSequenceType.Greeting, ShowMainButtons));
+        this.currentDialogue = currentDialogue;
     }
+
     private IEnumerator PlayRandomDialogue(DialogueSequenceType type, UnityEngine.Events.UnityAction doAfterTalk)
     {
         List<DialogueSequence> chatSequences = currentDialogue.dialogues.FindAll(seq => seq.sequenceType == type);

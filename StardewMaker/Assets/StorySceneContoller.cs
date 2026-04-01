@@ -6,17 +6,22 @@ public class StorySceneContoller : MonoBehaviour
 {
     public StoryID storyID;
 
-
     public StoryPlayerContoller player;
-    public List<StoryNPCContoller> npcList;
+    public List<StoryNPCContoller> storyNPCList;
     public List<StoryInteractableObject> interactableObjects;
 
-    public void Start()
+    public void LoadStoryDialogue()
     {
-        interactableObjects[0].SetInteraction(StoryInteractableObject.InteractionType.Click, () =>
+        DialogueManager.Instance.LoadStoryDialogue(storyID);
+
+        foreach (var stroyNPC in storyNPCList)
         {
-            Debug.Log("Object Clicked!");
-        });
+            stroyNPC.currentStoryID = storyID;
+        }
     }
 
+    public void MoveCamera(Vector2 position, float duration)
+    {
+
+    }
 }

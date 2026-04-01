@@ -73,7 +73,7 @@ public class NPCController : MonoBehaviour
         }
         else
         {
-            DialogueManager.Instance.StartDialogue(this);
+            DialogueManager.Instance.StartNPCDialogue(this);
         }
     }
 

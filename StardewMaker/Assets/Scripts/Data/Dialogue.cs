@@ -3,7 +3,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class NPCDialogue
+public class Dialogue
 {
     public string name;
     public List<DialogueSequence> dialogues;

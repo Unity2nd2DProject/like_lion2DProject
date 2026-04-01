@@ -1,10 +1,20 @@
 using System;
-using System.Collections.Generic;
-using UnityEditorInternal.Profiling.Memory.Experimental;
+using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class UIManager : Singleton<UIManager>
 {
+
+    /*
+     * 
+ private FadeController fadeController;
+    private PopupController popupController;
+    private TooltipController tooltipController;
+     * 
+     * */
+
+
     [Header("Inventory and QuickSlot")]
     public InventoryUI InventoryUI;
     public QuickSlotUI QuickSlotUI;
@@ -22,7 +32,6 @@ public class UIManager : Singleton<UIManager>
 
     [Header("Item Add Effect")]
     public GameObject itemAddEffectPrefab;
-
 
     private BaseUI baseUI;
 
@@ -50,6 +59,8 @@ public class UIManager : Singleton<UIManager>
         base.Awake();
 
         canvas = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<Canvas>();
+
+        
     }
 
     private void Update()
@@ -244,8 +255,8 @@ public class UIManager : Singleton<UIManager>
 
     public void CloasAllUI()
     {
-        InventoryUI.HideInventory();
-        QuickSlotUI.gameObject.SetActive(false);
+        // InventoryUI?.HideInventory();
+        // QuickSlotUI?.gameObject.SetActive(false);
     }
 
     public void ShowDialogueUI()
@@ -253,5 +264,71 @@ public class UIManager : Singleton<UIManager>
         CloasAllUI();
         dialogueUI.SetActive(true);
     }
+
+
+    public void FadeIn(float duration = 1f)
+    {
+        StartCoroutine(FadeInCoroutine(duration));
+    }
+
+    public void FadeOut(float duration = 1f)
+    {
+        StartCoroutine(FadeOutCoroutine(duration));
+    }
+
+    public IEnumerator FadeInCoroutine(float duration = 1f)
+    {
+        Image img = fadeImage.GetComponent<Image>();
+        float t = 0f;
+        Color c = img.color;
+
+        // 시작을 완전 불투명(1)으로
+        c.a = 1f;
+        img.color = c;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            c.a = Mathf.Lerp(1f, 0f, t / duration);
+            img.color = c;
+            yield return null;
+        }
+
+        // 완전 투명 처리
+        c.a = 0f;
+        img.color = c;
+    }
+
+    public IEnumerator FadeOutCoroutine(float duration = 1f)
+    {
+        Image img = fadeImage.GetComponent<Image>();
+        float t = 0f;
+        Color c = img.color;
+
+        // 시작을 완전 투명(0)으로
+        c.a = 0f;
+        img.color = c;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            c.a = Mathf.Lerp(0f, 1f, t / duration);
+            img.color = c;
+            yield return null;
+        }
+
+        // 완전 불투명 처리
+        c.a = 1f;
+        img.color = c;
+    }
+
+
+
+
+
+
+
+
+
 }
 

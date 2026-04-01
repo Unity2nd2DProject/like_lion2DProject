@@ -16,47 +16,31 @@ public class NpcSpritesSet
 
 public class DialogueManager : Singleton<DialogueManager>
 {
-    private GameObject dialogUI;
+    private DialogueController dialogueController;
     [SerializeField] private List<NpcSpritesSet> npcExpressions;
+
+    Dialogue currentDialogue;
 
     protected override void Awake()
     {
         base.Awake();
-        dialogUI = UIManager.Instance.dialogueUI;
+        dialogueController = UIManager.Instance.dialogueUI.GetComponent<DialogueController>();
     }
 
-    public void StartDialogue(NPCController npc)
+    public void LoadStoryDialogue(StoryID storyID)
     {
-        SetDialogue(npc);
+        
     }
 
-    public void StartStoryDialogue(StoryID storyID)
+    public void StartNPCDialogue(NPCController npc)
     {
-        SetStoryDialogue(storyID);
+        
     }
 
-    private void SetDialogue(NPCController npc)
-    {
-        var npcSet = npcExpressions.Find(x => x.npcId == npc.npcID);
-        dialogUI.GetComponent<DialogueController>().SetDialogue(LoadDialogue(npc.npcID), npcSet, npc);
-    }
-
-    private void SetStoryDialogue(StoryID storyID)
+    public void StartStoryDialogue(StoryID storyID,int storyIndex)
     {
 
     }
 
-    NPCDialogue LoadDialogue(NpcId npcId)
-    {
-        TextAsset jsonFile = Resources.Load<TextAsset>($"Dialogues/{npcId.ToString() + "_Dialogue"}");
-        if (jsonFile == null)
-        {
-            Debug.LogError($"Dialogue JSON not found");
-            return null;
-        }
 
-        NPCDialogue dialogue = JsonUtility.FromJson<NPCDialogue>(jsonFile.text);
-        return dialogue;
-    }
 }
-
