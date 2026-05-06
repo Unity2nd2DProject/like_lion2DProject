@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using NPC;
 
-
 [System.Serializable]
 public class StoryDialogue
 {
@@ -18,16 +17,14 @@ public class StoryDialogue
 public class StorySequence
 {
     public List<StoryLine> lines = new List<StoryLine>();
-
-    // 현재 라인 에디팅 인덱스 (Editor에서만 사용)
     public int currentLineIndex = 0;
 }
 
 [System.Serializable]
 public class StoryLine
 {
-    public NPC.NpcId speaker;   // 화자는 enum
-    public string text;     // 대사
+    public NpcId speaker;
+    public string text;
     public DialogueAction actions = new DialogueAction();
 }
 
@@ -36,7 +33,7 @@ public class StoryDialogueEditor : EditorWindow
     private StoryDialogue story;
     private int currentSequenceIndex = 0;
 
-    private string fileName = "NewStoryDialog";
+    private string fileName;
     private string previousFileName;
 
     private static string folder = "Assets/Resources/Dialogues/StoryDialogue/";
@@ -74,7 +71,15 @@ public class StoryDialogueEditor : EditorWindow
     }
 
     // ------------------------------------------------------------------
-    // Story Info (Top)
+    // ✅ 파일명 자동 생성 (StoryID 기반)
+    // ------------------------------------------------------------------
+    private string GenerateFileName(StoryID id)
+    {
+        return $"STORY_{id}";
+    }
+
+    // ------------------------------------------------------------------
+    // Story Info
     // ------------------------------------------------------------------
     private void DrawStoryControls()
     {
@@ -87,8 +92,13 @@ public class StoryDialogueEditor : EditorWindow
                 story = new StoryDialogue
                 {
                     storyName = "새 스토리",
+                    storyID = StoryID.None,
                     sequences = new List<StorySequence>()
                 };
+
+                fileName = GenerateFileName(story.storyID);
+                previousFileName = fileName;
+
                 currentSequenceIndex = 0;
             }
 
@@ -101,7 +111,7 @@ public class StoryDialogueEditor : EditorWindow
                     story = JsonUtility.FromJson<StoryDialogue>(json);
 
                     previousFileName = Path.GetFileNameWithoutExtension(path);
-                    fileName = previousFileName;
+                    fileName = GenerateFileName(story.storyID);
 
                     currentSequenceIndex = 0;
                 }
@@ -110,9 +120,20 @@ public class StoryDialogueEditor : EditorWindow
             return;
         }
 
-        fileName = EditorGUILayout.TextField("파일명", fileName);
+        // ❌ 파일명 수정 불가 → Label로 표시
+        fileName = GenerateFileName(story.storyID);
+        EditorGUILayout.LabelField("파일명", fileName);
+
+        // ✅ 스토리명은 자유 입력
         story.storyName = EditorGUILayout.TextField("스토리명", story.storyName);
-        story.storyID = (StoryID)EditorGUILayout.EnumPopup("스토리 ID", story.storyID);
+
+        // StoryID 변경
+        StoryID newID = (StoryID)EditorGUILayout.EnumPopup("스토리 ID", story.storyID);
+        if (newID != story.storyID)
+        {
+            story.storyID = newID;
+            fileName = GenerateFileName(newID);
+        }
     }
 
     // ------------------------------------------------------------------
@@ -182,7 +203,6 @@ public class StoryDialogueEditor : EditorWindow
             return;
         }
 
-        // 라인 네비게이션
         EditorGUILayout.BeginHorizontal();
 
         if (GUILayout.Button("<", GUILayout.Width(30)))
@@ -221,7 +241,7 @@ public class StoryDialogueEditor : EditorWindow
     }
 
     // ------------------------------------------------------------------
-    // Single Line
+    // Line
     // ------------------------------------------------------------------
     private void DrawLine(StoryLine line)
     {
@@ -232,12 +252,10 @@ public class StoryDialogueEditor : EditorWindow
         EditorGUILayout.LabelField("대사");
         line.text = EditorGUILayout.TextArea(line.text, GUILayout.Height(80));
 
-        // 표정
         line.actions.useExpression = EditorGUILayout.Toggle("표정 변화", line.actions.useExpression);
         if (line.actions.useExpression)
             line.actions.expression = (NpcEmotion)EditorGUILayout.EnumPopup("표정", line.actions.expression);
 
-        // 효과음
         line.actions.useSFX = EditorGUILayout.Toggle("효과음", line.actions.useSFX);
         if (line.actions.useSFX)
         {
@@ -278,6 +296,8 @@ public class StoryDialogueEditor : EditorWindow
                 previousFileName = Path.GetFileNameWithoutExtension(path);
                 string json = File.ReadAllText(path);
                 story = JsonUtility.FromJson<StoryDialogue>(json);
+
+                fileName = GenerateFileName(story.storyID);
                 currentSequenceIndex = 0;
             }
         }
@@ -290,11 +310,14 @@ public class StoryDialogueEditor : EditorWindow
         if (!Directory.Exists(folder))
             Directory.CreateDirectory(folder);
 
+        // ✅ 파일명 강제 적용
+        fileName = GenerateFileName(data.storyID);
+
         string newPath = Path.Combine(folder, $"{fileName}.json");
 
         string json = JsonUtility.ToJson(data, true);
 
-        // 기존 파일 삭제 (이름 변경 시)
+        // 기존 파일 삭제 (이름 변경 대응)
         if (!string.IsNullOrEmpty(previousFileName))
         {
             string oldPath = Path.Combine(folder, $"{previousFileName}.json");

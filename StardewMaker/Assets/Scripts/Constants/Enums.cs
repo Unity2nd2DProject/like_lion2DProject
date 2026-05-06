@@ -47,5 +47,6 @@ public enum Season
 
 public enum StoryID
 {
-    TestScene,
+    None,
+    TestStory01,
 }

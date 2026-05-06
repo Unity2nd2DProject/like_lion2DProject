@@ -29,7 +29,7 @@ public class DialogueManager : Singleton<DialogueManager>
 
     public void LoadStoryDialogue(StoryID storyID)
     {
-        
+        // currentDialogue = JsonUtility.FromJson(Resources.Load<TextAsset>($"Dialogues/Story/{storyID}"));
     }
 
     public void StartNPCDialogue(NPCController npc)
